@@ -1,65 +1,74 @@
 using UnityEngine;
-using UnityEngine.UI; // Only needed if you're displaying the timer in a UI text element
+using UnityEngine.UI;
 
-public class Timer : MonoBehaviour
+public class TimerController : MonoBehaviour
 {
-    public Text timerText; // Assign a UI Text element in the inspector if you want to display the timer
+    public GameObject tenMinuteObject;  // GameObject for 10-minute section
+    public GameObject oneMinuteObject; // GameObject for 1-minute section
+    public GameObject tenSecondObject; // GameObject for 10-second section
+    public GameObject oneSecondObject; // GameObject for 1-second section
 
-    private float elapsedTime;
-    private bool isRunning;
+    public Button buyButton;   // Button to add time
+    public float purchaseTime = 30f; // Time to add on purchase
+
+    private Text tenMinuteText;
+    private Text oneMinuteText;
+    private Text tenSecondText;
+    private Text oneSecondText;
+
+    private float timer = 0f;  // Total time in seconds
+    private bool isInRestArea = false;
 
     void Start()
     {
-        elapsedTime = 0f;
-        isRunning = true; // Starts the timer automatically; set to false if you want manual control
+        // Get the Text components from the GameObjects
+        tenMinuteText = tenMinuteObject.GetComponent<Text>();
+        oneMinuteText = oneMinuteObject.GetComponent<Text>();
+        tenSecondText = tenSecondObject.GetComponent<Text>();
+        oneSecondText = oneSecondObject.GetComponent<Text>();
+
+        // Add a listener to the buy button
+        buyButton.onClick.AddListener(AddPurchaseTime);
     }
 
     void Update()
     {
-        if (isRunning)
+        if (!isInRestArea)
         {
-            // Increment the elapsed time
-            elapsedTime += Time.deltaTime;
-
-            // Optionally display the timer in a UI Text element
-            if (timerText != null)
-            {
-                timerText.text = FormatTime(elapsedTime);
-            }
+            timer += Time.deltaTime; // Count up
+            UpdateTimerDisplay();
         }
     }
 
-    // Formats the time as minutes:seconds:milliseconds
-    private string FormatTime(float time)
+    void UpdateTimerDisplay()
     {
-        int minutes = Mathf.FloorToInt(time / 60f);
-        int seconds = Mathf.FloorToInt(time % 60f);
-        int milliseconds = Mathf.FloorToInt((time * 1000f) % 1000f);
-        return string.Format("{0:00}:{1:00}:{2:000}", minutes, seconds, milliseconds);
+        // Calculate the time sections
+        int totalSeconds = Mathf.FloorToInt(timer);
+        int tenMinutes = (totalSeconds / 600) % 10;
+        int oneMinutes = (totalSeconds / 60) % 10;
+        int tenSeconds = (totalSeconds / 10) % 6;
+        int oneSeconds = totalSeconds % 10;
+
+        // Update the UI
+        tenMinuteText.text = tenMinutes.ToString();
+        oneMinuteText.text = oneMinutes.ToString();
+        tenSecondText.text = tenSeconds.ToString();
+        oneSecondText.text = oneSeconds.ToString();
     }
 
-    // Public methods to control the timer
-    public void StartTimer()
+    public void EnterRestArea()
     {
-        isRunning = true;
+        isInRestArea = true;
     }
 
-    public void StopTimer()
+    public void ExitRestArea()
     {
-        isRunning = false;
+        isInRestArea = false;
     }
 
-    public void ResetTimer()
+    private void AddPurchaseTime()
     {
-        elapsedTime = 0f;
-        if (timerText != null)
-        {
-            timerText.text = FormatTime(elapsedTime);
-        }
-    }
-
-    public float GetElapsedTime()
-    {
-        return elapsedTime;
+        timer += purchaseTime;
+        UpdateTimerDisplay(); // Update the timer after adding time
     }
 }
