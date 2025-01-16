@@ -2,22 +2,25 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-   private GameObject attackArea = default;
+   [SerializeField] private GameObject attackArea = default;
    private bool attacking = false;
+   private float timeToAttack = 0.25f;
    private float timer= 0f;
     void Start()
     {
-        attackArea = transform.GetChild(0).GameObject;
+        attackArea = transform.Find("AttackArea").gameObject;
+        attackArea.SetActive(false); 
     }
     void Update ()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
+        if(Input.GetKeyDown(KeyCode.Mouse0))
         {
             Attack();
+            Debug.Log(attackArea.name);
         }
         if (attacking)
         {
-            timer += timer.deltaTime;
+            timer += Time.deltaTime;
             if(timer >= timeToAttack)
             {
                 timer = 0;

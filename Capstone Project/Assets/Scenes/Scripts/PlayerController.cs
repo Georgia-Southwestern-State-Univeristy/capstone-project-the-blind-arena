@@ -2,32 +2,61 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float speed;
-    public Rigidbody rb;
-    public SpriteRenderer sr;
-    
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [SerializeField] private float speed = 3f;
+
+    private Rigidbody rb;
+    private Vector3 moveDir;
+
+    private Renderer playerRenderer;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        playerRenderer = GetComponentInChildren<Renderer>(true);
 
+        // Ensure Rigidbody settings are correct
+        rb.interpolation = RigidbodyInterpolation.Interpolate;
+        rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        float x = Input.GetAxis("Horizontal");
-        float y = Input.GetAxis("Vertical");
-        Vector3 moveDir = new Vector3(x,0,y);
-        rb.linearVelocity = moveDir*speed;
-
-        if (x != 0 && x < 0)
+        if (!playerRenderer.enabled)
         {
-            sr.flipX = true;
+            Debug.Log("Player Renderer is disabled.");
         }
-        else if (x != 0 && x > 0)
+
+        // Movement input
+        moveDir.x = Input.GetAxis("Horizontal");
+        moveDir.z = Input.GetAxis("Vertical");
+    }
+
+    private void FixedUpdate()
+    {
+        Move();
+    }
+
+    private void Move()
+    {
+        // Maintain Y velocity (gravity) and apply movement in XZ plane
+        Vector3 velocity = new Vector3(moveDir.x, rb.linearVelocity.y, moveDir.z) * speed;
+        rb.linearVelocity = velocity; // Use rb.velocity for Rigidbody movement
+
+        CheckForFlipping();
+    }
+
+    private void CheckForFlipping()
+    {
+        bool movingLeft = moveDir.x < 0;
+        bool movingRight = moveDir.x > 0;
+
+        if (movingLeft)
         {
-            sr.flipX = false;
+            transform.localScale = new Vector3(-1f, transform.localScale.y, transform.localScale.z);
+        }
+        if (movingRight)
+        {
+            transform.localScale = new Vector3(1f, transform.localScale.y, transform.localScale.z);
         }
     }
 }
