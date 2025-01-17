@@ -1,18 +1,14 @@
 using UnityEngine;
 
-public class QuitButton : MonoBehaviour
+public class QuitGame : MonoBehaviour
 {
-    // This method should be assigned to the Quit Button's OnClick event
-    public void QuitGame()
+    // This method is called when the quit button is pressed
+    public void Quit()
     {
-        Debug.Log("Quit button pressed. Exiting the game...");
+        // Log a message for debugging in the editor
+        Debug.Log("Quit button pressed. Exiting game...");
 
         // Quit the application
         Application.Quit();
-
-        // Note: Application.Quit() won't work in the editor. This log is for testing in the editor.
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#endif
     }
 }
