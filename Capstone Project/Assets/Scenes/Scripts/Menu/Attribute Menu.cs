@@ -19,8 +19,8 @@ public class AttributeMenu : MonoBehaviour
     public Button resetButton;
     public Button buyButton;
 
-    private int[] attributes = new int[6]; // Attribute values
-    private bool pointsLocked = false; // If points are locked after buying
+    private int[] attributes = new int[6]; // Current attribute values
+    private int[] confirmedAttributes = new int[6]; // Confirmed attribute values after buying
 
     void Start()
     {
@@ -42,7 +42,7 @@ public class AttributeMenu : MonoBehaviour
 
     void IncrementAttribute(int index)
     {
-        if (!pointsLocked && availablePoints > 0)
+        if (availablePoints > 0)
         {
             attributes[index]++;
             availablePoints--;
@@ -53,7 +53,8 @@ public class AttributeMenu : MonoBehaviour
 
     void DecrementAttribute(int index)
     {
-        if (!pointsLocked && attributes[index] > 0)
+        // Allow decrement only if the attribute value is greater than the confirmed value
+        if (attributes[index] > confirmedAttributes[index])
         {
             attributes[index]--;
             availablePoints++;
@@ -64,13 +65,12 @@ public class AttributeMenu : MonoBehaviour
 
     void ResetAttributes()
     {
-        if (pointsLocked) pointsLocked = false;
-
-        // Refund all points
+        // Reset all values back to zero and unlock all decrements
         for (int i = 0; i < attributes.Length; i++)
         {
             availablePoints += attributes[i];
             attributes[i] = 0;
+            confirmedAttributes[i] = 0; // Reset confirmed values
         }
 
         UpdatePointsDisplay();
@@ -79,7 +79,11 @@ public class AttributeMenu : MonoBehaviour
 
     void LockAttributes()
     {
-        pointsLocked = true;
+        // Confirm current values as baseline
+        for (int i = 0; i < attributes.Length; i++)
+        {
+            confirmedAttributes[i] = attributes[i];
+        }
     }
 
     void UpdatePointsDisplay()
