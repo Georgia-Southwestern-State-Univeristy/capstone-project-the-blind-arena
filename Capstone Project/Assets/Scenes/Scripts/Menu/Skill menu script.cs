@@ -29,6 +29,9 @@ public class HighlightImageOnClick : MonoBehaviour
     // Button for the buy action
     public Button buyButton;
 
+    // List of indices for abilities that cannot have points spent
+    public List<int> restrictedAbilities;
+
     private Outline currentHighlighted;
     private TextMeshProUGUI currentVisibleText;
     private int currentIndex = -1;
@@ -101,6 +104,13 @@ public class HighlightImageOnClick : MonoBehaviour
         // Check if a valid image is selected and points are greater than zero
         if (currentIndex != -1 && points > 0)
         {
+            // Prevent spending points on restricted abilities
+            if (restrictedAbilities.Contains(currentIndex))
+            {
+                Debug.Log("Points cannot be spent on this ability.");
+                return;
+            }
+
             // Reduce points
             points--;
 
