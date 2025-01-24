@@ -263,6 +263,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   gravityScale: 2
+  jumpForce: 5
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  animator: {fileID: 846933960}
 --- !u!54 &846933955
 Rigidbody:
   m_ObjectHideFlags: 0
