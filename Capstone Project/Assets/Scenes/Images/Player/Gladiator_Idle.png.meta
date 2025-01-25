@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 43951ddad287de34cb067bf5d90e585d
+guid: 0eb320836650c5f4ea0eb8a1b847cf00
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -34,21 +34,21 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
     wrapV: 1
-    wrapW: 0
+    wrapW: 1
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
-  spriteExtrude: 1
+  spriteExtrude: 0
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 128
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -72,7 +72,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 2
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -110,7 +110,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: basic_slash_0
+      name: Gladiator_Idle_0
       rect:
         serializedVersion: 2
         x: 0
@@ -125,14 +125,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 48c763a460d82d747afb3fc37d96d4bc
-      internalID: 8697758
+      spriteID: 55181ecd42ee2b34392226ce2343b767
+      internalID: 1090308808
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: basic_slash_1
+      name: Gladiator_Idle_1
       rect:
         serializedVersion: 2
         x: 128
@@ -147,14 +147,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 535ebe4a07f35f741b9275f466535622
-      internalID: 561291306
+      spriteID: 4202c3d9aec41744e96bc5482cb6a254
+      internalID: -1233815142
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: basic_slash_2
+      name: Gladiator_Idle_2
       rect:
         serializedVersion: 2
         x: 256
@@ -169,14 +169,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8e8847f4ca1dbb643a2167fd865743a2
-      internalID: -825440349
+      spriteID: d58f2110a719c0146a5896f3c1a96275
+      internalID: -773225519
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: basic_slash_3
+      name: Gladiator_Idle_3
       rect:
         serializedVersion: 2
         x: 384
@@ -191,8 +191,52 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e6a47b3e6f74a2744bebc35d7d62a051
-      internalID: 2068708755
+      spriteID: 2e5dad382977a0c4da1cda8dd72de253
+      internalID: -625119012
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gladiator_Idle_4
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 761af8d7c175e5b499874c6d0fd165b5
+      internalID: 1971896586
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gladiator_Idle_5
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d876cb1a251e52e40b040c6b28348f93
+      internalID: 1985622337
       vertices: []
       indices: 
       edges: []
@@ -201,7 +245,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 4b0b5a36f6a3ee141bf05645c5ce6ca0
+    spriteID: 4ef4706d0ba933d4e9e2cfcc5186a396
     internalID: 0
     vertices: []
     indices: 
@@ -211,10 +255,12 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      basic_slash_0: 8697758
-      basic_slash_1: 561291306
-      basic_slash_2: -825440349
-      basic_slash_3: 2068708755
+      Gladiator_Idle_0: 1090308808
+      Gladiator_Idle_1: -1233815142
+      Gladiator_Idle_2: -773225519
+      Gladiator_Idle_3: -625119012
+      Gladiator_Idle_4: 1971896586
+      Gladiator_Idle_5: 1985622337
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

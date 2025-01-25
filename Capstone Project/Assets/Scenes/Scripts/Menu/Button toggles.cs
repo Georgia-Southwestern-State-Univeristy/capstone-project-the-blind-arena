@@ -19,24 +19,39 @@ public class OptionsMenuToggle : MonoBehaviour
             Debug.LogError("Options button is not assigned in the Inspector.");
         }
 
-        // Hide the options menu initially
-        optionsMenu.SetActive(false);
+        // Ensure the initial state of the options menu and other objects
+        if (optionsMenu != null)
+        {
+            optionsMenu.SetActive(false); // Hide options menu initially
+        }
+        else
+        {
+            Debug.LogError("Options menu is not assigned in the Inspector.");
+        }
 
-        // Hide all other objects initially
         foreach (var obj in otherObjects)
         {
             if (obj != null)
             {
-                obj.SetActive(true); // Make sure other objects are visible initially
+                obj.SetActive(true); // Ensure other objects are visible initially
             }
         }
     }
 
     void ToggleOptionsMenu()
     {
+        if (optionsMenu == null)
+        {
+            Debug.LogError("Options menu is not assigned in the Inspector.");
+            return;
+        }
+
         // Toggle the visibility of the options menu
         bool isMenuActive = optionsMenu.activeSelf;
         optionsMenu.SetActive(!isMenuActive);
+
+        // Force the canvas to update immediately (ensures visibility updates)
+        Canvas.ForceUpdateCanvases();
 
         // Hide or show other objects based on the menu's visibility
         foreach (var obj in otherObjects)

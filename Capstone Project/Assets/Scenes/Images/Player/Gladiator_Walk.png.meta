@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 43951ddad287de34cb067bf5d90e585d
+guid: 16c7023b692b1a7469b3fed7817c3315
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -34,7 +34,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 128
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -110,7 +110,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: basic_slash_0
+      name: Gladiator_Walk_0
       rect:
         serializedVersion: 2
         x: 0
@@ -125,14 +125,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 48c763a460d82d747afb3fc37d96d4bc
-      internalID: 8697758
+      spriteID: 713f7768790384e4a853d6c5b891be7f
+      internalID: -1061001147
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: basic_slash_1
+      name: Gladiator_Walk_1
       rect:
         serializedVersion: 2
         x: 128
@@ -147,14 +147,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 535ebe4a07f35f741b9275f466535622
-      internalID: 561291306
+      spriteID: a3563bcced4ce524cac84304e31721a0
+      internalID: -1668481938
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: basic_slash_2
+      name: Gladiator_Walk_2
       rect:
         serializedVersion: 2
         x: 256
@@ -169,14 +169,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8e8847f4ca1dbb643a2167fd865743a2
-      internalID: -825440349
+      spriteID: 03b41fc7232131e45a87520c84d63aec
+      internalID: 1000560955
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: basic_slash_3
+      name: Gladiator_Walk_3
       rect:
         serializedVersion: 2
         x: 384
@@ -191,8 +191,52 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e6a47b3e6f74a2744bebc35d7d62a051
-      internalID: 2068708755
+      spriteID: 99471b9e1c0cf9f4c832977c7db3f9f1
+      internalID: 1248387855
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gladiator_Walk_4
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3d0e95ab35e73554ab08b252a4e76f87
+      internalID: -455126116
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gladiator_Walk_5
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 82307194b8f4f374d879d57fb70d8d1e
+      internalID: -593663527
       vertices: []
       indices: 
       edges: []
@@ -201,7 +245,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 4b0b5a36f6a3ee141bf05645c5ce6ca0
+    spriteID: 6ffcab81ec174044680b1ef013982ba5
     internalID: 0
     vertices: []
     indices: 
@@ -211,10 +255,12 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      basic_slash_0: 8697758
-      basic_slash_1: 561291306
-      basic_slash_2: -825440349
-      basic_slash_3: 2068708755
+      Gladiator_Walk_0: -1061001147
+      Gladiator_Walk_1: -1668481938
+      Gladiator_Walk_2: 1000560955
+      Gladiator_Walk_3: 1248387855
+      Gladiator_Walk_4: -455126116
+      Gladiator_Walk_5: -593663527
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

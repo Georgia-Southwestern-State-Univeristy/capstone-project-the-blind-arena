@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 43951ddad287de34cb067bf5d90e585d
+guid: 255fc7ba5c11983419c87c6e70389bbf
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -34,7 +34,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -45,10 +45,10 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 128
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -110,13 +110,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: basic_slash_0
+      name: ability icons_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 128
-        height: 128
+        x: 14
+        y: 271
+        width: 213
+        height: 198
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -125,20 +125,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 48c763a460d82d747afb3fc37d96d4bc
-      internalID: 8697758
+      spriteID: 2a0f1cfef37af4643b3e7094af7b0d84
+      internalID: -591673552
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: basic_slash_1
+      name: ability icons_1
       rect:
         serializedVersion: 2
-        x: 128
-        y: 0
-        width: 128
-        height: 128
+        x: 259
+        y: 270
+        width: 219
+        height: 197
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -147,20 +147,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 535ebe4a07f35f741b9275f466535622
-      internalID: 561291306
+      spriteID: d389a783bca48e440bc49a2aaf722c49
+      internalID: -1808363992
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: basic_slash_2
+      name: ability icons_10
       rect:
         serializedVersion: 2
-        x: 256
-        y: 0
-        width: 128
-        height: 128
+        x: 14
+        y: 29
+        width: 213
+        height: 205
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -169,20 +169,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8e8847f4ca1dbb643a2167fd865743a2
-      internalID: -825440349
+      spriteID: 4d4ecb1e1e4405d40ad120d0ef4631cb
+      internalID: -1753922637
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: basic_slash_3
+      name: ability icons_23
       rect:
         serializedVersion: 2
-        x: 384
-        y: 0
-        width: 128
-        height: 128
+        x: 251
+        y: 29
+        width: 230
+        height: 210
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -191,8 +191,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e6a47b3e6f74a2744bebc35d7d62a051
-      internalID: 2068708755
+      spriteID: daa0ea32c6e88fc4fbb36a62b6a420ac
+      internalID: -1146734547
       vertices: []
       indices: 
       edges: []
@@ -201,7 +201,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 4b0b5a36f6a3ee141bf05645c5ce6ca0
+    spriteID: 50d497bf3cbf7424e896424bc3ab175c
     internalID: 0
     vertices: []
     indices: 
@@ -211,10 +211,33 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      basic_slash_0: 8697758
-      basic_slash_1: 561291306
-      basic_slash_2: -825440349
-      basic_slash_3: 2068708755
+      ability icons_0: -591673552
+      ability icons_1: -1808363992
+      ability icons_10: -1753922637
+      ability icons_11: 1717698814
+      ability icons_12: -718903576
+      ability icons_13: 1981004349
+      ability icons_14: -510748737
+      ability icons_15: 450008835
+      ability icons_16: 1626983958
+      ability icons_17: 20008605
+      ability icons_18: 523846805
+      ability icons_19: -1265373140
+      ability icons_2: -1949817535
+      ability icons_20: -946593891
+      ability icons_21: 1527954082
+      ability icons_22: -1838224670
+      ability icons_23: -1146734547
+      ability icons_24: -1729871087
+      ability icons_25: 680014120
+      ability icons_26: 46585103
+      ability icons_3: -1591508683
+      ability icons_4: 535075572
+      ability icons_5: 176087771
+      ability icons_6: 1183066668
+      ability icons_7: -2063317335
+      ability icons_8: -818076335
+      ability icons_9: 830599889
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
