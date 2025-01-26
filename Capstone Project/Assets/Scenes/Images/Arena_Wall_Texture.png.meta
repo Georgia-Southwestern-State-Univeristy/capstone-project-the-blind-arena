@@ -44,7 +44,7 @@ TextureImporter:
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
-  spriteExtrude: 0
+  spriteExtrude: 1
   spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
@@ -110,7 +110,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Arena_Wall_0
+      name: Arena_Wall_Texture_0
       rect:
         serializedVersion: 2
         x: 8
@@ -118,21 +118,21 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3419ccbf131ab7a40a564256ef09e45a
-      internalID: -459134824
+      spriteID: 52ad0751430bb544c9431acabdb36a1b
+      internalID: 176869042
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arena_Wall_1
+      name: Arena_Wall_Texture_1
       rect:
         serializedVersion: 2
         x: 144
@@ -140,21 +140,21 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b92b82edbfb05914fa4920605af3c18f
-      internalID: -1803331686
+      spriteID: bf9bec33acd1092429e5363749f5bc1d
+      internalID: -1078768109
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arena_Wall_2
+      name: Arena_Wall_Texture_2
       rect:
         serializedVersion: 2
         x: 284
@@ -162,21 +162,21 @@ TextureImporter:
         width: 124
         height: 128
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 278a4316db80d7d439f556c22718b044
-      internalID: 85012810
+      spriteID: e87c56ddc0b102748835789c73bb4e49
+      internalID: 1928212485
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arena_Wall_3
+      name: Arena_Wall_Texture_3
       rect:
         serializedVersion: 2
         x: 416
@@ -184,15 +184,15 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 05eb04cb362aebb48a942dc1e1fd9eb1
-      internalID: -902851219
+      spriteID: b46dd14e77513fe47b6db2b905e0bd4d
+      internalID: -813323917
       vertices: []
       indices: 
       edges: []
@@ -206,15 +206,15 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f6b5b2c3e447dc64fb01119c26136fcd
-      internalID: 1767327580
+      spriteID: 521b6a680394273459b3a4899538bcf0
+      internalID: 218519601
       vertices: []
       indices: 
       edges: []
@@ -228,15 +228,15 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1842f5046ec8ba0409aecfdc373d4290
-      internalID: -2013283840
+      spriteID: 8527403e456d9664a9699d26f96aa5c3
+      internalID: 854733297
       vertices: []
       indices: 
       edges: []
@@ -250,15 +250,15 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8844f137c0961fb439cc9f63ecf9766a
-      internalID: 939683093
+      spriteID: c62038fa21c41ba4292896a73b2b7925
+      internalID: 644649351
       vertices: []
       indices: 
       edges: []
@@ -267,20 +267,20 @@ TextureImporter:
       name: Arena_Gate_3
       rect:
         serializedVersion: 2
-        x: 419
-        y: 153
+        x: 416
+        y: 152
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9e11bc7d84c6b1c47864561e47fe1933
-      internalID: 789660690
+      spriteID: b9f96c4e25c420748b8c5bee1909825f
+      internalID: -1052302516
       vertices: []
       indices: 
       edges: []
@@ -294,15 +294,15 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8b3b1c82761f0744ba0a668630378916
-      internalID: -814183365
+      spriteID: c8c78e18967174b46997318677873722
+      internalID: 1420528716
       vertices: []
       indices: 
       edges: []
@@ -316,15 +316,15 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2753af691431ff4469865bb9e5e4caba
-      internalID: 1294407067
+      spriteID: 710144fc57bf0a3469d978a517718294
+      internalID: 1345285345
       vertices: []
       indices: 
       edges: []
@@ -334,19 +334,19 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 280
-        y: 15
+        y: 16
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6cacf4c195ccf3845ac93baf1f7d1822
-      internalID: 1585468423
+      spriteID: bfc80e7f9a2eaf4469c8eb4b1ea367e8
+      internalID: -462173815
       vertices: []
       indices: 
       edges: []
@@ -360,15 +360,15 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 59208a4ccee30634f8b1274efd783fc9
-      internalID: 638086145
+      spriteID: df3203bf6cae9504d89cccf69f56724d
+      internalID: -1428795009
       vertices: []
       indices: 
       edges: []
@@ -377,7 +377,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 9a30e473d335ae3448b65819f3ec4ce2
+    spriteID: e66abaccf26651b4594c37d83a66c42c
     internalID: 0
     vertices: []
     indices: 
@@ -387,18 +387,18 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Arena_Gate_0: 1767327580
-      Arena_Gate_1: -2013283840
-      Arena_Gate_2: 939683093
-      Arena_Gate_3: 789660690
-      Arena_Gate_4: -814183365
-      Arena_Gate_5: 1294407067
-      Arena_Gate_6: 1585468423
-      Arena_Gate_7: 638086145
-      Arena_Wall_0: -459134824
-      Arena_Wall_1: -1803331686
-      Arena_Wall_2: 85012810
-      Arena_Wall_3: -902851219
+      Arena_Gate_0: 218519601
+      Arena_Gate_1: 854733297
+      Arena_Gate_2: 644649351
+      Arena_Gate_3: -1052302516
+      Arena_Gate_4: 1420528716
+      Arena_Gate_5: 1345285345
+      Arena_Gate_6: -462173815
+      Arena_Gate_7: -1428795009
+      Arena_Wall_Texture_0: 176869042
+      Arena_Wall_Texture_1: -1078768109
+      Arena_Wall_Texture_2: 1928212485
+      Arena_Wall_Texture_3: -813323917
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
