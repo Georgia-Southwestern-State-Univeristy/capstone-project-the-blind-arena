@@ -3486,7 +3486,7 @@ GameObject:
   - component: {fileID: 257030598}
   - component: {fileID: 257030597}
   m_Layer: 5
-  m_Name: Start Button
+  m_Name: Menu Start Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7074,7 +7074,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 515598720}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ae3a4cdfbe04bf847b11aa8ee5c12466, type: 3}
   m_Name: 
@@ -7089,7 +7089,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 515598720}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ae3a4cdfbe04bf847b11aa8ee5c12466, type: 3}
   m_Name: 
@@ -7104,7 +7104,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 515598720}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ae3a4cdfbe04bf847b11aa8ee5c12466, type: 3}
   m_Name: 
@@ -7119,7 +7119,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 515598720}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ae3a4cdfbe04bf847b11aa8ee5c12466, type: 3}
   m_Name: 
@@ -14927,6 +14927,7 @@ GameObject:
   - component: {fileID: 1001216684}
   - component: {fileID: 1001216683}
   - component: {fileID: 1001216682}
+  - component: {fileID: 1001216690}
   m_Layer: 5
   m_Name: Solo/Co-op
   m_TagString: Untagged
@@ -15070,6 +15071,20 @@ MonoBehaviour:
   optionsMenu: {fileID: 1055839791}
   otherObjects: []
   optionsButton: {fileID: 691728614}
+--- !u!114 &1001216690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1001216681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5493a827aabb7af4496de850a17af183, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pauseMenuUI: {fileID: 1067425729}
+  inventoryUI: {fileID: 1553561587}
 --- !u!1 &1013202676
 GameObject:
   m_ObjectHideFlags: 0
@@ -16007,7 +16022,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1067425729}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ae3a4cdfbe04bf847b11aa8ee5c12466, type: 3}
   m_Name: 
@@ -16022,7 +16037,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1067425729}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ae3a4cdfbe04bf847b11aa8ee5c12466, type: 3}
   m_Name: 
@@ -16037,7 +16052,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1067425729}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ae3a4cdfbe04bf847b11aa8ee5c12466, type: 3}
   m_Name: 
@@ -19799,7 +19814,7 @@ GameObject:
   - component: {fileID: 1362008184}
   - component: {fileID: 1362008183}
   m_Layer: 5
-  m_Name: Option Button
+  m_Name: Menu Option Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23670,8 +23685,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1537973128}
-  - component: {fileID: 1537973127}
-  - component: {fileID: 1537973126}
   - component: {fileID: 1537973125}
   - component: {fileID: 1537973124}
   - component: {fileID: 1537973123}
@@ -23743,50 +23756,8 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 20
+  m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!114 &1537973126
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1537973122}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae3a4cdfbe04bf847b11aa8ee5c12466, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  optionsMenu: {fileID: 1537973122}
-  otherObjects:
-  - {fileID: 0}
-  - {fileID: 257030595}
-  - {fileID: 1776941459}
-  - {fileID: 1362008181}
-  - {fileID: 1068839799}
-  - {fileID: 2068034478}
-  - {fileID: 1428012103}
-  optionsButton: {fileID: 0}
---- !u!114 &1537973127
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1537973122}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae3a4cdfbe04bf847b11aa8ee5c12466, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  optionsMenu: {fileID: 1537973122}
-  otherObjects:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 1853350837}
-  optionsButton: {fileID: 0}
 --- !u!224 &1537973128
 RectTransform:
   m_ObjectHideFlags: 0
@@ -24090,7 +24061,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1553561587}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ae3a4cdfbe04bf847b11aa8ee5c12466, type: 3}
   m_Name: 
@@ -24105,7 +24076,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1553561587}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ae3a4cdfbe04bf847b11aa8ee5c12466, type: 3}
   m_Name: 
@@ -24120,7 +24091,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1553561587}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ae3a4cdfbe04bf847b11aa8ee5c12466, type: 3}
   m_Name: 
@@ -24135,13 +24106,15 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1553561587}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ae3a4cdfbe04bf847b11aa8ee5c12466, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   optionsMenu: {fileID: 1553561587}
-  otherObjects: []
+  otherObjects:
+  - {fileID: 515598720}
+  - {fileID: 2092105001}
   optionsButton: {fileID: 1958147856}
 --- !u!1 &1553767198
 GameObject:
@@ -28346,7 +28319,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1853350837}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ae3a4cdfbe04bf847b11aa8ee5c12466, type: 3}
   m_Name: 
@@ -30594,8 +30567,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1997634429}
   - component: {fileID: 1997634430}
-  - component: {fileID: 1997634428}
-  - component: {fileID: 1997634427}
   - component: {fileID: 1997634426}
   - component: {fileID: 1997634425}
   - component: {fileID: 1997634424}
@@ -30669,48 +30640,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 20
   m_TargetDisplay: 0
---- !u!114 &1997634427
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1997634423}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae3a4cdfbe04bf847b11aa8ee5c12466, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  optionsMenu: {fileID: 1997634423}
-  otherObjects:
-  - {fileID: 0}
-  - {fileID: 257030595}
-  - {fileID: 1776941459}
-  - {fileID: 1362008181}
-  - {fileID: 1068839799}
-  - {fileID: 2068034478}
-  - {fileID: 1428012103}
-  optionsButton: {fileID: 0}
---- !u!114 &1997634428
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1997634423}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae3a4cdfbe04bf847b11aa8ee5c12466, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  optionsMenu: {fileID: 1997634423}
-  otherObjects:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 1853350837}
-  optionsButton: {fileID: 0}
 --- !u!224 &1997634429
 RectTransform:
   m_ObjectHideFlags: 0
@@ -32240,7 +32169,7 @@ GameObject:
   - component: {fileID: 2068034481}
   - component: {fileID: 2068034480}
   m_Layer: 5
-  m_Name: Quit Button
+  m_Name: Menu Quit Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32680,7 +32609,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2092105001}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ae3a4cdfbe04bf847b11aa8ee5c12466, type: 3}
   m_Name: 
@@ -32695,7 +32624,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2092105001}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ae3a4cdfbe04bf847b11aa8ee5c12466, type: 3}
   m_Name: 
@@ -32710,7 +32639,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2092105001}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ae3a4cdfbe04bf847b11aa8ee5c12466, type: 3}
   m_Name: 
@@ -32725,7 +32654,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2092105001}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ae3a4cdfbe04bf847b11aa8ee5c12466, type: 3}
   m_Name: 
@@ -33601,17 +33530,17 @@ SceneRoots:
   - {fileID: 389286110}
   - {fileID: 1001216687}
   - {fileID: 1055839796}
-  - {fileID: 1067425735}
   - {fileID: 1377766766}
   - {fileID: 1231406511}
   - {fileID: 394099639}
   - {fileID: 1739785177}
   - {fileID: 258396713}
   - {fileID: 992480903}
-  - {fileID: 1553561593}
-  - {fileID: 2092105007}
-  - {fileID: 515598726}
   - {fileID: 1997634429}
   - {fileID: 1537973128}
+  - {fileID: 1553561593}
+  - {fileID: 515598726}
+  - {fileID: 2092105007}
+  - {fileID: 1067425735}
   - {fileID: 73112405}
   - {fileID: 722422046}
