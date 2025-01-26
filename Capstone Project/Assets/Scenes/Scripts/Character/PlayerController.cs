@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private float speed = 5f;
-    [SerializeField] private float gravityScale = 10f;
+    [SerializeField] private float speed = .1f;
+    [SerializeField] private float gravityScale = 20f;
     [SerializeField] private float jumpForce = 5f; // Controls the jump height
     [SerializeField] private LayerMask groundLayer; // Assign the ground layer in the Inspector
 
@@ -55,7 +55,7 @@ public class PlayerController : MonoBehaviour
         if (moveDir.x == 0 && moveDir.z == 0)
         {
             // Stop the character's velocity in the XZ plane
-            rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, 0);
+            rb.linearVelocity = new Vector3(0, 0, 0);
         }
         else
         {
