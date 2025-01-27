@@ -1,121 +1,85 @@
 using UnityEngine;
-using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class EnemyAI : MonoBehaviour
 {
-    public Transform[] waypoints; // Patrol points
-    public Transform player; // Reference to the player
-    public float detectionRange = 10f; // Range to detect the player
-    public float attackRange = 2f; // Range to attack the player
-    public float attackCooldown = 2f; // Time between attacks
-    public int damage = 10; // Damage to the player
+    public Transform[] waypoints;
+    public Transform player;
+    public float patrolSpeed = 2f;
+    public float chaseSpeed = 4f;
+    public float detectionRange = 10f;
+    public float health = 100f;
+    public Slider healthBar;
 
-    private NavMeshAgent agent;
     private int currentWaypointIndex = 0;
-    private float lastAttackTime = 0;
-
-    private enum EnemyState { Idle, Patrol, Chase, Attack }
-    private EnemyState currentState = EnemyState.Patrol;
+    private bool isChasing = false;
 
     private void Start()
     {
-        agent = GetComponent<NavMeshAgent>();
-        if (waypoints.Length > 0)
-            agent.SetDestination(waypoints[currentWaypointIndex].position);
+        if (healthBar != null)
+        {
+            healthBar.maxValue = health;
+            healthBar.value = health;
+        }
     }
 
     private void Update()
     {
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
-        switch (currentState)
+        if (distanceToPlayer <= detectionRange)
         {
-            case EnemyState.Patrol:
-                PatrolBehavior(distanceToPlayer);
-                break;
-
-            case EnemyState.Chase:
-                ChaseBehavior(distanceToPlayer);
-                break;
-
-            case EnemyState.Attack:
-                AttackBehavior(distanceToPlayer);
-                break;
-
-            case EnemyState.Idle:
-                IdleBehavior();
-                break;
+            isChasing = true;
+            EnableOutline(true); // Turn on red outline
+            ChasePlayer();
+        }
+        else
+        {
+            isChasing = false;
+            EnableOutline(false); // Turn off red outline
+            Patrol();
         }
     }
 
-    private void PatrolBehavior(float distanceToPlayer)
+    private void Patrol()
     {
-        if (distanceToPlayer < detectionRange)
-        {
-            currentState = EnemyState.Chase;
-            return;
-        }
+        Transform targetWaypoint = waypoints[currentWaypointIndex];
+        Vector3 direction = (targetWaypoint.position - transform.position).normalized;
 
-        if (agent.remainingDistance < 0.5f)
+        transform.Translate(direction * patrolSpeed * Time.deltaTime, Space.World);
+
+        if (Vector3.Distance(transform.position, targetWaypoint.position) < 0.2f)
         {
             currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Length;
-            agent.SetDestination(waypoints[currentWaypointIndex].position);
         }
     }
 
-    private void ChaseBehavior(float distanceToPlayer)
+    private void ChasePlayer()
     {
-        if (distanceToPlayer > detectionRange)
+        Vector3 direction = (player.position - transform.position).normalized;
+        transform.Translate(direction * chaseSpeed * Time.deltaTime, Space.World);
+    }
+
+    private void EnableOutline(bool enable)
+    {
+        var outline = GetComponent<Outline>();
+        if (outline != null)
         {
-            currentState = EnemyState.Patrol;
-            agent.SetDestination(waypoints[currentWaypointIndex].position);
-            return;
+            outline.enabled = enable;
         }
+    }
 
-        if (distanceToPlayer <= attackRange)
+    public void TakeDamage(float damage)
+    {
+        health -= damage;
+        if (healthBar != null)
         {
-            currentState = EnemyState.Attack;
-            return;
+            healthBar.value = health;
         }
 
-        agent.SetDestination(player.position);
-    }
-
-    private void AttackBehavior(float distanceToPlayer)
-    {
-        agent.SetDestination(transform.position); // Stop moving
-
-        if (distanceToPlayer > attackRange)
+        if (health <= 0)
         {
-            currentState = EnemyState.Chase;
-            return;
+            Destroy(gameObject);
         }
-
-        if (Time.time - lastAttackTime > attackCooldown)
-        {
-            lastAttackTime = Time.time;
-            AttackPlayer();
-        }
-    }
-
-    private void IdleBehavior()
-    {
-        // Perform idle animations or behaviors
-    }
-
-    private void AttackPlayer()
-    {
-        Debug.Log("Enemy attacked the player!");
-        // Add player damage logic here
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        // Visualize detection and attack ranges in the editor
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, detectionRange);
-
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, attackRange);
     }
 }
