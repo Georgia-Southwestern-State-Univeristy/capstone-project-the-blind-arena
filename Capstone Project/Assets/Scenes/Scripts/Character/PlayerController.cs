@@ -4,14 +4,11 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float speed = .1f;
     [SerializeField] private float gravityScale = 20f;
-    [SerializeField] private float jumpForce = 5f; // Controls the jump height
-    [SerializeField] private LayerMask groundLayer; // Assign the ground layer in the Inspector
 
     public Animator animator;
 
     private Rigidbody rb;
     private Vector3 moveDir;
-    private bool isGrounded;
 
     private Renderer playerRenderer;
 

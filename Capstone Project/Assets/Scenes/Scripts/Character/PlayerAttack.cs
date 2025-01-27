@@ -2,57 +2,47 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-    [SerializeField] private GameObject[] attackAreas; // Array to hold all attack areas
-    private bool[] attacking; // Array to track attacking state for each attack
-    private float[] timeToAttack; // Array to track time to attack for each attack
-    private float[] timers; // Array to track timers for each attack
+    // List of attack names that can be assigned in Unity Inspector
+    [Header("Attack Types")]
+    public string[] attackTypes;
+
+    // Reference to the PlayerAttackManager script
+    [Header("Player Attack Manager")]
+    public PlayerAttackManager attackManager;  // This will be assigned in the Inspector
 
     void Start()
     {
-        int attackCount = 4; // Number of attack areas
-
-        attackAreas = new GameObject[attackCount];
-        attacking = new bool[attackCount];
-        timeToAttack = new float[attackCount];
-        timers = new float[attackCount];
-
-        for (int i = 0; i < attackCount; i++)
+        // Automatically find PlayerAttackManager on the same GameObject
+        if (attackManager == null)
         {
-            attackAreas[i] = transform.Find($"AttackArea{i}").gameObject;
-            attackAreas[i].SetActive(false);
-            timeToAttack[i] = 0.25f; // Default time to attack for each attack
-            timers[i] = 0f;
+            attackManager = GetComponent<PlayerAttackManager>();
+            if (attackManager == null)
+            {
+                Debug.LogError("PlayerAttackManager is not assigned or not found on the same GameObject!");
+            }
+        }
+
+        // Ensure attackTypes is not empty
+        if (attackTypes.Length == 0)
+        {
+            Debug.LogWarning("No attack types assigned. Please assign them in the Inspector.");
         }
     }
+
+
 
     void Update()
     {
-        for (int i = 0; i < attackAreas.Length; i++)
+        // Loop through the attackTypes array and check input
+        for (int i = 0; i < attackTypes.Length; i++)
         {
-            // Check input for each attack
-            if (Input.GetKeyDown(KeyCode.Alpha1 + i)) // Alpha1 corresponds to KeyCode 1
+            // Check if the key corresponding to the attack is pressed
+            if (Input.GetKeyDown(KeyCode.Alpha1 + i))
             {
-                Attack(i);
-                Debug.Log(attackAreas[i].name);
-            }
-
-            // Handle attack timing
-            if (attacking[i])
-            {
-                timers[i] += Time.deltaTime;
-                if (timers[i] >= timeToAttack[i])
-                {
-                    timers[i] = 0f;
-                    attacking[i] = false;
-                    attackAreas[i].SetActive(false);
-                }
+                // Trigger the attack based on index in attackTypes array
+                attackManager.TriggerAttack(attackTypes[i]);
+                Debug.LogWarning("Attack"+ i);
             }
         }
-    }
-
-    private void Attack(int index)
-    {
-        attacking[index] = true;
-        attackAreas[index].SetActive(true);
     }
 }
