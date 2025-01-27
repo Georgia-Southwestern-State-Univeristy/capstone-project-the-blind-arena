@@ -284,6 +284,7 @@ GameObject:
   - component: {fileID: 846933958}
   - component: {fileID: 846933960}
   - component: {fileID: 846933959}
+  - component: {fileID: 846933961}
   m_Layer: 0
   m_Name: Player 1
   m_TagString: Untagged
@@ -305,10 +306,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   gravityScale: 2
-  jumpForce: 5
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 0
   animator: {fileID: 846933960}
 --- !u!54 &846933955
 Rigidbody:
@@ -470,6 +467,25 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &846933961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 846933953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf88848a0012263429f5de952eb8e0d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 846933953}
+  attacks:
+  - name: BasicAttack
+    priority: 1.5
+    damage: 1
+    speed: 0.75
+    health: 5
 --- !u!1 &879842040
 GameObject:
   m_ObjectHideFlags: 0
