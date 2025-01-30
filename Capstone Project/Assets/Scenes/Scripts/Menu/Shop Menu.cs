@@ -1,18 +1,19 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ShopIconManager : MonoBehaviour
+public class ShopManager : MonoBehaviour
 {
     [System.Serializable]
     public class Box
     {
         public Image[] icons;  // The six icons in this box
+        public Text[] texts;   // Corresponding text for each icon
         public Button buyButton; // The buy button for this box
     }
 
     public Box[] boxes; // Array containing 3 boxes
-    public int hiddenSortingOrder = 0;  // Sorting order for hidden icons
-    public int visibleSortingOrder = 10; // Sorting order for the selected icon
+    public int hiddenSortingOrder = 0;  // Sorting order for hidden icons & text
+    public int visibleSortingOrder = 10; // Sorting order for the selected icon & text
 
     void Start()
     {
@@ -27,24 +28,27 @@ public class ShopIconManager : MonoBehaviour
         }
     }
 
-    // Initializes the shop by selecting random icons per box
+    // Initializes the shop by selecting random icons and texts per box
     void InitializeShop()
     {
         foreach (Box box in boxes)
         {
-            if (box.icons.Length != 6)
+            if (box.icons.Length != 6 || box.texts.Length != 6)
             {
-                Debug.LogError("Each box must have exactly 6 icons assigned.");
+                Debug.LogError("Each box must have exactly 6 icons and 6 texts assigned.");
                 continue;
             }
 
-            // Hide all icons and pick one at random to show
+            // Hide all icons and texts, then randomly pick one to show
             int selectedIndex = Random.Range(0, 6);
-            for (int i = 0; i < box.icons.Length; i++)
+            for (int i = 0; i < 6; i++)
             {
                 bool isSelected = (i == selectedIndex);
                 box.icons[i].gameObject.SetActive(isSelected);
+                box.texts[i].gameObject.SetActive(isSelected);
+
                 SetSortingOrder(box.icons[i], isSelected ? visibleSortingOrder : hiddenSortingOrder);
+                SetSortingOrder(box.texts[i], isSelected ? visibleSortingOrder : hiddenSortingOrder);
             }
 
             // Enable the buy button at the start
@@ -67,17 +71,19 @@ public class ShopIconManager : MonoBehaviour
     {
         foreach (Box box in boxes)
         {
-            foreach (Image icon in box.icons)
+            for (int i = 0; i < 6; i++)
             {
-                SetSortingOrder(icon, hiddenSortingOrder);
+                SetSortingOrder(box.icons[i], hiddenSortingOrder);
+                SetSortingOrder(box.texts[i], hiddenSortingOrder);
             }
 
-            // Ensure selected icon remains visible
-            foreach (Image icon in box.icons)
+            // Ensure selected icon & text remain visible
+            for (int i = 0; i < 6; i++)
             {
-                if (icon.gameObject.activeSelf)
+                if (box.icons[i].gameObject.activeSelf)
                 {
-                    SetSortingOrder(icon, visibleSortingOrder);
+                    SetSortingOrder(box.icons[i], visibleSortingOrder);
+                    SetSortingOrder(box.texts[i], visibleSortingOrder);
                     break;
                 }
             }
@@ -93,13 +99,13 @@ public class ShopIconManager : MonoBehaviour
         }
     }
 
-    // Sets the sorting order of an image
-    void SetSortingOrder(Image image, int order)
+    // Sets the sorting order of an image or text
+    void SetSortingOrder(Graphic graphic, int order)
     {
-        Canvas canvas = image.GetComponent<Canvas>();
+        Canvas canvas = graphic.GetComponent<Canvas>();
         if (canvas == null)
         {
-            canvas = image.gameObject.AddComponent<Canvas>();
+            canvas = graphic.gameObject.AddComponent<Canvas>();
         }
         canvas.overrideSorting = true;
         canvas.sortingOrder = order;

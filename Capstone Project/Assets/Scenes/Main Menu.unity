@@ -30549,6 +30549,13 @@ MonoBehaviour:
     - {fileID: 2141456251}
     - {fileID: 1461851531}
     - {fileID: 1493519952}
+    texts:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
     buyButton: {fileID: 1439621539}
   - icons:
     - {fileID: 692068922}
@@ -30557,6 +30564,7 @@ MonoBehaviour:
     - {fileID: 203670082}
     - {fileID: 1437915151}
     - {fileID: 2018466659}
+    texts: []
     buyButton: {fileID: 1572224783}
   - icons:
     - {fileID: 947092190}
@@ -30565,6 +30573,7 @@ MonoBehaviour:
     - {fileID: 606492191}
     - {fileID: 482778470}
     - {fileID: 1909923214}
+    texts: []
     buyButton: {fileID: 159986321}
   hiddenSortingOrder: 0
   visibleSortingOrder: 20
