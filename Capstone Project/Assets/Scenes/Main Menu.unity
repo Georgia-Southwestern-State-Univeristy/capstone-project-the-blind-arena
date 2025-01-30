@@ -30750,7 +30750,7 @@ MonoBehaviour:
   pauseMenuUI: {fileID: 1067425729}
   inventoryUI: {fileID: 1997634423}
   skillUI: {fileID: 2092105001}
-  attributeUI: {fileID: 515598720}
+  attributeUI: {fileID: 1553561587}
 --- !u!114 &1853350852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33565,13 +33565,14 @@ MonoBehaviour:
     - {fileID: 1461851531}
     - {fileID: 1493519952}
     texts:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
+    - {fileID: 1322745085}
+    - {fileID: 1488970678}
+    - {fileID: 1227417109}
+    - {fileID: 1867799372}
+    - {fileID: 1005616446}
+    - {fileID: 1905647852}
     buyButton: {fileID: 1439621539}
+    hotbarSlot: {fileID: 684149726}
   - icons:
     - {fileID: 692068922}
     - {fileID: 896495022}
@@ -33579,8 +33580,15 @@ MonoBehaviour:
     - {fileID: 203670082}
     - {fileID: 1437915151}
     - {fileID: 2018466659}
-    texts: []
+    texts:
+    - {fileID: 156167872}
+    - {fileID: 2113357091}
+    - {fileID: 1351527553}
+    - {fileID: 650641172}
+    - {fileID: 537737964}
+    - {fileID: 1917662580}
     buyButton: {fileID: 1572224783}
+    hotbarSlot: {fileID: 488005543}
   - icons:
     - {fileID: 947092190}
     - {fileID: 1670272393}
@@ -33588,8 +33596,15 @@ MonoBehaviour:
     - {fileID: 606492191}
     - {fileID: 482778470}
     - {fileID: 1909923214}
-    texts: []
+    texts:
+    - {fileID: 1453952720}
+    - {fileID: 82537081}
+    - {fileID: 1475723779}
+    - {fileID: 1698453530}
+    - {fileID: 1210147648}
+    - {fileID: 1508254806}
     buyButton: {fileID: 159986321}
+    hotbarSlot: {fileID: 981660314}
   hiddenSortingOrder: 0
   visibleSortingOrder: 20
 --- !u!1 &2000374116

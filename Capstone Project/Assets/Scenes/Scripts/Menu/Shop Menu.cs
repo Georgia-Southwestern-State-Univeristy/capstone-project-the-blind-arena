@@ -1,22 +1,27 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class ShopManager : MonoBehaviour
 {
     [System.Serializable]
     public class Box
     {
-        public Image[] icons;  // The six icons in this box
-        public Text[] texts;   // Corresponding text for each icon
-        public Button buyButton; // The buy button for this box
+        public Image[] icons;  // The six shop icons
+        public TextMeshProUGUI[] texts;   // Corresponding TextMeshPro text
+        public Button buyButton; // Buy button for this box
+        public Image hotbarSlot;  // Hotbar slot where purchased icon appears
     }
 
-    public Box[] boxes; // Array containing 3 boxes
-    public int hiddenSortingOrder = 0;  // Sorting order for hidden icons & text
-    public int visibleSortingOrder = 10; // Sorting order for the selected icon & text
+    public Box[] boxes; // Array of 3 boxes
+    public int hiddenSortingOrder = 0;
+    public int visibleSortingOrder = 10;
+
+    private int[] selectedIndexes; // Stores the randomly selected icon index for each box
 
     void Start()
     {
+        selectedIndexes = new int[boxes.Length];
         InitializeShop();
     }
 
@@ -28,22 +33,23 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    // Initializes the shop by selecting random icons and texts per box
     void InitializeShop()
     {
-        foreach (Box box in boxes)
+        for (int boxIndex = 0; boxIndex < boxes.Length; boxIndex++)
         {
+            Box box = boxes[boxIndex];
+
             if (box.icons.Length != 6 || box.texts.Length != 6)
             {
-                Debug.LogError("Each box must have exactly 6 icons and 6 texts assigned.");
+                Debug.LogError("Each box must have exactly 6 icons and texts.");
                 continue;
             }
 
-            // Hide all icons and texts, then randomly pick one to show
-            int selectedIndex = Random.Range(0, 6);
+            // Randomly select one icon and text per box
+            selectedIndexes[boxIndex] = Random.Range(0, 6);
             for (int i = 0; i < 6; i++)
             {
-                bool isSelected = (i == selectedIndex);
+                bool isSelected = (i == selectedIndexes[boxIndex]);
                 box.icons[i].gameObject.SetActive(isSelected);
                 box.texts[i].gameObject.SetActive(isSelected);
 
@@ -51,22 +57,24 @@ public class ShopManager : MonoBehaviour
                 SetSortingOrder(box.texts[i], isSelected ? visibleSortingOrder : hiddenSortingOrder);
             }
 
-            // Enable the buy button at the start
+            // Enable buy button
             if (box.buyButton != null)
             {
                 box.buyButton.interactable = true;
-                ColorBlock colors = box.buyButton.colors;
-                colors.disabledColor = new Color(0.5f, 0.5f, 0.5f, 1f); // Gray out when disabled
-                box.buyButton.colors = colors;
-
-                // Add button listener
                 box.buyButton.onClick.RemoveAllListeners();
-                box.buyButton.onClick.AddListener(() => BuyItem(box));
+                int index = boxIndex; // Capture index for closure
+                box.buyButton.onClick.AddListener(() => BuyItem(index));
+            }
+
+            // Clear hotbar slot initially
+            if (box.hotbarSlot != null)
+            {
+                box.hotbarSlot.sprite = null;
+                box.hotbarSlot.color = new Color(1, 1, 1, 0); // Hide hotbar slot
             }
         }
     }
 
-    // Adjusts sorting order when "I" is pressed
     void ApplySortingOrder()
     {
         foreach (Box box in boxes)
@@ -77,7 +85,6 @@ public class ShopManager : MonoBehaviour
                 SetSortingOrder(box.texts[i], hiddenSortingOrder);
             }
 
-            // Ensure selected icon & text remain visible
             for (int i = 0; i < 6; i++)
             {
                 if (box.icons[i].gameObject.activeSelf)
@@ -90,16 +97,24 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    // Handles buying an item from a box
-    void BuyItem(Box box)
+    void BuyItem(int boxIndex)
     {
+        Box box = boxes[boxIndex];
+        int selectedIndex = selectedIndexes[boxIndex];
+
         if (box.buyButton != null)
         {
-            box.buyButton.interactable = false; // Disable button after purchase
+            box.buyButton.interactable = false; // Disable buy button after purchase
+        }
+
+        if (box.hotbarSlot != null)
+        {
+            // Set the hotbar slot to the purchased icon
+            box.hotbarSlot.sprite = box.icons[selectedIndex].sprite;
+            box.hotbarSlot.color = new Color(1, 1, 1, 1); // Make hotbar icon visible
         }
     }
 
-    // Sets the sorting order of an image or text
     void SetSortingOrder(Graphic graphic, int order)
     {
         Canvas canvas = graphic.GetComponent<Canvas>();
@@ -111,7 +126,6 @@ public class ShopManager : MonoBehaviour
         canvas.sortingOrder = order;
     }
 
-    // Resets the shop for a new round
     public void ResetShop()
     {
         InitializeShop();
