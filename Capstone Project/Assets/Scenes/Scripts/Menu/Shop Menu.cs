@@ -11,6 +11,7 @@ public class ShopManager : MonoBehaviour
         public TextMeshProUGUI[] texts;   // Corresponding TextMeshPro text
         public Button buyButton; // Buy button for this box
         public Image hotbarSlot;  // Hotbar slot where purchased icon appears
+        public RectTransform parentBox; // Parent RectTransform for centering
     }
 
     public Box[] boxes; // Array of 3 boxes
@@ -55,6 +56,11 @@ public class ShopManager : MonoBehaviour
 
                 SetSortingOrder(box.icons[i], isSelected ? visibleSortingOrder : hiddenSortingOrder);
                 SetSortingOrder(box.texts[i], isSelected ? visibleSortingOrder : hiddenSortingOrder);
+
+                if (isSelected)
+                {
+                    CenterIcon(box.icons[i].rectTransform, box.parentBox);
+                }
             }
 
             // Enable buy button
@@ -124,6 +130,15 @@ public class ShopManager : MonoBehaviour
         }
         canvas.overrideSorting = true;
         canvas.sortingOrder = order;
+    }
+
+    void CenterIcon(RectTransform icon, RectTransform parent)
+    {
+        icon.SetParent(parent);
+
+        // Center the icon in the box
+        icon.anchoredPosition = Vector2.zero; // Center position
+        icon.localPosition = Vector3.zero; // Ensure no offsets
     }
 
     public void ResetShop()
