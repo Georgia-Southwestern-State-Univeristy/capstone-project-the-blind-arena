@@ -8,17 +8,18 @@ public class ShopManager : MonoBehaviour
     [System.Serializable]
     public class Box
     {
-        public Image[] icons;  // The six shop icons
-        public TextMeshProUGUI[] texts;   // Corresponding TextMeshPro text
-        public Button buyButton; // Buy button for this box
-        public RectTransform parentBox; // Parent RectTransform for centering
+        public Image[] icons;
+        public TextMeshProUGUI[] texts;
+        public Button buyButton;
+        public RectTransform parentBox;
     }
 
-    public Box[] boxes; // Array of shop boxes
+    public Box[] boxes;
     public Image[] hotbarSlots; // 10 slots for purchased items
+    public TextMeshProUGUI[] hotbarCounts; // TextMeshPro elements for counts
 
-    private int[] selectedIndexes; // Stores randomly selected icons
-    private Queue<Sprite> purchasedItems = new Queue<Sprite>(); // Track purchased items
+    private int[] selectedIndexes;
+    private Dictionary<Sprite, int> purchasedItems = new Dictionary<Sprite, int>(); // Track item counts
 
     void Start()
     {
@@ -38,7 +39,6 @@ public class ShopManager : MonoBehaviour
                 continue;
             }
 
-            // Randomly select one icon and text per box
             selectedIndexes[boxIndex] = Random.Range(0, 6);
             for (int i = 0; i < 6; i++)
             {
@@ -52,21 +52,21 @@ public class ShopManager : MonoBehaviour
                 }
             }
 
-            // Enable buy button
             if (box.buyButton != null)
             {
                 box.buyButton.interactable = true;
                 box.buyButton.onClick.RemoveAllListeners();
-                int index = boxIndex; // Capture index for closure
+                int index = boxIndex;
                 box.buyButton.onClick.AddListener(() => BuyItem(index));
             }
         }
 
         // Clear hotbar slots initially
-        foreach (var slot in hotbarSlots)
+        for (int i = 0; i < hotbarSlots.Length; i++)
         {
-            slot.sprite = null;
-            slot.color = new Color(1, 1, 1, 0); // Hide empty slots
+            hotbarSlots[i].sprite = null;
+            hotbarSlots[i].color = new Color(1, 1, 1, 0);
+            hotbarCounts[i].text = "";
         }
     }
 
@@ -77,16 +77,24 @@ public class ShopManager : MonoBehaviour
 
         if (box.buyButton != null)
         {
-            box.buyButton.interactable = false; // Disable button after purchase
+            box.buyButton.interactable = false;
         }
 
         Sprite purchasedSprite = box.icons[selectedIndex].sprite;
 
-        if (purchasedItems.Count >= hotbarSlots.Length)
+        // Increase count if item exists, otherwise add it
+        if (purchasedItems.ContainsKey(purchasedSprite))
         {
-            purchasedItems.Dequeue(); // Remove oldest item if full
+            purchasedItems[purchasedSprite]++;
         }
-        purchasedItems.Enqueue(purchasedSprite);
+        else
+        {
+            if (purchasedItems.Count >= hotbarSlots.Length)
+            {
+                purchasedItems.Remove(GetOldestItem()); // Remove oldest if full
+            }
+            purchasedItems[purchasedSprite] = 1;
+        }
 
         UpdateHotbar();
     }
@@ -94,20 +102,30 @@ public class ShopManager : MonoBehaviour
     void UpdateHotbar()
     {
         int i = 0;
-        foreach (var slot in hotbarSlots)
+        foreach (var item in purchasedItems)
         {
-            if (i < purchasedItems.Count)
-            {
-                slot.sprite = purchasedItems.ToArray()[i];
-                slot.color = new Color(1, 1, 1, 1); // Show icon
-            }
-            else
-            {
-                slot.sprite = null;
-                slot.color = new Color(1, 1, 1, 0); // Hide if empty
-            }
+            hotbarSlots[i].sprite = item.Key;
+            hotbarSlots[i].color = new Color(1, 1, 1, 1);
+            hotbarCounts[i].text = item.Value > 1 ? item.Value.ToString() : ""; // Hide "1" for clarity
             i++;
         }
+
+        // Hide unused slots
+        for (; i < hotbarSlots.Length; i++)
+        {
+            hotbarSlots[i].sprite = null;
+            hotbarSlots[i].color = new Color(1, 1, 1, 0);
+            hotbarCounts[i].text = "";
+        }
+    }
+
+    Sprite GetOldestItem()
+    {
+        foreach (var item in purchasedItems)
+        {
+            return item.Key;
+        }
+        return null;
     }
 
     void CenterIcon(RectTransform icon, RectTransform parent)
