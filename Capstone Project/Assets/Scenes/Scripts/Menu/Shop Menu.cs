@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections.Generic;
 
 public class ShopManager : MonoBehaviour
 {
@@ -146,3 +147,4 @@ public class ShopManager : MonoBehaviour
         InitializeShop();
     }
 }
+
