@@ -3,10 +3,8 @@ using UnityEngine;
 
 public class PlayerAttackManager : MonoBehaviour
 {
-    // Reference to the Player GameObject
-    public GameObject player;
+    public GameObject player; // Reference to the player
 
-    // Attack attributes structure
     [System.Serializable]
     public class AttackAttributes
     {
@@ -14,31 +12,31 @@ public class PlayerAttackManager : MonoBehaviour
         public float priority;
         public float damage;
         public float speed;
+        public float duration; // Duration in seconds
         public int health;
+        public bool detachFromPlayer; // Determines if attack stays or detaches
+        public ColliderType colliderShape; // Shape of the attack collider
+        public Vector3 colliderSize = Vector3.one; // Default size
+        public Sprite attackSprite; // Assign sprite in Inspector
+        public float gravityScale = 1.0f; // Control gravity effect in Inspector
+        public Vector3 spriteSize = Vector3.one; // Control sprite size in Inspector
+        public Vector3 spriteRotation = Vector3.zero; // Control sprite rotation in Inspector
     }
 
-    // List of attacks (can be configured in the Inspector)
+    public enum ColliderType { Box, Sphere, Capsule }
+    
     public AttackAttributes[] attacks;
 
-    // Method to trigger an attack
     public void TriggerAttack(string attackName)
     {
-        switch (attackName)
-        {
-            case "BasicAttack":
-                StartCoroutine(BasicAttack(System.Array.Find(attacks, a => a.name == "BasicAttack")));
-                break;
-
-            // Add more cases here for other attacks
-
-            default:
-                Debug.LogError("Attack not defined: " + attackName);
-                break;
-        }
+        AttackAttributes attack = System.Array.Find(attacks, a => a.name == attackName);
+        if (attack != null)
+            StartCoroutine(PerformAttack(attack));
+        else
+            Debug.LogError("Attack not defined: " + attackName);
     }
 
-    // Coroutine for an attack
-    private IEnumerator BasicAttack(AttackAttributes attack)
+    private IEnumerator PerformAttack(AttackAttributes attack)
     {
         if (attack == null)
         {
@@ -46,60 +44,52 @@ public class PlayerAttackManager : MonoBehaviour
             yield break;
         }
 
-        // Create a new GameObject for the attack collider
-        GameObject attackCollider = new GameObject(attack.name + "Collider");
-
-        // Set the attackCollider as a child of the player
-        attackCollider.transform.SetParent(player.transform);
-
-        // Align the attackCollider to the player's position
-        attackCollider.transform.localPosition = Vector3.zero;
-
-        // Add a BoxCollider component
-        BoxCollider boxCollider = attackCollider.AddComponent<BoxCollider>();
-        boxCollider.isTrigger = true;
-
-        // Add a MeshRenderer to display the texture
-        MeshRenderer meshRenderer = attackCollider.AddComponent<MeshRenderer>();
-
-        // Load the texture directly from the Resources folder
-        Texture2D texture = Resources.Load<Texture2D>("Sprites/Basic_Rock"); // Path relative to Resources folder
-        if (texture == null)
+        GameObject attackObject = new GameObject(attack.name + "Collider");
+        if (!attack.detachFromPlayer)
+            attackObject.transform.SetParent(player.transform);
+        
+        attackObject.transform.position = player.transform.position;
+        
+        Collider collider = null;
+        switch (attack.colliderShape)
         {
-            Debug.LogError("Basic_Rock.png not found! Ensure it's in the Resources folder.");
+            case ColliderType.Box:
+                BoxCollider box = attackObject.AddComponent<BoxCollider>();
+                box.size = attack.colliderSize;
+                collider = box;
+                break;
+            case ColliderType.Sphere:
+                SphereCollider sphere = attackObject.AddComponent<SphereCollider>();
+                sphere.radius = attack.colliderSize.x / 2;
+                collider = sphere;
+                break;
+            case ColliderType.Capsule:
+                CapsuleCollider capsule = attackObject.AddComponent<CapsuleCollider>();
+                capsule.radius = attack.colliderSize.x / 2;
+                capsule.height = attack.colliderSize.y;
+                collider = capsule;
+                break;
+        }
+        if (collider != null) collider.isTrigger = true;
+
+        SpriteRenderer spriteRenderer = attackObject.AddComponent<SpriteRenderer>();
+        if (attack.attackSprite != null)
+        {
+            spriteRenderer.sprite = attack.attackSprite;
+            attackObject.transform.localScale = attack.spriteSize; // Apply sprite size
+            attackObject.transform.eulerAngles = attack.spriteRotation; // Apply sprite rotation
         }
         else
+            Debug.LogError("No sprite assigned to attack: " + attack.name);
+
+        if (attack.detachFromPlayer)
         {
-            // Create a new material and assign the texture
-            Material attackMaterial = new Material(Shader.Find("Standard")); // Changed variable name to attackMaterial
-            attackMaterial.mainTexture = texture;
-            meshRenderer.material = attackMaterial;
+            Rigidbody rb = attackObject.AddComponent<Rigidbody>();
+            rb.useGravity = false;
+            rb.linearVelocity = new Vector3(player.transform.forward.x * attack.speed, -attack.gravityScale, player.transform.forward.z * attack.speed);
         }
-
-
-
-        // Assign a material with a simple color
-        Material material = new Material(Shader.Find("Standard"));
-        material.color = Color.red; // Use a red color for the placeholder
-        meshRenderer.material = material;
-
-
-        // Adjust the collider size (customize as needed)
-        boxCollider.size = new Vector3(1, 1, 1);
-
-        // Simulate attack speed (time before the attack becomes inactive)
-        yield return new WaitForSeconds(attack.speed);
-
-        // Reduce health of the attack on interaction (can be expanded for interaction logic)
-        attack.health -= 1;
-
-        if (attack.health <= 0)
-        {
-            Destroy(attackCollider);
-        }
-        else
-        {
-            Destroy(attackCollider, attack.speed);
-        }
+        
+        yield return new WaitForSeconds(attack.duration);
+        Destroy(attackObject);
     }
 }

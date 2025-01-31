@@ -877,9 +877,17 @@ MonoBehaviour:
   attacks:
   - name: BasicAttack
     priority: 1.5
-    damage: 0
-    speed: 0
+    damage: 5
+    speed: 4
+    duration: 1.5
     health: 0
+    detachFromPlayer: 0
+    colliderShape: 0
+    colliderSize: {x: 5, y: 1, z: 1}
+    attackSprite: {fileID: -1982924380, guid: 4148c79904d0106419d4752298b7a78e, type: 3}
+    gravityScale: 1
+    spriteSize: {x: 1, y: 1, z: 1}
+    spriteRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &1351617024
 GameObject:
   m_ObjectHideFlags: 0
@@ -910,7 +918,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 886251e9a18ece04ea8e61686c173e1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CameraDistance: 100
+  CameraDistance: 30
   DeadZoneDepth: 0
   Composition:
     ScreenPosition: {x: 0, y: 0}
@@ -981,7 +989,7 @@ Transform:
   m_GameObject: {fileID: 1351617024}
   serializedVersion: 2
   m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: 0, y: 71.21068, z: -70.71068}
+  m_LocalPosition: {x: 0, y: 21.713203, z: -21.213203}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1340,17 +1348,37 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3415722486547194870, guid: e26d61687c7401a4cad7ca2d775e6613, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -5.0000076
+      objectReference: {fileID: 0}
     - target: {fileID: 6173390497462440779, guid: e26d61687c7401a4cad7ca2d775e6613, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7963774663187950466, guid: e26d61687c7401a4cad7ca2d775e6613, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7963774663187950466, guid: e26d61687c7401a4cad7ca2d775e6613, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -519.4
+      value: -292.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7963774663187950466, guid: e26d61687c7401a4cad7ca2d775e6613, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 250.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8063220498381716523, guid: e26d61687c7401a4cad7ca2d775e6613, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.0000078894
       objectReference: {fileID: 0}
     - target: {fileID: 8063220498381716523, guid: e26d61687c7401a4cad7ca2d775e6613, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -492.1
+      value: -264.96
+      objectReference: {fileID: 0}
+    - target: {fileID: 8063220498381716523, guid: e26d61687c7401a4cad7ca2d775e6613, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 285.3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1597,7 +1625,7 @@ Transform:
   m_GameObject: {fileID: 1842674118}
   serializedVersion: 2
   m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: 0, y: 71.21068, z: -70.71068}
+  m_LocalPosition: {x: 0, y: 21.713203, z: -21.213203}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
