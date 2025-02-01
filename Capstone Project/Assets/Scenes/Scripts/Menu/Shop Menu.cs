@@ -1,37 +1,30 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections.Generic;
 
 public class ShopManager : MonoBehaviour
 {
     [System.Serializable]
     public class Box
     {
-        public Image[] icons;  // The six shop icons
-        public TextMeshProUGUI[] texts;   // Corresponding TextMeshPro text
-        public Button buyButton; // Buy button for this box
-        public Image hotbarSlot;  // Hotbar slot where purchased icon appears
-        public RectTransform parentBox; // Parent RectTransform for centering
+        public Image[] icons;
+        public TextMeshProUGUI[] texts;
+        public Button buyButton;
+        public RectTransform parentBox;
     }
 
-    public Box[] boxes; // Array of 3 boxes
-    public int hiddenSortingOrder = 0;
-    public int visibleSortingOrder = 10;
+    public Box[] boxes;
+    public Image[] hotbarSlots; // 10 slots for purchased items
+    public TextMeshProUGUI[] hotbarCounts; // TextMeshPro elements for counts
 
-    private int[] selectedIndexes; // Stores the randomly selected icon index for each box
+    private int[] selectedIndexes;
+    private Dictionary<Sprite, int> purchasedItems = new Dictionary<Sprite, int>(); // Track item counts
 
     void Start()
     {
         selectedIndexes = new int[boxes.Length];
         InitializeShop();
-    }
-
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            ApplySortingOrder();
-        }
     }
 
     void InitializeShop()
@@ -46,7 +39,6 @@ public class ShopManager : MonoBehaviour
                 continue;
             }
 
-            // Randomly select one icon and text per box
             selectedIndexes[boxIndex] = Random.Range(0, 6);
             for (int i = 0; i < 6; i++)
             {
@@ -54,52 +46,27 @@ public class ShopManager : MonoBehaviour
                 box.icons[i].gameObject.SetActive(isSelected);
                 box.texts[i].gameObject.SetActive(isSelected);
 
-                SetSortingOrder(box.icons[i], isSelected ? visibleSortingOrder : hiddenSortingOrder);
-                SetSortingOrder(box.texts[i], isSelected ? visibleSortingOrder : hiddenSortingOrder);
-
                 if (isSelected)
                 {
                     CenterIcon(box.icons[i].rectTransform, box.parentBox);
                 }
             }
 
-            // Enable buy button
             if (box.buyButton != null)
             {
                 box.buyButton.interactable = true;
                 box.buyButton.onClick.RemoveAllListeners();
-                int index = boxIndex; // Capture index for closure
+                int index = boxIndex;
                 box.buyButton.onClick.AddListener(() => BuyItem(index));
             }
-
-            // Clear hotbar slot initially
-            if (box.hotbarSlot != null)
-            {
-                box.hotbarSlot.sprite = null;
-                box.hotbarSlot.color = new Color(1, 1, 1, 0); // Hide hotbar slot
-            }
         }
-    }
 
-    void ApplySortingOrder()
-    {
-        foreach (Box box in boxes)
+        // Clear hotbar slots initially
+        for (int i = 0; i < hotbarSlots.Length; i++)
         {
-            for (int i = 0; i < 6; i++)
-            {
-                SetSortingOrder(box.icons[i], hiddenSortingOrder);
-                SetSortingOrder(box.texts[i], hiddenSortingOrder);
-            }
-
-            for (int i = 0; i < 6; i++)
-            {
-                if (box.icons[i].gameObject.activeSelf)
-                {
-                    SetSortingOrder(box.icons[i], visibleSortingOrder);
-                    SetSortingOrder(box.texts[i], visibleSortingOrder);
-                    break;
-                }
-            }
+            hotbarSlots[i].sprite = null;
+            hotbarSlots[i].color = new Color(1, 1, 1, 0);
+            hotbarCounts[i].text = "";
         }
     }
 
@@ -110,39 +77,67 @@ public class ShopManager : MonoBehaviour
 
         if (box.buyButton != null)
         {
-            box.buyButton.interactable = false; // Disable buy button after purchase
+            box.buyButton.interactable = false;
         }
 
-        if (box.hotbarSlot != null)
+        Sprite purchasedSprite = box.icons[selectedIndex].sprite;
+
+        // Increase count if item exists, otherwise add it
+        if (purchasedItems.ContainsKey(purchasedSprite))
         {
-            // Set the hotbar slot to the purchased icon
-            box.hotbarSlot.sprite = box.icons[selectedIndex].sprite;
-            box.hotbarSlot.color = new Color(1, 1, 1, 1); // Make hotbar icon visible
+            purchasedItems[purchasedSprite]++;
+        }
+        else
+        {
+            if (purchasedItems.Count >= hotbarSlots.Length)
+            {
+                purchasedItems.Remove(GetOldestItem()); // Remove oldest if full
+            }
+            purchasedItems[purchasedSprite] = 1;
+        }
+
+        UpdateHotbar();
+    }
+
+    void UpdateHotbar()
+    {
+        int i = 0;
+        foreach (var item in purchasedItems)
+        {
+            hotbarSlots[i].sprite = item.Key;
+            hotbarSlots[i].color = new Color(1, 1, 1, 1);
+            hotbarCounts[i].text = item.Value > 1 ? item.Value.ToString() : ""; // Hide "1" for clarity
+            i++;
+        }
+
+        // Hide unused slots
+        for (; i < hotbarSlots.Length; i++)
+        {
+            hotbarSlots[i].sprite = null;
+            hotbarSlots[i].color = new Color(1, 1, 1, 0);
+            hotbarCounts[i].text = "";
         }
     }
 
-    void SetSortingOrder(Graphic graphic, int order)
+    Sprite GetOldestItem()
     {
-        Canvas canvas = graphic.GetComponent<Canvas>();
-        if (canvas == null)
+        foreach (var item in purchasedItems)
         {
-            canvas = graphic.gameObject.AddComponent<Canvas>();
+            return item.Key;
         }
-        canvas.overrideSorting = true;
-        canvas.sortingOrder = order;
+        return null;
     }
 
     void CenterIcon(RectTransform icon, RectTransform parent)
     {
         icon.SetParent(parent);
-
-        // Center the icon in the box
-        icon.anchoredPosition = Vector2.zero; // Center position
-        icon.localPosition = Vector3.zero; // Ensure no offsets
+        icon.anchoredPosition = Vector2.zero;
+        icon.localPosition = Vector3.zero;
     }
 
     public void ResetShop()
     {
+        purchasedItems.Clear();
         InitializeShop();
     }
 }
