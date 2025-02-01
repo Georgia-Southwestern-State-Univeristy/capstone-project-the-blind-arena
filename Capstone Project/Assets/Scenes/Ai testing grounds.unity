@@ -575,7 +575,9 @@ PrefabInstance:
       propertyPath: gravityScale
       value: 10
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5168317322027067244, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+    - {fileID: 5822941147397360274, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
     m_RemovedGameObjects:
     - {fileID: 4894227307447531297, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
     m_AddedGameObjects:
@@ -589,6 +591,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4978752083136634162, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1313077937}
+    - targetCorrespondingSourceObject: {fileID: 4978752083136634162, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1313077939}
+    - targetCorrespondingSourceObject: {fileID: 4978752083136634162, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1313077938}
   m_SourcePrefab: {fileID: 100100000, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
 --- !u!1 &645319807
 GameObject:
@@ -859,6 +867,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
+  stamina: 100
   healthBarSlider: {fileID: 241629077}
   staminaBarSlider: {fileID: 1670641638}
 --- !u!114 &1313077937
@@ -873,6 +882,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf88848a0012263429f5de952eb8e0d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: {fileID: 1313077936}
   player: {fileID: 1313077929}
   attacks:
   - name: BasicAttack
@@ -880,14 +890,49 @@ MonoBehaviour:
     damage: 5
     speed: 4
     duration: 1.5
-    health: 0
-    detachFromPlayer: 0
+    staminaUse: 15
+    detachFromPlayer: 1
     colliderShape: 0
     colliderSize: {x: 5, y: 1, z: 1}
     attackSprite: {fileID: -1982924380, guid: 4148c79904d0106419d4752298b7a78e, type: 3}
-    gravityScale: 1
+    gravityScale: 0
     spriteSize: {x: 1, y: 1, z: 1}
-    spriteRotation: {x: 0, y: 0, z: 0}
+    spriteRotation: {x: 25, y: 0, z: 0}
+--- !u!114 &1313077938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1313077929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8990d82ef1ca5e4092df29b9e88481c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackTypes:
+  - BasicAttack
+  attackManager: {fileID: 1313077937}
+--- !u!114 &1313077939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1313077929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9e59a05668df02408624c930c6d0b71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 7
+  gravityScale: 20
+  animator: {fileID: 1313077941}
+--- !u!95 &1313077941 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 1764576010663585167, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+  m_PrefabInstance: {fileID: 472203104}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1351617024
 GameObject:
   m_ObjectHideFlags: 0
@@ -1686,6 +1731,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
+  stamina: 100
   healthBarSlider: {fileID: 1390459094}
   staminaBarSlider: {fileID: 0}
 --- !u!114 &2025016824

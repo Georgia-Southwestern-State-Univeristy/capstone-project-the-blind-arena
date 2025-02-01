@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class PlayerAttackManager : MonoBehaviour
 {
+
+    public Health health;
     public GameObject player; // Reference to the player
 
     [System.Serializable]
@@ -13,7 +15,8 @@ public class PlayerAttackManager : MonoBehaviour
         public float damage;
         public float speed;
         public float duration; // Duration in seconds
-        public int health;
+
+        public int staminaUse;
         public bool detachFromPlayer; // Determines if attack stays or detaches
         public ColliderType colliderShape; // Shape of the attack collider
         public Vector3 colliderSize = Vector3.one; // Default size
@@ -21,6 +24,9 @@ public class PlayerAttackManager : MonoBehaviour
         public float gravityScale = 1.0f; // Control gravity effect in Inspector
         public Vector3 spriteSize = Vector3.one; // Control sprite size in Inspector
         public Vector3 spriteRotation = Vector3.zero; // Control sprite rotation in Inspector
+        
+
+
     }
 
     public enum ColliderType { Box, Sphere, Capsule }
@@ -44,12 +50,25 @@ public class PlayerAttackManager : MonoBehaviour
             yield break;
         }
 
+        // Ensure there's enough stamina to perform the attack
+        if (health != null && health.stamina < attack.staminaUse)
+        {
+            Debug.Log("Not enough stamina for " + attack.name);
+            yield break; // Exit without performing the attack
+        }
+
+        // Deduct stamina for the attack
+        if (health != null)
+        {
+            health.UseStamina(attack.staminaUse);
+        }
+
         GameObject attackObject = new GameObject(attack.name + "Collider");
         if (!attack.detachFromPlayer)
             attackObject.transform.SetParent(player.transform);
-        
+
         attackObject.transform.position = player.transform.position;
-        
+
         Collider collider = null;
         switch (attack.colliderShape)
         {
@@ -88,7 +107,7 @@ public class PlayerAttackManager : MonoBehaviour
             rb.useGravity = false;
             rb.linearVelocity = new Vector3(player.transform.forward.x * attack.speed, -attack.gravityScale, player.transform.forward.z * attack.speed);
         }
-        
+
         yield return new WaitForSeconds(attack.duration);
         Destroy(attackObject);
     }
