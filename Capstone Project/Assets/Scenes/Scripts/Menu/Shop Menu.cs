@@ -14,12 +14,23 @@ public class ShopManager : MonoBehaviour
         public RectTransform parentBox;
     }
 
+    [System.Serializable]
+    public class ItemTime
+    {
+        public Sprite itemSprite; // The item's image
+        public float timeToAdd; // Time added when purchased
+    }
+
     public Box[] boxes;
     public Image[] hotbarSlots; // 10 slots for purchased items
     public TextMeshProUGUI[] hotbarCounts; // TextMeshPro elements for counts
+    public GameTimer gameTimer; // Reference to GameTimer
 
     private int[] selectedIndexes;
     private Dictionary<Sprite, int> purchasedItems = new Dictionary<Sprite, int>(); // Track item counts
+
+    // List of items with their unique time values
+    public List<ItemTime> itemTimeValues = new List<ItemTime>();
 
     void Start()
     {
@@ -96,6 +107,13 @@ public class ShopManager : MonoBehaviour
             purchasedItems[purchasedSprite] = 1;
         }
 
+        // Add time based on the item's assigned time value
+        float timeToAdd = GetItemTimeValue(purchasedSprite);
+        if (timeToAdd > 0)
+        {
+            gameTimer.AddTime(timeToAdd);
+        }
+
         UpdateHotbar();
     }
 
@@ -139,5 +157,18 @@ public class ShopManager : MonoBehaviour
     {
         purchasedItems.Clear();
         InitializeShop();
+    }
+
+    // Method to get the time value for a specific item
+    float GetItemTimeValue(Sprite itemSprite)
+    {
+        foreach (var item in itemTimeValues)
+        {
+            if (item.itemSprite == itemSprite)
+            {
+                return item.timeToAdd;
+            }
+        }
+        return 0f; // Default: no time added if item not found
     }
 }

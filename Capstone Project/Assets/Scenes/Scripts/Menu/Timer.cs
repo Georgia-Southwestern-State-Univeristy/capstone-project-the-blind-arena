@@ -1,74 +1,43 @@
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
-public class TimerController : MonoBehaviour
+public class GameTimer : MonoBehaviour
 {
-    public GameObject tenMinuteObject;  // GameObject for 10-minute section
-    public GameObject oneMinuteObject; // GameObject for 1-minute section
-    public GameObject tenSecondObject; // GameObject for 10-second section
-    public GameObject oneSecondObject; // GameObject for 1-second section
+    public TextMeshProUGUI hoursText, minutesText, secondsText, millisecondsText;
 
-    public Button buyButton;   // Button to add time
-    public float purchaseTime = 30f; // Time to add on purchase
-
-    private Text tenMinuteText;
-    private Text oneMinuteText;
-    private Text tenSecondText;
-    private Text oneSecondText;
-
-    private float timer = 0f;  // Total time in seconds
-    private bool isInRestArea = false;
-
-    void Start()
-    {
-        // Get the Text components from the GameObjects
-        tenMinuteText = tenMinuteObject.GetComponent<Text>();
-        oneMinuteText = oneMinuteObject.GetComponent<Text>();
-        tenSecondText = tenSecondObject.GetComponent<Text>();
-        oneSecondText = oneSecondObject.GetComponent<Text>();
-
-        // Add a listener to the buy button
-        buyButton.onClick.AddListener(AddPurchaseTime);
-    }
+    private float elapsedTime = 0f;
+    private bool isPaused = false;
 
     void Update()
     {
-        if (!isInRestArea)
+        if (!isPaused)
         {
-            timer += Time.deltaTime; // Count up
-            UpdateTimerDisplay();
+            elapsedTime += Time.deltaTime;
+            UpdateTimerUI();
         }
     }
 
-    void UpdateTimerDisplay()
+    void UpdateTimerUI()
     {
-        // Calculate the time sections
-        int totalSeconds = Mathf.FloorToInt(timer);
-        int tenMinutes = (totalSeconds / 600) % 10;
-        int oneMinutes = (totalSeconds / 60) % 10;
-        int tenSeconds = (totalSeconds / 10) % 6;
-        int oneSeconds = totalSeconds % 10;
+        int hours = (int)(elapsedTime / 3600);
+        int minutes = (int)(elapsedTime % 3600) / 60;
+        int seconds = (int)(elapsedTime % 60);
+        int milliseconds = (int)((elapsedTime * 100) % 100);
 
-        // Update the UI
-        tenMinuteText.text = tenMinutes.ToString();
-        oneMinuteText.text = oneMinutes.ToString();
-        tenSecondText.text = tenSeconds.ToString();
-        oneSecondText.text = oneSeconds.ToString();
+        hoursText.text = hours.ToString("00");
+        minutesText.text = minutes.ToString("00");
+        secondsText.text = seconds.ToString("00");
+        millisecondsText.text = milliseconds.ToString("00");
     }
 
-    public void EnterRestArea()
+    public void TogglePause()
     {
-        isInRestArea = true;
+        isPaused = !isPaused;
     }
 
-    public void ExitRestArea()
+    public void AddTime(float timeToAdd)
     {
-        isInRestArea = false;
-    }
-
-    private void AddPurchaseTime()
-    {
-        timer += purchaseTime;
-        UpdateTimerDisplay(); // Update the timer after adding time
+        elapsedTime += timeToAdd;
+        UpdateTimerUI();
     }
 }

@@ -3,30 +3,39 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 
-public class MainMenuAnimation : MonoBehaviour
+public class LaptopMenuManager : MonoBehaviour
 {
-    // Assign UI elements in the Inspector
+    [Tooltip("The reference width of the design resolution.")]
+    public float referenceWidth = 1920f;
+
+    [Tooltip("The reference height of the design resolution.")]
+    public float referenceHeight = 1080f;
+
     public Button startGameButton;
     public Button settingsButton;
     public Button quitButton;
     public RectTransform background;
 
+    private CanvasScaler canvasScaler;
     private Vector3 initialBackgroundPosition;
 
     private void Start()
     {
-        // Store the initial position of the background
+        canvasScaler = GetComponent<CanvasScaler>();
+        if (canvasScaler != null && IsLaptopScreen())
+        {
+            AdjustScale();
+        }
+
         if (background != null)
         {
             initialBackgroundPosition = background.position;
         }
 
-        // Add listeners for button interactions
         startGameButton.onClick.AddListener(() => LoadScene("GameScene"));
         settingsButton.onClick.AddListener(() => OpenSettings());
         quitButton.onClick.AddListener(() => QuitGame());
 
-        // Add hover effects to buttons
         AddHoverEffect(startGameButton);
         AddHoverEffect(settingsButton);
         AddHoverEffect(quitButton);
@@ -34,25 +43,48 @@ public class MainMenuAnimation : MonoBehaviour
 
     private void Update()
     {
-        // Animate background to move based on mouse position
         if (background != null)
         {
             Vector3 mousePosition = Input.mousePosition;
-            float xOffset = (mousePosition.x / Screen.width - 0.5f) * 50f; // Reduced scale for mouse X position
-            float yOffset = (mousePosition.y / Screen.height - 0.5f) * 50f; // Reduced scale for mouse Y position
+            float xOffset = (mousePosition.x / Screen.width - 0.5f) * 50f;
+            float yOffset = (mousePosition.y / Screen.height - 0.5f) * 50f;
             background.position = new Vector3(initialBackgroundPosition.x + xOffset, initialBackgroundPosition.y + yOffset, initialBackgroundPosition.z);
         }
+    }
+
+    private void AdjustScale()
+    {
+        float screenWidth = Screen.width;
+        float screenHeight = Screen.height;
+        float widthRatio = screenWidth / referenceWidth;
+        float heightRatio = screenHeight / referenceHeight;
+
+        canvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+        canvasScaler.referenceResolution = new Vector2(referenceWidth, referenceHeight);
+        canvasScaler.matchWidthOrHeight = (widthRatio > heightRatio) ? 1 : 0;
+
+        Debug.Log($"Scaling applied for laptop screen: {Screen.width}x{Screen.height}");
+    }
+
+    private bool IsLaptopScreen()
+    {
+        float screenWidth = Screen.width;
+        float screenHeight = Screen.height;
+        float aspectRatio = screenWidth / screenHeight;
+
+        return (screenWidth == 1366 && screenHeight == 768) ||
+               (screenWidth == 1920 && screenHeight == 1080) ||
+               (aspectRatio > 1.3f && aspectRatio < 1.8f && screenHeight >= 720);
     }
 
     private void AddHoverEffect(Button button)
     {
         ColorBlock colorBlock = button.colors;
         Color normalColor = colorBlock.normalColor;
-        Color highlightedColor = new Color(1f, 0.8f, 0.5f); // Slight orange tint
+        Color highlightedColor = new Color(1f, 0.8f, 0.5f);
 
         button.onClick.AddListener(() => Debug.Log(button.name + " clicked!"));
 
-        // Change color on hover
         EventTrigger trigger = button.gameObject.AddComponent<EventTrigger>();
         EventTrigger.Entry entryEnter = new EventTrigger.Entry { eventID = EventTriggerType.PointerEnter };
         entryEnter.callback.AddListener((data) => button.GetComponent<Image>().color = highlightedColor);
@@ -71,7 +103,6 @@ public class MainMenuAnimation : MonoBehaviour
     private void OpenSettings()
     {
         Debug.Log("Settings menu opened.");
-        // Add logic to open settings menu here
     }
 
     private void QuitGame()
@@ -80,4 +111,3 @@ public class MainMenuAnimation : MonoBehaviour
         Application.Quit();
     }
 }
-
