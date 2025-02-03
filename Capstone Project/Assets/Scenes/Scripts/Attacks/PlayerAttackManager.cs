@@ -42,7 +42,7 @@ public class PlayerAttackManager : MonoBehaviour
             Debug.LogError("Attack not defined: " + attackName);
     }
 
-    private IEnumerator PerformAttack(AttackAttributes attack)
+        private IEnumerator PerformAttack(AttackAttributes attack)
     {
         if (attack == null)
         {
@@ -50,25 +50,36 @@ public class PlayerAttackManager : MonoBehaviour
             yield break;
         }
 
-        // Ensure there's enough stamina to perform the attack
+        // Ensure there's enough stamina
         if (health != null && health.stamina < attack.staminaUse)
         {
             Debug.Log("Not enough stamina for " + attack.name);
-            yield break; // Exit without performing the attack
+            yield break;
         }
 
-        // Deduct stamina for the attack
-        if (health != null)
-        {
-            health.UseStamina(attack.staminaUse);
-        }
+        // Deduct stamina
+        health?.UseStamina(attack.staminaUse);
 
+        // Create attack object
         GameObject attackObject = new GameObject(attack.name + "Collider");
         if (!attack.detachFromPlayer)
             attackObject.transform.SetParent(player.transform);
 
         attackObject.transform.position = player.transform.position;
 
+        // Determine attack direction towards mouse
+        Vector3 attackDirection = Vector3.zero;
+        if (attack.detachFromPlayer) 
+        {
+            Vector3 mousePosition = Input.mousePosition;
+            mousePosition.z = Camera.main.nearClipPlane + 1f; // Ensure depth for ScreenToWorldPoint
+            Vector3 worldMousePos = Camera.main.ScreenToWorldPoint(mousePosition);
+
+            // Calculate direction and normalize it
+            attackDirection = (worldMousePos - player.transform.position).normalized;
+        }
+
+        // Add collider
         Collider collider = null;
         switch (attack.colliderShape)
         {
@@ -91,21 +102,25 @@ public class PlayerAttackManager : MonoBehaviour
         }
         if (collider != null) collider.isTrigger = true;
 
+        // Assign sprite
         SpriteRenderer spriteRenderer = attackObject.AddComponent<SpriteRenderer>();
         if (attack.attackSprite != null)
         {
             spriteRenderer.sprite = attack.attackSprite;
-            attackObject.transform.localScale = attack.spriteSize; // Apply sprite size
-            attackObject.transform.eulerAngles = attack.spriteRotation; // Apply sprite rotation
+            attackObject.transform.localScale = attack.spriteSize;
+            attackObject.transform.eulerAngles = attack.spriteRotation;
         }
         else
+        {
             Debug.LogError("No sprite assigned to attack: " + attack.name);
+        }
 
+        // Launch attack if detached
         if (attack.detachFromPlayer)
         {
             Rigidbody rb = attackObject.AddComponent<Rigidbody>();
             rb.useGravity = false;
-            rb.linearVelocity = new Vector3(player.transform.forward.x * attack.speed, -attack.gravityScale, player.transform.forward.z * attack.speed);
+            rb.linearVelocity = attackDirection * attack.speed; // Ensure consistent speed
         }
 
         yield return new WaitForSeconds(attack.duration);

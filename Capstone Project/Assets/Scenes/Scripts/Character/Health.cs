@@ -11,8 +11,8 @@ public class Health : MonoBehaviour
     private int MAX_HEALTH = 100;
     private int MAX_STAMINA = 100;
     private int attackCost = 20; // Stamina cost for attacking
-    private int staminaRegenRate = 3; // Stamina regenerates by 1 per 0.3 seconds
-    private float staminaRegenDelay = 5f; // Delay before stamina starts regenerating
+    private int staminaRegenRate = 5; // Stamina regenerates by 1 per 0.3 seconds
+    private float staminaRegenDelay = 3f; // Delay before stamina starts regenerating
     private float lastStaminaUseTime; // Tracks last time stamina was used
 
     // New variables for timer-based regeneration
