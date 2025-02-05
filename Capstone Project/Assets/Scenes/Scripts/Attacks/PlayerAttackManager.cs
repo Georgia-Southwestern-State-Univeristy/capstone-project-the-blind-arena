@@ -20,6 +20,7 @@ public class PlayerAttackManager : MonoBehaviour
         public ColliderType colliderShape;
         public Vector3 colliderSize = Vector3.one;
         public Sprite attackSprite;
+        public float delay;
         public float gravityScale = 0;
         public Vector3 spriteSize = Vector3.one;
         public Vector3 spriteRotation = Vector3.zero;
@@ -41,6 +42,8 @@ public class PlayerAttackManager : MonoBehaviour
     private IEnumerator PerformAttack(AttackAttributes attack)
     {
         if (!HasEnoughStamina(attack)) yield break;
+
+        yield return new WaitForSeconds(attack.delay);
 
         DeductStamina(attack.staminaUse);
         PlaySound(attack.attackSound);
