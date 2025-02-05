@@ -1288,6 +1288,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: {fileID: 1313077936}
   player: {fileID: 1313077929}
+  audioSource: {fileID: 0}
   attacks:
   - name: BasicAttack
     priority: 1.5
@@ -1299,9 +1300,11 @@ MonoBehaviour:
     colliderShape: 0
     colliderSize: {x: 5, y: 1, z: 1}
     attackSprite: {fileID: -1982924380, guid: 4148c79904d0106419d4752298b7a78e, type: 3}
+    delay: 1.3
     gravityScale: 0
     spriteSize: {x: 1, y: 1, z: 1}
     spriteRotation: {x: 25, y: 0, z: 0}
+    attackSound: {fileID: 0}
 --- !u!114 &1313077938
 MonoBehaviour:
   m_ObjectHideFlags: 0
