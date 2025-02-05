@@ -3,10 +3,10 @@ using UnityEngine;
 
 public class PlayerAttackManager : MonoBehaviour
 {
-    // Reference to the Player GameObject
+    public Health health;
     public GameObject player;
+    public AudioSource audioSource;  // Audio source for playing attack sounds
 
-    // Attack attributes structure
     [System.Serializable]
     public class AttackAttributes
     {
@@ -14,92 +14,144 @@ public class PlayerAttackManager : MonoBehaviour
         public float priority;
         public float damage;
         public float speed;
-        public int health;
+        public float duration;
+        public int staminaUse;
+        public bool detachFromPlayer;
+        public ColliderType colliderShape;
+        public Vector3 colliderSize = Vector3.one;
+        public Sprite attackSprite;
+        public float gravityScale = 0;
+        public Vector3 spriteSize = Vector3.one;
+        public Vector3 spriteRotation = Vector3.zero;
+        public AudioClip attackSound;  // Sound effect for this attack
     }
 
-    // List of attacks (can be configured in the Inspector)
+    public enum ColliderType { Box, Sphere, Capsule }
     public AttackAttributes[] attacks;
 
-    // Method to trigger an attack
     public void TriggerAttack(string attackName)
     {
-        switch (attackName)
+        var attack = System.Array.Find(attacks, a => a.name == attackName);
+        if (attack != null)
+            StartCoroutine(PerformAttack(attack));
+        else
+            Debug.LogError($"Attack not defined: {attackName}");
+    }
+
+    private IEnumerator PerformAttack(AttackAttributes attack)
+    {
+        if (!HasEnoughStamina(attack)) yield break;
+
+        DeductStamina(attack.staminaUse);
+        PlaySound(attack.attackSound);
+        GameObject attackObject = CreateAttackObject(attack);
+
+        if (attack.detachFromPlayer)
         {
-            case "BasicAttack":
-                StartCoroutine(BasicAttack(System.Array.Find(attacks, a => a.name == "BasicAttack")));
-                break;
+            Vector3 attackDirection = GetAttackDirection();
+            LaunchAttack(attackObject, attackDirection, attack.speed);
+        }
 
-            // Add more cases here for other attacks
+        yield return new WaitForSeconds(attack.duration);
+        Destroy(attackObject);
+    }
 
-            default:
-                Debug.LogError("Attack not defined: " + attackName);
+    private bool HasEnoughStamina(AttackAttributes attack)
+    {
+        if (health != null && health.stamina < attack.staminaUse)
+        {
+            Debug.Log($"Not enough stamina for {attack.name}");
+            return false;
+        }
+        return true;
+    }
+
+    private void DeductStamina(int amount)
+    {
+        health?.UseStamina(amount);
+    }
+
+    private void PlaySound(AudioClip clip)
+    {
+        if (clip != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(clip);
+        }
+    }
+
+    private GameObject CreateAttackObject(AttackAttributes attack)
+    {
+        GameObject attackObject = new GameObject($"{attack.name}Collider");
+        attackObject.transform.position = player.transform.position;
+        if (!attack.detachFromPlayer) attackObject.transform.SetParent(player.transform);
+
+        AddCollider(attackObject, attack);
+        AddSprite(attackObject, attack);
+
+        return attackObject;
+    }
+
+    private void AddCollider(GameObject obj, AttackAttributes attack)
+    {
+        Collider collider = attack.colliderShape switch
+        {
+            ColliderType.Box => obj.AddComponent<BoxCollider>(),
+            ColliderType.Sphere => obj.AddComponent<SphereCollider>(),
+            ColliderType.Capsule => obj.AddComponent<CapsuleCollider>(),
+            _ => null
+        };
+
+        if (collider != null)
+        {
+            collider.isTrigger = true;
+            SetColliderSize(collider, attack.colliderSize);
+        }
+    }
+
+    private void SetColliderSize(Collider collider, Vector3 size)
+    {
+        switch (collider)
+        {
+            case BoxCollider box: box.size = size; break;
+            case SphereCollider sphere: sphere.radius = size.x / 2; break;
+            case CapsuleCollider capsule:
+                capsule.radius = size.x / 2;
+                capsule.height = size.y;
                 break;
         }
     }
 
-    // Coroutine for an attack
-    private IEnumerator BasicAttack(AttackAttributes attack)
+    private void AddSprite(GameObject obj, AttackAttributes attack)
     {
-        if (attack == null)
+        SpriteRenderer spriteRenderer = obj.AddComponent<SpriteRenderer>();
+        if (attack.attackSprite != null)
         {
-            Debug.LogError("Attack attributes not found.");
-            yield break;
-        }
-
-        // Create a new GameObject for the attack collider
-        GameObject attackCollider = new GameObject(attack.name + "Collider");
-
-        // Set the attackCollider as a child of the player
-        attackCollider.transform.SetParent(player.transform);
-
-        // Align the attackCollider to the player's position
-        attackCollider.transform.localPosition = Vector3.zero;
-
-        // Add a BoxCollider component
-        BoxCollider boxCollider = attackCollider.AddComponent<BoxCollider>();
-        boxCollider.isTrigger = true;
-
-        // Add a MeshRenderer to display the texture
-        MeshRenderer meshRenderer = attackCollider.AddComponent<MeshRenderer>();
-
-        // Load the texture directly from the Resources folder
-        Texture2D texture = Resources.Load<Texture2D>("Sprites/Basic_Rock"); // Path relative to Resources folder
-        if (texture == null)
-        {
-            Debug.LogError("Basic_Rock.png not found! Ensure it's in the Resources folder.");
+            spriteRenderer.sprite = attack.attackSprite;
+            obj.transform.localScale = attack.spriteSize;
+            obj.transform.eulerAngles = attack.spriteRotation;
         }
         else
         {
-            // Create a new material and assign the texture
-            Material attackMaterial = new Material(Shader.Find("Standard")); // Changed variable name to attackMaterial
-            attackMaterial.mainTexture = texture;
-            meshRenderer.material = attackMaterial;
+            Debug.LogWarning($"No sprite assigned to attack: {attack.name}");
         }
+    }
 
+    private Vector3 GetAttackDirection()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Plane groundPlane = new Plane(Vector3.up, player.transform.position.y);
 
+        if (groundPlane.Raycast(ray, out float distance))
+            return (ray.GetPoint(distance) - player.transform.position).normalized;
 
-        // Assign a material with a simple color
-        Material material = new Material(Shader.Find("Standard"));
-        material.color = Color.red; // Use a red color for the placeholder
-        meshRenderer.material = material;
+        return player.transform.forward;
+    }
 
-
-        // Adjust the collider size (customize as needed)
-        boxCollider.size = new Vector3(1, 1, 1);
-
-        // Simulate attack speed (time before the attack becomes inactive)
-        yield return new WaitForSeconds(attack.speed);
-
-        // Reduce health of the attack on interaction (can be expanded for interaction logic)
-        attack.health -= 1;
-
-        if (attack.health <= 0)
-        {
-            Destroy(attackCollider);
-        }
-        else
-        {
-            Destroy(attackCollider, attack.speed);
-        }
+    private void LaunchAttack(GameObject attackObject, Vector3 direction, float speed)
+    {
+        Rigidbody rb = attackObject.AddComponent<Rigidbody>();
+        rb.useGravity = false;
+        rb.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotation;
+        rb.linearVelocity = direction * speed;
     }
 }
