@@ -2,8 +2,10 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private float speed = 3f;
-    [SerializeField] private float gravityScale = 1f; // New variable to control gravity
+    [SerializeField] private float speed = .1f;
+    [SerializeField] private float gravityScale = 20f;
+
+    public Animator animator;
 
     private Rigidbody rb;
     private Vector3 moveDir;
@@ -23,14 +25,19 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (!playerRenderer.enabled)
-        {
-            Debug.Log("Player Renderer is disabled.");
-        }
+        // Movement input with a threshold to avoid drift
+        float horizontalInput = Input.GetAxis("Horizontal");
+        float verticalInput = Input.GetAxis("Vertical");
+        float combinedInput = (horizontalInput*horizontalInput)+(verticalInput*verticalInput);
 
-        // Movement input
-        moveDir.x = Input.GetAxis("Horizontal");
-        moveDir.z = 2 * Input.GetAxis("Vertical");
+        // Set a threshold to eliminate tiny input values
+        float inputThreshold = 0.01f;
+        moveDir.x = Mathf.Abs(horizontalInput) > inputThreshold ? horizontalInput : 0;
+        moveDir.z = Mathf.Abs(verticalInput) > inputThreshold ? verticalInput : 0;
+
+
+
+        animator.SetFloat("Speed", Mathf.Abs(combinedInput));
     }
 
     private void FixedUpdate()
@@ -41,9 +48,21 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
-        // Maintain Y velocity and apply movement in the XZ plane
-        Vector3 velocity = new Vector3(moveDir.x * speed, rb.linearVelocity.y, moveDir.z * speed);
-        rb.linearVelocity = velocity;
+        // Check if there is no movement input
+        if (moveDir.x == 0 && moveDir.z == 0)
+        {
+            // Stop the character's velocity in the XZ plane
+            rb.linearVelocity = new Vector3(0, 0, 0);
+        }
+        else
+        {
+            // Maintain Y velocity and apply movement in the XZ plane
+
+            Vector3 input = new Vector3(moveDir.x, 0, moveDir.z).normalized;
+            Vector3 velocity = input * speed;
+            rb.linearVelocity = new Vector3(velocity.x, 0, 2*velocity.z);
+
+        }
 
         CheckForFlipping();
     }
@@ -54,6 +73,7 @@ public class PlayerController : MonoBehaviour
         rb.linearVelocity += new Vector3(0, Physics.gravity.y * gravityScale * Time.fixedDeltaTime, 0);
     }
 
+
     private void CheckForFlipping()
     {
         bool movingLeft = moveDir.x < 0;
@@ -61,11 +81,13 @@ public class PlayerController : MonoBehaviour
 
         if (movingLeft)
         {
-            transform.localScale = new Vector3(-1f, transform.localScale.y, transform.localScale.z);
+            // Flip the player without affecting the Y or Z scale
+            transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
         }
         if (movingRight)
         {
-            transform.localScale = new Vector3(1f, transform.localScale.y, transform.localScale.z);
+            // Ensure the player faces right without affecting the Y or Z scale
+            transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
         }
     }
 }

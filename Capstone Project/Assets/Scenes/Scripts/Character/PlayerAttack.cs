@@ -2,37 +2,47 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-   [SerializeField] private GameObject attackArea = default;
-   private bool attacking = false;
-   private float timeToAttack = 0.25f;
-   private float timer= 0f;
+    // List of attack names that can be assigned in Unity Inspector
+    [Header("Attack Types")]
+    public string[] attackTypes;
+
+    // Reference to the PlayerAttackManager script
+    [Header("Player Attack Manager")]
+    public PlayerAttackManager attackManager;  // This will be assigned in the Inspector
+
     void Start()
     {
-        attackArea = transform.Find("AttackArea").gameObject;
-        attackArea.SetActive(false); 
-    }
-    void Update ()
-    {
-        if(Input.GetKeyDown(KeyCode.Mouse0))
+        // Automatically find PlayerAttackManager on the same GameObject
+        if (attackManager == null)
         {
-            Attack();
-            Debug.Log(attackArea.name);
-        }
-        if (attacking)
-        {
-            timer += Time.deltaTime;
-            if(timer >= timeToAttack)
+            attackManager = GetComponent<PlayerAttackManager>();
+            if (attackManager == null)
             {
-                timer = 0;
-                attacking = false;
-                attackArea.SetActive(attacking);
+                Debug.LogError("PlayerAttackManager is not assigned or not found on the same GameObject!");
+            }
+        }
+
+        // Ensure attackTypes is not empty
+        if (attackTypes.Length == 0)
+        {
+            Debug.LogWarning("No attack types assigned. Please assign them in the Inspector.");
+        }
+    }
+
+
+
+    void Update()
+    {
+        // Loop through the attackTypes array and check input
+        for (int i = 0; i < attackTypes.Length; i++)
+        {
+            // Check if the key corresponding to the attack is pressed
+            if (Input.GetKeyDown(KeyCode.Alpha1 + i))
+            {
+                // Trigger the attack based on index in attackTypes array
+                attackManager.TriggerAttack(attackTypes[i]);
+                Debug.LogWarning("Attack"+ i);
             }
         }
     }
-    private void Attack(){
-        attacking = true;
-        attackArea.SetActive(attacking);
-    }
-
 }
-
