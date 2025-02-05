@@ -171,6 +171,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1764576010663585167, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 3c50fdd65b295df4aa97922717367113, type: 2}
     - target: {fileID: 2081991412958332747, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       propertyPath: m_Height
       value: 0.75
@@ -191,6 +195,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6709503775723400810, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -1089454432, guid: ade4a35d76173e045a42027d5e8e77e5, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 4894227307447531297, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
