@@ -72,7 +72,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -113,10 +113,10 @@ TextureImporter:
       name: Imperial_Idle_0
       rect:
         serializedVersion: 2
-        x: 45
-        y: 45
-        width: 37
-        height: 69
+        x: 0
+        y: 0
+        width: 128
+        height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -125,8 +125,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a25be761173d4d748b765cfa3e7691a8
-      internalID: -1089454432
+      spriteID: 30a600cd3260c604095ae887fbd253e0
+      internalID: -1626341013
       vertices: []
       indices: 
       edges: []
@@ -135,10 +135,10 @@ TextureImporter:
       name: Imperial_Idle_1
       rect:
         serializedVersion: 2
-        x: 174
-        y: 45
-        width: 36
-        height: 70
+        x: 128
+        y: 0
+        width: 128
+        height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -147,8 +147,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 04970aff58bcf424a9ab282eb294fd5c
-      internalID: 1935125236
+      spriteID: 3d08fac443e20124aa886e6b88b44eaa
+      internalID: 733575841
       vertices: []
       indices: 
       edges: []
@@ -157,10 +157,10 @@ TextureImporter:
       name: Imperial_Idle_2
       rect:
         serializedVersion: 2
-        x: 301
-        y: 45
-        width: 38
-        height: 70
+        x: 256
+        y: 0
+        width: 128
+        height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -169,8 +169,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2c73b488fc555824e8e9dea5c8bc2927
-      internalID: -1822658657
+      spriteID: 90bcc86440b8275449b09ccff212ac96
+      internalID: 696061882
       vertices: []
       indices: 
       edges: []
@@ -179,10 +179,10 @@ TextureImporter:
       name: Imperial_Idle_3
       rect:
         serializedVersion: 2
-        x: 429
-        y: 45
-        width: 38
-        height: 70
+        x: 384
+        y: 0
+        width: 128
+        height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -191,8 +191,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b10a6e28a7d1db04dbb22fd2c8f52c2c
-      internalID: 1295223072
+      spriteID: afc2a8af7861ecc438939ab16d0cd0e4
+      internalID: -1104078116
       vertices: []
       indices: 
       edges: []
@@ -201,10 +201,10 @@ TextureImporter:
       name: Imperial_Idle_4
       rect:
         serializedVersion: 2
-        x: 558
-        y: 45
-        width: 36
-        height: 70
+        x: 512
+        y: 0
+        width: 128
+        height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -213,8 +213,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e0c07671149bfbd4fbd3ad4b7bd2256d
-      internalID: 506332307
+      spriteID: d1c5f96e0f322664fb8f43864d3fc612
+      internalID: -521968362
       vertices: []
       indices: 
       edges: []
@@ -223,10 +223,10 @@ TextureImporter:
       name: Imperial_Idle_5
       rect:
         serializedVersion: 2
-        x: 685
-        y: 45
-        width: 37
-        height: 69
+        x: 640
+        y: 0
+        width: 128
+        height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -235,8 +235,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 305a1296c1016d642853a1d99e77d290
-      internalID: 1782795056
+      spriteID: 2be6c560e88a5f6489d9d4c79fad4ccc
+      internalID: 1353439685
       vertices: []
       indices: 
       edges: []
@@ -245,10 +245,10 @@ TextureImporter:
       name: Imperial_Idle_6
       rect:
         serializedVersion: 2
-        x: 813
-        y: 45
-        width: 37
-        height: 69
+        x: 768
+        y: 0
+        width: 128
+        height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -257,8 +257,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 07482762196e74d43896cdfe174fbd59
-      internalID: -715408217
+      spriteID: 73341c76a8890d24d92d27d23e4f2077
+      internalID: 95780723
       vertices: []
       indices: 
       edges: []
@@ -267,7 +267,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 97f0229d51c658c4eb57add68c6cd7dc
+    spriteID: aa7c28858a35e554d995404cf8b75ba9
     internalID: 0
     vertices: []
     indices: 
@@ -277,13 +277,13 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Imperial_Idle_0: -1089454432
-      Imperial_Idle_1: 1935125236
-      Imperial_Idle_2: -1822658657
-      Imperial_Idle_3: 1295223072
-      Imperial_Idle_4: 506332307
-      Imperial_Idle_5: 1782795056
-      Imperial_Idle_6: -715408217
+      Imperial_Idle_0: -1626341013
+      Imperial_Idle_1: 733575841
+      Imperial_Idle_2: 696061882
+      Imperial_Idle_3: -1104078116
+      Imperial_Idle_4: -521968362
+      Imperial_Idle_5: 1353439685
+      Imperial_Idle_6: 95780723
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
