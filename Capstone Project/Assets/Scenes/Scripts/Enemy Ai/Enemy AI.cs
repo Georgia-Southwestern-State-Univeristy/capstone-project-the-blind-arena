@@ -32,7 +32,10 @@ public class EnemyAI : MonoBehaviour
 
     private void Update()
     {
-        if (isAttacking) return; // Don't do anything while attacking
+        if (isAttacking) {
+            animator.SetFloat("Speed", 0f); // Stop movement animation during attack
+            return;
+        }
 
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
@@ -58,7 +61,24 @@ public class EnemyAI : MonoBehaviour
     {
         Transform targetWaypoint = waypoints[currentWaypointIndex];
         Vector3 direction = (targetWaypoint.position - transform.position).normalized;
-        transform.Translate(direction * patrolSpeed * Time.deltaTime, Space.World);
+        Vector3 movement = direction * patrolSpeed * Time.deltaTime;
+        transform.Translate(movement, Space.World);
+
+        animator.SetFloat("Speed", movement.magnitude / Time.deltaTime); // Update speed for animation
+
+        bool movingLeft = movement.x < 0;
+        bool movingRight = movement.x > 0;
+
+        if (movingLeft)
+        {
+            // Flip the player without affecting the Y or Z scale
+            transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+        }
+        if (movingRight)
+        {
+            // Ensure the player faces right without affecting the Y or Z scale
+            transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+        }
 
         if (Vector3.Distance(transform.position, targetWaypoint.position) < 0.2f)
         {
@@ -69,7 +89,24 @@ public class EnemyAI : MonoBehaviour
     private void ChasePlayer()
     {
         Vector3 direction = (player.position - transform.position).normalized;
-        transform.Translate(direction * chaseSpeed * Time.deltaTime, Space.World);
+        Vector3 movement = direction * patrolSpeed * Time.deltaTime;
+        transform.Translate(movement, Space.World);
+
+        animator.SetFloat("Speed", movement.magnitude / Time.deltaTime); // Update speed for animation
+
+        bool movingLeft = movement.x < 0;
+        bool movingRight = movement.x > 0;
+
+        if (movingLeft)
+        {
+            // Flip the player without affecting the Y or Z scale
+            transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+        }
+        if (movingRight)
+        {
+            // Ensure the player faces right without affecting the Y or Z scale
+            transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+        }
     }
 
     private IEnumerator AttackPlayer()
