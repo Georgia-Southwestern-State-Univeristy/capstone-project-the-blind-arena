@@ -19,6 +19,10 @@ public class PlayerAttackManager : MonoBehaviour
         public bool detachFromPlayer;
         public ColliderType colliderShape;
         public Vector3 colliderSize = Vector3.one;
+
+        public Vector3 colliderRotation = Vector3.zero;
+
+ 
         public Sprite attackSprite;
         public float delay;
         public float gravityScale = 0;
@@ -108,6 +112,7 @@ public class PlayerAttackManager : MonoBehaviour
         {
             collider.isTrigger = true;
             SetColliderSize(collider, attack.colliderSize);
+            obj.transform.eulerAngles = attack.colliderRotation;
         }
     }
 
