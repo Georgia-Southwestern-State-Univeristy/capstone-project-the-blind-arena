@@ -14840,7 +14840,7 @@ MonoBehaviour:
   pauseMenuUI: {fileID: 1067425729}
   inventoryUI: {fileID: 1553561587}
   skillUI: {fileID: 2092105001}
-  attributeUI: {fileID: 515598720}
+  attributeUI: {fileID: 1553561587}
 --- !u!114 &1853350852
 MonoBehaviour:
   m_ObjectHideFlags: 0
