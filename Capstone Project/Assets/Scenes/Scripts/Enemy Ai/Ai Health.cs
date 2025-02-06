@@ -30,7 +30,7 @@ public class EnemyHealth : MonoBehaviour
 
         if (currentHealth <= 0)
         {
-            Die();
+            AiDie();
         }
     }
 
@@ -43,7 +43,7 @@ public class EnemyHealth : MonoBehaviour
         }
     }
 
-    private void Die()
+    private void AiDie()
     {
         Debug.Log("I have died");
         Destroy(gameObject);
