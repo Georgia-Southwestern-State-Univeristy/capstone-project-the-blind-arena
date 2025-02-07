@@ -3963,11 +3963,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &515598720 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8229555800110724826, guid: 94c1d716c593b34428136bc73695cc26, type: 3}
-  m_PrefabInstance: {fileID: 5829002806208010693}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &520825612 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 476625010580566954, guid: b88c70b1171cad44f825987b7bbeefbb, type: 3}
@@ -8419,11 +8414,23 @@ MonoBehaviour:
   - {fileID: 1460430000}
   - {fileID: 2068892501}
   - {fileID: 1441317942}
+  - {fileID: 2012907928}
+  - {fileID: 806793718}
+  - {fileID: 59087320}
+  - {fileID: 663976503}
+  - {fileID: 1732517364}
+  - {fileID: 543320145}
   rScores:
   - {fileID: 302737423}
   - {fileID: 382591404}
   - {fileID: 448186578}
   - {fileID: 1296857952}
+  - {fileID: 1201436121}
+  - {fileID: 1874195540}
+  - {fileID: 1193285686}
+  - {fileID: 381560058}
+  - {fileID: 2146102655}
+  - {fileID: 364360018}
 --- !u!114 &986371845
 MonoBehaviour:
   m_ObjectHideFlags: 0
