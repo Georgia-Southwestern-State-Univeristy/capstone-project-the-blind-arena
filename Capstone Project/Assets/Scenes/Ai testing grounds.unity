@@ -209,9 +209,15 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 4978752083136634162, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       insertIndex: 1
-      addedObject: {fileID: 2025016817}
+      addedObject: {fileID: 2025016831}
     - targetCorrespondingSourceObject: {fileID: 4978752083136634162, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       insertIndex: 2
+      addedObject: {fileID: 2025016832}
+    - targetCorrespondingSourceObject: {fileID: 4978752083136634162, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      insertIndex: 3
+      addedObject: {fileID: 2025016817}
+    - targetCorrespondingSourceObject: {fileID: 4978752083136634162, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      insertIndex: 4
       addedObject: {fileID: 2025016824}
   m_SourcePrefab: {fileID: 100100000, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
 --- !u!1 &94078869
@@ -826,6 +832,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 54549064847176846, guid: 9a9aa303a578df1428a74bf50483a499, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 674631722947257034, guid: 9a9aa303a578df1428a74bf50483a499, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1703407545653087088, guid: 9a9aa303a578df1428a74bf50483a499, type: 3}
       propertyPath: m_Name
       value: Timer
@@ -922,6 +936,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -150.57
       objectReference: {fileID: 0}
+    - target: {fileID: 3123210898980058746, guid: 9a9aa303a578df1428a74bf50483a499, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3425326150834048735, guid: 9a9aa303a578df1428a74bf50483a499, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -953,6 +971,10 @@ PrefabInstance:
     - target: {fileID: 3425326150834048735, guid: 9a9aa303a578df1428a74bf50483a499, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -152
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387753776601925463, guid: 9a9aa303a578df1428a74bf50483a499, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4785592005229375669, guid: 9a9aa303a578df1428a74bf50483a499, type: 3}
       propertyPath: m_Pivot.x
@@ -1165,6 +1187,10 @@ PrefabInstance:
     - target: {fileID: 8169518376040260901, guid: 9a9aa303a578df1428a74bf50483a499, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -160
+      objectReference: {fileID: 0}
+    - target: {fileID: 8230868832018325925, guid: 9a9aa303a578df1428a74bf50483a499, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8437781817568505252, guid: 9a9aa303a578df1428a74bf50483a499, type: 3}
       propertyPath: m_AnchorMax.x
@@ -2497,7 +2523,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2025016802}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 977da7f36617f0c448219444231686e8, type: 3}
   m_Name: 
@@ -2529,11 +2555,51 @@ MonoBehaviour:
   player: {fileID: 977465877}
   patrolSpeed: 5
   chaseSpeed: 6
-  detectionRange: 2
-  attackRange: 1
-  attackCooldown: 1.5
+  detectionRange: 3
+  attackRange: 2
+  attackCooldown: 0.5
   health: 100
   healthBar: {fileID: 0}
+--- !u!114 &2025016831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2025016802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08309578ce919974d97a72987db58c65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemy: {fileID: 2025016802}
+  audioSource: {fileID: 0}
+  attack:
+    name: BasicAttack
+    damage: 20
+    speed: 1.5
+    duration: 1.5
+    detachFromEnemy: 1
+    colliderSize: {x: 5, y: 1, z: 1}
+    attackSprite: {fileID: -2014863551, guid: ab066597343371943998d5ef7f066c4f, type: 3}
+    delay: 0
+    spriteSize: {x: 3, y: 3, z: 1}
+    spriteRotation: {x: 25, y: 0, z: 0}
+    attackSound: {fileID: 0}
+--- !u!114 &2025016832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2025016802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e7f39c29663c074086d0ac84305d6cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  healthBarSlider: {fileID: 1390459094}
 --- !u!1001 &2066267472
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2740,7 +2806,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4470992995883611567, guid: e9c74290e8e39d3488b975df179a64dd, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8496874958123038540, guid: e9c74290e8e39d3488b975df179a64dd, type: 3}
       propertyPath: currentScore
