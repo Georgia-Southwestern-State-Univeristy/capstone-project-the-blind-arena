@@ -23,8 +23,9 @@ The Blind Arena is a fast-paced arena fighting game built in Unity, where player
 3. Select the project and allow Unity to load dependencies.
 
 ### Running the Game
-1. Press **Play** in Unity Editor.
-2. (Optional) Build the game via **File > Build Settings** and select your preferred platform.
+1. In the Project tab, enter the **Scenes** folder and drag the **Main Menu** scene into the hierarchy.
+2. Press **Play** in Unity Editor.
+3. (Optional) Build the game via **File > Build Settings** and select your preferred platform.
 
 ## Contributor Guidelines
 
