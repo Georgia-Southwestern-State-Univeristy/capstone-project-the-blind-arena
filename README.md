@@ -3,7 +3,7 @@
 # The Blind Arena
 
 ## Project Description
-The Blind is a fast-paced arena fighting game built in Unity, where players take on the role of gladiators wielding powerful elemental abilities. Engage in intense battles against powerful opponents, master different elemental abilities, and race against the clock to become the ultimate champion in the arena and earn your freedom.
+The Blind Arena is a fast-paced arena fighting game built in Unity, where players take on the role of gladiators wielding powerful elemental abilities. Engage in intense battles against powerful opponents, master different elemental abilities, and race against the clock to become the ultimate champion in the arena and earn your freedom.
 
 ## Installation & Setup
 
