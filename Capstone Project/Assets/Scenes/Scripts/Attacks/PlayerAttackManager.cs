@@ -90,13 +90,20 @@ public class PlayerAttackManager : MonoBehaviour
     {
         GameObject attackObject = new GameObject($"{attack.name}Collider");
         attackObject.transform.position = player.transform.position;
-        if (!attack.detachFromPlayer) attackObject.transform.SetParent(player.transform);
+
+        if (!attack.detachFromPlayer)
+            attackObject.transform.SetParent(player.transform);
 
         AddCollider(attackObject, attack);
         AddSprite(attackObject, attack);
 
+        // Add and configure the DamageOnHit component
+        DamageOnHit damageOnHit = attackObject.AddComponent<DamageOnHit>();
+        damageOnHit.damageAmount = Mathf.RoundToInt(attack.damage);  // Ensure damage is set properly
+
         return attackObject;
     }
+
 
     private void AddCollider(GameObject obj, AttackAttributes attack)
     {
