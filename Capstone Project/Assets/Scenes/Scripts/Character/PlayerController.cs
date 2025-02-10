@@ -60,7 +60,7 @@ public class PlayerController : MonoBehaviour
 
             Vector3 input = new Vector3(moveDir.x, 0, moveDir.z).normalized;
             Vector3 velocity = input * speed;
-            rb.linearVelocity = new Vector3(velocity.x, 0, 2*velocity.z);
+            rb.linearVelocity = new Vector3((float)(1.5 * velocity.x), 0, 2 * velocity.z);
 
         }
 
