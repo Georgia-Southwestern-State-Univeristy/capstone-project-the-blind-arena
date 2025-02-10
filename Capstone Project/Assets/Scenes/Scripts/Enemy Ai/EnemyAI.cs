@@ -18,6 +18,7 @@ public class EnemyAI : MonoBehaviour
     private bool isChasing = false;
     private bool isAttacking = false;
     private Animator animator;
+    private EnemyAttackManager attackManager;
 
     private void Start()
     {
@@ -28,28 +29,27 @@ public class EnemyAI : MonoBehaviour
         }
 
         animator = GetComponent<Animator>();
+        attackManager = GetComponent<EnemyAttackManager>();
     }
 
     private void Update()
     {
-        if (isAttacking) return; // Don't do anything while attacking
+        if (isAttacking) return;
 
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
         if (distanceToPlayer <= attackRange)
         {
-            StartCoroutine(AttackPlayer()); // Start attack sequence
+            StartCoroutine(AttackPlayer());
         }
         else if (distanceToPlayer <= detectionRange)
         {
             isChasing = true;
-            EnableOutline(true);
             ChasePlayer();
         }
         else
         {
             isChasing = false;
-            EnableOutline(false);
             Patrol();
         }
     }
@@ -58,7 +58,12 @@ public class EnemyAI : MonoBehaviour
     {
         Transform targetWaypoint = waypoints[currentWaypointIndex];
         Vector3 direction = (targetWaypoint.position - transform.position).normalized;
-        transform.Translate(direction * patrolSpeed * Time.deltaTime, Space.World);
+        Vector3 movement = direction * patrolSpeed * Time.deltaTime;
+        transform.Translate(movement, Space.World);
+
+        animator.SetFloat("Speed", movement.magnitude / Time.deltaTime);
+
+        FlipSprite(direction.x);
 
         if (Vector3.Distance(transform.position, targetWaypoint.position) < 0.2f)
         {
@@ -69,7 +74,12 @@ public class EnemyAI : MonoBehaviour
     private void ChasePlayer()
     {
         Vector3 direction = (player.position - transform.position).normalized;
-        transform.Translate(direction * chaseSpeed * Time.deltaTime, Space.World);
+        Vector3 movement = direction * chaseSpeed * Time.deltaTime;
+        transform.Translate(movement, Space.World);
+
+        animator.SetFloat("Speed", movement.magnitude / Time.deltaTime);
+
+        FlipSprite(direction.x);
     }
 
     private IEnumerator AttackPlayer()
@@ -77,19 +87,23 @@ public class EnemyAI : MonoBehaviour
         isAttacking = true;
         if (animator != null) animator.SetBool("isAttacking", true);
 
-        yield return new WaitForSeconds(attackCooldown); // Wait for attack animation to finish
+        yield return new WaitForSeconds(attackCooldown);
+
+        if (attackManager != null)
+        {
+            attackManager.TriggerAttack();
+        }
 
         if (animator != null) animator.SetBool("isAttacking", false);
-        isAttacking = false; // Allow AI to resume movement
+        isAttacking = false;
     }
 
-    private void EnableOutline(bool enable)
+    private void FlipSprite(float directionX)
     {
-        var outline = GetComponent<Outline>();
-        if (outline != null)
-        {
-            outline.enabled = enable;
-        }
+        if (directionX < 0)
+            transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+        else if (directionX > 0)
+            transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
     }
 
     public void TakeDamage(float damage)

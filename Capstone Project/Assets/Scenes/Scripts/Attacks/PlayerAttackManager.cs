@@ -19,7 +19,12 @@ public class PlayerAttackManager : MonoBehaviour
         public bool detachFromPlayer;
         public ColliderType colliderShape;
         public Vector3 colliderSize = Vector3.one;
+
+        public Vector3 colliderRotation = Vector3.zero;
+
+ 
         public Sprite attackSprite;
+        public float delay;
         public float gravityScale = 0;
         public Vector3 spriteSize = Vector3.one;
         public Vector3 spriteRotation = Vector3.zero;
@@ -41,6 +46,8 @@ public class PlayerAttackManager : MonoBehaviour
     private IEnumerator PerformAttack(AttackAttributes attack)
     {
         if (!HasEnoughStamina(attack)) yield break;
+
+        yield return new WaitForSeconds(attack.delay);
 
         DeductStamina(attack.staminaUse);
         PlaySound(attack.attackSound);
@@ -83,13 +90,20 @@ public class PlayerAttackManager : MonoBehaviour
     {
         GameObject attackObject = new GameObject($"{attack.name}Collider");
         attackObject.transform.position = player.transform.position;
-        if (!attack.detachFromPlayer) attackObject.transform.SetParent(player.transform);
+
+        if (!attack.detachFromPlayer)
+            attackObject.transform.SetParent(player.transform);
 
         AddCollider(attackObject, attack);
         AddSprite(attackObject, attack);
 
+        // Add and configure the DamageOnHit component
+        DamageOnHit damageOnHit = attackObject.AddComponent<DamageOnHit>();
+        damageOnHit.damageAmount = Mathf.RoundToInt(attack.damage);  // Ensure damage is set properly
+
         return attackObject;
     }
+
 
     private void AddCollider(GameObject obj, AttackAttributes attack)
     {
@@ -105,6 +119,7 @@ public class PlayerAttackManager : MonoBehaviour
         {
             collider.isTrigger = true;
             SetColliderSize(collider, attack.colliderSize);
+            obj.transform.eulerAngles = attack.colliderRotation;
         }
     }
 

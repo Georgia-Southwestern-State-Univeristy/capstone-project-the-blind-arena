@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 0eb320836650c5f4ea0eb8a1b847cf00
+guid: ade4a35d76173e045a42027d5e8e77e5
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -39,12 +39,12 @@ TextureImporter:
     mipBias: 0
     wrapU: 1
     wrapV: 1
-    wrapW: 1
+    wrapW: 0
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
-  spriteExtrude: 0
+  spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
@@ -94,7 +94,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
-    buildTarget: WebGL
+    buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -106,24 +106,11 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 2
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Gladiator_Idle_0
+      name: Imperial_Idle_0
       rect:
         serializedVersion: 2
         x: 0
@@ -138,14 +125,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 55181ecd42ee2b34392226ce2343b767
-      internalID: 1090308808
+      spriteID: 30a600cd3260c604095ae887fbd253e0
+      internalID: -1626341013
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gladiator_Idle_1
+      name: Imperial_Idle_1
       rect:
         serializedVersion: 2
         x: 128
@@ -160,14 +147,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4202c3d9aec41744e96bc5482cb6a254
-      internalID: -1233815142
+      spriteID: 3d08fac443e20124aa886e6b88b44eaa
+      internalID: 733575841
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gladiator_Idle_2
+      name: Imperial_Idle_2
       rect:
         serializedVersion: 2
         x: 256
@@ -182,14 +169,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d58f2110a719c0146a5896f3c1a96275
-      internalID: -773225519
+      spriteID: 90bcc86440b8275449b09ccff212ac96
+      internalID: 696061882
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gladiator_Idle_3
+      name: Imperial_Idle_3
       rect:
         serializedVersion: 2
         x: 384
@@ -204,14 +191,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2e5dad382977a0c4da1cda8dd72de253
-      internalID: -625119012
+      spriteID: afc2a8af7861ecc438939ab16d0cd0e4
+      internalID: -1104078116
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gladiator_Idle_4
+      name: Imperial_Idle_4
       rect:
         serializedVersion: 2
         x: 512
@@ -226,14 +213,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 761af8d7c175e5b499874c6d0fd165b5
-      internalID: 1971896586
+      spriteID: d1c5f96e0f322664fb8f43864d3fc612
+      internalID: -521968362
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gladiator_Idle_5
+      name: Imperial_Idle_5
       rect:
         serializedVersion: 2
         x: 640
@@ -248,8 +235,30 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d876cb1a251e52e40b040c6b28348f93
-      internalID: 1985622337
+      spriteID: 2be6c560e88a5f6489d9d4c79fad4ccc
+      internalID: 1353439685
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Imperial_Idle_6
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 73341c76a8890d24d92d27d23e4f2077
+      internalID: 95780723
       vertices: []
       indices: 
       edges: []
@@ -258,7 +267,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 4ef4706d0ba933d4e9e2cfcc5186a396
+    spriteID: aa7c28858a35e554d995404cf8b75ba9
     internalID: 0
     vertices: []
     indices: 
@@ -268,12 +277,13 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Gladiator_Idle_0: 1090308808
-      Gladiator_Idle_1: -1233815142
-      Gladiator_Idle_2: -773225519
-      Gladiator_Idle_3: -625119012
-      Gladiator_Idle_4: 1971896586
-      Gladiator_Idle_5: 1985622337
+      Imperial_Idle_0: -1626341013
+      Imperial_Idle_1: 733575841
+      Imperial_Idle_2: 696061882
+      Imperial_Idle_3: -1104078116
+      Imperial_Idle_4: -521968362
+      Imperial_Idle_5: 1353439685
+      Imperial_Idle_6: 95780723
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
