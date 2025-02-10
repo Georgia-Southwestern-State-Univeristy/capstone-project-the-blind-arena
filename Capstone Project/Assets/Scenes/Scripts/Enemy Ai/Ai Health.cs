@@ -7,20 +7,15 @@ public class EnemyHealth : MonoBehaviour
     private int currentHealth;
     [SerializeField] private Slider healthBarSlider;
 
-    private int MAX_HEALTH = 100;
-    private int MAX_STAMINA = 100;
-
-
     void Start()
     {
         currentHealth = maxHealth;
-        healthBarSlider.maxValue = maxHealth;
-        healthBarSlider.value = currentHealth;
-
-        if (healthBarSlider != null) UpdateHealthBar();
+        if (healthBarSlider != null)
+        {
+            healthBarSlider.maxValue = maxHealth;
+            healthBarSlider.value = currentHealth;
+        }
     }
-
-
 
     public void Damage(int amount)
     {
@@ -30,10 +25,9 @@ public class EnemyHealth : MonoBehaviour
 
         if (currentHealth <= 0)
         {
-            Die();
+            AiDie();
         }
     }
-
 
     private void UpdateHealthBar()
     {
@@ -43,9 +37,23 @@ public class EnemyHealth : MonoBehaviour
         }
     }
 
-    private void Die()
+    private void AiDie()
     {
-        Debug.Log("I have died");
+        Debug.Log("Enemy has died!");
         Destroy(gameObject);
+    }
+
+    // Detects dynamically spawned attacks
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("PlayerAttack")) // Make sure spawned attack has this tag
+        {
+            AttackData attack = collision.GetComponent<AttackData>();
+            if (attack != null)
+            {
+                Damage(attack.damageAmount);
+                Destroy(collision.gameObject); // Remove attack object after hit
+            }
+        }
     }
 }
