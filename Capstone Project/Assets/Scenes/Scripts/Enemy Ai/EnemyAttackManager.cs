@@ -14,22 +14,26 @@ public class EnemyAttackManager : MonoBehaviour
         public float speed;
         public float duration;
         public bool detachFromEnemy;
+        public ColliderType colliderShape;
         public Vector3 colliderSize = Vector3.one;
         public Sprite attackSprite;
         public float delay;
+        public Vector3 colliderRotation = Vector3.zero;
         public Vector3 spriteSize = Vector3.one;
         public Vector3 spriteRotation = Vector3.zero;
         public AudioClip attackSound;
     }
 
-    public AttackAttributes attack;
+    public enum ColliderType { Box, Sphere, Capsule }
+    public AttackAttributes[] attacks;
 
-    public void TriggerAttack()
+    public void TriggerAttack(string attackName)
     {
+        var attack = System.Array.Find(attacks, a => a.name == attackName);
         if (attack != null)
             StartCoroutine(PerformAttack(attack));
         else
-            Debug.LogError("Enemy attack attributes not set!");
+            Debug.LogError($"Attack not defined: {attackName}");
     }
 
     private IEnumerator PerformAttack(AttackAttributes attack)
@@ -61,14 +65,49 @@ public class EnemyAttackManager : MonoBehaviour
     {
         GameObject attackObject = new GameObject($"{attack.name}Collider");
         attackObject.transform.position = enemy.transform.position;
-        if (!attack.detachFromEnemy) attackObject.transform.SetParent(enemy.transform);
+        
+        if (!attack.detachFromEnemy) 
+            attackObject.transform.SetParent(enemy.transform);
 
-        Collider collider = attackObject.AddComponent<BoxCollider>();
-        ((BoxCollider)collider).size = attack.colliderSize;
-        collider.isTrigger = true;
-
+        AddCollider(attackObject, attack);
         AddSprite(attackObject, attack);
+
+        // Add and configure the DamageOnHit component
+        DamageOnHit damageOnHit = attackObject.AddComponent<DamageOnHit>();
+        damageOnHit.damageAmount = Mathf.RoundToInt(attack.damage);  // Ensure damage is set properly
+
         return attackObject;
+    }
+
+    private void AddCollider(GameObject obj, AttackAttributes attack)
+    {
+        Collider collider = attack.colliderShape switch
+        {
+            ColliderType.Box => obj.AddComponent<BoxCollider>(),
+            ColliderType.Sphere => obj.AddComponent<SphereCollider>(),
+            ColliderType.Capsule => obj.AddComponent<CapsuleCollider>(),
+            _ => null
+        };
+
+        if (collider != null)
+        {
+            collider.isTrigger = true;
+            SetColliderSize(collider, attack.colliderSize);
+            obj.transform.eulerAngles = attack.colliderRotation;
+        }
+    }
+
+    private void SetColliderSize(Collider collider, Vector3 size)
+    {
+        switch (collider)
+        {
+            case BoxCollider box: box.size = size; break;
+            case SphereCollider sphere: sphere.radius = size.x / 2; break;
+            case CapsuleCollider capsule:
+                capsule.radius = size.x / 2;
+                capsule.height = size.y;
+                break;
+        }
     }
 
     private void AddSprite(GameObject obj, AttackAttributes attack)

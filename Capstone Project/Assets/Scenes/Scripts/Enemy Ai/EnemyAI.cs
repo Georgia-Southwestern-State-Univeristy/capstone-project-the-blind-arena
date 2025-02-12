@@ -89,11 +89,6 @@ public class EnemyAI : MonoBehaviour
 
         yield return new WaitForSeconds(attackCooldown);
 
-        if (attackManager != null)
-        {
-            attackManager.TriggerAttack();
-        }
-
         if (animator != null) animator.SetBool("isAttacking", false);
         isAttacking = false;
     }
