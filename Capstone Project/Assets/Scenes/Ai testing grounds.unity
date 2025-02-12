@@ -1955,7 +1955,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4470992995883611567, guid: e9c74290e8e39d3488b975df179a64dd, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8496874958123038540, guid: e9c74290e8e39d3488b975df179a64dd, type: 3}
       propertyPath: currentScore
@@ -1964,8 +1964,40 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4139642668201422446, guid: e9c74290e8e39d3488b975df179a64dd, type: 3}
+      insertIndex: 1
+      addedObject: {fileID: 2131887148}
   m_SourcePrefab: {fileID: 100100000, guid: e9c74290e8e39d3488b975df179a64dd, type: 3}
+--- !u!114 &2131887146 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1306226566591613835, guid: e9c74290e8e39d3488b975df179a64dd, type: 3}
+  m_PrefabInstance: {fileID: 2131887145}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &2131887147 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4139642668201422446, guid: e9c74290e8e39d3488b975df179a64dd, type: 3}
+  m_PrefabInstance: {fileID: 2131887145}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2131887148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2131887147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5f67b1cce315ae4984589b64506c40f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displayText: {fileID: 2131887146}
 --- !u!4 &732743172659682787 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 422388527184198066, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
@@ -2023,6 +2055,10 @@ PrefabInstance:
       propertyPath: 'waypoints.Array.data[6]'
       value: 
       objectReference: {fileID: 1454431393}
+    - target: {fileID: 8311415087548445940, guid: d9b1ef5c3c78d894083e0a9f3095b0b1, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8893038877786136043, guid: d9b1ef5c3c78d894083e0a9f3095b0b1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

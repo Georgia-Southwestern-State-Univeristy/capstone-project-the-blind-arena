@@ -3202,7 +3202,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 578723401}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1130991034}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &578723401
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6555,6 +6567,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1231406511}
+  - component: {fileID: 1231406516}
   - component: {fileID: 1231406515}
   - component: {fileID: 1231406514}
   - component: {fileID: 1231406513}
@@ -6740,6 +6753,20 @@ MonoBehaviour:
   mainMenuCanvas: {fileID: 1384060182}
   newSortingOrder: 10
   changeOrderButton: {fileID: 1966967072}
+--- !u!114 &1231406516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1231406507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a60a3c61f48ca8749809c7b04b4c7cef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  userInputField: {fileID: 765579200}
+  loadSceneButton: {fileID: 1478969318}
 --- !u!1 &1259537211
 GameObject:
   m_ObjectHideFlags: 0
@@ -7679,6 +7706,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1384060185}
+  - component: {fileID: 1384060187}
   - component: {fileID: 1384060184}
   - component: {fileID: 1384060183}
   - component: {fileID: 1384060186}
@@ -7823,6 +7851,20 @@ MonoBehaviour:
   mainMenuCanvas: {fileID: 1384060182}
   newSortingOrder: 5
   changeOrderButton: {fileID: 1922058658}
+--- !u!114 &1384060187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1384060179}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a60a3c61f48ca8749809c7b04b4c7cef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  userInputField: {fileID: 1130991035}
+  loadSceneButton: {fileID: 1922058658}
 --- !u!1 &1406451918
 GameObject:
   m_ObjectHideFlags: 0
