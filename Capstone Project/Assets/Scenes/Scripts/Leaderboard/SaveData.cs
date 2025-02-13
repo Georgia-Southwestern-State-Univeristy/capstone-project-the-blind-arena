@@ -11,7 +11,6 @@ public class SaveData : MonoBehaviour
 
     private void Update()
     {
-        // Extract the number from myScore.text and update currentScore
         UpdateScoreFromText();
     }
 
@@ -19,20 +18,27 @@ public class SaveData : MonoBehaviour
     {
         if (myScore != null)
         {
-            string scoreText = myScore.text.Replace("Score: ", ""); // Remove "Score: " prefix
+            string scoreText = myScore.text.Replace("Score: ", "").Trim(); // Remove prefix
             if (int.TryParse(scoreText, out int parsedScore))
             {
-                currentScore = parsedScore; // Now Inspector will show the updated value
+                currentScore = parsedScore;
             }
         }
     }
 
     public void SendScore()
     {
-        if (currentScore > PlayerPrefs.GetInt("highscore"))
+        UpdateScoreFromText(); // Ensure currentScore is correct
+
+        // Always send the score, no matter what
+        HighScores.UploadScore(myName.text, currentScore);
+
+        // Update high score if it's higher
+        int highScore = PlayerPrefs.GetInt("highscore", 0);
+        if (currentScore > highScore)
         {
             PlayerPrefs.SetInt("highscore", currentScore);
-            HighScores.UploadScore(myName.text, currentScore);
+            PlayerPrefs.Save();
         }
     }
 }

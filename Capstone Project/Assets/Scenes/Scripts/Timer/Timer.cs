@@ -73,4 +73,20 @@ public class GameTimer : MonoBehaviour
         counter = maxAmount - counter; // Subtract counter from max amount
         UpdateCounterUI();
     }
+
+    public bool IsStopped()
+    {
+        return isStopped;
+    }
+
+    public string GetFormattedTime()
+    {
+        int hours = (int)(elapsedTime / 3600);
+        int minutes = (int)(elapsedTime % 3600) / 60;
+        int seconds = (int)(elapsedTime % 60);
+        int milliseconds = (int)((elapsedTime * 100) % 100);
+
+        return $"{hours:00}:{minutes:00}:{seconds:00}:{milliseconds:00}";
+    }
+
 }
