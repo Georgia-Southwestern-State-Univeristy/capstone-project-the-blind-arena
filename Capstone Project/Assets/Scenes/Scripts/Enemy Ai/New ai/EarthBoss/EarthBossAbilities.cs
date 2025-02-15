@@ -1,25 +1,27 @@
 using System.Collections;
 using UnityEngine;
 
+// Earth Boss Abilities
 public class SeismicSlam : MonoBehaviour
 {
     public GameObject shockwavePrefab;
     public Transform spawnPoint;
+    public float attackDelay = 2f;
+    public Animator animator;
 
     public void Slam()
     {
+        StartCoroutine(SlamSequence());
+    }
+
+    private IEnumerator SlamSequence()
+    {
+        if (animator != null)
+        {
+            animator.SetTrigger("Slam");
+        }
+        yield return new WaitForSeconds(attackDelay);
         Instantiate(shockwavePrefab, spawnPoint.position, Quaternion.identity);
     }
 }
 
-public class RockBarricade : MonoBehaviour
-{
-    public GameObject rockWallPrefab;
-    public Transform[] wallSpawns;
-
-    public void CreateWalls()
-    {
-        foreach (Transform spawn in wallSpawns)
-            Instantiate(rockWallPrefab, spawn.position, Quaternion.identity);
-    }
-}

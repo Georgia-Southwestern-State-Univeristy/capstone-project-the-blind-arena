@@ -5,43 +5,52 @@ using UnityEngine;
 public class FlameDash : MonoBehaviour
 {
     public float speed = 10f;
+    public float attackDelay = 1.5f;
+    public Animator animator;
     private Rigidbody2D rb;
 
     void Start() { rb = GetComponent<Rigidbody2D>(); }
 
-    public void Dash(Vector3 direction)
+    public void Dash(Vector2 direction)
     {
-        rb.linearVelocity = direction.normalized * speed;
-        StartCoroutine(ResetVelocity());
+        StartCoroutine(DashSequence(direction));
     }
 
-    IEnumerator ResetVelocity()
+    private IEnumerator DashSequence(Vector2 direction)
     {
+        if (animator != null)
+        {
+            animator.SetTrigger("Dash");
+        }
+        yield return new WaitForSeconds(attackDelay);
+        rb.linearVelocity = direction.normalized * speed;
         yield return new WaitForSeconds(1f);
-        rb.linearVelocity = Vector3.zero;
+        rb.linearVelocity = Vector2.zero;
     }
 }
 
 public class FirePillars : MonoBehaviour
 {
-    public GameObject firePillarPrefab;
+    public GameObject[] firePillarPrefabs;
     public Transform[] firePillarSpawns;
+    public float attackDelay = 2f;
+    public Animator animator;
 
     public void Activate()
     {
-        foreach (Transform spawn in firePillarSpawns)
-            Instantiate(firePillarPrefab, spawn.position, Quaternion.identity);
+        StartCoroutine(PillarSequence());
     }
-}
 
-public class MeteorShower : MonoBehaviour
-{
-    public GameObject meteorPrefab;
-    public Transform[] meteorSpawns;
-
-    public void RainMeteors()
+    private IEnumerator PillarSequence()
     {
-        foreach (Transform spawn in meteorSpawns)
-            Instantiate(meteorPrefab, spawn.position, Quaternion.identity);
+        if (animator != null)
+        {
+            animator.SetTrigger("Summon");
+        }
+        yield return new WaitForSeconds(attackDelay);
+        foreach (Transform spawn in firePillarSpawns)
+        {
+            Instantiate(firePillarPrefabs[Random.Range(0, firePillarPrefabs.Length)], spawn.position, Quaternion.identity);
+        }
     }
 }

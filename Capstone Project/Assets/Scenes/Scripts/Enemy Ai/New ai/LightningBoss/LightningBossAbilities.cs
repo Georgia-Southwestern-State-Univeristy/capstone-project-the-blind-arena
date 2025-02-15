@@ -1,26 +1,26 @@
 using System.Collections;
 using UnityEngine;
 
+// Lightning Boss Abilities
 public class ThunderStrike : MonoBehaviour
 {
     public GameObject lightningStrikePrefab;
     public Transform player;
+    public float attackDelay = 1.5f;
+    public Animator animator;
 
     public void Strike()
     {
-        Vector2 targetPos = player.position;
-        Instantiate(lightningStrikePrefab, targetPos, Quaternion.identity);
+        StartCoroutine(StrikeSequence());
     }
-}
 
-public class ChainLightning : MonoBehaviour
-{
-    public GameObject lightningBoltPrefab;
-    public Transform[] chainTargets;
-
-    public void CastChainLightning()
+    private IEnumerator StrikeSequence()
     {
-        foreach (Transform target in chainTargets)
-            Instantiate(lightningBoltPrefab, target.position, Quaternion.identity);
+        if (animator != null)
+        {
+            animator.SetTrigger("Strike");
+        }
+        yield return new WaitForSeconds(attackDelay);
+        Instantiate(lightningStrikePrefab, player.position, Quaternion.identity);
     }
 }
