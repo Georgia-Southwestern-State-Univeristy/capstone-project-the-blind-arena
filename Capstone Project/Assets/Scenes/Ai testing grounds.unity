@@ -3478,6 +3478,30 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1189726661589609235, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1189726661589609235, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1189726661589609235, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      propertyPath: m_Color.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3295341661029321711, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3295341661029321711, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3295341661029321711, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      propertyPath: m_Color.r
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3949110695411854814, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       propertyPath: m_UiScaleMode
       value: 1
@@ -3494,6 +3518,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: -3.6715927
       objectReference: {fileID: 0}
+    - target: {fileID: 6012729859965206972, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -377521621, guid: ff2116625ffbe5a49a99119de3e6a424, type: 3}
     - target: {fileID: 6225495525771397726, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       propertyPath: m_SizeDelta.x
       value: -4.9998
