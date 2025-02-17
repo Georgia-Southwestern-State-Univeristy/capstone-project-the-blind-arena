@@ -22,6 +22,7 @@ public class FireBossAI : MonoBehaviour
     private void Start()
     {
         enemyHealth = GetComponent<EnemyHealth>();
+        animator = GetComponent<Animator>();
         shootAndRetreat = GetComponent<Shootandretreat>(); // Get the Shootandretreat script
         if (enemyHealth == null)
         {
@@ -45,7 +46,11 @@ public class FireBossAI : MonoBehaviour
         }
         else if (Vector3.Distance(transform.position, target.position) > minimumDistance)
         {
-            transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
+            Vector3 direction = (target.position - transform.position).normalized;
+            Vector3 movement = Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
+            transform.position = movement;
+            animator.SetFloat("speed", movement.magnitude);
+            FlipSprite(direction.x);
         }
         else if (!isAttacking)
         {
@@ -113,6 +118,13 @@ public class FireBossAI : MonoBehaviour
         }
 
         isReturning = false;
+    }
+    private void FlipSprite(float directionX)
+    {
+        if (directionX < 0)
+            transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+        else if (directionX > 0)
+            transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
     }
 }
 

@@ -61,7 +61,7 @@ public class EnemyAI : MonoBehaviour
         Vector3 movement = direction * patrolSpeed * Time.deltaTime;
         transform.Translate(movement, Space.World);
 
-        animator.SetFloat("Speed", movement.magnitude / Time.deltaTime);
+        animator.SetFloat("speed", movement.magnitude);
 
         FlipSprite(direction.x);
 
@@ -77,7 +77,7 @@ public class EnemyAI : MonoBehaviour
         Vector3 movement = direction * chaseSpeed * Time.deltaTime;
         transform.Translate(movement, Space.World);
 
-        animator.SetFloat("Speed", movement.magnitude / Time.deltaTime);
+        animator.SetFloat("speed", movement.magnitude);
 
         FlipSprite(direction.x);
     }
