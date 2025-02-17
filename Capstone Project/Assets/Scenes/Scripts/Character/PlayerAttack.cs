@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
+    public Animator animator;
     [Header("Attack Types")]
     public string[] attackTypes;
 

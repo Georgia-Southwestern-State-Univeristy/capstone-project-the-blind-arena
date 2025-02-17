@@ -5,7 +5,8 @@ public class PlayerAttackManager : MonoBehaviour
 {
     public Health health;
     public GameObject player;
-    public AudioSource audioSource;  // Audio source for playing attack sounds
+    public AudioSource audioSource;
+    private PlayerController playerController; // Reference to PlayerController
 
     [System.Serializable]
     public class AttackAttributes
@@ -19,20 +20,25 @@ public class PlayerAttackManager : MonoBehaviour
         public bool detachFromPlayer;
         public ColliderType colliderShape;
         public Vector3 colliderSize = Vector3.one;
-
         public Vector3 colliderRotation = Vector3.zero;
-
- 
         public Sprite attackSprite;
         public float delay;
         public float gravityScale = 0;
         public Vector3 spriteSize = Vector3.one;
         public Vector3 spriteRotation = Vector3.zero;
-        public AudioClip attackSound;  // Sound effect for this attack
+        public AudioClip attackSound;
+        
+        public bool lockVelocity; // NEW: If true, locks velocity
+        public float lockDuration; // NEW: How long to lock movement
     }
 
     public enum ColliderType { Box, Sphere, Capsule }
     public AttackAttributes[] attacks;
+
+    private void Start()
+    {
+        playerController = player.GetComponent<PlayerController>(); // Get reference to PlayerController
+    }
 
     public void TriggerAttack(string attackName)
     {
@@ -46,6 +52,11 @@ public class PlayerAttackManager : MonoBehaviour
     private IEnumerator PerformAttack(AttackAttributes attack)
     {
         if (!HasEnoughStamina(attack)) yield break;
+
+        if (attack.lockVelocity && playerController != null)
+        {
+            playerController.LockMovement(attack.lockDuration);
+        }
 
         yield return new WaitForSeconds(attack.delay);
 
@@ -97,13 +108,18 @@ public class PlayerAttackManager : MonoBehaviour
         AddCollider(attackObject, attack);
         AddSprite(attackObject, attack);
 
-        // Add and configure the DamageOnHit component
+        // Flip sprite based on player direction
+        attackObject.transform.localScale = new Vector3(
+            player.transform.localScale.x > 0 ? attack.spriteSize.x : -attack.spriteSize.x,
+            attack.spriteSize.y,
+            attack.spriteSize.z
+        );
+
         DamageOnHit damageOnHit = attackObject.AddComponent<DamageOnHit>();
-        damageOnHit.damageAmount = Mathf.RoundToInt(attack.damage);  // Ensure damage is set properly
+        damageOnHit.damageAmount = Mathf.RoundToInt(attack.damage);
 
         return attackObject;
     }
-
 
     private void AddCollider(GameObject obj, AttackAttributes attack)
     {
