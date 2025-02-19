@@ -100,7 +100,7 @@ public class PlayerAttackManager : MonoBehaviour
         }
     }
 
-    private GameObject CreateAttackObject(AttackAttributes attack)
+private GameObject CreateAttackObject(AttackAttributes attack)
 {
     GameObject attackObject = new GameObject($"{attack.name}Collider");
 
@@ -131,7 +131,8 @@ public class PlayerAttackManager : MonoBehaviour
         attack.spriteSize.z
     );
 
-    DamageOnHit damageOnHit = attackObject.AddComponent<DamageOnHit>();
+    // Ensure the damage component is attached to the collider, not the main object
+    DamageOnHit damageOnHit = colliderObject.AddComponent<DamageOnHit>();
     damageOnHit.damageAmount = Mathf.RoundToInt(attack.damage);
 
     if (attack.isPhysical)
@@ -141,10 +142,16 @@ public class PlayerAttackManager : MonoBehaviour
         rb.constraints = RigidbodyConstraints.FreezeAll;
         attackObject.layer = LayerMask.NameToLayer("AttackObjects");
     }
+    else
+    {
+        // Ensure the collider object is set to interact properly
+        colliderObject.layer = LayerMask.NameToLayer("AttackObjects");
+    }
 
     Destroy(attackObject, attack.duration);
     return attackObject;
 }
+
     private void AddCollider(GameObject obj, AttackAttributes attack, bool isPhysical)
     {
         Collider collider = attack.colliderShape switch

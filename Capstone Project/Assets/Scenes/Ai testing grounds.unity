@@ -3497,7 +3497,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 259702171287525020, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       propertyPath: attacks.Array.data[1].damage
-      value: 100
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 259702171287525020, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       propertyPath: attacks.Array.data[0].duration
@@ -3520,12 +3520,28 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 259702171287525020, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      propertyPath: attacks.Array.data[1].attackSprite
+      value: 
+      objectReference: {fileID: -588469400, guid: caa25d87f2e59a146bb02724521fa691, type: 3}
+    - target: {fileID: 259702171287525020, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       propertyPath: attacks.Array.data[1].lockDuration
       value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 259702171287525020, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       propertyPath: attacks.Array.data[1].lockVelocity
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 259702171287525020, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      propertyPath: attacks.Array.data[1].spriteSize.x
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 259702171287525020, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      propertyPath: attacks.Array.data[1].spriteSize.y
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 259702171287525020, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      propertyPath: attacks.Array.data[1].spriteSize.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 259702171287525020, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       propertyPath: attacks.Array.data[1].colliderShape
@@ -3552,12 +3568,28 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 259702171287525020, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      propertyPath: attacks.Array.data[0].detachFromPlayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 259702171287525020, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       propertyPath: attacks.Array.data[0].startingOffset.x
       value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 259702171287525020, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      propertyPath: attacks.Array.data[1].detachFromPlayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 259702171287525020, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       propertyPath: attacks.Array.data[1].spriteRotation.x
-      value: 100
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 259702171287525020, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      propertyPath: attacks.Array.data[1].startingOffset.y
+      value: -0.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 259702171287525020, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      propertyPath: attacks.Array.data[1].startingOffset.z
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 259702171287525020, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       propertyPath: attacks.Array.data[0].colliderRotation.x
