@@ -28,8 +28,10 @@ public class PlayerAttackManager : MonoBehaviour
         public Vector3 spriteRotation = Vector3.zero;
         public AudioClip attackSound;
         
-        public bool lockVelocity; // NEW: If true, locks velocity
-        public float lockDuration; // NEW: How long to lock movement
+        public bool lockVelocity; // If true, locks velocity
+        public float lockDuration; // How long to lock movement
+        public bool isPhysical; // NEW: Makes the attack a solid object
+        public Vector3 startingOffset = Vector3.zero;
     }
 
     public enum ColliderType { Box, Sphere, Capsule }
@@ -71,7 +73,8 @@ public class PlayerAttackManager : MonoBehaviour
         }
 
         yield return new WaitForSeconds(attack.duration);
-        Destroy(attackObject);
+        if (attackObject != null) Destroy(attackObject);
+
     }
 
     private bool HasEnoughStamina(AttackAttributes attack)
@@ -98,30 +101,51 @@ public class PlayerAttackManager : MonoBehaviour
     }
 
     private GameObject CreateAttackObject(AttackAttributes attack)
+{
+    GameObject attackObject = new GameObject($"{attack.name}Collider");
+
+    // Calculate the offset based on the player's facing direction
+    Vector3 offset = attack.startingOffset;
+    if (player.transform.localScale.x < 0) // If player is facing left
     {
-        GameObject attackObject = new GameObject($"{attack.name}Collider");
-        attackObject.transform.position = player.transform.position;
-
-        if (!attack.detachFromPlayer)
-            attackObject.transform.SetParent(player.transform);
-
-        AddCollider(attackObject, attack);
-        AddSprite(attackObject, attack);
-
-        // Flip sprite based on player direction
-        attackObject.transform.localScale = new Vector3(
-            player.transform.localScale.x > 0 ? attack.spriteSize.x : -attack.spriteSize.x,
-            attack.spriteSize.y,
-            attack.spriteSize.z
-        );
-
-        DamageOnHit damageOnHit = attackObject.AddComponent<DamageOnHit>();
-        damageOnHit.damageAmount = Mathf.RoundToInt(attack.damage);
-
-        return attackObject;
+        offset.x *= -1; // Flip the X offset
     }
 
-    private void AddCollider(GameObject obj, AttackAttributes attack)
+    attackObject.transform.position = player.transform.position + offset;
+
+    if (!attack.detachFromPlayer)
+        attackObject.transform.SetParent(player.transform);
+
+    // Create a separate GameObject for the collider
+    GameObject colliderObject = new GameObject("Collider");
+    colliderObject.transform.SetParent(attackObject.transform);
+    colliderObject.transform.localPosition = Vector3.zero; // Ensure it stays aligned
+    colliderObject.transform.localEulerAngles = attack.colliderRotation; // Apply rotation to just the collider
+
+    AddCollider(colliderObject, attack, attack.isPhysical); // Attach collider to the new GameObject
+    AddSprite(attackObject, attack); // Sprite remains on the main attack object
+
+    attackObject.transform.localScale = new Vector3(
+        player.transform.localScale.x > 0 ? attack.spriteSize.x : -attack.spriteSize.x,
+        attack.spriteSize.y,
+        attack.spriteSize.z
+    );
+
+    DamageOnHit damageOnHit = attackObject.AddComponent<DamageOnHit>();
+    damageOnHit.damageAmount = Mathf.RoundToInt(attack.damage);
+
+    if (attack.isPhysical)
+    {
+        Rigidbody rb = attackObject.AddComponent<Rigidbody>();
+        rb.isKinematic = true;
+        rb.constraints = RigidbodyConstraints.FreezeAll;
+        attackObject.layer = LayerMask.NameToLayer("AttackObjects");
+    }
+
+    Destroy(attackObject, attack.duration);
+    return attackObject;
+}
+    private void AddCollider(GameObject obj, AttackAttributes attack, bool isPhysical)
     {
         Collider collider = attack.colliderShape switch
         {
@@ -133,7 +157,7 @@ public class PlayerAttackManager : MonoBehaviour
 
         if (collider != null)
         {
-            collider.isTrigger = true;
+            collider.isTrigger = !isPhysical; // Only trigger if not physical
             SetColliderSize(collider, attack.colliderSize);
             obj.transform.eulerAngles = attack.colliderRotation;
         }

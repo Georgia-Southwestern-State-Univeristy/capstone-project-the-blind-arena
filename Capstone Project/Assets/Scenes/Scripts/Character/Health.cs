@@ -8,7 +8,7 @@ public class Health : MonoBehaviour
     [SerializeField] private Slider healthBarSlider; // Health bar UI
     [SerializeField] private Slider staminaBarSlider; // Stamina bar UI
 
-    private int MAX_HEALTH = 100;
+    private int MAX_HEALTH = 300;
     private int MAX_STAMINA = 100;
     private int staminaRegenRate = 8; // Stamina regenerates by 1 per 0.3 seconds
     private float staminaRegenDelay = 2.5f; // Delay before stamina starts regenerating
