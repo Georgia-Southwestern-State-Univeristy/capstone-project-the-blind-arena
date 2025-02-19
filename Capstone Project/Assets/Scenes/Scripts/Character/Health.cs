@@ -10,9 +10,8 @@ public class Health : MonoBehaviour
 
     private int MAX_HEALTH = 100;
     private int MAX_STAMINA = 100;
-    private int attackCost = 20; // Stamina cost for attacking
-    private int staminaRegenRate = 5; // Stamina regenerates by 1 per 0.3 seconds
-    private float staminaRegenDelay = 3f; // Delay before stamina starts regenerating
+    private int staminaRegenRate = 8; // Stamina regenerates by 1 per 0.3 seconds
+    private float staminaRegenDelay = 2.5f; // Delay before stamina starts regenerating
     private float lastStaminaUseTime; // Tracks last time stamina was used
 
     // New variables for timer-based regeneration
@@ -46,11 +45,6 @@ public class Health : MonoBehaviour
         {
             Heal(10);
         }
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Attack();
-        }
-
         RegenerateStamina();
     }
 
@@ -73,19 +67,6 @@ public class Health : MonoBehaviour
 
         health = Mathf.Min(health + amount, MAX_HEALTH);
         UpdateHealthBar();
-    }
-
-    private void Attack()
-    {
-        if (stamina >= attackCost)
-        {
-            Debug.Log("Player attacked!");
-            UseStamina(attackCost);
-        }
-        else
-        {
-            Debug.Log("Not enough stamina to attack!");
-        }
     }
 
     public void UseStamina(int amount)
