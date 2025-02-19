@@ -22,7 +22,7 @@ public class Projectile : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
@@ -33,7 +33,7 @@ public class Projectile : MonoBehaviour
 
             if (playerHealth != null)
             {
-                playerHealth.TakeDamage(10); // Adjust damage value as needed
+                playerHealth.Damage(10); // Adjust damage value as needed
             }
 
             Destroy(gameObject); // Destroy the projectile after collision
