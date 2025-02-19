@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class DamageZone : MonoBehaviour
 {
-    public float damagePerSecond = 10f; // How much damage per second
+    public int damagePerSecond = 10; // How much damage per second
+    public int damageAmount;
     public float duration = 5f; // How long the zone exists
     private HashSet<Health> affectedPlayers = new HashSet<Health>(); // Track players inside
 
@@ -28,33 +29,21 @@ public class DamageZone : MonoBehaviour
             {
                 if (player != null)
                 {
-                    player.TakeDamage(damagePerSecond);
+                    player.Damage(damagePerSecond);
                 }
             }
             yield return new WaitForSeconds(1f); // Damage applies every second
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player")) // Make sure the player has this tag
         {
+            Debug.Log("Player Detected in Attack");
             Health playerHealth = other.GetComponent<Health>();
             if (playerHealth != null)
             {
-                affectedPlayers.Add(playerHealth);
-            }
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            Health playerHealth = other.GetComponent<Health>();
-            if (playerHealth != null)
-            {
-                affectedPlayers.Remove(playerHealth);
+                playerHealth.Damage(damageAmount);
             }
         }
     }

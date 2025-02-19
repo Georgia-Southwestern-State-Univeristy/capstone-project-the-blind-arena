@@ -24,24 +24,19 @@ public class Projectile : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if(collision.gameObject.CompareTag("Player"))
         {
-            // Debug log to confirm collision detection
             Debug.Log("Projectile hit the player!");
-
             Health playerHealth = collision.gameObject.GetComponent<Health>();
-
             if (playerHealth != null)
             {
-                playerHealth.Damage(10); // Adjust damage value as needed
+                playerHealth.Damage(10);
             }
-
-            Destroy(gameObject); // Destroy the projectile after collision
-        }
-        else
+            Destroy(gameObject);
+        } 
+        else 
         {
-            // Debug log for checking collision with non-player objects
-            Debug.Log("Projectile hit: " + collision.gameObject.name);
+            Debug.Log("Projectile Hit: " + collision.gameObject.name);
         }
     }
 }

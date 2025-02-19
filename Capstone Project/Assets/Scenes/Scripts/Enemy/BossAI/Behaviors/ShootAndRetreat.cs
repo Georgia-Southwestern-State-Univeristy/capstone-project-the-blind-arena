@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Shootandretreat : MonoBehaviour
+public class ShootAndRetreat : MonoBehaviour
 {
     public float speed;
     public Transform target;
@@ -20,8 +20,6 @@ public class Shootandretreat : MonoBehaviour
             Instantiate(projectile, transform.position, Quaternion.identity);
             nextShotTime = Time.time + timeBetweenShots;
         }
-
-
 
 
         if (Vector3.Distance(transform.position, target.position) < minimumDistance)

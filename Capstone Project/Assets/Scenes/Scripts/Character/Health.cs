@@ -67,19 +67,6 @@ public class Health : MonoBehaviour
         }
     }
 
-    public void TakeDamage(float amount)
-    {
-        if (amount < 0) throw new System.ArgumentOutOfRangeException("Cannot have negative damage");
-
-        health -= Mathf.RoundToInt(amount); // Convert float to int for consistent health reduction
-        UpdateHealthBar();
-
-        if (health <= 0)
-        {
-            Die();
-        }
-    }
-
     public void Heal(int amount)
     {
         if (amount < 0) throw new System.ArgumentOutOfRangeException("Cannot have negative Healing");

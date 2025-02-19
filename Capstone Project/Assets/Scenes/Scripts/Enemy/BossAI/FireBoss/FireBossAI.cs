@@ -17,7 +17,7 @@ public class FireBossAI : MonoBehaviour
     public GameObject damageZonePrefab; // Assign in Unity Inspector
 
     private EnemyHealth enemyHealth;
-    private Shootandretreat shootAndRetreat;
+    private ShootAndRetreat shootAndRetreat;
     private bool isDashing = false;
     private bool isReturning = false;
     private bool hasUsedSecondAbility = false;
@@ -28,7 +28,7 @@ public class FireBossAI : MonoBehaviour
     {
         enemyHealth = GetComponent<EnemyHealth>();
         animator = GetComponent<Animator>();
-        shootAndRetreat = GetComponent<Shootandretreat>();
+        shootAndRetreat = GetComponent<ShootAndRetreat>();
 
         if (enemyHealth == null)
         {
@@ -84,10 +84,10 @@ public class FireBossAI : MonoBehaviour
         isDashing = true;
         isThrowingProjectiles = false;
 
-        if (animator != null)
+        /*if (animator != null)
         {
             animator.SetTrigger("Attack");
-        }
+        } */ //Editted Out for Debugging
 
         yield return new WaitForSeconds(0.5f); // Short wind-up before dashing
 

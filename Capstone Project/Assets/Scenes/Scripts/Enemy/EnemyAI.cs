@@ -18,8 +18,6 @@ public class EnemyAI : MonoBehaviour
     private bool isChasing = false;
     private bool isAttacking = false;
     private Animator animator;
-    private EnemyAttackManager attackManager;
-
     private void Start()
     {
         if (healthBar != null)
@@ -29,7 +27,6 @@ public class EnemyAI : MonoBehaviour
         }
 
         animator = GetComponent<Animator>();
-        attackManager = GetComponent<EnemyAttackManager>();
     }
 
     private void Update()
