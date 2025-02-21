@@ -7,23 +7,21 @@ public class EarthBossAI : MonoBehaviour
     public float speed;
     public Transform target;
     public Transform returnWaypoint;
-    public float minimumDistance;
-    public float attackDelay = 2f;
-    public float projectileAttackRate = 1.5f;
-    public float leapCooldown = 5f;
-    public float pullCooldown = 8f;
     public float meleeRange = 2f;
+    public float attackDelay = 2f;
+    public float leapCooldown = 5f;
+    public float spikeCooldown = 3f;
+    public float pullCooldown = 8f;
     public Animator animator;
     public GameObject[] attackPrefabs;
-    public GameObject terrainBlockPrefab;  // Blocking terrain object
+    public GameObject terrainBlockPrefab; // Blocking terrain object
     public Transform spikeSpawnPoint;
 
     private EnemyHealth enemyHealth;
+    private bool canLeap = false;
+    private bool canShootSpikes = false;
+    private bool canPull = false;
     private bool isReturning = false;
-    private bool hasUsedSecondAbility = false;
-    private bool hasEnteredShootAndRetreat = false;
-    private bool canLeap = true;
-    private bool canPull = true;
 
     private void Start()
     {
@@ -38,18 +36,11 @@ public class EarthBossAI : MonoBehaviour
 
     private void Update()
     {
-        if (enemyHealth.currentHealth <= enemyHealth.maxHealth / 2 && !isReturning)
-        {
-            isReturning = true;
-        }
+        float healthPercentage = (float)enemyHealth.currentHealth / enemyHealth.maxHealth;
 
-        if (enemyHealth.currentHealth <= enemyHealth.maxHealth / 4 && !hasEnteredShootAndRetreat)
+        if (healthPercentage > 0.75f)
         {
-            hasEnteredShootAndRetreat = true;
-        }
-
-        if (!isReturning)
-        {
+            // Phase 1: Normal melee combat
             if (Vector3.Distance(transform.position, target.position) <= meleeRange)
             {
                 StartCoroutine(PerformMeleeAttack());
@@ -58,15 +49,33 @@ public class EarthBossAI : MonoBehaviour
             {
                 MoveTowardsPlayer();
             }
-
-            if (canLeap)
+        }
+        else if (healthPercentage > 0.50f)
+        {
+            // Phase 2: Enable leaping
+            if (!canLeap)
             {
+                canLeap = true;
                 StartCoroutine(LeapToPlayer());
             }
-
-            if (canPull)
+        }
+        else if (healthPercentage > 0.25f)
+        {
+            // Phase 3: Disable leaping, enable spike shooting
+            canLeap = false;
+            if (!canShootSpikes)
             {
-                StartCoroutine(PullPlayerAndTrap());
+                canShootSpikes = true;
+                StartCoroutine(ShootEarthSpikes());
+            }
+        }
+        else
+        {
+            // Phase 4: Move to waypoint and start pull/trap sequence
+            if (!isReturning)
+            {
+                isReturning = true;
+                StartCoroutine(ReturnAndTrapPlayer());
             }
         }
     }
@@ -74,37 +83,9 @@ public class EarthBossAI : MonoBehaviour
     private void MoveTowardsPlayer()
     {
         Vector3 direction = (target.position - transform.position).normalized;
-        Vector3 movement = Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
-        transform.position = movement;
-        animator.SetFloat("speed", movement.magnitude);
+        transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
+        animator.SetFloat("speed", speed);
         FlipSprite(direction.x);
-    }
-
-    private void ReturnToWaypoint()
-    {
-        if (Vector3.Distance(transform.position, returnWaypoint.position) > 0.5f)
-        {
-            transform.position = Vector3.MoveTowards(transform.position, returnWaypoint.position, speed * Time.deltaTime);
-        }
-        else if (!hasUsedSecondAbility)
-        {
-            StartCoroutine(UseSecondAbility());
-        }
-    }
-
-    private IEnumerator UseSecondAbility()
-    {
-        hasUsedSecondAbility = true;
-        if (animator != null) animator.SetTrigger("Attack");
-
-        yield return new WaitForSeconds(attackDelay);
-
-        if (attackPrefabs.Length > 1)
-        {
-            Instantiate(attackPrefabs[1], transform.position, Quaternion.identity);
-        }
-
-        isReturning = false;
     }
 
     private IEnumerator PerformMeleeAttack()
@@ -120,46 +101,55 @@ public class EarthBossAI : MonoBehaviour
 
     private IEnumerator LeapToPlayer()
     {
-        canLeap = false;
-        yield return new WaitForSeconds(leapCooldown);
-
-        if (animator != null)
+        while (canLeap)
         {
+            yield return new WaitForSeconds(leapCooldown);
+
             animator.SetTrigger("Leap");
+            transform.position = target.position; // Teleporting for simplicity; use an animation for better effect.
+
+            yield return new WaitForSeconds(0.5f);
+            if (attackPrefabs.Length > 2)
+            {
+                Instantiate(attackPrefabs[2], transform.position, Quaternion.identity);
+            }
         }
+    }
 
-        Vector3 jumpTarget = target.position;
-        transform.position = jumpTarget;
-
-        yield return new WaitForSeconds(0.5f);
-        if (attackPrefabs.Length > 2)
+    private IEnumerator ShootEarthSpikes()
+    {
+        while (canShootSpikes)
         {
-            Instantiate(attackPrefabs[2], transform.position, Quaternion.identity);
+            yield return new WaitForSeconds(spikeCooldown);
+
+            animator.SetTrigger("ShootSpikes");
+            Instantiate(attackPrefabs[1], spikeSpawnPoint.position, Quaternion.identity);
+        }
+    }
+
+    private IEnumerator ReturnAndTrapPlayer()
+    {
+        // Move to waypoint
+        while (Vector3.Distance(transform.position, returnWaypoint.position) > 0.5f)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, returnWaypoint.position, speed * Time.deltaTime);
+            yield return null;
         }
 
-        canLeap = true;
+        // Pull player and trap them
+        StartCoroutine(PullPlayerAndTrap());
     }
 
     private IEnumerator PullPlayerAndTrap()
     {
-        canPull = false;
-        yield return new WaitForSeconds(pullCooldown);
-
-        if (animator != null)
-        {
-            animator.SetTrigger("Pull");
-        }
-
-        target.position = transform.position;
-
+        animator.SetTrigger("Pull");
         yield return new WaitForSeconds(0.5f);
+        target.position = transform.position;
 
         Instantiate(terrainBlockPrefab, transform.position + new Vector3(3, 0, 0), Quaternion.identity);
         Instantiate(terrainBlockPrefab, transform.position + new Vector3(-3, 0, 0), Quaternion.identity);
         Instantiate(terrainBlockPrefab, transform.position + new Vector3(0, 3, 0), Quaternion.identity);
         Instantiate(terrainBlockPrefab, transform.position + new Vector3(0, -3, 0), Quaternion.identity);
-
-        canPull = true;
     }
 
     private void FlipSprite(float directionX)

@@ -265,7 +265,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 133211202}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7248c623f2802048b143d2d4b22c363, type: 3}
   m_Name: 
@@ -297,16 +297,15 @@ MonoBehaviour:
   speed: 5
   target: {fileID: 732743172659682787}
   returnWaypoint: {fileID: 1139748627}
-  minimumDistance: 1
+  meleeRange: 1
   attackDelay: 1
-  projectileAttackRate: 1.5
-  leapCooldown: 5
+  leapCooldown: 4
+  spikeCooldown: 3
   pullCooldown: 8
-  meleeRange: 2
   animator: {fileID: 0}
   attackPrefabs: []
   terrainBlockPrefab: {fileID: 0}
-  spikeSpawnPoint: {fileID: 0}
+  spikeSpawnPoint: {fileID: 133211210}
 --- !u!1 &310038158
 GameObject:
   m_ObjectHideFlags: 0
