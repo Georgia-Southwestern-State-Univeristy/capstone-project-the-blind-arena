@@ -9,7 +9,7 @@ public class FlameDash : MonoBehaviour
     public Animator animator;
     private Rigidbody2D rb;
 
-    void Start() { rb = GetComponent<Rigidbody2D>(); }
+    void Start() => rb = GetComponent<Rigidbody2D>();
 
     public void Dash(Vector2 direction)
     {
@@ -18,13 +18,12 @@ public class FlameDash : MonoBehaviour
 
     private IEnumerator DashSequence(Vector2 direction)
     {
-        if (animator != null)
-        {
-            animator.SetTrigger("Dash");
-        }
+        animator?.SetTrigger("Dash");  // Null-conditional operator simplifies null checks
         yield return new WaitForSeconds(attackDelay);
-        rb.linearVelocity = direction.normalized * speed;
+
+        rb.linearVelocity = direction.normalized * speed;  // Use 'velocity' instead of 'linearVelocity' for Rigidbody2D
         yield return new WaitForSeconds(1f);
+
         rb.linearVelocity = Vector2.zero;
     }
 }
@@ -43,14 +42,13 @@ public class FirePillars : MonoBehaviour
 
     private IEnumerator PillarSequence()
     {
-        if (animator != null)
-        {
-            animator.SetTrigger("Summon");
-        }
+        animator?.SetTrigger("Summon");  // Null-conditional operator simplifies null checks
         yield return new WaitForSeconds(attackDelay);
-        foreach (Transform spawn in firePillarSpawns)
+
+        foreach (var spawn in firePillarSpawns)  // Use 'var' for brevity
         {
-            Instantiate(firePillarPrefabs[Random.Range(0, firePillarPrefabs.Length)], spawn.position, Quaternion.identity);
+            int randomIndex = Random.Range(0, firePillarPrefabs.Length);
+            Instantiate(firePillarPrefabs[randomIndex], spawn.position, Quaternion.identity);
         }
     }
 }

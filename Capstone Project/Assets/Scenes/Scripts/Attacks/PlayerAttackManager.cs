@@ -6,41 +6,25 @@ public class PlayerAttackManager : MonoBehaviour
     public Health health;
     public GameObject player;
     public AudioSource audioSource;
-    private PlayerController playerController; // Reference to PlayerController
+    private PlayerController playerController;
 
     [System.Serializable]
     public class AttackAttributes
     {
         public string name;
-        public float priority;
-        public float damage;
-        public float speed;
-        public float duration;
+        public float priority, damage, knockbackStrength, speed, duration, delay, gravityScale, lockDuration;
         public int staminaUse;
-        public bool detachFromPlayer;
+        public bool detachFromPlayer, lockVelocity, isPhysical;
         public ColliderType colliderShape;
-        public Vector3 colliderSize = Vector3.one;
-        public Vector3 colliderRotation = Vector3.zero;
+        public Vector3 colliderSize = Vector3.one, colliderRotation = Vector3.zero, spriteSize = Vector3.one, spriteRotation = Vector3.zero, startingOffset = Vector3.zero;
         public Sprite attackSprite;
-        public float delay;
-        public float gravityScale = 0;
-        public Vector3 spriteSize = Vector3.one;
-        public Vector3 spriteRotation = Vector3.zero;
         public AudioClip attackSound;
-        
-        public bool lockVelocity; // If true, locks velocity
-        public float lockDuration; // How long to lock movement
-        public bool isPhysical; // NEW: Makes the attack a solid object
-        public Vector3 startingOffset = Vector3.zero;
     }
 
     public enum ColliderType { Box, Sphere, Capsule }
     public AttackAttributes[] attacks;
 
-    private void Start()
-    {
-        playerController = player.GetComponent<PlayerController>(); // Get reference to PlayerController
-    }
+    private void Start() => playerController = player.GetComponent<PlayerController>();
 
     public void TriggerAttack(string attackName)
     {
@@ -54,105 +38,54 @@ public class PlayerAttackManager : MonoBehaviour
     private IEnumerator PerformAttack(AttackAttributes attack)
     {
         if (!HasEnoughStamina(attack)) yield break;
-
-        if (attack.lockVelocity && playerController != null)
-        {
-            playerController.LockMovement(attack.lockDuration);
-        }
-
+        if (attack.lockVelocity) playerController?.LockMovement(attack.lockDuration);
         yield return new WaitForSeconds(attack.delay);
 
         DeductStamina(attack.staminaUse);
         PlaySound(attack.attackSound);
         GameObject attackObject = CreateAttackObject(attack);
 
-        if (attack.detachFromPlayer)
-        {
-            Vector3 attackDirection = GetAttackDirection();
-            LaunchAttack(attackObject, attackDirection, attack.speed);
-        }
-
+        if (attack.detachFromPlayer) LaunchAttack(attackObject, GetAttackDirection(), attack.speed);
         yield return new WaitForSeconds(attack.duration);
-        if (attackObject != null) Destroy(attackObject);
-
+        if (attackObject) Destroy(attackObject);
     }
 
-    private bool HasEnoughStamina(AttackAttributes attack)
+    private bool HasEnoughStamina(AttackAttributes attack) => health == null || health.stamina >= attack.staminaUse;
+    private void DeductStamina(int amount) => health?.UseStamina(amount);
+    private void PlaySound(AudioClip clip) { if (clip && audioSource) audioSource.PlayOneShot(clip); }
+
+    private GameObject CreateAttackObject(AttackAttributes attack)
     {
-        if (health != null && health.stamina < attack.staminaUse)
-        {
-            Debug.Log($"Not enough stamina for {attack.name}");
-            return false;
-        }
-        return true;
+        GameObject attackObject = new GameObject($"{attack.name}Collider");
+        Vector3 offset = player.transform.localScale.x < 0 ? new Vector3(-attack.startingOffset.x, attack.startingOffset.y, attack.startingOffset.z) : attack.startingOffset;
+        attackObject.transform.position = player.transform.position + offset;
+        if (!attack.detachFromPlayer) attackObject.transform.SetParent(player.transform);
+
+        GameObject colliderObject = new GameObject("Collider");
+        colliderObject.transform.SetParent(attackObject.transform);
+        colliderObject.transform.localPosition = Vector3.zero;
+        colliderObject.transform.localEulerAngles = attack.colliderRotation;
+
+        AddCollider(colliderObject, attack);
+        AddSprite(attackObject, attack);
+
+        attackObject.transform.localScale = new Vector3(
+            player.transform.localScale.x > 0 ? attack.spriteSize.x : -attack.spriteSize.x,
+            attack.spriteSize.y, attack.spriteSize.z);
+
+        DamageOnHit damageOnHit = colliderObject.AddComponent<DamageOnHit>();
+        damageOnHit.damageAmount = Mathf.RoundToInt(attack.damage);
+        damageOnHit.knockbackStrength = attack.knockbackStrength;
+        damageOnHit.detachFromPlayer = attack.detachFromPlayer;
+
+        if (attack.isPhysical) SetupPhysicalObject(attackObject);
+        else colliderObject.layer = LayerMask.NameToLayer("AttackObjects");
+
+        Destroy(attackObject, attack.duration);
+        return attackObject;
     }
 
-    private void DeductStamina(int amount)
-    {
-        health?.UseStamina(amount);
-    }
-
-    private void PlaySound(AudioClip clip)
-    {
-        if (clip != null && audioSource != null)
-        {
-            audioSource.PlayOneShot(clip);
-        }
-    }
-
-private GameObject CreateAttackObject(AttackAttributes attack)
-{
-    GameObject attackObject = new GameObject($"{attack.name}Collider");
-
-    // Calculate the offset based on the player's facing direction
-    Vector3 offset = attack.startingOffset;
-    if (player.transform.localScale.x < 0) // If player is facing left
-    {
-        offset.x *= -1; // Flip the X offset
-    }
-
-    attackObject.transform.position = player.transform.position + offset;
-
-    if (!attack.detachFromPlayer)
-        attackObject.transform.SetParent(player.transform);
-
-    // Create a separate GameObject for the collider
-    GameObject colliderObject = new GameObject("Collider");
-    colliderObject.transform.SetParent(attackObject.transform);
-    colliderObject.transform.localPosition = Vector3.zero; // Ensure it stays aligned
-    colliderObject.transform.localEulerAngles = attack.colliderRotation; // Apply rotation to just the collider
-
-    AddCollider(colliderObject, attack, attack.isPhysical); // Attach collider to the new GameObject
-    AddSprite(attackObject, attack); // Sprite remains on the main attack object
-
-    attackObject.transform.localScale = new Vector3(
-        player.transform.localScale.x > 0 ? attack.spriteSize.x : -attack.spriteSize.x,
-        attack.spriteSize.y,
-        attack.spriteSize.z
-    );
-
-    // Ensure the damage component is attached to the collider, not the main object
-    DamageOnHit damageOnHit = colliderObject.AddComponent<DamageOnHit>();
-    damageOnHit.damageAmount = Mathf.RoundToInt(attack.damage);
-
-    if (attack.isPhysical)
-    {
-        Rigidbody rb = attackObject.AddComponent<Rigidbody>();
-        rb.isKinematic = true;
-        rb.constraints = RigidbodyConstraints.FreezeAll;
-        attackObject.layer = LayerMask.NameToLayer("AttackObjects");
-    }
-    else
-    {
-        // Ensure the collider object is set to interact properly
-        colliderObject.layer = LayerMask.NameToLayer("AttackObjects");
-    }
-
-    Destroy(attackObject, attack.duration);
-    return attackObject;
-}
-
-    private void AddCollider(GameObject obj, AttackAttributes attack, bool isPhysical)
+    private void AddCollider(GameObject obj, AttackAttributes attack)
     {
         Collider collider = attack.colliderShape switch
         {
@@ -161,10 +94,9 @@ private GameObject CreateAttackObject(AttackAttributes attack)
             ColliderType.Capsule => obj.AddComponent<CapsuleCollider>(),
             _ => null
         };
-
-        if (collider != null)
+        if (collider)
         {
-            collider.isTrigger = !isPhysical; // Only trigger if not physical
+            collider.isTrigger = !attack.isPhysical;
             SetColliderSize(collider, attack.colliderSize);
             obj.transform.eulerAngles = attack.colliderRotation;
         }
@@ -185,28 +117,27 @@ private GameObject CreateAttackObject(AttackAttributes attack)
 
     private void AddSprite(GameObject obj, AttackAttributes attack)
     {
+        if (!attack.attackSprite) { Debug.LogWarning($"No sprite assigned to attack: {attack.name}"); return; }
         SpriteRenderer spriteRenderer = obj.AddComponent<SpriteRenderer>();
-        if (attack.attackSprite != null)
-        {
-            spriteRenderer.sprite = attack.attackSprite;
-            obj.transform.localScale = attack.spriteSize;
-            obj.transform.eulerAngles = attack.spriteRotation;
-        }
-        else
-        {
-            Debug.LogWarning($"No sprite assigned to attack: {attack.name}");
-        }
+        spriteRenderer.sprite = attack.attackSprite;
+        obj.transform.localScale = attack.spriteSize;
+        obj.transform.eulerAngles = attack.spriteRotation;
+    }
+
+    private void SetupPhysicalObject(GameObject attackObject)
+    {
+        Rigidbody rb = attackObject.AddComponent<Rigidbody>();
+        rb.isKinematic = true;
+        rb.constraints = RigidbodyConstraints.FreezeAll;
+        attackObject.layer = LayerMask.NameToLayer("AttackObjects");
     }
 
     private Vector3 GetAttackDirection()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Plane groundPlane = new Plane(Vector3.up, player.transform.position.y);
-
-        if (groundPlane.Raycast(ray, out float distance))
-            return (ray.GetPoint(distance) - player.transform.position).normalized;
-
-        return player.transform.forward;
+        return new Plane(Vector3.up, player.transform.position.y).Raycast(ray, out float distance)
+            ? (ray.GetPoint(distance) - player.transform.position).normalized
+            : player.transform.forward;
     }
 
     private void LaunchAttack(GameObject attackObject, Vector3 direction, float speed)
