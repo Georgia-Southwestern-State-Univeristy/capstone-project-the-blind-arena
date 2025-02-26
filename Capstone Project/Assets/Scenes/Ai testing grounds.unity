@@ -278,15 +278,33 @@ MonoBehaviour:
   minimumDistance: 1
   attackDelay: 1
   projectileAttackRate: 1.5
-  animator: {fileID: 133211223}
+  animator: {fileID: 0}
   attackPrefabs:
   - {fileID: 5441653648258142160}
   damageZonePrefab: {fileID: 2023474032}
---- !u!95 &133211223 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 4055049227729726882, guid: d9b1ef5c3c78d894083e0a9f3095b0b1, type: 3}
-  m_PrefabInstance: {fileID: 7716023755249400521}
+--- !u!114 &133211228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 133211202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 463e748ddda48e940b8e97f401d28fd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 5
+  retreatSpeed: 5
+  pushForce: 10
+  attackDelay: 2
+  projectileAttackRate: 1.5
+  retreatDistance: 5
+  pushDistance: 2
+  target: {fileID: 732743172659682787}
+  animator: {fileID: 0}
+  attackPrefabs:
+  - {fileID: 5441653648258142160}
 --- !u!1 &310038158
 GameObject:
   m_ObjectHideFlags: 0
@@ -3088,11 +3106,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 422388527184198066, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
   m_PrefabInstance: {fileID: 8263336014276754242}
   m_PrefabAsset: {fileID: 0}
---- !u!95 &732743172659682788 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 4389997477910760885, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
-  m_PrefabInstance: {fileID: 8263336014276754242}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &5441653648258142160 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3385370464702776025, guid: 92ba59d049dbfe941ada05bce059441d, type: 3}
@@ -3268,18 +3281,6 @@ PrefabInstance:
       propertyPath: 'waypoints.Array.data[6]'
       value: 
       objectReference: {fileID: 1454431393}
-    - target: {fileID: 4035829638881738825, guid: d9b1ef5c3c78d894083e0a9f3095b0b1, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4035829638881738825, guid: d9b1ef5c3c78d894083e0a9f3095b0b1, type: 3}
-      propertyPath: maxHealth
-      value: 1000
-      objectReference: {fileID: 0}
-    - target: {fileID: 4035829638881738825, guid: d9b1ef5c3c78d894083e0a9f3095b0b1, type: 3}
-      propertyPath: currentHealth
-      value: 1000
-      objectReference: {fileID: 0}
     - target: {fileID: 4448660743099184842, guid: d9b1ef5c3c78d894083e0a9f3095b0b1, type: 3}
       propertyPath: m_Name
       value: Enemy Ai
@@ -3377,15 +3378,18 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1139692960196552767, guid: d9b1ef5c3c78d894083e0a9f3095b0b1, type: 3}
       insertIndex: 1
-      addedObject: {fileID: 133211221}
+      addedObject: {fileID: 133211228}
     - targetCorrespondingSourceObject: {fileID: 1139692960196552767, guid: d9b1ef5c3c78d894083e0a9f3095b0b1, type: 3}
       insertIndex: 2
-      addedObject: {fileID: 133211213}
+      addedObject: {fileID: 133211221}
     - targetCorrespondingSourceObject: {fileID: 1139692960196552767, guid: d9b1ef5c3c78d894083e0a9f3095b0b1, type: 3}
       insertIndex: 3
-      addedObject: {fileID: 133211212}
+      addedObject: {fileID: 133211213}
     - targetCorrespondingSourceObject: {fileID: 1139692960196552767, guid: d9b1ef5c3c78d894083e0a9f3095b0b1, type: 3}
       insertIndex: 4
+      addedObject: {fileID: 133211212}
+    - targetCorrespondingSourceObject: {fileID: 1139692960196552767, guid: d9b1ef5c3c78d894083e0a9f3095b0b1, type: 3}
+      insertIndex: 5
       addedObject: {fileID: 133211211}
   m_SourcePrefab: {fileID: 100100000, guid: d9b1ef5c3c78d894083e0a9f3095b0b1, type: 3}
 --- !u!1001 &8024031552893093819
@@ -3503,7 +3507,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 259702171287525020, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       propertyPath: attacks.Array.data[0].delay
-      value: 1
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 259702171287525020, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       propertyPath: attacks.Array.data[0].speed
@@ -3547,7 +3551,7 @@ PrefabInstance:
       objectReference: {fileID: -588469400, guid: caa25d87f2e59a146bb02724521fa691, type: 3}
     - target: {fileID: 259702171287525020, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       propertyPath: attacks.Array.data[1].lockDuration
-      value: 2
+      value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 259702171287525020, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       propertyPath: attacks.Array.data[1].lockVelocity
@@ -3592,18 +3596,6 @@ PrefabInstance:
     - target: {fileID: 259702171287525020, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       propertyPath: attacks.Array.data[0].detachFromPlayer
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 259702171287525020, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
-      propertyPath: attacks.Array.data[0].knockbackForce.x
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 259702171287525020, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
-      propertyPath: attacks.Array.data[0].knockbackForce.y
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 259702171287525020, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
-      propertyPath: attacks.Array.data[0].knockbackForce.z
-      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 259702171287525020, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       propertyPath: attacks.Array.data[0].startingOffset.x
@@ -3694,16 +3686,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1418895337911205974, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
-      propertyPath: animator
-      value: 
-      objectReference: {fileID: 732743172659682788}
-    - target: {fileID: 1418895337911205974, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       propertyPath: 'attackTypes.Array.data[0]'
       value: RockThrow
       objectReference: {fileID: 0}
     - target: {fileID: 2027775832946971499, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       propertyPath: health
-      value: 500
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 3295341661029321711, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       propertyPath: m_Color.b
