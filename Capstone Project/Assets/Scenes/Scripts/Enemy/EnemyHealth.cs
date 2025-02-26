@@ -4,8 +4,8 @@ using UnityEngine.UI;
 public class EnemyHealth : MonoBehaviour
 {
     [SerializeField] public int maxHealth = 100;
-    public int currentHealth;
-    [SerializeField] public Slider healthBarSlider;
+    [SerializeField] public int currentHealth;
+    [SerializeField] private Slider healthBarSlider;
 
     void Start()
     {
@@ -19,17 +19,11 @@ public class EnemyHealth : MonoBehaviour
 
     public void Damage(int amount)
     {
-        currentHealth = Mathf.Max(currentHealth - amount, 0);
-        UpdateHealthBar();
+        currentHealth = Mathf.Clamp(currentHealth - amount, 0, maxHealth);
+        if (healthBarSlider != null) healthBarSlider.value = currentHealth;
 
-        if (currentHealth == 0)
+        if (currentHealth <= 0)
             Die();
-    }
-
-    private void UpdateHealthBar()
-    {
-        if (healthBarSlider != null)
-            healthBarSlider.value = currentHealth;
     }
 
     private void Die()

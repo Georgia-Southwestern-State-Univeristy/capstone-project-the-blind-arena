@@ -1,47 +1,42 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    private Vector3 targetPosition;
+    Vector3 targetPosition;
     public float speed;
 
-    private void Start() => targetPosition = FindFirstObjectByType<PlayerController>().transform.position;
+    private void Start()
+    {
+        targetPosition = FindFirstObjectByType<PlayerController>().transform.position;
+    }
 
     private void Update()
     {
-        MoveProjectile();
+        transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
 
-        if (Vector3.Distance(transform.position, targetPosition) <= 0.1f)  // Small margin to stop slightly before hitting the target
+        if (transform.position == targetPosition)
         {
             Destroy(gameObject);
         }
     }
 
-    private void MoveProjectile() 
-    {
-        transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
-    }
-
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if(collision.gameObject.CompareTag("Player"))
         {
-            HandlePlayerCollision(collision.gameObject);
+            Debug.Log("Projectile hit the player!");
+            Health playerHealth = collision.gameObject.GetComponent<Health>();
+            if (playerHealth != null)
+            {
+                playerHealth.Damage(10);
+            }
+            Destroy(gameObject);
         } 
         else 
         {
-            Debug.Log($"Projectile Hit: {collision.gameObject.name}");
+            Debug.Log("Projectile Hit: " + collision.gameObject.name);
         }
-    }
-
-    private void HandlePlayerCollision(GameObject player)
-    {
-        Debug.Log("Projectile hit the player!");
-        Health playerHealth = player.GetComponent<Health>();
-        if (playerHealth != null)
-        {
-            playerHealth.Damage(10);
-        }
-        Destroy(gameObject);
     }
 }

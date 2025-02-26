@@ -217,7 +217,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  target: {fileID: 732743172659682787}
+  target: {fileID: 8606911542344794864}
   minimumDistance: 2
 --- !u!114 &133211212
 MonoBehaviour:
@@ -232,7 +232,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 3
-  target: {fileID: 732743172659682787}
+  target: {fileID: 8606911542344794864}
   minimumDistance: 5
   projectile: {fileID: 5441653648258142160}
   timeBetweenShots: 1.5
@@ -265,7 +265,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 133211202}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7248c623f2802048b143d2d4b22c363, type: 3}
   m_Name: 
@@ -273,7 +273,7 @@ MonoBehaviour:
   speed: 5
   dashSpeed: 15
   dashDuration: 0.2
-  target: {fileID: 732743172659682787}
+  target: {fileID: 8606911542344794864}
   returnWaypoint: {fileID: 1139748627}
   minimumDistance: 1
   attackDelay: 1
@@ -282,6 +282,7 @@ MonoBehaviour:
   attackPrefabs:
   - {fileID: 5441653648258142160}
   damageZonePrefab: {fileID: 2023474032}
+<<<<<<< HEAD
 --- !u!114 &133211228
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -305,6 +306,8 @@ MonoBehaviour:
   animator: {fileID: 0}
   attackPrefabs:
   - {fileID: 5441653648258142160}
+=======
+>>>>>>> parent of 70d2e71 (Merge branch 'Main-Pull-Test' into Rest-Area-Test)
 --- !u!1 &310038158
 GameObject:
   m_ObjectHideFlags: 0
@@ -1481,6 +1484,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1220602294}
+  - component: {fileID: 1220602293}
   m_Layer: 0
   m_Name: Waypoint panel
   m_TagString: Untagged
@@ -1488,6 +1492,18 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1220602293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1220602292}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b6de26cdc7b0c84996c9aacbfdfecda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1220602294
 Transform:
   m_ObjectHideFlags: 0
@@ -1829,7 +1845,7 @@ MonoBehaviour:
   m_StreamingVersion: 20241001
   m_LegacyPriority: 0
   Target:
-    TrackingTarget: {fileID: 732743172659682787}
+    TrackingTarget: {fileID: 8606911542344794864}
     LookAtTarget: {fileID: 0}
     CustomLookAtTarget: 0
   Lens:
@@ -3101,11 +3117,79 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 360169569309d6148ae3f11b8993ff3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
 --- !u!4 &732743172659682787 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 422388527184198066, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
   m_PrefabInstance: {fileID: 8263336014276754242}
   m_PrefabAsset: {fileID: 0}
+=======
+--- !u!1001 &4004047848752122417
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2376929942706741628, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3458992605110211393, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3458992605110211393, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.93
+      objectReference: {fileID: 0}
+    - target: {fileID: 3458992605110211393, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -18.84
+      objectReference: {fileID: 0}
+    - target: {fileID: 3458992605110211393, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.97629607
+      objectReference: {fileID: 0}
+    - target: {fileID: 3458992605110211393, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.2164396
+      objectReference: {fileID: 0}
+    - target: {fileID: 3458992605110211393, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3458992605110211393, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3458992605110211393, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 3458992605110211393, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3458992605110211393, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6006804463578118578, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      propertyPath: m_Name
+      value: Player 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8946340565490563426, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+>>>>>>> parent of 70d2e71 (Merge branch 'Main-Pull-Test' into Rest-Area-Test)
 --- !u!1 &5441653648258142160 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3385370464702776025, guid: 92ba59d049dbfe941ada05bce059441d, type: 3}
@@ -3250,10 +3334,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2627704401928038130, guid: d9b1ef5c3c78d894083e0a9f3095b0b1, type: 3}
-      propertyPath: detectionRange
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2627704401928038130, guid: d9b1ef5c3c78d894083e0a9f3095b0b1, type: 3}
       propertyPath: 'waypoints.Array.data[0]'
       value: 
       objectReference: {fileID: 1139748627}
@@ -3292,7 +3372,7 @@ PrefabInstance:
     - target: {fileID: 8005242020364090476, guid: d9b1ef5c3c78d894083e0a9f3095b0b1, type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 732743172659682787}
+      objectReference: {fileID: 8606911542344794864}
     - target: {fileID: 8005242020364090476, guid: d9b1ef5c3c78d894083e0a9f3095b0b1, type: 3}
       propertyPath: 'waypoints.Array.data[0]'
       value: 
@@ -3365,8 +3445,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 6769150831581235136, guid: d9b1ef5c3c78d894083e0a9f3095b0b1, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 3806351418980547992, guid: d9b1ef5c3c78d894083e0a9f3095b0b1, type: 3}
@@ -3493,6 +3572,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 92ba59d049dbfe941ada05bce059441d, type: 3}
+<<<<<<< HEAD
 --- !u!1001 &8263336014276754242
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3766,6 +3846,13 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+=======
+--- !u!4 &8606911542344794864 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3458992605110211393, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+  m_PrefabInstance: {fileID: 4004047848752122417}
+  m_PrefabAsset: {fileID: 0}
+>>>>>>> parent of 70d2e71 (Merge branch 'Main-Pull-Test' into Rest-Area-Test)
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -3773,7 +3860,7 @@ SceneRoots:
   - {fileID: 1842674121}
   - {fileID: 384201002}
   - {fileID: 1433606000}
-  - {fileID: 8263336014276754242}
+  - {fileID: 4004047848752122417}
   - {fileID: 7716023755249400521}
   - {fileID: 1351617027}
   - {fileID: 1220602294}
