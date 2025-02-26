@@ -27,6 +27,7 @@ public class FireBossAI : MonoBehaviour
     private void Start()
     {
         enemyHealth = GetComponent<EnemyHealth>();
+        animator = GetComponent<Animator>();
         shootAndRetreat = GetComponent<ShootAndRetreat>();
 
         if (!enemyHealth) Debug.LogError("EnemyHealth component not found!");
