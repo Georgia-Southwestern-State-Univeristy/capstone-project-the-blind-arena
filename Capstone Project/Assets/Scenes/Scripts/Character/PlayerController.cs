@@ -2,13 +2,14 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private float speed = .1f;
+    [SerializeField] private float speed = 0.1f;
     [SerializeField] private float gravityScale = 20f;
 
     public Animator animator;
     private Rigidbody rb;
     private Vector3 moveDir;
-    private bool isMovementLocked = false; // NEW: Track movement lock state
+    private bool isMovementLocked = false;
+    private Vector3 externalForce = Vector3.zero; // NEW: Tracks enemy knockback or external forces
     private Renderer playerRenderer;
 
     void Start()
@@ -42,25 +43,27 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!isMovementLocked)
-        {
-            Move();
-        }
         ApplyCustomGravity();
+        Move();
     }
 
     private void Move()
     {
-        if (moveDir.x == 0 && moveDir.z == 0)
+        if (isMovementLocked)
         {
-            rb.linearVelocity = Vector3.zero;
+            rb.linearVelocity = externalForce; // Only external forces should apply when movement is locked
+            return;
         }
-        else
+
+        Vector3 inputVelocity = Vector3.zero;
+        if (moveDir.x != 0 || moveDir.z != 0)
         {
             Vector3 input = new Vector3(moveDir.x, 0, moveDir.z).normalized;
-            Vector3 velocity = input * speed;
-            rb.linearVelocity = new Vector3((float)(1.5 * velocity.x), 0, 2 * velocity.z);
+            inputVelocity = new Vector3(1.5f * input.x, 0, 2f * input.z) * speed;
         }
+
+        // Combine movement input and external forces
+        rb.linearVelocity = inputVelocity + externalForce;
 
         CheckForFlipping();
     }
@@ -95,5 +98,17 @@ public class PlayerController : MonoBehaviour
     private void UnlockMovement()
     {
         isMovementLocked = false;
+    }
+
+    // NEW: Apply an external force to the player (e.g., enemy knockback)
+    public void ApplyExternalForce(Vector3 force, float duration)
+    {
+        externalForce = force;
+        Invoke(nameof(ClearExternalForce), duration);
+    }
+
+    private void ClearExternalForce()
+    {
+        externalForce = Vector3.zero;
     }
 }

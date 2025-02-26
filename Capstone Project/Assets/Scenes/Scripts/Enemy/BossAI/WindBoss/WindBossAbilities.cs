@@ -56,13 +56,18 @@ public class WindBossAI : MonoBehaviour
 
     private void PushPlayerAway()
     {
-        Rigidbody2D playerRb = target.GetComponent<Rigidbody2D>();
-        if (playerRb != null)
+        PlayerController player = target.GetComponent<PlayerController>();
+        if (player != null)
         {
-            Vector2 pushDirection = (target.position - transform.position).normalized;
-            playerRb.AddForce(pushDirection * pushForce, ForceMode2D.Impulse);
+            Vector3 pushDirection = (target.position - transform.position).normalized;
+            pushDirection.y = 0; // Ensure no upward movement
+            Vector3 pushVelocity = pushDirection * pushForce;
+
+            // Apply force only in X and Z directions
+            player.ApplyExternalForce(pushVelocity, 0.5f);
         }
     }
+
 
     private IEnumerator ProjectileAttackLoop()
     {
