@@ -1,114 +1,61 @@
 using UnityEngine;
-using UnityEngine.UI;
 using System.Collections;
 
 public class EnemyAI : MonoBehaviour
 {
-    public Transform[] waypoints;
-    public Transform player;
-    public float patrolSpeed = 2f;
-    public float chaseSpeed = 4f;
-    public float detectionRange = 10f;
-    public float attackRange = 2f;
-    public float attackCooldown = 1.5f;
-    public float health = 100f;
-    public Slider healthBar;
+    [SerializeField] private Transform player;
+    [SerializeField] private float detectionRange = 10f;
+    [SerializeField] private float chaseSpeed = 3.5f;
+    [SerializeField] private float patrolSpeed = 2f;
+    [SerializeField] private Transform[] patrolPoints;
 
-    private int currentWaypointIndex = 0;
+    private int currentPatrolIndex = 0;
     private bool isChasing = false;
-    private bool isAttacking = false;
-    private Animator animator;
+    private bool isKnockedBack = false;
+    private Rigidbody rb;
+    private Vector3 targetPosition;
+
     private void Start()
     {
-        if (healthBar != null)
-        {
-            healthBar.maxValue = health;
-            healthBar.value = health;
-        }
-
-        animator = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody>();
+        if (patrolPoints.Length > 0)
+            targetPosition = patrolPoints[currentPatrolIndex].position;
     }
 
     private void Update()
     {
-        if (isAttacking) return;
+        if (isKnockedBack) return; // Stop movement during knockback
 
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+        isChasing = distanceToPlayer < detectionRange || (isChasing && distanceToPlayer <= detectionRange * 1.2f);
 
-        if (distanceToPlayer <= attackRange)
+        targetPosition = isChasing ? player.position : patrolPoints[currentPatrolIndex].position;
+        MoveTowardsTarget(isChasing ? chaseSpeed : patrolSpeed);
+    }
+
+    private void MoveTowardsTarget(float speed)
+    {
+        Vector3 direction = (targetPosition - transform.position).normalized;
+        direction.y = 0; // Ensure movement stays on the XZ plane
+        rb.linearVelocity = direction * speed;
+
+        if (!isChasing && Vector3.Distance(transform.position, targetPosition) < 0.5f)
         {
-            StartCoroutine(AttackPlayer());
-        }
-        else if (distanceToPlayer <= detectionRange)
-        {
-            isChasing = true;
-            ChasePlayer();
-        }
-        else
-        {
-            isChasing = false;
-            Patrol();
+            currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.Length;
+            targetPosition = patrolPoints[currentPatrolIndex].position;
         }
     }
 
-    private void Patrol()
+    public void DisableMovement(float duration)
     {
-        Transform targetWaypoint = waypoints[currentWaypointIndex];
-        Vector3 direction = (targetWaypoint.position - transform.position).normalized;
-        Vector3 movement = direction * patrolSpeed * Time.deltaTime;
-        transform.Translate(movement, Space.World);
-
-        animator.SetFloat("speed", movement.magnitude);
-
-        FlipSprite(direction.x);
-
-        if (Vector3.Distance(transform.position, targetWaypoint.position) < 0.2f)
-        {
-            currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Length;
-        }
+        StartCoroutine(DisableMovementCoroutine(duration));
     }
 
-    private void ChasePlayer()
+    private IEnumerator DisableMovementCoroutine(float duration)
     {
-        Vector3 direction = (player.position - transform.position).normalized;
-        Vector3 movement = direction * chaseSpeed * Time.deltaTime;
-        transform.Translate(movement, Space.World);
-
-        animator.SetFloat("speed", movement.magnitude);
-
-        FlipSprite(direction.x);
-    }
-
-    private IEnumerator AttackPlayer()
-    {
-        isAttacking = true;
-        if (animator != null) animator.SetBool("isAttacking", true);
-
-        yield return new WaitForSeconds(attackCooldown);
-
-        if (animator != null) animator.SetBool("isAttacking", false);
-        isAttacking = false;
-    }
-
-    private void FlipSprite(float directionX)
-    {
-        if (directionX < 0)
-            transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
-        else if (directionX > 0)
-            transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
-    }
-
-    public void TakeDamage(float damage)
-    {
-        health -= damage;
-        if (healthBar != null)
-        {
-            healthBar.value = health;
-        }
-
-        if (health <= 0)
-        {
-            Destroy(gameObject);
-        }
+        isKnockedBack = true;
+        rb.linearVelocity = Vector3.zero; // Stop movement immediately
+        yield return new WaitForSeconds(duration);
+        isKnockedBack = false;
     }
 }
