@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 5cc793444c1d27647afb1a2f3d675b09
+guid: b861240a53a85844fb370f1d9641b203
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -108,122 +108,12 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites:
-    - serializedVersion: 2
-      name: Dining Set_0
-      rect:
-        serializedVersion: 2
-        x: 4
-        y: 188
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 11ddf9372011dce4aa6f598afa9449f8
-      internalID: 1289857162
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Dining Set_1
-      rect:
-        serializedVersion: 2
-        x: 72
-        y: 188
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7fa2e09f32472f94ba9dafd71312bbad
-      internalID: 2097118198
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Dining Set_2
-      rect:
-        serializedVersion: 2
-        x: 140
-        y: 188
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 1a5325495fa340c4c92ef6be9d47a9eb
-      internalID: 681879373
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Dining Set_3
-      rect:
-        serializedVersion: 2
-        x: 4
-        y: 120
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f2eb7d96f9286ff46bc241c79b1a294c
-      internalID: 1547170315
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Dining Set_4
-      rect:
-        serializedVersion: 2
-        x: 72
-        y: 120
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 75827e5086fa78e4db267b28e0b03db9
-      internalID: 1544997852
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
+    sprites: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: fdbce57f557b9d04da11960fd0402d90
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -232,12 +122,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      Dining Set_1: 2097118198
-      Dining Set_2: 681879373
-      Dining Set_3: 1547170315
-      Dining Set_4: 1544997852
-      T: 1289857162
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
