@@ -265,7 +265,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 133211202}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7248c623f2802048b143d2d4b22c363, type: 3}
   m_Name: 
@@ -312,16 +312,34 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 133211202}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 111880097bcc3ea49b6bdadf8b8896de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
+  dashSpeed: 15
+  dashDuration: 4
   target: {fileID: 732743172659682787}
   returnWaypoint: {fileID: 1139748627}
-  minimumDistance: 1
   animator: {fileID: 0}
+--- !u!114 &133211242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 133211202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea7c0792a4363fd4b94a5a89a8c8f741, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackDelay: 1
+  projectileAttackRate: 1.5
+  minimumDistance: 1
+  attackPrefabs:
+  - {fileID: 5441653648258142160}
 --- !u!1 &310038158
 GameObject:
   m_ObjectHideFlags: 0
@@ -3398,18 +3416,21 @@ PrefabInstance:
       addedObject: {fileID: 133211235}
     - targetCorrespondingSourceObject: {fileID: 1139692960196552767, guid: d9b1ef5c3c78d894083e0a9f3095b0b1, type: 3}
       insertIndex: 2
-      addedObject: {fileID: 133211228}
+      addedObject: {fileID: 133211242}
     - targetCorrespondingSourceObject: {fileID: 1139692960196552767, guid: d9b1ef5c3c78d894083e0a9f3095b0b1, type: 3}
       insertIndex: 3
       addedObject: {fileID: 133211221}
     - targetCorrespondingSourceObject: {fileID: 1139692960196552767, guid: d9b1ef5c3c78d894083e0a9f3095b0b1, type: 3}
       insertIndex: 4
-      addedObject: {fileID: 133211213}
+      addedObject: {fileID: 133211228}
     - targetCorrespondingSourceObject: {fileID: 1139692960196552767, guid: d9b1ef5c3c78d894083e0a9f3095b0b1, type: 3}
       insertIndex: 5
-      addedObject: {fileID: 133211212}
+      addedObject: {fileID: 133211213}
     - targetCorrespondingSourceObject: {fileID: 1139692960196552767, guid: d9b1ef5c3c78d894083e0a9f3095b0b1, type: 3}
       insertIndex: 6
+      addedObject: {fileID: 133211212}
+    - targetCorrespondingSourceObject: {fileID: 1139692960196552767, guid: d9b1ef5c3c78d894083e0a9f3095b0b1, type: 3}
+      insertIndex: 7
       addedObject: {fileID: 133211211}
   m_SourcePrefab: {fileID: 100100000, guid: d9b1ef5c3c78d894083e0a9f3095b0b1, type: 3}
 --- !u!1001 &8024031552893093819
@@ -3539,7 +3560,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 259702171287525020, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       propertyPath: attacks.Array.data[0].damage
-      value: 25
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 259702171287525020, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       propertyPath: attacks.Array.data[1].damage
