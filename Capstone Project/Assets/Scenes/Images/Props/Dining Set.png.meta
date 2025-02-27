@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: e910eadb96bca81499688ffa53039c40
+guid: 5cc793444c1d27647afb1a2f3d675b09
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -37,18 +37,18 @@ TextureImporter:
     filterMode: 0
     aniso: 1
     mipBias: 0
-    wrapU: 1
-    wrapV: 1
+    wrapU: 0
+    wrapV: 0
     wrapW: 0
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 50
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -94,19 +94,6 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
     buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -123,265 +110,243 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Gladiator_Crash_0
+      name: Table_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 128
-        height: 128
+        x: 4
+        y: 212
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 163835b895cfbb64a90a5fcfba51b6f2
-      internalID: 196308109
+      spriteID: 8a5f57201890e10419ae80c5d58fdd16
+      internalID: 1140673097
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gladiator_Crash_1
+      name: Table_1
       rect:
         serializedVersion: 2
-        x: 128
-        y: 0
-        width: 128
-        height: 128
+        x: 72
+        y: 212
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fda37c47bd6319240be3adf096cc9988
-      internalID: 324739473
+      spriteID: 71fcd6b636cafaf4fbf54bd79582b01e
+      internalID: 1668779378
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gladiator_Crash_2
+      name: Table_3
       rect:
         serializedVersion: 2
-        x: 256
-        y: 0
-        width: 128
-        height: 128
+        x: 140
+        y: 212
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5b576a99c2941ef42880ee098d907c34
-      internalID: -1377595929
+      spriteID: 61fe16bae1c07014089dba6b7a44a169
+      internalID: 1346766375
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gladiator_Crash_3
+      name: Table_4
       rect:
         serializedVersion: 2
-        x: 384
-        y: 0
-        width: 128
-        height: 128
+        x: 208
+        y: 212
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1981d38622e72454fb415dff9d1c5d6d
-      internalID: 537085061
+      spriteID: 0884c3d3dcbaf4c4298dc4e57915bdc5
+      internalID: -1363381080
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gladiator_Crash_4
+      name: Bench_0
       rect:
         serializedVersion: 2
-        x: 512
-        y: 0
-        width: 128
-        height: 128
+        x: 4
+        y: 144
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1d299c2069556a541b8a446cd283579b
-      internalID: 328875531
+      spriteID: a880826398259254b8113e8802ec90b0
+      internalID: -1034375660
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gladiator_Crash_5
+      name: Bench_1
       rect:
         serializedVersion: 2
-        x: 640
-        y: 0
-        width: 128
-        height: 128
+        x: 72
+        y: 144
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9c2d4e6e1398259408f334eaa98b65bf
-      internalID: -828291266
+      spriteID: e656e9b7a82b85a44b9b74935310fa9f
+      internalID: 1536664269
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gladiator_Crash_6
+      name: Bench_2
       rect:
         serializedVersion: 2
-        x: 768
-        y: 0
-        width: 128
-        height: 128
+        x: 140
+        y: 144
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5c046d07530fd794cbddae998878d183
-      internalID: -734226640
+      spriteID: 8bf78041d833ff940968ed9ebf010a89
+      internalID: 1065797302
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gladiator_Crash_7
+      name: Table_2
       rect:
         serializedVersion: 2
-        x: 896
-        y: 0
-        width: 128
-        height: 128
+        x: 208
+        y: 144
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7ddab823fafc13c4caff38762c17c98e
-      internalID: -1581635910
+      spriteID: 190419c7a1c07f542a0e789d955e4533
+      internalID: 893865276
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gladiator_Crash_8
+      name: Bench_5
       rect:
         serializedVersion: 2
-        x: 1024
-        y: 0
-        width: 128
-        height: 128
+        x: 3
+        y: 75
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0f314b68fa8bcc34d951dfdc10c1de48
-      internalID: 1244819895
+      spriteID: a5492b8a0c1a84045ba6296793ce8d66
+      internalID: -534886998
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gladiator_Crash_9
+      name: Bench_4
       rect:
         serializedVersion: 2
-        x: 1152
-        y: 0
-        width: 128
-        height: 128
+        x: 72
+        y: 76
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d2ad20c74268dd148ae9e5f90f07b4ae
-      internalID: 2135125469
+      spriteID: 6bfc67cabc6811c41b9f5540767b051e
+      internalID: -1668997849
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gladiator_Crash_10
+      name: Bench_3
       rect:
         serializedVersion: 2
-        x: 1280
-        y: 0
-        width: 128
-        height: 128
+        x: 140
+        y: 76
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6244223f608320c4bbdd384a6f381ae7
-      internalID: 141699489
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Gladiator_Crash_11
-      rect:
-        serializedVersion: 2
-        x: 1408
-        y: 0
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ce19c2c41bfa8e84e8448018f53ac286
-      internalID: 2089234788
+      spriteID: 44ef2929575118448b0343cf07082022
+      internalID: -1222141631
       vertices: []
       indices: 
       edges: []
@@ -390,7 +355,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: e8fbd1f0e84d6b147b51f05527b72c29
+    spriteID: d0cb059bf5985e448bb4eb34f9fb6e3b
     internalID: 0
     vertices: []
     indices: 
@@ -400,18 +365,17 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Gladiator_Crash_0: 196308109
-      Gladiator_Crash_1: 324739473
-      Gladiator_Crash_10: 141699489
-      Gladiator_Crash_11: 2089234788
-      Gladiator_Crash_2: -1377595929
-      Gladiator_Crash_3: 537085061
-      Gladiator_Crash_4: 328875531
-      Gladiator_Crash_5: -828291266
-      Gladiator_Crash_6: -734226640
-      Gladiator_Crash_7: -1581635910
-      Gladiator_Crash_8: 1244819895
-      Gladiator_Crash_9: 2135125469
+      Bench_0: -1034375660
+      Bench_1: 1536664269
+      Bench_2: 1065797302
+      Bench_3: -1222141631
+      Bench_4: -1668997849
+      Bench_5: -534886998
+      Table_0: 1140673097
+      Table_1: 1668779378
+      Table_2: 893865276
+      Table_3: 1346766375
+      Table_4: -1363381080
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

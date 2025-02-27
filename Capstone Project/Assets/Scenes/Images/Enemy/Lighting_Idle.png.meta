@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: e910eadb96bca81499688ffa53039c40
+guid: 1eda644dac1ccc74e85495e02d01f066
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -39,7 +39,7 @@ TextureImporter:
     mipBias: 0
     wrapU: 1
     wrapV: 1
-    wrapW: 0
+    wrapW: 1
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
@@ -94,19 +94,6 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
     buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -123,7 +110,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Gladiator_Crash_0
+      name: Lighting_Idle_0
       rect:
         serializedVersion: 2
         x: 0
@@ -138,14 +125,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 163835b895cfbb64a90a5fcfba51b6f2
-      internalID: 196308109
+      spriteID: 0f72e97b0dd15074f8f00021291cd431
+      internalID: -1172646607
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gladiator_Crash_1
+      name: Lighting_Idle_1
       rect:
         serializedVersion: 2
         x: 128
@@ -160,14 +147,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fda37c47bd6319240be3adf096cc9988
-      internalID: 324739473
+      spriteID: 79c9fe212a28f014484f10e14dddec7e
+      internalID: 1669180521
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gladiator_Crash_2
+      name: Lighting_Idle_2
       rect:
         serializedVersion: 2
         x: 256
@@ -182,14 +169,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5b576a99c2941ef42880ee098d907c34
-      internalID: -1377595929
+      spriteID: 29eb3cce815523b45b34b826fb09b325
+      internalID: -1649248692
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gladiator_Crash_3
+      name: Lighting_Idle_3
       rect:
         serializedVersion: 2
         x: 384
@@ -204,14 +191,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1981d38622e72454fb415dff9d1c5d6d
-      internalID: 537085061
+      spriteID: 25910757044b04c4797027ba4777403b
+      internalID: -1512716923
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gladiator_Crash_4
+      name: Lighting_Idle_4
       rect:
         serializedVersion: 2
         x: 512
@@ -226,14 +213,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1d299c2069556a541b8a446cd283579b
-      internalID: 328875531
+      spriteID: 6cd7464b579acd847ba1df7c58700c19
+      internalID: 467159789
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gladiator_Crash_5
+      name: Lighting_Idle_5
       rect:
         serializedVersion: 2
         x: 640
@@ -248,14 +235,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9c2d4e6e1398259408f334eaa98b65bf
-      internalID: -828291266
+      spriteID: c4110b06acd6dd241a2b951a9c107fe8
+      internalID: 543056634
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gladiator_Crash_6
+      name: Lighting_Idle_6
       rect:
         serializedVersion: 2
         x: 768
@@ -270,118 +257,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5c046d07530fd794cbddae998878d183
-      internalID: -734226640
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Gladiator_Crash_7
-      rect:
-        serializedVersion: 2
-        x: 896
-        y: 0
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7ddab823fafc13c4caff38762c17c98e
-      internalID: -1581635910
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Gladiator_Crash_8
-      rect:
-        serializedVersion: 2
-        x: 1024
-        y: 0
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0f314b68fa8bcc34d951dfdc10c1de48
-      internalID: 1244819895
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Gladiator_Crash_9
-      rect:
-        serializedVersion: 2
-        x: 1152
-        y: 0
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d2ad20c74268dd148ae9e5f90f07b4ae
-      internalID: 2135125469
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Gladiator_Crash_10
-      rect:
-        serializedVersion: 2
-        x: 1280
-        y: 0
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 6244223f608320c4bbdd384a6f381ae7
-      internalID: 141699489
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Gladiator_Crash_11
-      rect:
-        serializedVersion: 2
-        x: 1408
-        y: 0
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ce19c2c41bfa8e84e8448018f53ac286
-      internalID: 2089234788
+      spriteID: 2e974adef34e39644a276c0f4c46edee
+      internalID: 1602856741
       vertices: []
       indices: 
       edges: []
@@ -390,7 +267,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: e8fbd1f0e84d6b147b51f05527b72c29
+    spriteID: ba2f3b98790aed14f9fdfb685a43db63
     internalID: 0
     vertices: []
     indices: 
@@ -400,18 +277,13 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Gladiator_Crash_0: 196308109
-      Gladiator_Crash_1: 324739473
-      Gladiator_Crash_10: 141699489
-      Gladiator_Crash_11: 2089234788
-      Gladiator_Crash_2: -1377595929
-      Gladiator_Crash_3: 537085061
-      Gladiator_Crash_4: 328875531
-      Gladiator_Crash_5: -828291266
-      Gladiator_Crash_6: -734226640
-      Gladiator_Crash_7: -1581635910
-      Gladiator_Crash_8: 1244819895
-      Gladiator_Crash_9: 2135125469
+      Lighting_Idle_0: -1172646607
+      Lighting_Idle_1: 1669180521
+      Lighting_Idle_2: -1649248692
+      Lighting_Idle_3: -1512716923
+      Lighting_Idle_4: 467159789
+      Lighting_Idle_5: 543056634
+      Lighting_Idle_6: 1602856741
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

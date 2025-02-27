@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 1685054120f632943baa62af81448ffd
+guid: 390fc77dd6404214cbe3835d200a8fd8
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -45,10 +45,10 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 50
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -110,199 +110,89 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Imperial_Walk_0
+      name: Merchant_Rug
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 128
-        height: 128
+        x: 2
+        y: 192
+        width: 68
+        height: 58
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e32951d3ef6a6304f89c4f398f5f4a93
-      internalID: -6641037
+      spriteID: c1ae293c4c409dc40a495b3e17dd0fb8
+      internalID: -598959495
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Imperial_Walk_1
+      name: Merchant_Dummy
       rect:
         serializedVersion: 2
-        x: 128
-        y: 0
-        width: 128
-        height: 128
+        x: 82
+        y: 186
+        width: 56
+        height: 68
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7213a3b8fc2abdf47af8a8d84d30cd9b
-      internalID: -102304781
+      spriteID: 754c888d72c5fb849a3509e357493cd9
+      internalID: -444877692
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Imperial_Walk_2
+      name: Merchant_Stand_0
       rect:
         serializedVersion: 2
-        x: 256
-        y: 0
-        width: 128
-        height: 128
+        x: 146
+        y: 186
+        width: 72
+        height: 38
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d62d3003bb6602e4facdd1119b5755bf
-      internalID: 189673816
+      spriteID: ddde4b58fd7479747aa740798c47cb3b
+      internalID: -439589699
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Imperial_Walk_3
+      name: Merchant_Stand_1
       rect:
         serializedVersion: 2
-        x: 384
-        y: 0
-        width: 128
-        height: 128
+        x: 2
+        y: 118
+        width: 68
+        height: 70
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f8233aa113391d34782ac3d301f43447
-      internalID: -986665479
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Imperial_Walk_4
-      rect:
-        serializedVersion: 2
-        x: 512
-        y: 0
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e9934aa7bc91ea84ab3e1f81b229bfd8
-      internalID: -1831237220
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Imperial_Walk_5
-      rect:
-        serializedVersion: 2
-        x: 640
-        y: 0
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: bdbf83f838fc53344884b5874185565f
-      internalID: -1820525604
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Imperial_Walk_6
-      rect:
-        serializedVersion: 2
-        x: 768
-        y: 0
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: c9ceb09290bc53d45ad2e4e166898a20
-      internalID: -1983151918
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Imperial_Walk_7
-      rect:
-        serializedVersion: 2
-        x: 896
-        y: 0
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: c075cc21cc722db4081f4fc9b9cae074
-      internalID: 999128779
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Imperial_Walk_8
-      rect:
-        serializedVersion: 2
-        x: 1024
-        y: 0
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: c7967982e347d6c4ebf2b58b9d787d22
-      internalID: 282081853
+      spriteID: 2697c9dd976f2f44c893378aeb4a88a3
+      internalID: -1190393455
       vertices: []
       indices: 
       edges: []
@@ -311,7 +201,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: d2ba8c732fd06f545bbbdeec9a8e72e8
+    spriteID: 01a244f283163584f84c0977d431f1da
     internalID: 0
     vertices: []
     indices: 
@@ -321,15 +211,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Imperial_Walk_0: -6641037
-      Imperial_Walk_1: -102304781
-      Imperial_Walk_2: 189673816
-      Imperial_Walk_3: -986665479
-      Imperial_Walk_4: -1831237220
-      Imperial_Walk_5: -1820525604
-      Imperial_Walk_6: -1983151918
-      Imperial_Walk_7: 999128779
-      Imperial_Walk_8: 282081853
+      Merchant_Dummy: -444877692
+      Merchant_Rug: -598959495
+      Merchant_Stand_0: -439589699
+      Merchant_Stand_1: -1190393455
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
