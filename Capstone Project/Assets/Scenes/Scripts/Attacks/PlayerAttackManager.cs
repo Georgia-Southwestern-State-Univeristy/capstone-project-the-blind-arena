@@ -36,26 +36,19 @@ public class PlayerAttackManager : MonoBehaviour
     }
 
     private IEnumerator PerformAttack(AttackAttributes attack)
-{
-    if (!HasEnoughStamina(attack)) yield break;
-    if (attack.lockVelocity) playerController?.LockMovement(attack.lockDuration);
+    {
+        if (!HasEnoughStamina(attack)) yield break;
+        if (attack.lockVelocity) playerController?.LockMovement(attack.lockDuration);
+        yield return new WaitForSeconds(attack.delay);
 
-    // Trigger the attack animation
-    if (player.TryGetComponent(out Animator animator))
-        animator.SetTrigger(attack.name);
+        DeductStamina(attack.staminaUse);
+        PlaySound(attack.attackSound);
+        GameObject attackObject = CreateAttackObject(attack);
 
-    yield return new WaitForSeconds(attack.delay);
-
-    DeductStamina(attack.staminaUse);
-    PlaySound(attack.attackSound);
-    GameObject attackObject = CreateAttackObject(attack);
-
-    if (attack.detachFromPlayer) LaunchAttack(attackObject, GetAttackDirection(), attack.speed);
-    yield return new WaitForSeconds(attack.duration);
-
-    if (attackObject) Destroy(attackObject);
-}
-
+        if (attack.detachFromPlayer) LaunchAttack(attackObject, GetAttackDirection(), attack.speed);
+        yield return new WaitForSeconds(attack.duration);
+        if (attackObject) Destroy(attackObject);
+    }
 
     private bool HasEnoughStamina(AttackAttributes attack) => health == null || health.stamina >= attack.staminaUse;
     private void DeductStamina(int amount) => health?.UseStamina(amount);

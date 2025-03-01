@@ -1,52 +1,99 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-// Water Boss Abilities
-public class WaterGeyser : MonoBehaviour
+public class WaterBossAI : MonoBehaviour
 {
-    public GameObject geyserPrefab;
-    public Transform[] geyserSpawns;
+    public float speed;
+    public Transform target;
+    public float minimumDistance;
     public float attackDelay = 2f;
+    public float projectileAttackRate = 1.5f;
     public Animator animator;
+    public GameObject waterWhipPrefab;
+    public GameObject waterBubblePrefab;
+    public GameObject iceSpikePrefab;
+    public GameObject tsunamiPrefab;
+    public Transform tsunamiSpawnPoint;
 
-    public void ActivateGeysers()
+    private EnemyHealth enemyHealth;
+    private bool isAttacking = false;
+    private bool hasEnteredDesperation = false;
+
+    private void Start()
     {
-        StartCoroutine(GeyserSequence());
+        enemyHealth = GetComponent<EnemyHealth>();
+        animator = GetComponent<Animator>();
     }
 
-    private IEnumerator GeyserSequence()
+    private void Update()
     {
-        if (animator != null)
+        if (enemyHealth.currentHealth <= enemyHealth.maxHealth / 4 && !hasEnteredDesperation)
         {
-            animator.SetTrigger("Geyser");
+            hasEnteredDesperation = true;
+            StartCoroutine(TsunamiBarrage());
         }
+        else if (Vector3.Distance(transform.position, target.position) <= minimumDistance)
+        {
+            StartCoroutine(WaterWhipAttack());
+        }
+        else
+        {
+            StartCoroutine(IceSpikeAttack());
+        }
+
+        SpawnWaterBubble();
+        MoveTowardsPlayer();
+        FlipSprite(target.position.x - transform.position.x);
+    }
+
+    private void MoveTowardsPlayer()
+    {
+        if (Vector3.Distance(transform.position, target.position) > minimumDistance)
+        {
+            Vector3 direction = (target.position - transform.position).normalized;
+            transform.position += direction * speed * Time.deltaTime;
+        }
+    }
+
+    private void FlipSprite(float directionX)
+    {
+        if (directionX < 0)
+            transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+        else if (directionX > 0)
+            transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+    }
+
+    private IEnumerator WaterWhipAttack()
+    {
+        if (isAttacking) yield break;
+        isAttacking = true;
+        Instantiate(waterWhipPrefab, transform.position, Quaternion.identity);
         yield return new WaitForSeconds(attackDelay);
-        foreach (Transform spawn in geyserSpawns)
-        {
-            Instantiate(geyserPrefab, spawn.position, Quaternion.identity);
-        }
-    }
-}
-
-public class TidalWave : MonoBehaviour
-{
-    public GameObject wavePrefab;
-    public Transform spawnPoint;
-    public float attackDelay = 2f;
-    public Animator animator;
-
-    public void SummonWave()
-    {
-        StartCoroutine(WaveSequence());
+        isAttacking = false;
     }
 
-    private IEnumerator WaveSequence()
+    private IEnumerator IceSpikeAttack()
     {
-        if (animator != null)
+        if (isAttacking) yield break;
+        isAttacking = true;
+        Instantiate(iceSpikePrefab, transform.position, Quaternion.identity);
+        yield return new WaitForSeconds(projectileAttackRate);
+        isAttacking = false;
+    }
+
+    private void SpawnWaterBubble()
+    {
+        if (Random.Range(0, 100) < 5)
         {
-            animator.SetTrigger("Wave");
+            Vector3 spawnPosition = target.position + new Vector3(Random.Range(-2f, 2f), 0, Random.Range(-2f, 2f));
+            Instantiate(waterBubblePrefab, spawnPosition, Quaternion.identity);
         }
+    }
+
+    private IEnumerator TsunamiBarrage()
+    {
+        Instantiate(tsunamiPrefab, tsunamiSpawnPoint.position, Quaternion.identity);
         yield return new WaitForSeconds(attackDelay);
-        Instantiate(wavePrefab, spawnPoint.position, Quaternion.identity);
     }
 }

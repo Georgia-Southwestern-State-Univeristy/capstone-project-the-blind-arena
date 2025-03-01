@@ -1,52 +1,88 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-// Air Boss Abilities
-public class TornadoSpin : MonoBehaviour
+public class WindBossAI : MonoBehaviour
 {
-    public GameObject tornadoPrefab;
-    public Transform tornadoSpawn;
+    public float speed;
+    public float retreatSpeed = 5f;
+    public float pushForce = 10f;
     public float attackDelay = 2f;
+    public float projectileAttackRate = 1.5f;
+    public float retreatDistance = 5f; // Distance to maintain from player
+    public float pushDistance = 2f; // Distance at which push activates
+    public Transform target;
     public Animator animator;
+    public GameObject[] attackPrefabs;
 
-    public void Spin()
+    private EnemyHealth enemyHealth;
+    private bool isRetreating;
+    private bool isShooting;
+
+    private void Start()
     {
-        StartCoroutine(SpinSequence());
+        enemyHealth = GetComponent<EnemyHealth>();
+
+        if (!enemyHealth) Debug.LogError("EnemyHealth component not found!");
+
+        StartCoroutine(ProjectileAttackLoop());
     }
 
-    private IEnumerator SpinSequence()
+    private void Update()
     {
-        if (animator != null)
+        float distanceToPlayer = Vector3.Distance(transform.position, target.position);
+
+        if (distanceToPlayer < pushDistance)
         {
-            animator.SetTrigger("Spin");
+            PushPlayerAway();
         }
-        yield return new WaitForSeconds(attackDelay);
-        Instantiate(tornadoPrefab, tornadoSpawn.position, Quaternion.identity);
-    }
-}
-
-public class WindBlades : MonoBehaviour
-{
-    public GameObject windBladePrefab;
-    public Transform[] bladeSpawns;
-    public float attackDelay = 1.5f;
-    public Animator animator;
-
-    public void ShootBlades()
-    {
-        StartCoroutine(BladeSequence());
+        else if (distanceToPlayer < retreatDistance)
+        {
+            RetreatFromPlayer();
+        }
+        else
+        {
+            isRetreating = false;
+        }
     }
 
-    private IEnumerator BladeSequence()
+    private void RetreatFromPlayer()
     {
-        if (animator != null)
+        isRetreating = true;
+        Vector3 retreatDirection = (transform.position - target.position).normalized;
+        transform.position += retreatDirection * retreatSpeed * Time.deltaTime;
+        FlipSprite(retreatDirection.x);
+    }
+
+    private void PushPlayerAway()
+    {
+        PlayerController player = target.GetComponent<PlayerController>();
+        if (player != null)
         {
-            animator.SetTrigger("Blade");
+            Vector3 pushDirection = (target.position - transform.position).normalized;
+            pushDirection.y = 0; // Ensure no upward movement
+            Vector3 pushVelocity = pushDirection * pushForce;
+
+            // Apply force only in X and Z directions
+            player.ApplyExternalForce(pushVelocity, 0.5f);
         }
-        yield return new WaitForSeconds(attackDelay);
-        foreach (Transform spawn in bladeSpawns)
+    }
+
+
+    private IEnumerator ProjectileAttackLoop()
+    {
+        while (true)
         {
-            Instantiate(windBladePrefab, spawn.position, Quaternion.identity);
+            if (attackPrefabs.Length > 0)
+            {
+                Instantiate(attackPrefabs[Random.Range(0, attackPrefabs.Length)], transform.position, Quaternion.identity);
+            }
+            yield return new WaitForSeconds(projectileAttackRate);
         }
+    }
+
+    private void FlipSprite(float directionX)
+    {
+        transform.localScale = new Vector3(Mathf.Sign(directionX) * Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
     }
 }
