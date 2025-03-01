@@ -350,8 +350,8 @@ SpriteRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1167721988170184719}
   m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
   m_MotionVectors: 1
@@ -365,7 +365,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 31676a73dc4a88245a8a4b33172a3a4e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -416,34 +416,44 @@ MonoBehaviour:
   - name: BasicAttack
     priority: 1.5
     damage: 5
+    knockbackStrength: 0
     speed: 4
     duration: 1.5
+    delay: 0
+    gravityScale: 0
+    lockDuration: 0
     staminaUse: 15
     detachFromPlayer: 1
+    lockVelocity: 0
+    isPhysical: 0
     colliderShape: 0
     colliderSize: {x: 5, y: 1, z: 1}
     colliderRotation: {x: -25, y: 0, z: 0}
-    attackSprite: {fileID: -1982924380, guid: 4148c79904d0106419d4752298b7a78e, type: 3}
-    delay: 0
-    gravityScale: 0
     spriteSize: {x: 1, y: 1, z: 1}
     spriteRotation: {x: 25, y: 0, z: 0}
+    startingOffset: {x: 0, y: 0, z: 0}
+    attackSprite: {fileID: -1982924380, guid: 4148c79904d0106419d4752298b7a78e, type: 3}
     attackSound: {fileID: 0}
   - name: EarthQuake
     priority: 2
     damage: 10
+    knockbackStrength: 0
     speed: 0
     duration: 2
+    delay: 2
+    gravityScale: 0
+    lockDuration: 0
     staminaUse: 30
     detachFromPlayer: 0
+    lockVelocity: 0
+    isPhysical: 0
     colliderShape: 0
     colliderSize: {x: 1, y: 1, z: 1}
     colliderRotation: {x: -25, y: 0, z: 0}
-    attackSprite: {fileID: -1982924380, guid: 4148c79904d0106419d4752298b7a78e, type: 3}
-    delay: 2
-    gravityScale: 0
     spriteSize: {x: 1, y: 1, z: 1}
     spriteRotation: {x: 25, y: 0, z: 0}
+    startingOffset: {x: 0, y: 0, z: 0}
+    attackSprite: {fileID: -1982924380, guid: 4148c79904d0106419d4752298b7a78e, type: 3}
     attackSound: {fileID: 0}
 --- !u!114 &972275915747823506
 MonoBehaviour:
@@ -472,6 +482,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8990d82ef1ca5e4092df29b9e88481c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
   attackTypes:
   - BasicAttack
   - EarthQuake
