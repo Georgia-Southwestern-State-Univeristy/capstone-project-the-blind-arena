@@ -9,59 +9,89 @@ public class FireBossAI : MonoBehaviour
     public float dashDuration = 0.2f;
     public Transform target;
     public Transform returnWaypoint;
-    public float minimumDistance;
+    public float minimumDistance = 5f;
     public float attackDelay = 2f;
     public float projectileAttackRate = 1.5f;
+    public float projectileSpeed = 8f;
+    public float retreatSpeed = 10f;
     public Animator animator;
     public GameObject[] attackPrefabs;
     public GameObject damageZonePrefab;
 
     private EnemyHealth enemyHealth;
-    private ShootAndRetreat shootAndRetreat;
     private bool isDashing;
     private bool isReturning;
     private bool hasUsedSecondAbility;
-    private bool hasEnteredShootAndRetreat;
     private bool isThrowingProjectiles;
+    private bool isFinalPhase;
+    private Vector3 retreatDirection;
 
     private void Start()
     {
         enemyHealth = GetComponent<EnemyHealth>();
-        shootAndRetreat = GetComponent<ShootAndRetreat>();
 
         if (!enemyHealth) Debug.LogError("EnemyHealth component not found!");
-        if (!shootAndRetreat) Debug.LogError("ShootAndRetreat component not found!");
     }
 
     private void Update()
     {
-        if (hasEnteredShootAndRetreat) 
+        if (!target)
         {
-            shootAndRetreat.enabled = true;
+            Debug.LogWarning("No target assigned to FireBoss!");
             return;
         }
 
-        if (isReturning)
+        // Final phase (25% health)
+        if (enemyHealth.currentHealth <= enemyHealth.maxHealth * 0.25f)
         {
-            ReturnToWaypoint();
-        }
-        else if (Vector3.Distance(transform.position, target.position) > minimumDistance && !isDashing)
-        {
-            MoveTowardsPlayer();
-        }
-        else if (!isDashing)
-        {
-            StartCoroutine(DashAttack());
-        }
-
-        if (enemyHealth.currentHealth <= enemyHealth.maxHealth / 2 && !isReturning)
-        {
-            isReturning = true;
+            if (!isFinalPhase)
+            {
+                isFinalPhase = true;
+                isReturning = false;  // Stop the return to waypoint behavior
+                isDashing = false;
+                isThrowingProjectiles = false;
+                StopAllCoroutines();
+                StartCoroutine(FinalPhaseRoutine());
+            }
+            return;
         }
 
-        if (enemyHealth.currentHealth <= enemyHealth.maxHealth / 4 && !hasEnteredShootAndRetreat)
+        // Retreat phase (50% health)
+        if (enemyHealth.currentHealth <= enemyHealth.maxHealth * 0.5f &&
+            enemyHealth.currentHealth > enemyHealth.maxHealth * 0.25f)
         {
-            hasEnteredShootAndRetreat = true;
+            if (!isReturning)
+            {
+                isReturning = true;
+                isDashing = false;
+                isThrowingProjectiles = false;
+                StopAllCoroutines();
+                StartCoroutine(RetreatPhaseRoutine());
+            }
+            return;
+        }
+
+        // Normal phase
+        if (!isDashing && !isReturning)
+        {
+            // Start shooting if not already
+            if (!isThrowingProjectiles)
+            {
+                StartCoroutine(ProjectileAttackLoop());
+            }
+
+            // Handle movement
+            if (Vector3.Distance(transform.position, target.position) <= minimumDistance)
+            {
+                if (!isDashing)
+                {
+                    StartCoroutine(DashAttack());
+                }
+            }
+            else
+            {
+                MoveTowardsPlayer();
+            }
         }
     }
 
@@ -76,9 +106,8 @@ public class FireBossAI : MonoBehaviour
     private IEnumerator DashAttack()
     {
         isDashing = true;
-        isThrowingProjectiles = false;
 
-        yield return new WaitForSeconds(0.5f); // Wind-up before dashing
+        yield return new WaitForSeconds(0.5f);
 
         Vector3 dashDirection = (target.position - transform.position).normalized;
         float elapsedTime = 0f;
@@ -90,59 +119,115 @@ public class FireBossAI : MonoBehaviour
             yield return null;
         }
 
-        yield return new WaitForSeconds(0.5f); // Pause after dash
+        yield return new WaitForSeconds(0.5f);
 
         isDashing = false;
-        isThrowingProjectiles = true;
-        StartCoroutine(ProjectileAttackLoop());
     }
 
     private IEnumerator ProjectileAttackLoop()
     {
+        isThrowingProjectiles = true;
         while (isThrowingProjectiles)
         {
             if (attackPrefabs.Length > 0)
             {
-                Instantiate(attackPrefabs[Random.Range(0, attackPrefabs.Length)], transform.position, Quaternion.identity);
+                GameObject projectile = Instantiate(attackPrefabs[0], transform.position, Quaternion.identity);
+                Vector3 direction = (target.position - transform.position).normalized;
+                Rigidbody rb = projectile.GetComponent<Rigidbody>();
+                if (rb != null)
+                {
+                    rb.linearVelocity = direction * projectileSpeed;
+                }
             }
 
             yield return new WaitForSeconds(projectileAttackRate);
+        }
+    }
 
-            // If player is close enough, switch to dash
-            if (Vector3.Distance(transform.position, target.position) <= minimumDistance)
+    private IEnumerator RetreatPhaseRoutine()
+    {
+        while (enemyHealth.currentHealth <= enemyHealth.maxHealth * 0.5f &&
+               enemyHealth.currentHealth > enemyHealth.maxHealth * 0.25f &&
+               isReturning)  // Add isReturning check
+        {
+            // Calculate direction to waypoint
+            Vector3 directionToWaypoint = (returnWaypoint.position - transform.position).normalized;
+
+            // Move towards waypoint
+            transform.position += directionToWaypoint * retreatSpeed * Time.deltaTime;
+
+            // If we reached the waypoint, shoot arc pattern
+            if (Vector3.Distance(transform.position, returnWaypoint.position) < 0.5f)
             {
-                isThrowingProjectiles = false;
-                StartCoroutine(DashAttack());
-                yield break;
+                ShootProjectilesInArc(8, 120f);
+
+                // Wait a bit before next volley
+                yield return new WaitForSeconds(2f);
+
+                // Move to a new position around the waypoint
+                Vector3 randomOffset = Random.insideUnitSphere * 3f;
+                randomOffset.y = 0; // Keep on same Y plane
+                Vector3 newPosition = returnWaypoint.position + randomOffset;
+
+                // Move to new position
+                while (Vector3.Distance(transform.position, newPosition) > 0.5f &&
+                       isReturning &&  // Add isReturning check
+                       enemyHealth.currentHealth > enemyHealth.maxHealth * 0.25f)
+                {
+                    transform.position = Vector3.MoveTowards(transform.position, newPosition, retreatSpeed * Time.deltaTime);
+                    yield return null;
+                }
             }
+
+            yield return null;
         }
     }
 
-    private void ReturnToWaypoint()
+    private IEnumerator FinalPhaseRoutine()
     {
-        if (Vector3.Distance(transform.position, returnWaypoint.position) > 0.5f)
+        while (true)
         {
-            transform.position = Vector3.MoveTowards(transform.position, returnWaypoint.position, speed * Time.deltaTime);
+            // Calculate retreat direction (opposite of player)
+            retreatDirection = (transform.position - target.position).normalized;
+
+            // Shoot projectiles while retreating
+            GameObject projectile = Instantiate(attackPrefabs[0], transform.position, Quaternion.identity);
+            Vector3 directionToPlayer = (target.position - transform.position).normalized;
+            Rigidbody rb = projectile.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.linearVelocity = directionToPlayer * projectileSpeed;
+            }
+
+            // Move away from player using MoveTowards for more reliable movement
+            Vector3 targetPosition = transform.position + (retreatDirection * 10f);
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, retreatSpeed * Time.deltaTime);
+
+            // If we're too close to a wall, try to move sideways
+            if (Physics.Raycast(transform.position, retreatDirection, 2f))
+            {
+                // Calculate a perpendicular direction
+                Vector3 sideDirection = Vector3.Cross(retreatDirection, Vector3.up).normalized;
+
+                // Randomly choose left or right
+                if (Random.value > 0.5f)
+                    sideDirection = -sideDirection;
+
+                // Move sideways
+                targetPosition = transform.position + (sideDirection * 5f);
+                transform.position = Vector3.MoveTowards(transform.position, targetPosition, retreatSpeed * Time.deltaTime);
+            }
+
+            // Keep a minimum distance from the player
+            float distanceToPlayer = Vector3.Distance(transform.position, target.position);
+            if (distanceToPlayer < minimumDistance * 2f)
+            {
+                // Move away faster when too close
+                transform.position = Vector3.MoveTowards(transform.position, targetPosition, retreatSpeed * 1.5f * Time.deltaTime);
+            }
+
+            yield return new WaitForSeconds(0.1f);
         }
-        else if (!hasUsedSecondAbility)
-        {
-            StartCoroutine(UseSecondAbility());
-        }
-    }
-
-    private IEnumerator UseSecondAbility()
-    {
-        hasUsedSecondAbility = true;
-        animator?.SetTrigger("Attack");
-
-        yield return new WaitForSeconds(attackDelay);
-
-        if (attackPrefabs.Length > 1)
-        {
-            Instantiate(attackPrefabs[1], transform.position, Quaternion.identity);
-        }
-
-        isReturning = false;
     }
 
     private void FlipSprite(float directionX)
@@ -155,6 +240,55 @@ public class FireBossAI : MonoBehaviour
         if (damageZonePrefab)
         {
             Instantiate(damageZonePrefab, transform.position, Quaternion.identity);
+        }
+    }
+
+    private void ShootProjectilesInCircle(int projectileCount)
+    {
+        float angleStep = 360f / projectileCount;
+        float angle = 0f;
+
+        for (int i = 0; i < projectileCount; i++)
+        {
+            float projectileDirX = Mathf.Cos(angle * Mathf.Deg2Rad);
+            float projectileDirY = Mathf.Sin(angle * Mathf.Deg2Rad);
+            Vector3 projectileDirection = new Vector3(projectileDirX, projectileDirY, 0f).normalized;
+
+            GameObject projectile = Instantiate(attackPrefabs[0], transform.position, Quaternion.identity);
+            Rigidbody rb = projectile.GetComponent<Rigidbody>();
+
+            if (rb != null)
+            {
+                rb.linearVelocity = projectileDirection * 5f;
+            }
+            else
+            {
+                Debug.LogError("Projectile has no Rigidbody!");
+            }
+
+            angle += angleStep;
+        }
+    }
+
+    private void ShootProjectilesInArc(int projectileCount, float arcAngle)
+    {
+        float startAngle = -arcAngle / 2f;
+        float angleStep = arcAngle / (projectileCount - 1);
+
+        for (int i = 0; i < projectileCount; i++)
+        {
+            float angle = startAngle + (angleStep * i);
+            float projectileDirX = Mathf.Cos(angle * Mathf.Deg2Rad);
+            float projectileDirY = Mathf.Sin(angle * Mathf.Deg2Rad);
+            Vector3 projectileDirection = new Vector3(projectileDirX, projectileDirY, 0f).normalized;
+
+            GameObject projectile = Instantiate(attackPrefabs[0], transform.position, Quaternion.identity);
+            Rigidbody rb = projectile.GetComponent<Rigidbody>();
+
+            if (rb != null)
+            {
+                rb.linearVelocity = projectileDirection * 5f;
+            }
         }
     }
 }
