@@ -1046,7 +1046,7 @@ PrefabInstance:
     - target: {fileID: 6759244168632040640, guid: 9a9aa303a578df1428a74bf50483a499, type: 3}
       propertyPath: enemy
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1149814890}
     - target: {fileID: 6759244168632040640, guid: 9a9aa303a578df1428a74bf50483a499, type: 3}
       propertyPath: maxAmount
       value: 100000
@@ -1255,6 +1255,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1220602294}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1149814890 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2327862122784175024, guid: d9b1ef5c3c78d894083e0a9f3095b0b1, type: 3}
+  m_PrefabInstance: {fileID: 7716023755249400521}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1165286681
 GameObject:
   m_ObjectHideFlags: 0
