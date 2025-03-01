@@ -469,6 +469,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 7
   gravityScale: 20
+  fixedHeight: 0.6
   animator: {fileID: 4389997477910760885}
 --- !u!114 &1418895337911205974
 MonoBehaviour:
