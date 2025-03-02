@@ -6,6 +6,12 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField] public int maxHealth = 100;
     public int currentHealth;
     [SerializeField] public Slider healthBarSlider;
+    [SerializeField] private bool triggerSequenceOnDeath = false;
+    [SerializeField] private GameObject objectToReveal;
+    [SerializeField] private GameObject secondObjectToReveal;
+    [SerializeField] private float delayBeforeSwitch = 3f;
+    private VisibilityObjects visibilityController;
+    private VisibilityObjects secondVisibilityController;
 
     void Start()
     {
@@ -14,6 +20,26 @@ public class EnemyHealth : MonoBehaviour
         {
             healthBarSlider.maxValue = maxHealth;
             healthBarSlider.value = currentHealth;
+        }
+
+        if (objectToReveal != null)
+        {
+            visibilityController = objectToReveal.GetComponent<VisibilityObjects>();
+            if (visibilityController == null)
+            {
+                visibilityController = objectToReveal.AddComponent<VisibilityObjects>();
+            }
+            visibilityController.SetVisibility(false);
+        }
+
+        if (secondObjectToReveal != null)
+        {
+            secondVisibilityController = secondObjectToReveal.GetComponent<VisibilityObjects>();
+            if (secondVisibilityController == null)
+            {
+                secondVisibilityController = secondObjectToReveal.AddComponent<VisibilityObjects>();
+            }
+            secondVisibilityController.SetVisibility(false);
         }
     }
 
@@ -35,6 +61,14 @@ public class EnemyHealth : MonoBehaviour
     private void Die()
     {
         Debug.Log($"{gameObject.name} has died.");
+        if (triggerSequenceOnDeath && objectToReveal != null && secondObjectToReveal != null)
+        {
+            ObjectSequenceManager.Instance.StartObjectSequence(objectToReveal, secondObjectToReveal, delayBeforeSwitch);
+        }
+        else
+        {
+            SceneController.Instance.LoadScene(3);
+        }
         Destroy(gameObject);
     }
 }
