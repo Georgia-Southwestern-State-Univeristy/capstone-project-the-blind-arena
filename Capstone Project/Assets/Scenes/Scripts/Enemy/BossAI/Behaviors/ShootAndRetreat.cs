@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,6 +13,11 @@ public class ShootAndRetreat : MonoBehaviour
     public GameObject projectile;
     public float timeBetweenShots;
     private float nextShotTime;
+
+    internal void StartShootAndRetreat()
+    {
+        throw new NotImplementedException();
+    }
 
     private void Update()
     {
