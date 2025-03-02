@@ -36,19 +36,26 @@ public class PlayerAttackManager : MonoBehaviour
     }
 
     private IEnumerator PerformAttack(AttackAttributes attack)
-    {
-        if (!HasEnoughStamina(attack)) yield break;
-        if (attack.lockVelocity) playerController?.LockMovement(attack.lockDuration);
-        yield return new WaitForSeconds(attack.delay);
+{
+    if (!HasEnoughStamina(attack)) yield break;
+    if (attack.lockVelocity) playerController?.LockMovement(attack.lockDuration);
 
-        DeductStamina(attack.staminaUse);
-        PlaySound(attack.attackSound);
-        GameObject attackObject = CreateAttackObject(attack);
+    // Trigger the attack animation
+    if (player.TryGetComponent(out Animator animator))
+        animator.SetTrigger(attack.name);
 
-        if (attack.detachFromPlayer) LaunchAttack(attackObject, GetAttackDirection(), attack.speed);
-        yield return new WaitForSeconds(attack.duration);
-        if (attackObject) Destroy(attackObject);
-    }
+    yield return new WaitForSeconds(attack.delay);
+
+    DeductStamina(attack.staminaUse);
+    PlaySound(attack.attackSound);
+    GameObject attackObject = CreateAttackObject(attack);
+
+    if (attack.detachFromPlayer) LaunchAttack(attackObject, GetAttackDirection(), attack.speed);
+    yield return new WaitForSeconds(attack.duration);
+
+    if (attackObject) Destroy(attackObject);
+}
+
 
     private bool HasEnoughStamina(AttackAttributes attack) => health == null || health.stamina >= attack.staminaUse;
     private void DeductStamina(int amount) => health?.UseStamina(amount);
@@ -132,13 +139,34 @@ public class PlayerAttackManager : MonoBehaviour
         attackObject.layer = LayerMask.NameToLayer("AttackObjects");
     }
 
-    private Vector3 GetAttackDirection()
+private Vector3 GetAttackDirection()
+{
+    // Get the mouse position in screen space
+    Vector3 mouseScreenPos = Input.mousePosition;
+
+    // Raycast from the camera to the world
+    Ray ray = Camera.main.ScreenPointToRay(mouseScreenPos);
+    
+    // Plane at the player's height (XZ plane in top-down perspective)
+    Plane groundPlane = new Plane(Vector3.up, player.transform.position);
+
+    // Find intersection point of the ray with the ground plane
+    if (groundPlane.Raycast(ray, out float distance))
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        return new Plane(Vector3.up, player.transform.position.y).Raycast(ray, out float distance)
-            ? (ray.GetPoint(distance) - player.transform.position).normalized
-            : player.transform.forward;
+        Vector3 mouseWorldPos = ray.GetPoint(distance);
+
+        // Compute direction, keeping attack movement in the XZ plane
+        Vector3 direction = (mouseWorldPos - player.transform.position).normalized;
+        direction.y = 0; // Ensure no unwanted vertical movement
+
+        return direction;
     }
+
+    // Default to facing forward if something goes wrong
+    return player.transform.forward;
+}
+
+
 
     private void LaunchAttack(GameObject attackObject, Vector3 direction, float speed)
     {
