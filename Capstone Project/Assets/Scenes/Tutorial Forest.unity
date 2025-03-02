@@ -15969,6 +15969,10 @@ MonoBehaviour:
   maxHealth: 100
   currentHealth: 0
   healthBarSlider: {fileID: 0}
+  triggerSequenceOnDeath: 0
+  objectToReveal: {fileID: 0}
+  secondObjectToReveal: {fileID: 0}
+  delayBeforeSwitch: 3
 --- !u!136 &1916247647
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -16026,7 +16030,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1916247642}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bf8aa73094ed6244b9976dc3c2ee109e, type: 3}
   m_Name: 
@@ -16043,7 +16047,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1916247642}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 111880097bcc3ea49b6bdadf8b8896de, type: 3}
   m_Name: 
