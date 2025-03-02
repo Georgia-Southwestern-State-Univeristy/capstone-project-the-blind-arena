@@ -9,6 +9,7 @@ public class WindBossAI : MonoBehaviour
     public float pushForce = 10f;
     public float attackDelay = 2f;
     public float projectileAttackRate = 1.5f;
+    public float finalPhaseAttackSpeedMultiplier = 2f; // How much faster attacks become in final phase
     public float retreatDistance = 5f;
     public float pushDistance = 2f;
     public Transform target;
@@ -30,11 +31,13 @@ public class WindBossAI : MonoBehaviour
     private bool isPlayerCentered;
     private float tornadoSpawnInterval = 3f;
     private Vector3 originalPlayerPosition;
+    private float currentProjectileRate;
 
     private void Start()
     {
         enemyHealth = GetComponent<EnemyHealth>();
         if (!enemyHealth) Debug.LogError("EnemyHealth component not found!");
+        currentProjectileRate = projectileAttackRate;
         StartCoroutine(ProjectileAttackLoop());
     }
 
@@ -131,7 +134,12 @@ public class WindBossAI : MonoBehaviour
             transform.position = bossWaypoint.position;
         }
         isPlayerCentered = false;
-        originalPlayerPosition = centerPoint.position; // Use center point as reference for X movement
+        originalPlayerPosition = centerPoint.position;
+
+        // Increase attack speed in final phase
+        currentProjectileRate = projectileAttackRate / finalPhaseAttackSpeedMultiplier;
+        StopCoroutine(ProjectileAttackLoop());
+        StartCoroutine(ProjectileAttackLoop());
     }
 
     private void HandleFinalPhase()
@@ -194,7 +202,7 @@ public class WindBossAI : MonoBehaviour
             {
                 Instantiate(attackPrefabs[Random.Range(0, attackPrefabs.Length)], transform.position, Quaternion.identity);
             }
-            yield return new WaitForSeconds(projectileAttackRate);
+            yield return new WaitForSeconds(currentProjectileRate);
         }
     }
 

@@ -3278,6 +3278,7 @@ MonoBehaviour:
   pushForce: 10
   attackDelay: 2
   projectileAttackRate: 1.5
+  finalPhaseAttackSpeedMultiplier: 5
   retreatDistance: 5
   pushDistance: 2
   target: {fileID: 583184018}
