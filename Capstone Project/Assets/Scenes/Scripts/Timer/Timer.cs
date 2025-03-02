@@ -7,6 +7,10 @@ public class GameTimer : MonoBehaviour
     public TextMeshProUGUI counterText;
     public GameObject enemy; // Reference to the enemy game object
 
+    private static float savedElapsedTime = 0f;
+    private static float savedCounter = 0f;
+    private static bool hasStoredTime = false;
+
     private float elapsedTime = 0f;
     private bool isPaused = false;
     private bool isStopped = false;
@@ -14,6 +18,17 @@ public class GameTimer : MonoBehaviour
     public float counterIncrement = 1f; // Amount to add every second
     public float maxAmount = 10f; // Max amount for subtraction
     private float counterTimer = 0f;
+
+    void Start()
+    {
+        if (hasStoredTime)
+        {
+            elapsedTime = savedElapsedTime;
+            counter = savedCounter;
+            UpdateTimerUI();
+            UpdateCounterUI();
+        }
+    }
 
     void Update()
     {
@@ -66,10 +81,18 @@ public class GameTimer : MonoBehaviour
         UpdateTimerUI();
     }
 
+    void StoreTimerState()
+    {
+        savedElapsedTime = elapsedTime;
+        savedCounter = counter;
+        hasStoredTime = true;
+    }
+
     void StopTimerAndCalculateScore()
     {
         isStopped = true;
         isPaused = true;
+        StoreTimerState();
         counter = maxAmount - counter; // Subtract counter from max amount
         UpdateCounterUI();
     }
@@ -88,5 +111,4 @@ public class GameTimer : MonoBehaviour
 
         return $"{hours:00}:{minutes:00}:{seconds:00}:{milliseconds:00}";
     }
-
 }
