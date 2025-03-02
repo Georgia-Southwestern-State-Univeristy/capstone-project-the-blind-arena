@@ -13,6 +13,7 @@ public class FireBossAI : MonoBehaviour
     public float attackDelay = 2f;
     public float projectileAttackRate = 1.5f;
     public float projectileSpeed = 8f;
+    public float projectileLife = 5f;
     public float retreatSpeed = 10f;
     public Animator animator;
     public GameObject[] attackPrefabs;
@@ -115,6 +116,7 @@ public class FireBossAI : MonoBehaviour
         while (elapsedTime < dashDuration)
         {
             transform.position += dashDirection * dashSpeed * Time.deltaTime;
+            FlipSprite(dashDirection.x);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
@@ -133,6 +135,7 @@ public class FireBossAI : MonoBehaviour
             {
                 GameObject projectile = Instantiate(attackPrefabs[0], transform.position, Quaternion.identity);
                 Vector3 direction = (target.position - transform.position).normalized;
+                FlipSprite(target.position.x);
                 Rigidbody rb = projectile.GetComponent<Rigidbody>();
                 if (rb != null)
                 {
@@ -152,6 +155,7 @@ public class FireBossAI : MonoBehaviour
         {
             // Calculate direction to waypoint
             Vector3 directionToWaypoint = (returnWaypoint.position - transform.position).normalized;
+            FlipSprite(directionToWaypoint.x);
 
             // Move towards waypoint
             transform.position += directionToWaypoint * retreatSpeed * Time.deltaTime;
@@ -160,6 +164,7 @@ public class FireBossAI : MonoBehaviour
             if (Vector3.Distance(transform.position, returnWaypoint.position) < 0.5f)
             {
                 ShootProjectilesInArc(8, 120f);
+                FlipSprite(target.position.x);
 
                 // Wait a bit before next volley
                 yield return new WaitForSeconds(2f);
@@ -193,6 +198,7 @@ public class FireBossAI : MonoBehaviour
             // Shoot projectiles while retreating
             GameObject projectile = Instantiate(attackPrefabs[0], transform.position, Quaternion.identity);
             Vector3 directionToPlayer = (target.position - transform.position).normalized;
+            FlipSprite(directionToPlayer.x);
             Rigidbody rb = projectile.GetComponent<Rigidbody>();
             if (rb != null)
             {
