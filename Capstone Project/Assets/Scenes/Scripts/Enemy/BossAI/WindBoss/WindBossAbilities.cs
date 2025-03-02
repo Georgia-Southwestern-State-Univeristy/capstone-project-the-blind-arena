@@ -10,6 +10,8 @@ public class WindBossAI : MonoBehaviour
     public float attackDelay = 2f;
     public float projectileAttackRate = 1.5f;
     public float finalPhaseAttackSpeedMultiplier = 2f; // How much faster attacks become in final phase
+    public float homingProjectileSpeed = 8f; // Speed for homing projectiles
+    public float homingProjectileLifespan = 4f; // How long homing projectiles last
     public float retreatDistance = 5f;
     public float pushDistance = 2f;
     public Transform target;
@@ -29,6 +31,7 @@ public class WindBossAI : MonoBehaviour
     private bool isInTornadoPhase;
     private bool isInFinalPhase;
     private bool isPlayerCentered;
+    private bool isHomingEnabled;
     private float tornadoSpawnInterval = 3f;
     private Vector3 originalPlayerPosition;
     private float currentProjectileRate;
@@ -47,6 +50,12 @@ public class WindBossAI : MonoBehaviour
 
         float healthPercentage = ((float)enemyHealth.currentHealth / enemyHealth.maxHealth) * 100f;
 
+        // Enable homing at 75% health
+        if (healthPercentage <= 75f && !isHomingEnabled && !isInFinalPhase)
+        {
+            isHomingEnabled = true;
+        }
+
         // Phase transitions based on enemy health
         if (healthPercentage <= 50f && !isInTornadoPhase)
         {
@@ -58,6 +67,7 @@ public class WindBossAI : MonoBehaviour
         {
             isInTornadoPhase = false;
             isInFinalPhase = true;
+            isHomingEnabled = false; // Disable homing in final phase
             StartFinalPhase();
         }
 
@@ -194,14 +204,26 @@ public class WindBossAI : MonoBehaviour
         }
     }
 
+    private void SpawnProjectile()
+    {
+        if (attackPrefabs.Length > 0)
+        {
+            GameObject projectileObj = Instantiate(attackPrefabs[Random.Range(0, attackPrefabs.Length)],
+                transform.position, Quaternion.identity);
+
+            Projectile projectile = projectileObj.GetComponent<Projectile>();
+            if (projectile != null)
+            {
+                projectile.EnableWindProjectile(isHomingEnabled, homingProjectileSpeed, homingProjectileLifespan);
+            }
+        }
+    }
+
     private IEnumerator ProjectileAttackLoop()
     {
         while (true)
         {
-            if (attackPrefabs.Length > 0)
-            {
-                Instantiate(attackPrefabs[Random.Range(0, attackPrefabs.Length)], transform.position, Quaternion.identity);
-            }
+            SpawnProjectile();
             yield return new WaitForSeconds(currentProjectileRate);
         }
     }

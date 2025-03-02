@@ -3279,6 +3279,8 @@ MonoBehaviour:
   attackDelay: 2
   projectileAttackRate: 1.5
   finalPhaseAttackSpeedMultiplier: 5
+  homingProjectileSpeed: 4
+  homingProjectileLifespan: 4
   retreatDistance: 5
   pushDistance: 2
   target: {fileID: 583184018}
