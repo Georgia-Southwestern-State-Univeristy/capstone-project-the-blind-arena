@@ -171,4 +171,32 @@ public class ShopManager : MonoBehaviour
         }
         return 0f; // Default: no time added if item not found
     }
+
+    // Method to get all purchased items
+    public Dictionary<Sprite, int> GetPurchasedItems()
+    {
+        return new Dictionary<Sprite, int>(purchasedItems);
+    }
+
+    // Method to get the sprite for a specific hotbar slot
+    public Sprite GetHotbarItemSprite(int slotIndex)
+    {
+        if (slotIndex >= 0 && slotIndex < hotbarSlots.Length)
+        {
+            return hotbarSlots[slotIndex].sprite;
+        }
+        return null;
+    }
+
+    // Method to get the count for a specific hotbar slot
+    public int GetHotbarItemCount(int slotIndex)
+    {
+        if (slotIndex >= 0 && slotIndex < hotbarSlots.Length && hotbarSlots[slotIndex].sprite != null)
+        {
+            return purchasedItems.ContainsKey(hotbarSlots[slotIndex].sprite)
+                ? purchasedItems[hotbarSlots[slotIndex].sprite]
+                : 0;
+        }
+        return 0;
+    }
 }
