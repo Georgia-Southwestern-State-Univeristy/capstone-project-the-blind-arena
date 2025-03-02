@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class WaterBossAI : MonoBehaviour
 {
-    public float speed;
+    public float speed = 5f;
     public Transform target;
-    public float minimumDistance;
+    public float minimumDistance = 5f;
     public float attackDelay = 2f;
     public float projectileAttackRate = 1.5f;
+    public float bubbleSpawnRate = 5f;
+    public float bubbleSpawnRadius = 3f;
+    public float tsunamiDamage = 25f;
     public Animator animator;
     public GameObject waterWhipPrefab;
     public GameObject waterBubblePrefab;
@@ -19,37 +22,56 @@ public class WaterBossAI : MonoBehaviour
     private EnemyHealth enemyHealth;
     private bool isAttacking = false;
     private bool hasEnteredDesperation = false;
+    private float lastBubbleSpawnTime;
 
     private void Start()
     {
         enemyHealth = GetComponent<EnemyHealth>();
         animator = GetComponent<Animator>();
+        lastBubbleSpawnTime = Time.time;
     }
 
     private void Update()
     {
-        if (enemyHealth.currentHealth <= enemyHealth.maxHealth / 4 && !hasEnteredDesperation)
+        float healthPercentage = (float)enemyHealth.currentHealth / enemyHealth.maxHealth * 100f;
+
+        // Tsunami phase at 25% health
+        if (healthPercentage <= 25f && !hasEnteredDesperation)
         {
             hasEnteredDesperation = true;
             StartCoroutine(TsunamiBarrage());
         }
-        else if (Vector3.Distance(transform.position, target.position) <= minimumDistance)
+
+        float distanceToPlayer = Vector3.Distance(transform.position, target.position);
+
+        // Attack pattern based on distance
+        if (!isAttacking)
         {
-            StartCoroutine(WaterWhipAttack());
-        }
-        else
-        {
-            StartCoroutine(IceSpikeAttack());
+            if (distanceToPlayer <= minimumDistance)
+            {
+                StartCoroutine(WaterWhipAttack());
+            }
+            else
+            {
+                StartCoroutine(IceSpikeAttack());
+            }
         }
 
-        SpawnWaterBubble();
+        // Spawn water bubbles periodically
+        if (Time.time >= lastBubbleSpawnTime + bubbleSpawnRate)
+        {
+            SpawnWaterBubble();
+            lastBubbleSpawnTime = Time.time;
+        }
+
         MoveTowardsPlayer();
         FlipSprite(target.position.x - transform.position.x);
     }
 
     private void MoveTowardsPlayer()
     {
-        if (Vector3.Distance(transform.position, target.position) > minimumDistance)
+        float distanceToPlayer = Vector3.Distance(transform.position, target.position);
+        if (distanceToPlayer > minimumDistance)
         {
             Vector3 direction = (target.position - transform.position).normalized;
             transform.position += direction * speed * Time.deltaTime;
@@ -68,7 +90,13 @@ public class WaterBossAI : MonoBehaviour
     {
         if (isAttacking) yield break;
         isAttacking = true;
-        Instantiate(waterWhipPrefab, transform.position, Quaternion.identity);
+
+        if (animator != null)
+            animator.SetTrigger("WaterWhip");
+
+        GameObject whip = Instantiate(waterWhipPrefab, transform.position, Quaternion.identity);
+        whip.transform.parent = transform;
+
         yield return new WaitForSeconds(attackDelay);
         isAttacking = false;
     }
@@ -77,23 +105,41 @@ public class WaterBossAI : MonoBehaviour
     {
         if (isAttacking) yield break;
         isAttacking = true;
-        Instantiate(iceSpikePrefab, transform.position, Quaternion.identity);
+
+        if (animator != null)
+            animator.SetTrigger("IceSpike");
+
+        Vector3 direction = (target.position - transform.position).normalized;
+        GameObject spike = Instantiate(iceSpikePrefab, transform.position, Quaternion.LookRotation(direction));
+
         yield return new WaitForSeconds(projectileAttackRate);
         isAttacking = false;
     }
 
     private void SpawnWaterBubble()
     {
-        if (Random.Range(0, 100) < 5)
-        {
-            Vector3 spawnPosition = target.position + new Vector3(Random.Range(-2f, 2f), 0, Random.Range(-2f, 2f));
-            Instantiate(waterBubblePrefab, spawnPosition, Quaternion.identity);
-        }
+        // Calculate random position near the player
+        Vector2 randomCircle = Random.insideUnitCircle * bubbleSpawnRadius;
+        Vector3 spawnPosition = target.position + new Vector3(randomCircle.x, 0, randomCircle.y);
+
+        GameObject bubble = Instantiate(waterBubblePrefab, spawnPosition, Quaternion.identity);
+        Destroy(bubble, 5f); // Destroy bubble after 5 seconds if not interacted with
     }
 
     private IEnumerator TsunamiBarrage()
     {
-        Instantiate(tsunamiPrefab, tsunamiSpawnPoint.position, Quaternion.identity);
-        yield return new WaitForSeconds(attackDelay);
+        if (animator != null)
+            animator.SetTrigger("Tsunami");
+
+        GameObject tsunami = Instantiate(tsunamiPrefab, tsunamiSpawnPoint.position, Quaternion.identity);
+
+        // Configure tsunami properties
+        Projectile tsunamiProjectile = tsunami.GetComponent<Projectile>();
+        if (tsunamiProjectile != null)
+        {
+            tsunamiProjectile.speed = 15f;
+        }
+
+        yield return new WaitForSeconds(attackDelay * 2f); // Longer delay for tsunami
     }
 }

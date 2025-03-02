@@ -4,6 +4,7 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float speed = 0.1f;
     [SerializeField] private float gravityScale = 20f;
+    [SerializeField] private float fixedHeight = 0f;
 
     public Animator animator;
     private Rigidbody rb;
@@ -51,7 +52,9 @@ public class PlayerController : MonoBehaviour
     {
         if (isMovementLocked)
         {
-            rb.linearVelocity = externalForce; // Only external forces should apply when movement is locked
+            // Keep y position fixed when applying external forces
+            Vector3 lockedExternalForce = new Vector3(externalForce.x, 0, externalForce.z);
+            rb.linearVelocity = lockedExternalForce;
             return;
         }
 
@@ -62,8 +65,14 @@ public class PlayerController : MonoBehaviour
             inputVelocity = new Vector3(1.5f * input.x, 0, 2f * input.z) * speed;
         }
 
-        // Combine movement input and external forces
-        rb.linearVelocity = inputVelocity + externalForce;
+        // Combine movement input and external forces, keeping y fixed
+        Vector3 combinedVelocity = inputVelocity + new Vector3(externalForce.x, 0, externalForce.z);
+        rb.linearVelocity = combinedVelocity;
+
+        // Maintain fixed y position
+        Vector3 position = transform.position;
+        position.y = fixedHeight;
+        transform.position = position;
 
         CheckForFlipping();
     }
@@ -103,7 +112,8 @@ public class PlayerController : MonoBehaviour
     // NEW: Apply an external force to the player (e.g., enemy knockback)
     public void ApplyExternalForce(Vector3 force, float duration)
     {
-        externalForce = force;
+        // Only apply force in X and Z directions
+        externalForce = new Vector3(force.x, 0, force.z);
         Invoke(nameof(ClearExternalForce), duration);
     }
 
