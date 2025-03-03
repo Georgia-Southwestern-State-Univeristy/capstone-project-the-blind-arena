@@ -1688,6 +1688,26 @@ PrefabInstance:
       value: 100000
       objectReference: {fileID: 0}
     - target: {fileID: 7654331838401655838, guid: d9b1ef5c3c78d894083e0a9f3095b0b1, type: 3}
+      propertyPath: flashColor.b
+      value: 0.013107816
+      objectReference: {fileID: 0}
+    - target: {fileID: 7654331838401655838, guid: d9b1ef5c3c78d894083e0a9f3095b0b1, type: 3}
+      propertyPath: flashColor.g
+      value: 0.013107816
+      objectReference: {fileID: 0}
+    - target: {fileID: 7654331838401655838, guid: d9b1ef5c3c78d894083e0a9f3095b0b1, type: 3}
+      propertyPath: flashColor.r
+      value: 0.9924528
+      objectReference: {fileID: 0}
+    - target: {fileID: 7654331838401655838, guid: d9b1ef5c3c78d894083e0a9f3095b0b1, type: 3}
+      propertyPath: flashDuration
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7654331838401655838, guid: d9b1ef5c3c78d894083e0a9f3095b0b1, type: 3}
+      propertyPath: flashIntensity
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7654331838401655838, guid: d9b1ef5c3c78d894083e0a9f3095b0b1, type: 3}
       propertyPath: objectToReveal
       value: 
       objectReference: {fileID: 4470992997320542419}
