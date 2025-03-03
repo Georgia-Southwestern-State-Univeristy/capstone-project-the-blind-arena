@@ -25,12 +25,24 @@ public class FireBossAI : MonoBehaviour
     private bool isThrowingProjectiles;
     private bool isFinalPhase;
     private Vector3 retreatDirection;
+    private bool isKnockedBack = false;
+    private float knockbackRecoveryTime = 0.5f;
 
     private float fixedHeight = 0.6f;
 
     private void Start()
     {
         enemyHealth = GetComponent<EnemyHealth>();
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.freezeRotation = true;  // Prevent the boss from rotating when hit
+            rb.constraints = RigidbodyConstraints.FreezeRotation;  // Only freeze rotation, allow position changes
+        }
+        else
+        {
+            Debug.LogError("Rigidbody component not found!");
+        }
 
         if (!enemyHealth) Debug.LogError("EnemyHealth component not found!");
     }
@@ -40,6 +52,12 @@ public class FireBossAI : MonoBehaviour
         if (!target)
         {
             Debug.LogWarning("No target assigned to FireBoss!");
+            return;
+        }
+
+        // If being knocked back, don't run normal movement logic
+        if (isKnockedBack)
+        {
             return;
         }
 
@@ -237,6 +255,36 @@ public class FireBossAI : MonoBehaviour
             }
 
             yield return new WaitForSeconds(0.1f);
+        }
+    }
+
+    public void OnKnockback()
+    {
+        if (!isKnockedBack)
+        {
+            isKnockedBack = true;
+            StopAllCoroutines();
+            StartCoroutine(KnockbackRecovery());
+        }
+    }
+
+    private IEnumerator KnockbackRecovery()
+    {
+        yield return new WaitForSeconds(knockbackRecoveryTime);
+        isKnockedBack = false;
+        
+        // Resume previous behavior
+        if (isFinalPhase)
+        {
+            StartCoroutine(FinalPhaseRoutine());
+        }
+        else if (isReturning)
+        {
+            StartCoroutine(RetreatPhaseRoutine());
+        }
+        else if (isThrowingProjectiles)
+        {
+            StartCoroutine(ProjectileAttackLoop());
         }
     }
 
