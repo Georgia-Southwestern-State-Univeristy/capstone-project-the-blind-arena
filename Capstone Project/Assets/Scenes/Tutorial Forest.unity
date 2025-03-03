@@ -17453,6 +17453,12 @@ MonoBehaviour:
   maxHealth: 100
   currentHealth: 100
   healthBarSlider: {fileID: 5503053709122633081}
+  triggerSequenceOnDeath: 0
+  objectToReveal: {fileID: 0}
+  secondObjectToReveal: {fileID: 0}
+  delayBeforeSwitch: 3
+  flashDuration: 0.1
+  flashColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!212 &1083216293132928131
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -17609,32 +17615,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b73f89d98f7d94445ae817ce72ac1dcf, type: 3}
---- !u!114 &3240001364216691963
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7922312881509618573}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7248c623f2802048b143d2d4b22c363, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 5
-  dashSpeed: 15
-  dashDuration: 0.2
-  target: {fileID: 299378082}
-  returnWaypoint: {fileID: 972313996}
-  minimumDistance: 1
-  attackDelay: 1
-  projectileAttackRate: 1.5
-  projectileSpeed: 8
-  retreatSpeed: 10
-  animator: {fileID: 4004997834592262224}
-  attackPrefabs:
-  - {fileID: 3385370464702776025, guid: 92ba59d049dbfe941ada05bce059441d, type: 3}
-  damageZonePrefab: {fileID: 3528919003509216309}
 --- !u!1 &3408026598670605803
 GameObject:
   m_ObjectHideFlags: 0
@@ -18488,7 +18468,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8173182488433606927}
-  - component: {fileID: 3240001364216691963}
   - component: {fileID: 3498579726883184862}
   - component: {fileID: 180537093129940744}
   - component: {fileID: 8416600866201321330}
@@ -18499,6 +18478,7 @@ GameObject:
   - component: {fileID: 8479325626135010139}
   - component: {fileID: 4004997834592262224}
   - component: {fileID: 1083216293132928131}
+  - component: {fileID: 8860366477653967711}
   m_Layer: 0
   m_Name: Enemy Ai
   m_TagString: Untagged
@@ -18626,6 +18606,31 @@ CapsuleCollider:
   m_Height: 0.75
   m_Direction: 1
   m_Center: {x: 0, y: 0.1, z: 0}
+--- !u!114 &8860366477653967711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7922312881509618573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00abc2130ce3a8f4b842a5b398562fff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 5
+  dashSpeed: 15
+  dashDuration: 0.2
+  target: {fileID: 299378082}
+  returnWaypoint: {fileID: 972313996}
+  minimumDistance: 5
+  attackDelay: 2
+  projectileAttackRate: 1.5
+  projectileSpeed: 8
+  projectileLife: 5
+  animator: {fileID: 4004997834592262224}
+  attackPrefabs:
+  - {fileID: 3385370464702776025, guid: 92ba59d049dbfe941ada05bce059441d, type: 3}
 --- !u!1 &8864738923080733122
 GameObject:
   m_ObjectHideFlags: 0
