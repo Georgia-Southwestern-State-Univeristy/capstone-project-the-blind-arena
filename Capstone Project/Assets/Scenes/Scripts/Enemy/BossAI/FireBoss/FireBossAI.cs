@@ -25,12 +25,23 @@ public class FireBossAI : MonoBehaviour
     private bool isThrowingProjectiles;
     private bool isFinalPhase;
     private Vector3 retreatDirection;
+    private Rigidbody rb;
+    private Vector3 knockbackVelocity;
+    private float knockbackRecoverySpeed = 5f;
+    private bool isKnockedBack;
 
     private void Start()
     {
         enemyHealth = GetComponent<EnemyHealth>();
-
+        rb = GetComponent<Rigidbody>();
         if (!enemyHealth) Debug.LogError("EnemyHealth component not found!");
+        if (rb != null)
+        {
+            rb.freezeRotation = true;
+            rb.useGravity = false;
+            rb.constraints = RigidbodyConstraints.FreezeRotation;  // Allow Y position for smooth movement
+            rb.linearVelocity = Vector3.zero;
+        }
     }
 
     private void Update()
@@ -39,6 +50,30 @@ public class FireBossAI : MonoBehaviour
         {
             Debug.LogWarning("No target assigned to FireBoss!");
             return;
+        }
+
+        // Handle knockback recovery
+        if (knockbackVelocity.magnitude > 0.1f)
+        {
+            knockbackVelocity = Vector3.Lerp(knockbackVelocity, Vector3.zero, knockbackRecoverySpeed * Time.deltaTime);
+            if (rb != null)
+            {
+                rb.linearVelocity = new Vector3(knockbackVelocity.x, 0, knockbackVelocity.z);
+            }
+            return; // Don't perform other actions while being knocked back
+        }
+        else if (isKnockedBack)
+        {
+            isKnockedBack = false;
+            rb.linearVelocity = Vector3.zero;
+        }
+
+        // Maintain constant Y position when not being knocked back
+        if (!isKnockedBack && rb != null)
+        {
+            Vector3 pos = transform.position;
+            pos.y = 0;  // Or whatever your ground level is
+            transform.position = pos;
         }
 
         // Final phase (25% health)
@@ -72,7 +107,7 @@ public class FireBossAI : MonoBehaviour
         }
 
         // Normal phase
-        if (!isDashing && !isReturning)
+        if (!isDashing && !isReturning && !isKnockedBack)
         {
             // Start shooting if not already
             if (!isThrowingProjectiles)
@@ -95,8 +130,26 @@ public class FireBossAI : MonoBehaviour
         }
     }
 
+    public void ApplyKnockback(Vector3 force)
+    {
+        isKnockedBack = true;
+        knockbackVelocity = force;
+        if (rb != null)
+        {
+            // Ensure knockback is only applied horizontally
+            rb.linearVelocity = new Vector3(force.x, 0, force.z);
+            
+            // Interrupt current actions
+            isDashing = false;
+            isThrowingProjectiles = false;
+            StopAllCoroutines();
+        }
+    }
+
     private void MoveTowardsPlayer()
     {
+        if (isKnockedBack) return;
+        
         Vector3 direction = (target.position - transform.position).normalized;
         transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
         animator.SetFloat("speed", Mathf.Abs(transform.position.magnitude - target.position.magnitude));
@@ -112,7 +165,7 @@ public class FireBossAI : MonoBehaviour
         Vector3 dashDirection = (target.position - transform.position).normalized;
         float elapsedTime = 0f;
 
-        while (elapsedTime < dashDuration)
+        while (elapsedTime < dashDuration && !isKnockedBack)
         {
             transform.position += dashDirection * dashSpeed * Time.deltaTime;
             elapsedTime += Time.deltaTime;
@@ -127,7 +180,7 @@ public class FireBossAI : MonoBehaviour
     private IEnumerator ProjectileAttackLoop()
     {
         isThrowingProjectiles = true;
-        while (isThrowingProjectiles)
+        while (isThrowingProjectiles && !isKnockedBack)
         {
             if (attackPrefabs.Length > 0)
             {
@@ -148,13 +201,19 @@ public class FireBossAI : MonoBehaviour
     {
         while (enemyHealth.currentHealth <= enemyHealth.maxHealth * 0.5f &&
                enemyHealth.currentHealth > enemyHealth.maxHealth * 0.25f &&
-               isReturning)  // Add isReturning check
+               isReturning && !isKnockedBack)
         {
             // Calculate direction to waypoint
             Vector3 directionToWaypoint = (returnWaypoint.position - transform.position).normalized;
+            directionToWaypoint.y = 0;  // Ensure horizontal movement only
 
             // Move towards waypoint
             transform.position += directionToWaypoint * retreatSpeed * Time.deltaTime;
+
+            // Maintain Y position
+            Vector3 pos = transform.position;
+            pos.y = 0;  // Or whatever your ground level is
+            transform.position = pos;
 
             // If we reached the waypoint, shoot arc pattern
             if (Vector3.Distance(transform.position, returnWaypoint.position) < 0.5f)
@@ -171,7 +230,7 @@ public class FireBossAI : MonoBehaviour
 
                 // Move to new position
                 while (Vector3.Distance(transform.position, newPosition) > 0.5f &&
-                       isReturning &&  // Add isReturning check
+                       isReturning && !isKnockedBack &&
                        enemyHealth.currentHealth > enemyHealth.maxHealth * 0.25f)
                 {
                     transform.position = Vector3.MoveTowards(transform.position, newPosition, retreatSpeed * Time.deltaTime);
@@ -185,7 +244,7 @@ public class FireBossAI : MonoBehaviour
 
     private IEnumerator FinalPhaseRoutine()
     {
-        while (true)
+        while (!isKnockedBack)
         {
             // Calculate retreat direction (opposite of player)
             retreatDirection = (transform.position - target.position).normalized;
@@ -194,6 +253,7 @@ public class FireBossAI : MonoBehaviour
             GameObject projectile = Instantiate(attackPrefabs[0], transform.position, Quaternion.identity);
             Vector3 directionToPlayer = (target.position - transform.position).normalized;
             Rigidbody rb = projectile.GetComponent<Rigidbody>();
+
             if (rb != null)
             {
                 rb.linearVelocity = directionToPlayer * projectileSpeed;

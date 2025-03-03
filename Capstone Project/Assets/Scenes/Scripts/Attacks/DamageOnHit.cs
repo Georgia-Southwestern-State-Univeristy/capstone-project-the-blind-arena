@@ -8,39 +8,48 @@ public class DamageOnHit : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log($"Triggered with {other.name}");
-
         EnemyHealth enemyHealth = other.GetComponent<EnemyHealth>();
-        Rigidbody enemyRb = other.GetComponent<Rigidbody>();
+        FireBossAI fireBoss = other.GetComponent<FireBossAI>();
 
         if (enemyHealth != null)
         {
             enemyHealth.Damage(damageAmount);
-            Debug.Log($"Dealt {damageAmount} damage to {other.name}");
 
-            if (enemyRb != null)
+            if (fireBoss != null)
             {
                 Vector3 knockbackDirection;
+                Vector3 attackCenter = transform.position;
 
+                // For detached attacks (like projectiles), use their forward direction
                 if (detachFromPlayer)
                 {
-                    // Use the attack's forward direction, but remove any vertical component.
                     knockbackDirection = transform.forward;
-                    knockbackDirection.y = 0;
-                    knockbackDirection = knockbackDirection.normalized;
                 }
+                // For attached attacks (like melee), push away from attack center
                 else
                 {
-                    // Knockback away from the center of the attack's hitbox.
-                    knockbackDirection = (other.transform.position - transform.position);
-                    knockbackDirection.y = 0;  // Remove vertical momentum.
-                    knockbackDirection = knockbackDirection.normalized;
+                    knockbackDirection = (other.transform.position - attackCenter);
                 }
 
-                enemyRb.AddForce(knockbackDirection * knockbackStrength, ForceMode.Impulse);
+                // Ensure knockback is only horizontal (XZ plane)
+                knockbackDirection.y = 0;
+                knockbackDirection = knockbackDirection.normalized;
+
+                // Calculate final knockback force with equal X and Z components
+                Vector3 knockbackForce = new Vector3(
+                    knockbackDirection.x * knockbackStrength,
+                    0,
+                    knockbackDirection.z * knockbackStrength
+                );
+
+                // Apply knockback force
+                fireBoss.ApplyKnockback(knockbackForce);
             }
 
-            Destroy(gameObject);
+            if (!detachFromPlayer)
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }
