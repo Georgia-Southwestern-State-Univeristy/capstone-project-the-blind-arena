@@ -26,6 +26,8 @@ public class FireBossAI : MonoBehaviour
     private bool isFinalPhase;
     private Vector3 retreatDirection;
 
+    private float fixedHeight = 0.6f;
+
     private void Start()
     {
         enemyHealth = GetComponent<EnemyHealth>();
@@ -101,6 +103,10 @@ public class FireBossAI : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
         animator.SetFloat("speed", Mathf.Abs(transform.position.magnitude - target.position.magnitude));
         FlipSprite(direction.x);
+
+        Vector3 position = transform.position;
+        position.y = fixedHeight;
+        transform.position = position;
     }
 
     private IEnumerator DashAttack()
@@ -168,6 +174,10 @@ public class FireBossAI : MonoBehaviour
                 Vector3 randomOffset = Random.insideUnitSphere * 3f;
                 randomOffset.y = 0; // Keep on same Y plane
                 Vector3 newPosition = returnWaypoint.position + randomOffset;
+
+                Vector3 position = transform.position;
+                position.y = fixedHeight;
+                transform.position = position;
 
                 // Move to new position
                 while (Vector3.Distance(transform.position, newPosition) > 0.5f &&
