@@ -2,25 +2,33 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private float speed = 0.1f;
+    [SerializeField] private float speed;
+    [SerializeField] private float dashSpeedMultiplier = 2f; // Multiplier for dash speed
     [SerializeField] private float gravityScale = 20f;
+    [SerializeField] private float dashStaminaCost = 0.3f; // Stamina cost per frame while dashing
     private float fixedHeight = 0.6f;
+    private bool isDashing = false;
 
     public Animator animator;
     private Rigidbody rb;
     private Vector3 moveDir;
     private bool isMovementLocked = false;
-    private Vector3 externalForce = Vector3.zero; // NEW: Tracks enemy knockback or external forces
+    private Vector3 externalForce = Vector3.zero; // Tracks enemy knockback or external forces
     private Renderer playerRenderer;
+    private Health healthScript;
+    private float originalSpeed;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         playerRenderer = GetComponentInChildren<Renderer>(true);
+        healthScript = GetComponent<Health>();
 
         rb.interpolation = RigidbodyInterpolation.Interpolate;
         rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
         rb.useGravity = false;
+
+        originalSpeed = speed;
     }
 
     void Update()
@@ -40,6 +48,9 @@ public class PlayerController : MonoBehaviour
         moveDir.z = Mathf.Abs(verticalInput) > inputThreshold ? verticalInput : 0;
 
         animator.SetFloat("Speed", Mathf.Abs(combinedInput));
+        animator.SetBool("isDashing", isDashing);
+
+        HandleDashInput();
     }
 
     private void FixedUpdate()
@@ -52,7 +63,6 @@ public class PlayerController : MonoBehaviour
     {
         if (isMovementLocked)
         {
-            // Keep y position fixed when applying external forces
             Vector3 lockedExternalForce = new Vector3(externalForce.x, 0, externalForce.z);
             rb.linearVelocity = lockedExternalForce;
             return;
@@ -65,11 +75,9 @@ public class PlayerController : MonoBehaviour
             inputVelocity = new Vector3(1.5f * input.x, 0, 2f * input.z) * speed;
         }
 
-        // Combine movement input and external forces, keeping y fixed
         Vector3 combinedVelocity = inputVelocity + new Vector3(externalForce.x, 0, externalForce.z);
         rb.linearVelocity = combinedVelocity;
 
-        // Maintain fixed y position
         Vector3 position = transform.position;
         position.y = fixedHeight;
         transform.position = position;
@@ -109,10 +117,8 @@ public class PlayerController : MonoBehaviour
         isMovementLocked = false;
     }
 
-    // NEW: Apply an external force to the player (e.g., enemy knockback)
     public void ApplyExternalForce(Vector3 force, float duration)
     {
-        // Only apply force in X and Z directions
         externalForce = new Vector3(force.x, 0, force.z);
         Invoke(nameof(ClearExternalForce), duration);
     }
@@ -120,5 +126,24 @@ public class PlayerController : MonoBehaviour
     private void ClearExternalForce()
     {
         externalForce = Vector3.zero;
+    }
+
+    private void HandleDashInput()
+    {
+        if (Input.GetKey(KeyCode.Space) && healthScript.stamina > 0)
+        {
+            if (!isDashing)
+            {
+                isDashing = true;
+                speed *= dashSpeedMultiplier;
+            }
+
+            healthScript.UseStamina(dashStaminaCost);
+        }
+        else if (isDashing)
+        {
+            isDashing = false;
+            speed = originalSpeed;
+        }
     }
 }
