@@ -7,13 +7,13 @@ public class PlayerAttackManager : MonoBehaviour
     public GameObject player;
     public AudioSource audioSource;
     private PlayerController playerController;
+    public Animator animator;
 
     [System.Serializable]
     public class AttackAttributes
     {
         public string name;
-        public float priority, damage, knockbackStrength, speed, duration, delay, gravityScale, lockDuration;
-        public int staminaUse;
+        public float  damage, knockbackStrength, speed, duration, delay, gravityScale, lockDuration, staminaUse;
         public bool detachFromPlayer, lockVelocity, isPhysical;
         public ColliderType colliderShape;
         public Vector3 colliderSize = Vector3.one, colliderRotation = Vector3.zero, spriteSize = Vector3.one, spriteRotation = Vector3.zero, startingOffset = Vector3.zero;
@@ -37,28 +37,38 @@ public class PlayerAttackManager : MonoBehaviour
 
     private IEnumerator PerformAttack(AttackAttributes attack)
 {
-    if (!HasEnoughStamina(attack)) yield break;
-    if (attack.lockVelocity) playerController?.LockMovement(attack.lockDuration);
-
-    // Trigger the attack animation
-    if (player.TryGetComponent(out Animator animator))
+    // Check if the player has enough stamina to perform the attack
+    if (!HasEnoughStamina(attack)) {
+        yield break; 
+    } else {
         animator.SetTrigger(attack.name);
 
+    }
+    
+
+    // Lock player movement if the attack requires it
+    if (attack.lockVelocity) playerController?.LockMovement(attack.lockDuration);
+
+    // Wait for the attack delay before proceeding
     yield return new WaitForSeconds(attack.delay);
 
+    // Deduct stamina and proceed with the attack
     DeductStamina(attack.staminaUse);
     PlaySound(attack.attackSound);
     GameObject attackObject = CreateAttackObject(attack);
 
+    // Launch the attack if it detaches from the player
     if (attack.detachFromPlayer) LaunchAttack(attackObject, GetAttackDirection(), attack.speed);
+
+    // Wait for the attack duration before destroying the attack object
     yield return new WaitForSeconds(attack.duration);
 
+    // Clean up the attack object
     if (attackObject) Destroy(attackObject);
 }
 
-
-    private bool HasEnoughStamina(AttackAttributes attack) => health == null || health.stamina >= attack.staminaUse;
-    private void DeductStamina(int amount) => health?.UseStamina(amount);
+    private bool HasEnoughStamina(AttackAttributes attack) => health.stamina >= attack.staminaUse;
+    private void DeductStamina(float amount) => health?.UseStamina(amount);
     private void PlaySound(AudioClip clip) { if (clip && audioSource) audioSource.PlayOneShot(clip); }
 
     private GameObject CreateAttackObject(AttackAttributes attack)
@@ -139,34 +149,21 @@ public class PlayerAttackManager : MonoBehaviour
         attackObject.layer = LayerMask.NameToLayer("AttackObjects");
     }
 
-private Vector3 GetAttackDirection()
-{
-    // Get the mouse position in screen space
-    Vector3 mouseScreenPos = Input.mousePosition;
-
-    // Raycast from the camera to the world
-    Ray ray = Camera.main.ScreenPointToRay(mouseScreenPos);
-    
-    // Plane at the player's height (XZ plane in top-down perspective)
-    Plane groundPlane = new Plane(Vector3.up, player.transform.position);
-
-    // Find intersection point of the ray with the ground plane
-    if (groundPlane.Raycast(ray, out float distance))
+    private Vector3 GetAttackDirection()
     {
-        Vector3 mouseWorldPos = ray.GetPoint(distance);
+        Vector3 mouseScreenPos = Input.mousePosition;
+        Ray ray = Camera.main.ScreenPointToRay(mouseScreenPos);
+        Plane groundPlane = new Plane(Vector3.up, player.transform.position);
 
-        // Compute direction, keeping attack movement in the XZ plane
-        Vector3 direction = (mouseWorldPos - player.transform.position).normalized;
-        direction.y = 0; // Ensure no unwanted vertical movement
-
-        return direction;
+        if (groundPlane.Raycast(ray, out float distance))
+        {
+            Vector3 mouseWorldPos = ray.GetPoint(distance);
+            Vector3 direction = (mouseWorldPos - player.transform.position).normalized;
+            direction.y = 0;
+            return direction;
+        }
+        return player.transform.forward;
     }
-
-    // Default to facing forward if something goes wrong
-    return player.transform.forward;
-}
-
-
 
     private void LaunchAttack(GameObject attackObject, Vector3 direction, float speed)
     {

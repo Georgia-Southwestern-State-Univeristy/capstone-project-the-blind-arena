@@ -10,8 +10,8 @@ public class Health : MonoBehaviour
 
     private int MAX_HEALTH = 300;
     private float MAX_STAMINA = 100f;
-    private int staminaRegenRate = 8; // Stamina regenerates by 1 per 0.3 seconds
-    private float staminaRegenDelay = 2.5f; // Delay before stamina starts regenerating
+    private int staminaRegenRate = 9; // Stamina regenerates by 1 per 0.3 seconds
+    private float staminaRegenDelay = 2f; // Delay before stamina starts regenerating
     private float lastStaminaUseTime; // Tracks last time stamina was used
 
     // New variables for timer-based regeneration

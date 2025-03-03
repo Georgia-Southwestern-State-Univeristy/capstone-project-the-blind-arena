@@ -25,16 +25,7 @@ public class PlayerAttack : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Alpha1 + i))
             {
                 attackManager.TriggerAttack(attackTypes[i]);
-                PlayAttackAnimation(attackTypes[i]);
             }
         }
-    }
-
-    private void PlayAttackAnimation(string attackName)
-    {
-        if (animator != null)
-            animator.SetTrigger(attackName);
-        else
-            Debug.LogWarning("Animator is not assigned to PlayerAttack script.");
     }
 }
