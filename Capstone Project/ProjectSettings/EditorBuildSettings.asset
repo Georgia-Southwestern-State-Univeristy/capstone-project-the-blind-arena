@@ -9,6 +9,12 @@ EditorBuildSettings:
     path: Assets/Scenes/Main Menu.unity
     guid: b3dc3391a9c8d764cb07ee838dc04fc4
   - enabled: 1
+    path: Assets/Scenes/Tutorial Forest.unity
+    guid: ac4891aba52657e488b433485106bf0e
+  - enabled: 1
+    path: Assets/Scenes/Gladiator's Rest.unity
+    guid: 83b7eca95da7f1f40947291dd9774b3c
+  - enabled: 1
     path: Assets/Scenes/Ai testing grounds.unity
     guid: fba65f66ab1b6f64bbbf2d9ceb16b5bd
   m_configObjects:

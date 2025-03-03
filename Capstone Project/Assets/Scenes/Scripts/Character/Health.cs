@@ -4,15 +4,14 @@ using UnityEngine.UI;
 public class Health : MonoBehaviour
 {
     [SerializeField] public int health = 100;
-    [SerializeField] public int stamina = 100;
+    [SerializeField] public float stamina = 100f;
     [SerializeField] private Slider healthBarSlider; // Health bar UI
     [SerializeField] private Slider staminaBarSlider; // Stamina bar UI
 
-    private int MAX_HEALTH = 100;
-    private int MAX_STAMINA = 100;
-    private int attackCost = 20; // Stamina cost for attacking
-    private int staminaRegenRate = 5; // Stamina regenerates by 1 per 0.3 seconds
-    private float staminaRegenDelay = 3f; // Delay before stamina starts regenerating
+    private int MAX_HEALTH = 300;
+    private float MAX_STAMINA = 100f;
+    private int staminaRegenRate = 8; // Stamina regenerates by 1 per 0.3 seconds
+    private float staminaRegenDelay = 2.5f; // Delay before stamina starts regenerating
     private float lastStaminaUseTime; // Tracks last time stamina was used
 
     // New variables for timer-based regeneration
@@ -46,11 +45,6 @@ public class Health : MonoBehaviour
         {
             Heal(10);
         }
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Attack();
-        }
-
         RegenerateStamina();
     }
 
@@ -75,20 +69,7 @@ public class Health : MonoBehaviour
         UpdateHealthBar();
     }
 
-    private void Attack()
-    {
-        if (stamina >= attackCost)
-        {
-            Debug.Log("Player attacked!");
-            UseStamina(attackCost);
-        }
-        else
-        {
-            Debug.Log("Not enough stamina to attack!");
-        }
-    }
-
-    public void UseStamina(int amount)
+    public void UseStamina(float amount)
     {
         stamina = Mathf.Max(stamina - amount, 0);
         UpdateStaminaBar();

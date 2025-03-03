@@ -7,20 +7,38 @@ public class SaveData : MonoBehaviour
 {
     public TMPro.TextMeshProUGUI myScore;
     public TMPro.TextMeshProUGUI myName;
-    public int currentScore;
+    [SerializeField] private int currentScore; // Visible in Inspector
 
     private void Update()
     {
-        myScore.text = $"Score: {PlayerPrefs.GetInt("highscore")}";
+        UpdateScoreFromText();
+    }
+
+    private void UpdateScoreFromText()
+    {
+        if (myScore != null)
+        {
+            string scoreText = myScore.text.Replace("Score: ", "").Trim(); // Remove prefix
+            if (int.TryParse(scoreText, out int parsedScore))
+            {
+                currentScore = parsedScore;
+            }
+        }
     }
 
     public void SendScore()
     {
-        if (currentScore > PlayerPrefs.GetInt("highscore"))
+        UpdateScoreFromText(); // Ensure currentScore is correct
+
+        // Always send the score, no matter what
+        HighScores.UploadScore(myName.text, currentScore);
+
+        // Update high score if it's higher
+        int highScore = PlayerPrefs.GetInt("highscore", 0);
+        if (currentScore > highScore)
         {
-            PlayerPrefs.GetInt("highscore", currentScore);
-            HighScores.UploadScore(myName.text, currentScore);
+            PlayerPrefs.SetInt("highscore", currentScore);
+            PlayerPrefs.Save();
         }
     }
-
 }
