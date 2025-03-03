@@ -8,7 +8,7 @@ public class SceneTrigger : MonoBehaviour
     {
         if (other.CompareTag(triggerTag))
         {
-            SceneController.Instance.LoadScene(1);
+            SceneController.Instance.LoadScene(3);
         }
     }
 }

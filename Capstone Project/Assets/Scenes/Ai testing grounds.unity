@@ -1619,6 +1619,10 @@ PrefabInstance:
       propertyPath: target
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 1267911000639899700, guid: d9b1ef5c3c78d894083e0a9f3095b0b1, type: 3}
+      propertyPath: m_Constraints
+      value: 112
+      objectReference: {fileID: 0}
     - target: {fileID: 1538227515092374112, guid: d9b1ef5c3c78d894083e0a9f3095b0b1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1721,7 +1725,7 @@ PrefabInstance:
       objectReference: {fileID: 4470992998015234438}
     - target: {fileID: 7654331838401655838, guid: d9b1ef5c3c78d894083e0a9f3095b0b1, type: 3}
       propertyPath: triggerSequenceOnDeath
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8970992075808893304, guid: d9b1ef5c3c78d894083e0a9f3095b0b1, type: 3}
       propertyPath: player

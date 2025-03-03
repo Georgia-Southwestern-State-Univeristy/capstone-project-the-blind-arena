@@ -66,6 +66,7 @@ MonoBehaviour:
   attackDelay: 1
   projectileAttackRate: 1.5
   projectileSpeed: 8
+  projectileLife: 5
   retreatSpeed: 10
   animator: {fileID: 6025965434468289343}
   attackPrefabs:
@@ -158,6 +159,12 @@ MonoBehaviour:
   maxHealth: 100
   currentHealth: 100
   healthBarSlider: {fileID: 2912384047075372566}
+  triggerSequenceOnDeath: 0
+  objectToReveal: {fileID: 0}
+  secondObjectToReveal: {fileID: 0}
+  delayBeforeSwitch: 3
+  flashDuration: 0.1
+  flashColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &8970992075808893304
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -223,7 +230,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 116
   m_CollisionDetection: 0
 --- !u!95 &6025965434468289343
 Animator:

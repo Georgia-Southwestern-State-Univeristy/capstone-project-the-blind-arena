@@ -97,7 +97,7 @@ public class EnemyHealth : MonoBehaviour
         }
         else
         {
-            SceneController.Instance.LoadScene(1);
+            SceneController.Instance.LoadScene(2);
         }
         Destroy(gameObject);
     }
