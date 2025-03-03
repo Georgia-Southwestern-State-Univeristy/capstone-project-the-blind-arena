@@ -13,7 +13,8 @@ public class PlayerAttackManager : MonoBehaviour
     public class AttackAttributes
     {
         public string name;
-        public float  damage, knockbackStrength, speed, duration, delay, gravityScale, lockDuration, staminaUse;
+        public float damage, knockbackStrength, speed, duration, delay, gravityScale, lockDuration, staminaUse;
+        public float cooldown; // Cooldown duration in seconds
         public bool detachFromPlayer, lockVelocity, isPhysical;
         public ColliderType colliderShape;
         public Vector3 colliderSize = Vector3.one, colliderRotation = Vector3.zero, spriteSize = Vector3.one, spriteRotation = Vector3.zero, startingOffset = Vector3.zero;
@@ -24,48 +25,108 @@ public class PlayerAttackManager : MonoBehaviour
     public enum ColliderType { Box, Sphere, Capsule }
     public AttackAttributes[] attacks;
 
+    private bool isOnCooldown = false; // Tracks if the player is on cooldown
+    private float cooldownTimer = 0f; // Tracks the remaining cooldown time in seconds
+
     private void Start() => playerController = player.GetComponent<PlayerController>();
+
+    private void Update()
+    {
+        // Update the cooldown timer (in seconds)
+        if (isOnCooldown)
+        {
+            cooldownTimer -= Time.deltaTime; // Time.deltaTime is in seconds
+            if (cooldownTimer <= 0f)
+            {
+                isOnCooldown = false; // Cooldown ended
+            }
+        }
+    }
 
     public void TriggerAttack(string attackName)
     {
+        // Check if the player is on cooldown
+        if (isOnCooldown)
+        {
+            Debug.Log("Attack is on cooldown!");
+            return;
+        }
+
         var attack = System.Array.Find(attacks, a => a.name == attackName);
         if (attack != null)
+        {
             StartCoroutine(PerformAttack(attack));
+        }
         else
+        {
             Debug.LogError($"Attack not defined: {attackName}");
+        }
     }
 
     private IEnumerator PerformAttack(AttackAttributes attack)
-{
-    // Check if the player has enough stamina to perform the attack
-    if (!HasEnoughStamina(attack)) {
-        yield break; 
-    } else {
+    {
+        // Check if the player has enough stamina to perform the attack
+        if (!HasEnoughStamina(attack))
+        {
+            Debug.Log("Not enough stamina to perform the attack!");
+            yield break;
+        }
+
+        // Flip the player based on mouse position
+        FlipPlayerBasedOnMousePosition();
+
+        // Start cooldown (in seconds)
+        isOnCooldown = true;
+        cooldownTimer = attack.cooldown; // Cooldown duration in seconds
+
+        // Trigger the attack animation
         animator.SetTrigger(attack.name);
 
+        // Lock player movement if the attack requires it
+        if (attack.lockVelocity) playerController?.LockMovement(attack.lockDuration);
+
+        // Wait for the attack delay (in seconds)
+        yield return new WaitForSeconds(attack.delay);
+
+        // Deduct stamina and proceed with the attack
+        DeductStamina(attack.staminaUse);
+        PlaySound(attack.attackSound);
+        GameObject attackObject = CreateAttackObject(attack);
+
+        // Launch the attack if it detaches from the player
+        if (attack.detachFromPlayer) LaunchAttack(attackObject, GetAttackDirection(), attack.speed);
+
+        // Wait for the attack duration (in seconds)
+        yield return new WaitForSeconds(attack.duration);
+
+        // Clean up the attack object
+        if (attackObject) Destroy(attackObject);
     }
-    
 
-    // Lock player movement if the attack requires it
-    if (attack.lockVelocity) playerController?.LockMovement(attack.lockDuration);
+    private void FlipPlayerBasedOnMousePosition()
+    {
+        // Get the mouse position in world coordinates
+        Vector3 mouseScreenPos = Input.mousePosition;
+        Ray ray = Camera.main.ScreenPointToRay(mouseScreenPos);
+        Plane groundPlane = new Plane(Vector3.up, player.transform.position);
 
-    // Wait for the attack delay before proceeding
-    yield return new WaitForSeconds(attack.delay);
+        if (groundPlane.Raycast(ray, out float distance))
+        {
+            Vector3 mouseWorldPos = ray.GetPoint(distance);
 
-    // Deduct stamina and proceed with the attack
-    DeductStamina(attack.staminaUse);
-    PlaySound(attack.attackSound);
-    GameObject attackObject = CreateAttackObject(attack);
-
-    // Launch the attack if it detaches from the player
-    if (attack.detachFromPlayer) LaunchAttack(attackObject, GetAttackDirection(), attack.speed);
-
-    // Wait for the attack duration before destroying the attack object
-    yield return new WaitForSeconds(attack.duration);
-
-    // Clean up the attack object
-    if (attackObject) Destroy(attackObject);
-}
+            // Determine if the mouse is to the left or right of the player
+            if (mouseWorldPos.x < player.transform.position.x)
+            {
+                // Flip the player to face left
+                player.transform.localScale = new Vector3(-Mathf.Abs(player.transform.localScale.x), player.transform.localScale.y, player.transform.localScale.z);
+            }
+            else
+            {
+                // Flip the player to face right
+                player.transform.localScale = new Vector3(Mathf.Abs(player.transform.localScale.x), player.transform.localScale.y, player.transform.localScale.z);
+            }
+        }
+    }
 
     private bool HasEnoughStamina(AttackAttributes attack) => health.stamina >= attack.staminaUse;
     private void DeductStamina(float amount) => health?.UseStamina(amount);
