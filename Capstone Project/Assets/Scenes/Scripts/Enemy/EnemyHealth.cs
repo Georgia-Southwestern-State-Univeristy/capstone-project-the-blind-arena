@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 public class EnemyHealth : MonoBehaviour
 {
@@ -12,6 +13,11 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField] private float delayBeforeSwitch = 3f;
     private VisibilityObjects visibilityController;
     private VisibilityObjects secondVisibilityController;
+
+    // New fields for sprite flash
+    private SpriteRenderer spriteRenderer;
+    [SerializeField] private float flashDuration = 0.1f;
+    [SerializeField] private Color flashColor = Color.red;
 
     void Start()
     {
@@ -41,6 +47,9 @@ public class EnemyHealth : MonoBehaviour
             }
             secondVisibilityController.SetVisibility(false);
         }
+
+        // Get sprite renderer for flash effect
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     public void Damage(int amount)
@@ -48,8 +57,29 @@ public class EnemyHealth : MonoBehaviour
         currentHealth = Mathf.Max(currentHealth - amount, 0);
         UpdateHealthBar();
 
+        // Flash sprite red when damaged
+        if (spriteRenderer != null)
+        {
+            StartCoroutine(FlashSprite());
+        }
+
         if (currentHealth == 0)
             Die();
+    }
+
+    private IEnumerator FlashSprite()
+    {
+        // Store original color
+        Color originalColor = spriteRenderer.color;
+
+        // Change to flash color
+        spriteRenderer.color = flashColor;
+
+        // Wait for flash duration
+        yield return new WaitForSeconds(flashDuration);
+
+        // Restore original color
+        spriteRenderer.color = originalColor;
     }
 
     private void UpdateHealthBar()
@@ -67,7 +97,7 @@ public class EnemyHealth : MonoBehaviour
         }
         else
         {
-            SceneController.Instance.LoadScene(3);
+            SceneController.Instance.LoadScene(1);
         }
         Destroy(gameObject);
     }

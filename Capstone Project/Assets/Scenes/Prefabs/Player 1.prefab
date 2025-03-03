@@ -288,7 +288,7 @@ MonoBehaviour:
     lockVelocity: 1
     isPhysical: 0
     colliderShape: 0
-    colliderSize: {x: 2, y: 3, z: 1}
+    colliderSize: {x: 2, y: 1, z: 1}
     colliderRotation: {x: -25, y: 0, z: 0}
     spriteSize: {x: 1, y: 1, z: 1}
     spriteRotation: {x: 25, y: 0, z: 0}
@@ -303,13 +303,13 @@ MonoBehaviour:
     duration: 2
     delay: 1.5
     gravityScale: 0
-    lockDuration: 1.2
+    lockDuration: 1.5
     staminaUse: 30
     detachFromPlayer: 1
     lockVelocity: 1
     isPhysical: 0
     colliderShape: 1
-    colliderSize: {x: 5, y: 5, z: 5}
+    colliderSize: {x: 6, y: 5, z: 6}
     colliderRotation: {x: -25, y: 0, z: 0}
     spriteSize: {x: 0.8, y: 0.8, z: 0}
     spriteRotation: {x: 90, y: 0, z: 0}
@@ -329,8 +329,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 7
+  dashSpeedMultiplier: 1.5
   gravityScale: 20
-  fixedHeight: 0.6
+  dashStaminaCost: 0.2
   animator: {fileID: 8199809653092996882}
 --- !u!114 &3778931655788532985
 MonoBehaviour:
@@ -344,7 +345,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8990d82ef1ca5e4092df29b9e88481c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
+  animator: {fileID: 8199809653092996882}
   attackTypes:
   - RockThrow
   - EarthQuake
