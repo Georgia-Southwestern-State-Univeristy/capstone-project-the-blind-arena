@@ -5546,17 +5546,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &992480902 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6759244168632040640, guid: 9a9aa303a578df1428a74bf50483a499, type: 3}
-  m_PrefabInstance: {fileID: 5992729291209641741}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b24475e8af7ee64486e57869ea29b93, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &996356143 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1050856043412026217, guid: e34d778dd20bdc4489427b929c807a47, type: 3}
@@ -13470,6 +13459,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6337841743178068819, guid: 9a9aa303a578df1428a74bf50483a499, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7575313757702459123, guid: 9a9aa303a578df1428a74bf50483a499, type: 3}
       propertyPath: 'otherObjects.Array.data[4]'
       value: 
@@ -13574,7 +13567,7 @@ PrefabInstance:
     - target: {fileID: 2950982791177150447, guid: 200026046e6469047b9ced9efa6a4430, type: 3}
       propertyPath: gameTimer
       value: 
-      objectReference: {fileID: 992480902}
+      objectReference: {fileID: 0}
     - target: {fileID: 2950982791177150447, guid: 200026046e6469047b9ced9efa6a4430, type: 3}
       propertyPath: 'hotbarSlots.Array.data[0]'
       value: 
