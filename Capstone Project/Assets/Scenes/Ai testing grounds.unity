@@ -2244,15 +2244,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7654331838401655838, guid: d9b1ef5c3c78d894083e0a9f3095b0b1, type: 3}
       propertyPath: flashColor.b
-      value: 0.013107816
+      value: 0.99215686
       objectReference: {fileID: 0}
     - target: {fileID: 7654331838401655838, guid: d9b1ef5c3c78d894083e0a9f3095b0b1, type: 3}
       propertyPath: flashColor.g
-      value: 0.013107816
+      value: 0.2611379
       objectReference: {fileID: 0}
     - target: {fileID: 7654331838401655838, guid: d9b1ef5c3c78d894083e0a9f3095b0b1, type: 3}
       propertyPath: flashColor.r
-      value: 0.9924528
+      value: 0.011764687
       objectReference: {fileID: 0}
     - target: {fileID: 7654331838401655838, guid: d9b1ef5c3c78d894083e0a9f3095b0b1, type: 3}
       propertyPath: flashDuration
