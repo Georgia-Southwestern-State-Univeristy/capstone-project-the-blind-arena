@@ -27,7 +27,7 @@ public class ShopManager : MonoBehaviour
     public GameTimer gameTimer; // Reference to GameTimer
 
     private int[] selectedIndexes;
-    private Dictionary<Sprite, int> purchasedItems = new Dictionary<Sprite, int>(); // Track item counts
+    private static Dictionary<Sprite, int> purchasedItems = new Dictionary<Sprite, int>(); // Track item counts
 
     // List of items with their unique time values
     public List<ItemTime> itemTimeValues = new List<ItemTime>();
@@ -36,6 +36,19 @@ public class ShopManager : MonoBehaviour
     {
         selectedIndexes = new int[boxes.Length];
         InitializeShop();
+
+        // Debug logging for purchased items
+        Debug.Log($"ShopManager Start - Purchased Items Count: {purchasedItems.Count}");
+        foreach (var item in purchasedItems)
+        {
+            Debug.Log($"Purchased Item: Sprite = {item.Key.name}, Count = {item.Value}");
+        }
+
+        // Restore hotbar from static dictionary if it's not empty
+        if (purchasedItems.Count > 0)
+        {
+            UpdateHotbar();
+        }
     }
 
     void InitializeShop()
@@ -198,5 +211,64 @@ public class ShopManager : MonoBehaviour
                 : 0;
         }
         return 0;
+    }
+
+    // New method to use an item from a specific hotbar slot
+    public bool UseItemFromHotbar(int slotIndex)
+    {
+        // Validate slot index
+        if (slotIndex < 0 || slotIndex >= hotbarSlots.Length)
+        {
+            Debug.LogWarning($"Invalid hotbar slot index: {slotIndex}");
+            return false;
+        }
+
+        // Get the sprite for the slot
+        Sprite itemSprite = hotbarSlots[slotIndex].sprite;
+
+        // Check if the slot is empty
+        if (itemSprite == null)
+        {
+            Debug.Log($"Hotbar slot {slotIndex} is empty");
+            return false;
+        }
+
+        // Reduce item count
+        if (purchasedItems.ContainsKey(itemSprite))
+        {
+            purchasedItems[itemSprite]--;
+
+            // Remove the item if count reaches zero
+            if (purchasedItems[itemSprite] <= 0)
+            {
+                purchasedItems.Remove(itemSprite);
+            }
+
+            // Update the hotbar display
+            UpdateHotbar();
+
+            Debug.Log($"Used item from slot {slotIndex}: {itemSprite.name}");
+            return true;
+        }
+
+        return false;
+    }
+
+    // Optional: Method to get the current count of an item in a specific slot
+    public int GetItemCountInSlot(int slotIndex)
+    {
+        if (slotIndex < 0 || slotIndex >= hotbarSlots.Length)
+        {
+            return 0;
+        }
+
+        Sprite itemSprite = hotbarSlots[slotIndex].sprite;
+
+        if (itemSprite == null)
+        {
+            return 0;
+        }
+
+        return purchasedItems.ContainsKey(itemSprite) ? purchasedItems[itemSprite] : 0;
     }
 }
