@@ -2276,7 +2276,7 @@ PrefabInstance:
       objectReference: {fileID: 4470992998015234438}
     - target: {fileID: 7654331838401655838, guid: d9b1ef5c3c78d894083e0a9f3095b0b1, type: 3}
       propertyPath: triggerSequenceOnDeath
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7727122080768841708, guid: d9b1ef5c3c78d894083e0a9f3095b0b1, type: 3}
       propertyPath: m_Sprite

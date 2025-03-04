@@ -7,9 +7,10 @@ public class GameTimer : MonoBehaviour
     public TextMeshProUGUI counterText;
     public GameObject enemy; // Reference to the enemy game object
 
-    private static float savedElapsedTime = 0f;
-    private static float savedCounter = 0f;
-    private static bool hasStoredTime = false;
+    // Static variables to persist across scenes
+    private static float persistentElapsedTime = 0f;
+    private static float persistentCounter = 0f;
+    private static bool hasUpdatedTime = false;
 
     private float elapsedTime = 0f;
     private bool isPaused = false;
@@ -21,12 +22,16 @@ public class GameTimer : MonoBehaviour
 
     void Start()
     {
-        if (hasStoredTime)
+        // If time was updated in a previous scene, use that time
+        if (hasUpdatedTime)
         {
-            elapsedTime = savedElapsedTime;
-            counter = savedCounter;
+            elapsedTime = persistentElapsedTime;
+            counter = persistentCounter;
             UpdateTimerUI();
             UpdateCounterUI();
+
+            // Reset the flag after restoring
+            hasUpdatedTime = false;
         }
     }
 
@@ -78,21 +83,25 @@ public class GameTimer : MonoBehaviour
     public void AddTime(float timeToAdd)
     {
         elapsedTime += timeToAdd;
-        UpdateTimerUI();
-    }
 
-    void StoreTimerState()
-    {
-        savedElapsedTime = elapsedTime;
-        savedCounter = counter;
-        hasStoredTime = true;
+        // Store the updated time persistently
+        persistentElapsedTime = elapsedTime;
+        persistentCounter = counter;
+        hasUpdatedTime = true;
+
+        UpdateTimerUI();
     }
 
     void StopTimerAndCalculateScore()
     {
         isStopped = true;
         isPaused = true;
-        StoreTimerState();
+
+        // Store the current time before stopping
+        persistentElapsedTime = elapsedTime;
+        persistentCounter = counter;
+        hasUpdatedTime = true;
+
         counter = maxAmount - counter; // Subtract counter from max amount
         UpdateCounterUI();
     }
@@ -110,5 +119,16 @@ public class GameTimer : MonoBehaviour
         int milliseconds = (int)((elapsedTime * 100) % 100);
 
         return $"{hours:00}:{minutes:00}:{seconds:00}:{milliseconds:00}";
+    }
+
+    public float GetCurrentTime()
+    {
+        return elapsedTime;
+    }
+
+    public void SetTime(float time)
+    {
+        elapsedTime = time;
+        UpdateTimerUI();
     }
 }
