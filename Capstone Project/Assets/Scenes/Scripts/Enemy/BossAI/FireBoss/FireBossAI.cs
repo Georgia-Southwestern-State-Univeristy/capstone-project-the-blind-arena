@@ -29,7 +29,14 @@ public class FireBossAI : MonoBehaviour
     private bool isKnockedBack = false;
     private float knockbackRecoveryTime = 0.5f;
 
+    private FireBossStateMachine stateMachine;
+
     private float fixedHeight = 0.6f;
+
+    public FireBossAI()
+    {
+        stateMachine = new FireBossStateMachine();
+    }
 
     private void Start()
     {
@@ -50,6 +57,18 @@ public class FireBossAI : MonoBehaviour
 
     private void Update()
     {
+        stateMachine.Update(target.position);
+        // Additional logic for FireBossAI
+        // Example: Check health and change state if necessary
+        if (enemyHealth.currentHealth < enemyHealth.maxHealth * 0.5f)
+        {
+            stateMachine.ChangeState(FireBossState.Defend);
+        }
+        else
+        {
+            stateMachine.ChangeState(FireBossState.Attack);
+        }
+
         if (!target)
         {
             Debug.LogWarning("No target assigned to FireBoss!");

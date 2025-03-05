@@ -191,8 +191,7 @@ public class LightningBoss : MonoBehaviour
 
             if (Vector3.Distance(transform.position, returnWaypoint.position) < 0.5f)
             {
-                ShootLightningProjectilesInArc(8, 120f);
-                FlipSprite(target.position.x);
+                StartCoroutine(LightningDischarge());
 
                 yield return new WaitForSeconds(2f);
 
@@ -299,48 +298,26 @@ public class LightningBoss : MonoBehaviour
         }
     }
 
-    private void ShootLightningProjectilesInCircle(int projectileCount)
+    private IEnumerator LightningDischarge()
     {
-        float angleStep = 360f / projectileCount;
-        float angle = 0f;
+        // Create a damage zone around the boss
+        GameObject dischargeEffect = Instantiate(lightningDamageZonePrefab, transform.position, Quaternion.identity);
 
-        for (int i = 0; i < projectileCount; i++)
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 5f); // Adjust radius as needed
+        foreach (var hitCollider in hitColliders)
         {
-            float projectileDirX = Mathf.Cos(angle * Mathf.Deg2Rad);
-            float projectileDirY = Mathf.Sin(angle * Mathf.Deg2Rad);
-            Vector3 projectileDirection = new Vector3(projectileDirX, projectileDirY, 0f).normalized;
-
-            GameObject projectile = Instantiate(lightningAttackPrefabs[0], transform.position, Quaternion.identity);
-            Rigidbody rb = projectile.GetComponent<Rigidbody>();
-
-            if (rb != null)
+            PlayerController player = hitCollider.GetComponent<PlayerController>();
+            if (player != null)
             {
-                rb.linearVelocity = projectileDirection * lightningProjectileSpeed;
-            }
-
-            angle += angleStep;
-        }
-    }
-
-    private void ShootLightningProjectilesInArc(int projectileCount, float arcAngle)
-    {
-        float startAngle = -arcAngle / 2f;
-        float angleStep = arcAngle / (projectileCount - 1);
-
-        for (int i = 0; i < projectileCount; i++)
-        {
-            float angle = startAngle + (angleStep * i);
-            float projectileDirX = Mathf.Cos(angle * Mathf.Deg2Rad);
-            float projectileDirY = Mathf.Sin(angle * Mathf.Deg2Rad);
-            Vector3 projectileDirection = new Vector3(projectileDirX, projectileDirY, 0f).normalized;
-
-            GameObject projectile = Instantiate(lightningAttackPrefabs[0], transform.position, Quaternion.identity);
-            Rigidbody rb = projectile.GetComponent<Rigidbody>();
-
-            if (rb != null)
-            {
-                rb.linearVelocity = projectileDirection * lightningProjectileSpeed;
+                Health playerHealth = player.GetComponent<Health>();
+                if (playerHealth != null)
+                {
+                    playerHealth.Damage(40); // Damage dealt to players in the zone
+                }
             }
         }
+
+        yield return new WaitForSeconds(1f); // Duration of the discharge
+        Destroy(dischargeEffect);
     }
 }
