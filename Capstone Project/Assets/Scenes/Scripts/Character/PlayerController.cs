@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float gravityScale = 20f;
     [SerializeField] private float dashStaminaCost; // Stamina cost per frame while dashing
     public Animator animator;
-    private float fixedHeight = 0.6f;
+    private float fixedHeight = 0.5f;
     private bool isDashing = false;
     private Rigidbody rb;
     private Vector3 moveDir;

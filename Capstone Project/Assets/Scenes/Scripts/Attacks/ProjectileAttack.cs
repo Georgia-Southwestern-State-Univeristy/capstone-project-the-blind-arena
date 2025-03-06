@@ -9,22 +9,23 @@ public class ProjectileAttack : MonoBehaviour
     public float speed;
     public float lifespan;
     public int damage;
-    public Rigidbody target;
 
     public bool isHoming;
     public bool isAimed;
     public bool isWandering;
     public bool isStationary;
-    public bool isTemporary;
+    public bool breaksOnContact;
+    public bool rotates;
     public int type;
 
     private float initalLifespan;
+    public Transform target;
     private Transform targetTransform;
     private Vector3 movementVector;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        target = FindFirstObjectByType<PlayerController>().;
+        target = FindFirstObjectByType<PlayerController>().transform;
         targetTransform = FindFirstObjectByType<PlayerController>().transform;
         movementVector = (targetTransform.position - transform.position).normalized * speed;
         projectile = GetComponent<Rigidbody>();
@@ -35,21 +36,23 @@ public class ProjectileAttack : MonoBehaviour
     void Update()
     {
         MoveProjectile();
+        ApplyRotation();
+        ApplySpecialEffect();
         UpdateLifespan();
-
     }
 
     private void MoveProjectile()
     {
         if (isHoming) 
         {
-            if (initalLifespan-lifespan <= 2)
+            if (initalLifespan-lifespan <= 1 || lifespan/initalLifespan <=0.2)
             {
                 transform.position += movementVector * Time.deltaTime;
             }
             else
             {
-                targetTransform = FindFirstObjectByType<PlayerController>().transform;
+                targetTransform = target.transform;
+                movementVector = (targetTransform.position - transform.position).normalized * speed * ((lifespan / initalLifespan));
                 transform.position += movementVector * Time.deltaTime;
             }
         }
@@ -57,7 +60,11 @@ public class ProjectileAttack : MonoBehaviour
         {
             transform.position += movementVector * Time.deltaTime;
         }
-        
+        if (isWandering)
+        {
+            movementVector *= Time.deltaTime;
+            transform.position += movementVector * Time.deltaTime;
+        }
     }
 
     private void UpdateLifespan()
@@ -69,9 +76,48 @@ public class ProjectileAttack : MonoBehaviour
         }
     }
 
-    private void SpecialEffect()
+    private void ApplySpecialEffect()
     {
+        switch (type)
+        {
+            //Earth Attacks
+            case 1:
 
+                break;
+            //Wind Attack
+            case 2:
+
+                break;
+            //Fire Attack
+            case 3:
+
+                break;
+            //Water Attack
+            case 4:
+
+                break;
+            //Lightning Attack
+            case 5:
+
+                break;
+        }
+    }
+
+    private void ApplyRotation()
+    {
+        /*
+        projectile.constraints = RigidbodyConstraints.FreezeRotationX;
+        projectile.constraints = RigidbodyConstraints.FreezeRotationY;
+        if (!rotates)
+        {
+            projectile.constraints = RigidbodyConstraints.FreezeRotationZ;
+        }
+        else 
+        {
+            Quaternion wantedRotation = Quaternion.Euler(movementVector);
+            projectile.rotation = Quaternion.Slerp(projectile.rotation, wantedRotation, 1);
+        }
+        */
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -81,11 +127,11 @@ public class ProjectileAttack : MonoBehaviour
             HandlePlayerCollision(collision.gameObject);
         }
         else
-        if (isTemporary) 
+        if (breaksOnContact) 
         { 
             if (collision.gameObject.CompareTag("Wall"))
             {
-                Destroy(gameObject);
+                lifespan = 0;
             }
         }
         else
@@ -102,6 +148,6 @@ public class ProjectileAttack : MonoBehaviour
         {
             playerHealth.Damage(damage);
         }
-        Destroy(gameObject);
+        lifespan = 0;
     }
 }
