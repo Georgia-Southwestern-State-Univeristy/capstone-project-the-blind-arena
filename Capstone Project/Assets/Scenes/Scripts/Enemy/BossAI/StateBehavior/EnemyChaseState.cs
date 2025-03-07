@@ -51,6 +51,17 @@ public class EnemyChaseState : EnemyState
             {
                 rb.MovePosition(rb.position + moveDirection * _movementSpeed * Time.deltaTime);
             }
+
+            // Flip sprite left or right based on X movement
+            if (moveDirection.x > 0)
+            {
+                enemy.transform.rotation = Quaternion.Euler(0, 0, 0); // Face right
+            }
+            else if (moveDirection.x < 0)
+            {
+                enemy.transform.rotation = Quaternion.Euler(0, 180, 0); // Face left
+            }
+
         }
 
         if (enemy.IsWithinStrikingDistance)
