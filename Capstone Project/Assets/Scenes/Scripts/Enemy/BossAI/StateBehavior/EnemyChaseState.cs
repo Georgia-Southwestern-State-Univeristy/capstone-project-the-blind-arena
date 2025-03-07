@@ -34,13 +34,23 @@ public class EnemyChaseState : EnemyState
     {
         base.FrameUpdate();
 
-        // If aggroed, move towards the player without rotation
         if (enemy.IsAggroed)
         {
-            Vector2 moveDirection = (_playerTransform.position - enemy.transform.position).normalized;
+            // Calculate movement direction, only affecting X and Z axes
+            Vector3 moveDirection = new Vector3(
+                _playerTransform.position.x - enemy.transform.position.x,
+                0f, // Ignore Y-axis movement
+                _playerTransform.position.z - enemy.transform.position.z
+            ).normalized;
 
-            // Only move on the X-axis and ignore Y-axis velocity
-            enemy.MoveEnemy(moveDirection * _movementSpeed);
+            // Apply movement using Rigidbody.MovePosition (better for physics-based movement)
+            Rigidbody rb = enemy.GetComponent<Rigidbody>();
+
+            // Ensure Rigidbody exists before applying movement
+            if (rb != null)
+            {
+                rb.MovePosition(rb.position + moveDirection * _movementSpeed * Time.deltaTime);
+            }
         }
 
         if (enemy.IsWithinStrikingDistance)
@@ -48,6 +58,7 @@ public class EnemyChaseState : EnemyState
             enemy.StateMachine.ChangeState(enemy.AttackState);
         }
     }
+
 
 
     public override void PhysicsUpdate()
