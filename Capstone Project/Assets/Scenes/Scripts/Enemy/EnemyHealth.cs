@@ -99,18 +99,8 @@ public class EnemyHealth : MonoBehaviour
         else
         {
             GameData.deathcounter++;
-            SceneController.Instance.LoadScene(3);
+            SceneController.Instance.LoadScene(2);
         }
         Destroy(gameObject);
-    }
-
-    public void Respawn()
-    {
-        SceneController.Instance.LoadScene(2);
-    }
-
-    public void TakeBackToMenu()
-    {
-        SceneController.Instance.LoadScene(0);
     }
 }

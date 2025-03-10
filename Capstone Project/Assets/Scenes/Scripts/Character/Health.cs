@@ -144,6 +144,7 @@ public class Health : MonoBehaviour
 
     private void PlayerDie()
     {
+
         Debug.Log($"{gameObject.name} has died.");
         if (triggerSequenceOnDeath && objectToReveal != null && secondObjectToReveal != null)
         {
