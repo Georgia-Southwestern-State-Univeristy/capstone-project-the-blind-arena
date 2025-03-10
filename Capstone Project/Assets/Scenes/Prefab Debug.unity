@@ -379,7 +379,8 @@ MonoBehaviour:
   lifespan: 20
   damage: 10
   elementType: 1
-  moveType: 2
+  moveType: 0
+  isEffect: 0
   breaksOnContact: 1
 --- !u!54 &360261762
 Rigidbody:
@@ -516,7 +517,7 @@ Transform:
   m_GameObject: {fileID: 710341410}
   serializedVersion: 2
   m_LocalRotation: {x: 0.2164396, y: 0, z: 0, w: 0.97629607}
-  m_LocalPosition: {x: 0, y: 11.165457, z: -38.757694}
+  m_LocalPosition: {x: 0, y: 11.265457, z: -32.857697}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -660,7 +661,7 @@ Transform:
   m_GameObject: {fileID: 971509131}
   serializedVersion: 2
   m_LocalRotation: {x: 0.2164396, y: 0, z: 0, w: 0.97629607}
-  m_LocalPosition: {x: 0, y: 11.165457, z: -38.757694}
+  m_LocalPosition: {x: 0, y: 11.265457, z: -32.857697}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -970,11 +971,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectile: {fileID: 1194990301}
   target: {fileID: 753444579}
-  speed: 5
+  speed: 10
   lifespan: 200
   damage: 50
   elementType: 2
-  moveType: 1
+  moveType: 0
+  isEffect: 0
   breaksOnContact: 1
 --- !u!1 &1602822603
 GameObject:
@@ -1227,11 +1229,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 168013719982219207, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.6
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 168013719982219207, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -16.1
+      value: -10.2
       objectReference: {fileID: 0}
     - target: {fileID: 168013719982219207, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       propertyPath: m_LocalRotation.w
