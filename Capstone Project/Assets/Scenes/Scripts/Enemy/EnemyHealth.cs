@@ -18,6 +18,7 @@ public class EnemyHealth : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     [SerializeField] private float flashDuration = 0.1f;
     [SerializeField] private Color flashColor = Color.red;
+    public double deathcounter;
 
     void Start()
     {
@@ -97,7 +98,8 @@ public class EnemyHealth : MonoBehaviour
         }
         else
         {
-            SceneController.Instance.LoadScene(2);
+            GameData.deathcounter++;
+            SceneController.Instance.LoadScene(3);
         }
         Destroy(gameObject);
     }
