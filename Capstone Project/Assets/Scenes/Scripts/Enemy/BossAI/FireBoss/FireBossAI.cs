@@ -269,6 +269,11 @@ public class FireBossAI : MonoBehaviour
         if (!isKnockedBack)
         {
             isKnockedBack = true;
+
+            // Cancel current state flags
+            isDashing = false;
+            isThrowingProjectiles = false;
+
             StopAllCoroutines();
             StartCoroutine(KnockbackRecovery());
         }
@@ -278,7 +283,7 @@ public class FireBossAI : MonoBehaviour
     {
         yield return new WaitForSeconds(knockbackRecoveryTime);
         isKnockedBack = false;
-        
+
         // Resume previous behavior
         if (isFinalPhase)
         {
@@ -288,8 +293,9 @@ public class FireBossAI : MonoBehaviour
         {
             StartCoroutine(RetreatPhaseRoutine());
         }
-        else if (isThrowingProjectiles)
+        else
         {
+            // Default to projectile attack or normal movement
             StartCoroutine(ProjectileAttackLoop());
         }
     }

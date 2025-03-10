@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -16,6 +17,14 @@ public class PlayerController : MonoBehaviour
     private Renderer playerRenderer;
     private Health healthScript;
     private float originalSpeed;
+
+    public double deathcounter => GameData.deathcounter;
+
+    [SerializeField] private GameObject enemyAI;
+    [SerializeField] private GameObject enemyAI2;
+
+    private bool enemyAI2Activated = false;
+
 
     void Start()
     {
@@ -36,6 +45,18 @@ public class PlayerController : MonoBehaviour
         {
             moveDir = Vector3.zero;
             return;
+        }
+
+
+        if ( deathcounter == 0)
+        {
+            enemyAI.SetActive(true);
+        }
+
+        if (GameData.deathcounter == 1 && !enemyAI2Activated)
+        {
+            enemyAI2Activated = true; // Prevents repeated activation
+            StartCoroutine(ActivateEnemyAI2Delayed());
         }
 
         float horizontalInput = Input.GetAxis("Horizontal");
@@ -125,6 +146,12 @@ public class PlayerController : MonoBehaviour
     private void ClearExternalForce()
     {
         externalForce = Vector3.zero;
+    }
+
+    private IEnumerator ActivateEnemyAI2Delayed()
+    {
+        yield return new WaitForSeconds(3.5f); // Waits 3.5 seconds
+        enemyAI2.SetActive(true);
     }
 
     private void HandleDashInput()

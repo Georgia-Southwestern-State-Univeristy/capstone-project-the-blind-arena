@@ -8,7 +8,7 @@ public class Health : MonoBehaviour
     [SerializeField] private Slider healthBarSlider; // Health bar UI
     [SerializeField] private Slider staminaBarSlider; // Stamina bar UI
 
-    private int MAX_HEALTH = 300;
+    private int MAX_HEALTH = 100;
     private float MAX_STAMINA = 100f;
     private int staminaRegenRate = 9; // Stamina regenerates by 1 per 0.3 seconds
     private float staminaRegenDelay = 2f; // Delay before stamina starts regenerating
@@ -17,6 +17,13 @@ public class Health : MonoBehaviour
     // New variables for timer-based regeneration
     private float staminaRegenInterval = 0.3f; // Interval for stamina regeneration (0.3 seconds)
     private float timeSinceLastRegen = 0f; // Timer to track regeneration intervals
+
+    [SerializeField] private bool triggerSequenceOnDeath = false;
+    [SerializeField] private GameObject objectToReveal;
+    [SerializeField] private GameObject secondObjectToReveal;
+    [SerializeField] private float delayBeforeSwitch = 3f;
+    private VisibilityObjects visibilityController;
+    private VisibilityObjects secondVisibilityController;
 
     void Start()
     {
@@ -32,6 +39,25 @@ public class Health : MonoBehaviour
         {
             staminaBarSlider.maxValue = MAX_STAMINA;
             staminaBarSlider.value = stamina;
+        }
+        if (objectToReveal != null)
+        {
+            visibilityController = objectToReveal.GetComponent<VisibilityObjects>();
+            if (visibilityController == null)
+            {
+                visibilityController = objectToReveal.AddComponent<VisibilityObjects>();
+            }
+            visibilityController.SetVisibility(false);
+        }
+
+        if (secondObjectToReveal != null)
+        {
+            secondVisibilityController = secondObjectToReveal.GetComponent<VisibilityObjects>();
+            if (secondVisibilityController == null)
+            {
+                secondVisibilityController = secondObjectToReveal.AddComponent<VisibilityObjects>();
+            }
+            secondVisibilityController.SetVisibility(false);
         }
     }
 
@@ -57,7 +83,7 @@ public class Health : MonoBehaviour
 
         if (health <= 0)
         {
-            Die();
+            PlayerDie();
         }
     }
 
@@ -116,9 +142,17 @@ public class Health : MonoBehaviour
         }
     }
 
-    private void Die()
+    private void PlayerDie()
     {
-        Debug.Log("I have died");
+        Debug.Log($"{gameObject.name} has died.");
+        if (triggerSequenceOnDeath && objectToReveal != null && secondObjectToReveal != null)
+        {
+            ObjectSequenceManager.Instance.StartObjectSequence(objectToReveal, secondObjectToReveal, delayBeforeSwitch);
+        }
+        else
+        {
+            SceneController.Instance.LoadScene(2);
+        }
         Destroy(gameObject);
     }
 }
