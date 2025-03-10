@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
@@ -5,65 +6,126 @@ using UnityEngine.EventSystems;
 
 public class ProjectileAttack : MonoBehaviour
 {
-    public Rigidbody projectile;
-    public float speed;
-    public float lifespan;
-    public int damage;
 
-    public bool isHoming;
-    public bool isAimed;
-    public bool isWandering;
-    public bool isStationary;
-    public bool breaksOnContact;
-    public bool rotates;
-    public int type;
+    private enum Element { Earth, Wind, Fire, Water, Lightning };
+    private enum Movement { Aimed, Homing, AimedHoming, Wandering, Stationary };
+
+    [SerializeField] private Rigidbody projectile;
+    [SerializeField] private Transform target;
+    [SerializeField] private float speed;
+    [SerializeField] private float lifespan;
+    [SerializeField] private int damage;
+    [SerializeField] private Element elementType;
+    [SerializeField] private Movement moveType;
+    [SerializeField] private bool isEffect;
+    [SerializeField] private bool breaksOnContact;
 
     private float initalLifespan;
-    public Transform target;
-    private Transform targetTransform;
+    private float initalSpeed;
+    private int counter=0;
+    private Vector3 targetTransform;
     private Vector3 movementVector;
+    private float fixedHeight = 0.6f;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         target = FindFirstObjectByType<PlayerController>().transform;
-        targetTransform = FindFirstObjectByType<PlayerController>().transform;
-        movementVector = (targetTransform.position - transform.position).normalized * speed;
+        targetTransform = target.position;
+        movementVector = (targetTransform - transform.position).normalized * speed;
+        movementVector.z = movementVector.z * 1.8f;
         projectile = GetComponent<Rigidbody>();
         initalLifespan = lifespan;
+        initalSpeed = speed;
     }
 
     // Update is called once per frame
     void Update()
     {
-        MoveProjectile();
-        ApplyRotation();
-        ApplySpecialEffect();
+        MoveProjectile(moveType);
+        ApplySpecialEffect(elementType);
         UpdateLifespan();
     }
 
-    private void MoveProjectile()
+    private void MoveProjectile(Movement mov)
     {
-        if (isHoming) 
+        switch (mov)
         {
-            if (initalLifespan-lifespan <= 1 || lifespan/initalLifespan <=0.2)
-            {
-                transform.position += movementVector * Time.deltaTime;
-            }
-            else
-            {
-                targetTransform = target.transform;
-                movementVector = (targetTransform.position - transform.position).normalized * speed * ((lifespan / initalLifespan));
-                transform.position += movementVector * Time.deltaTime;
-            }
+            case Movement.Aimed:
+                break;
+            case Movement.Homing:
+                if (initalLifespan - lifespan > 1 || lifespan / initalLifespan > 0.2)
+                {
+                    targetTransform = target.position;
+                    movementVector = (targetTransform - transform.position).normalized * speed * (lifespan / initalLifespan);
+                    movementVector.z = movementVector.z * 1.8f;
+                }
+                break;
+            case Movement.AimedHoming:
+                if (initalLifespan-lifespan > 1 && initalLifespan-lifespan < 3)
+                {
+                    if (speed >= 0)
+                    {
+                        speed = speed * 0.5f;
+                        movementVector = movementVector * (speed / initalSpeed);
+                    }
+                }
+                else if (initalLifespan-lifespan>3 && counter==0)
+                {
+                    speed = initalSpeed;
+                    targetTransform=target.position;
+                    movementVector = (targetTransform - transform.position).normalized * speed;
+                    movementVector.z = movementVector.z * 1.8f;
+                    counter++;
+                }
+                break;
+            case Movement.Wandering:
+                if (initalLifespan - lifespan > 1 || lifespan / initalLifespan > 0.2)
+                {
+                }
+                break;
+            case Movement.Stationary:
+                movementVector = Vector3.zero;
+                break;
         }
-        if (isAimed)
+        transform.position += movementVector * Time.deltaTime;
+        Vector3 position = transform.position;
+        position.y = fixedHeight;
+        transform.position = position;
+    }
+
+    private void ApplySpecialEffect(Element ele)
+    {
+        switch (ele)
         {
-            transform.position += movementVector * Time.deltaTime;
-        }
-        if (isWandering)
-        {
-            movementVector *= Time.deltaTime;
-            transform.position += movementVector * Time.deltaTime;
+            //Earth Effects (Breaking Projectiles, etc.)
+            case Element.Earth:
+
+                break;
+            //Wind Effects (Knockbacks, etc.)
+            case Element.Wind:
+                if (lifespan <= 0)
+                {
+
+                }
+                break;
+            //Fire Attack (Fires Tiles, Damage Over Times, etc.)
+            case Element.Fire:
+                if (lifespan <= 0)
+                {
+
+                }
+                break;
+            //Water Attack (Soaking, Freezing, etc.)
+            case Element.Water:
+                if (lifespan <= 0)
+                {
+                    //Create Water Tiles
+                }
+                break;
+            //Lightning Attack (Stuns, Chaining, etc.)
+            case Element.Lightning:
+
+                break;
         }
     }
 
@@ -74,50 +136,6 @@ public class ProjectileAttack : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }
-
-    private void ApplySpecialEffect()
-    {
-        switch (type)
-        {
-            //Earth Attacks
-            case 1:
-
-                break;
-            //Wind Attack
-            case 2:
-
-                break;
-            //Fire Attack
-            case 3:
-
-                break;
-            //Water Attack
-            case 4:
-
-                break;
-            //Lightning Attack
-            case 5:
-
-                break;
-        }
-    }
-
-    private void ApplyRotation()
-    {
-        /*
-        projectile.constraints = RigidbodyConstraints.FreezeRotationX;
-        projectile.constraints = RigidbodyConstraints.FreezeRotationY;
-        if (!rotates)
-        {
-            projectile.constraints = RigidbodyConstraints.FreezeRotationZ;
-        }
-        else 
-        {
-            Quaternion wantedRotation = Quaternion.Euler(movementVector);
-            projectile.rotation = Quaternion.Slerp(projectile.rotation, wantedRotation, 1);
-        }
-        */
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -134,10 +152,7 @@ public class ProjectileAttack : MonoBehaviour
                 lifespan = 0;
             }
         }
-        else
-        {
-            Debug.Log($"Projectile Hit: {collision.gameObject.name}");
-        }
+        Debug.Log($"Projectile Hit: {collision.gameObject.name}");
     }
 
     private void HandlePlayerCollision(GameObject player)
