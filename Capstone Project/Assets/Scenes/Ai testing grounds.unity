@@ -195,17 +195,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6399638851355851186, guid: e9c74290e8e39d3488b975df179a64dd, type: 3}
   m_PrefabInstance: {fileID: 306989228}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &272366026 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5644375999324880193, guid: e9c74290e8e39d3488b975df179a64dd, type: 3}
-  m_PrefabInstance: {fileID: 306989228}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 360169569309d6148ae3f11b8993ff3c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &306989228
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -214,9 +203,13 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 643361906498251120, guid: e9c74290e8e39d3488b975df179a64dd, type: 3}
+      propertyPath: m_Name
+      value: Restart Text
+      objectReference: {fileID: 0}
     - target: {fileID: 1228294221183593901, guid: e9c74290e8e39d3488b975df179a64dd, type: 3}
       propertyPath: m_Name
-      value: Respawn Button test
+      value: Respawn Button
       objectReference: {fileID: 0}
     - target: {fileID: 2777021038638385869, guid: e9c74290e8e39d3488b975df179a64dd, type: 3}
       propertyPath: m_Name
@@ -241,6 +234,26 @@ PrefabInstance:
     - target: {fileID: 5154136445721069292, guid: e9c74290e8e39d3488b975df179a64dd, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5335015643314053127, guid: e9c74290e8e39d3488b975df179a64dd, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5335015643314053127, guid: e9c74290e8e39d3488b975df179a64dd, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 5429908474085411262}
+    - target: {fileID: 5335015643314053127, guid: e9c74290e8e39d3488b975df179a64dd, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Respawn
+      objectReference: {fileID: 0}
+    - target: {fileID: 5335015643314053127, guid: e9c74290e8e39d3488b975df179a64dd, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: EnemyHealth, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5335015643314053127, guid: e9c74290e8e39d3488b975df179a64dd, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 5516718814087500042, guid: e9c74290e8e39d3488b975df179a64dd, type: 3}
       propertyPath: 'rNames.Array.data[0]'
@@ -321,6 +334,22 @@ PrefabInstance:
     - target: {fileID: 5516718814087500042, guid: e9c74290e8e39d3488b975df179a64dd, type: 3}
       propertyPath: 'rScores.Array.data[9]'
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5626827881947705656, guid: e9c74290e8e39d3488b975df179a64dd, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 176.6712
+      objectReference: {fileID: 0}
+    - target: {fileID: 5626827881947705656, guid: e9c74290e8e39d3488b975df179a64dd, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 43.0092
+      objectReference: {fileID: 0}
+    - target: {fileID: 5626827881947705656, guid: e9c74290e8e39d3488b975df179a64dd, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.0000042915
+      objectReference: {fileID: 0}
+    - target: {fileID: 5626827881947705656, guid: e9c74290e8e39d3488b975df179a64dd, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 5644375999324880193, guid: e9c74290e8e39d3488b975df179a64dd, type: 3}
       propertyPath: myScore
@@ -444,6 +473,10 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0.21960786
       objectReference: {fileID: 0}
+    - target: {fileID: 7771359202213584439, guid: e9c74290e8e39d3488b975df179a64dd, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 1325523896, guid: ab066597343371943998d5ef7f066c4f, type: 3}
     - target: {fileID: 8171063073453634776, guid: e9c74290e8e39d3488b975df179a64dd, type: 3}
       propertyPath: m_Name
       value: Continue info
@@ -1700,7 +1733,7 @@ GameObject:
   - component: {fileID: 1512510540}
   - component: {fileID: 1512510539}
   m_Layer: 5
-  m_Name: Main menu Button test (1)
+  m_Name: Main menu Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1770,21 +1803,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 272366026}
-        m_TargetAssemblyTypeName: SaveData, Assembly-CSharp
-        m_MethodName: UpdateScoreFromText
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 272366026}
-        m_TargetAssemblyTypeName: SaveData, Assembly-CSharp
-        m_MethodName: SendScore
+      - m_Target: {fileID: 5429908474085411262}
+        m_TargetAssemblyTypeName: EnemyHealth, Assembly-CSharp
+        m_MethodName: TakeBackToMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2948,8 +2969,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 8.2809}
-  m_SizeDelta: {x: 197.4074, y: 47.3905}
+  m_AnchoredPosition: {x: 0, y: 12.601}
+  m_SizeDelta: {x: 132.6055, y: 46.9725}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2076841168
 MonoBehaviour:
@@ -2971,7 +2992,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -1715929258, guid: ab066597343371943998d5ef7f066c4f, type: 3}
+  m_Sprite: {fileID: -1138213745, guid: ab066597343371943998d5ef7f066c4f, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

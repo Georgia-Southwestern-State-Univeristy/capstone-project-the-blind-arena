@@ -101,4 +101,14 @@ public class EnemyHealth : MonoBehaviour
         }
         Destroy(gameObject);
     }
+
+    public void Respawn()
+    {
+        SceneController.Instance.LoadScene(2);
+    }
+
+    public void TakeBackToMenu()
+    {
+        SceneController.Instance.LoadScene(0);
+    }
 }
