@@ -7,6 +7,7 @@ public class TutorialSetup : MonoBehaviour
     [SerializeField] private GameObject moveInstructions;
     [SerializeField] private GameObject attackInstructions;
     [SerializeField] private GameObject preparationDialogue;
+    [SerializeField] private GameObject runDialogue;
 
     public double tutorialcounter = 0;
 
@@ -34,6 +35,7 @@ public class TutorialSetup : MonoBehaviour
     private bool tutorialBossActivated = false;
     private bool attackInstructionsShown = false;
     private bool preparationDialogueShown = false;
+    private bool runDialogueShown = false;
 
     void Update()
     {
@@ -69,12 +71,12 @@ public class TutorialSetup : MonoBehaviour
             attackInstructionsShown = true;
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha1) && (tutorialcounter < 7)) { tutorialcounter++; }
-        if (Input.GetKeyDown(KeyCode.Alpha2) && (tutorialcounter < 7)) { tutorialcounter++; }
-        if (Input.GetKeyDown(KeyCode.Alpha3) && (tutorialcounter < 7)) { tutorialcounter++; }
-        if (Input.GetKey(KeyCode.Space) && (tutorialcounter < 7)) { tutorialcounter++; }
+        if (Input.GetKeyDown(KeyCode.Alpha1) && (tutorialcounter < 9)) { tutorialcounter++; }
+        if (Input.GetKeyDown(KeyCode.Alpha2) && (tutorialcounter < 9)) { tutorialcounter++; }
+        if (Input.GetKeyDown(KeyCode.Alpha3) && (tutorialcounter < 9)) { tutorialcounter++; }
+        if (Input.GetKey(KeyCode.Space) && (tutorialcounter < 9)) { tutorialcounter++; }
 
-        if (tutorialcounter >= 7)
+        if (tutorialcounter >= 9)
         {
             attackInstructions.SetActive(false);
         }
@@ -82,7 +84,7 @@ public class TutorialSetup : MonoBehaviour
 
     private void TutorialPreparationDialogue()
     {
-        if (tutorialcounter == 7 && !preparationDialogueShown)
+        if (tutorialcounter == 9 && !preparationDialogueShown)
         {
             preparationDialogue.SetActive(true);
             preparationDialogueShown = true;
@@ -95,6 +97,7 @@ public class TutorialSetup : MonoBehaviour
         if (GameData.deathcounter == 1 && !tutorialBossActivated)
         {
             tutorialBossActivated = true;
+            runDialogue.SetActive(true);
             //if still not work enemyAifire goes right here
             StartCoroutine(ActivateEnemySwarmDelayed());
         }
@@ -108,7 +111,13 @@ public class TutorialSetup : MonoBehaviour
 
     private IEnumerator ActivateEnemySwarmDelayed()
     {
-        yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(1.5f);
+
+        if (Input.anyKeyDown && tutorialcounter < 8)
+        {
+            runDialogue.SetActive(false);
+        }
+
         tutorialBossSwarm1.SetActive(true);
         tutorialBossSwarm2.SetActive(true);
         tutorialBossSwarm3.SetActive(true);

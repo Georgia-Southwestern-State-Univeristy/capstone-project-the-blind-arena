@@ -8,6 +8,8 @@ public class VendorInteraction : MonoBehaviour
     [SerializeField] private float interactionDistance = 3f;
     [SerializeField] private KeyCode interactionKey = KeyCode.E;
     [SerializeField] private float promptHeightOffset = 2f; // Height above vendor
+    [SerializeField] private GameObject GreetingDialogue;
+    [SerializeField] private GameObject LeaveDialogue;
 
     [Header("Prompt Position Fine-tuning")]
     [SerializeField] private float horizontalOffset = 0f; // Positive = right, Negative = left

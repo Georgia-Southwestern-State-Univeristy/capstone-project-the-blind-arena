@@ -4224,6 +4224,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Speech bubble
       objectReference: {fileID: 0}
+    - target: {fileID: 4437399226347119808, guid: 145a26cfa8398b740982b1591a6f86ac, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7939199724507357864, guid: 145a26cfa8398b740982b1591a6f86ac, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -4338,8 +4342,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textComponent: {fileID: 1931620014}
-  lines: []
-  textSpeed: 2
+  lines:
+  - You should prepare for your next battle.
+  textSpeed: 0.2
 --- !u!1 &792053391
 GameObject:
   m_ObjectHideFlags: 0
@@ -5025,6 +5030,8 @@ MonoBehaviour:
   interactionDistance: 1
   interactionKey: 101
   promptHeightOffset: 2
+  GreetingDialogue: {fileID: 0}
+  LeaveDialogue: {fileID: 0}
   horizontalOffset: -40
   verticalOffset: 0
   buttonPrompt: {fileID: 997656540}
@@ -8900,6 +8907,8 @@ MonoBehaviour:
   interactionDistance: 1
   interactionKey: 101
   promptHeightOffset: 2
+  GreetingDialogue: {fileID: 770862863}
+  LeaveDialogue: {fileID: 0}
   horizontalOffset: -40
   verticalOffset: 0
   buttonPrompt: {fileID: 997656540}
