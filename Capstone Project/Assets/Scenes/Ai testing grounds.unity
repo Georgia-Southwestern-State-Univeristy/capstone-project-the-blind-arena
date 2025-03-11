@@ -5592,7 +5592,7 @@ PrefabInstance:
     - target: {fileID: 7591824933140468563, guid: 9a9aa303a578df1428a74bf50483a499, type: 3}
       propertyPath: enemy
       value: 
-      objectReference: {fileID: 5429908474085411193}
+      objectReference: {fileID: 402060048}
     - target: {fileID: 7591824933140468563, guid: 9a9aa303a578df1428a74bf50483a499, type: 3}
       propertyPath: counterText
       value: 
