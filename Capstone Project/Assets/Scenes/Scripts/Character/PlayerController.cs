@@ -28,6 +28,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject enemyAI4;
     [SerializeField] private GameObject enemyAI5;
     [SerializeField] private GameObject enemyAIFire;
+    [SerializeField] private GameObject moveInstructions;
+    [SerializeField] private GameObject attackInstructions;
+    [SerializeField] private GameObject preparationDialogue;
 
 
     private bool enemyAI2Activated = false;
@@ -58,6 +61,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject tutorialBossSwarm19;
 
     private bool tutorialBossActivated = false;
+    private bool attackInstructionsShown = false;
+    private bool preparationDialogueShown = false;
 
 
 
@@ -82,10 +87,53 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-
-        if ( deathcounter == 0)
+        if (tutorialcounter == 0)
         {
-            enemyAI.SetActive(true);
+            moveInstructions.SetActive(true);
+        }
+
+        if (Input.GetKeyDown(KeyCode.W) && (tutorialcounter < 4)) { tutorialcounter++; }
+        if (Input.GetKeyDown(KeyCode.A) && (tutorialcounter < 4)) { tutorialcounter++; }
+        if (Input.GetKeyDown(KeyCode.S) && (tutorialcounter < 4)) { tutorialcounter++; }
+        if (Input.GetKeyDown(KeyCode.D) && (tutorialcounter < 4)) { tutorialcounter++; }
+
+        // Once all four keys have been pressed, hide the instructions
+        if (tutorialcounter >= 4)
+        {
+            moveInstructions.SetActive(false);
+        }
+
+        if (tutorialcounter == 4 && !attackInstructionsShown)
+        {
+            attackInstructions.SetActive(true);
+            attackInstructionsShown = true;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha1) && (tutorialcounter < 7)) { tutorialcounter++; }
+        if (Input.GetKeyDown(KeyCode.Alpha2) && (tutorialcounter < 7)) { tutorialcounter++; }
+        if (Input.GetKeyDown(KeyCode.Alpha3) && (tutorialcounter < 7)) { tutorialcounter++; }
+        if (Input.GetKey(KeyCode.Space) && (tutorialcounter < 7)) { tutorialcounter++; }
+
+        if (tutorialcounter >= 7)
+        {
+            attackInstructions.SetActive(false);
+        }
+
+        if (tutorialcounter == 7 && !preparationDialogueShown)
+        {
+            preparationDialogue.SetActive(true);
+            preparationDialogueShown = true;
+            StartCoroutine(ActivateEnemyAIDelayed());
+        }
+
+
+
+
+
+
+            if (tutorialcounter == 1)
+        {
+            
             objectForPlayerMovement.SetActive(true);
         }
 
@@ -229,7 +277,15 @@ public class PlayerController : MonoBehaviour
             speed = originalSpeed;
         }
     }
-    private IEnumerator ActivateEnemyAI2Delayed()
+
+    private IEnumerator ActivateEnemyAIDelayed()
+    {
+        yield return new WaitForSeconds(2.5f);
+        enemyAI.SetActive(true);
+
+    }
+
+        private IEnumerator ActivateEnemyAI2Delayed()
     {
         yield return new WaitForSeconds(3.5f); // Waits 3.5 seconds
         enemyAI2.SetActive(true);
