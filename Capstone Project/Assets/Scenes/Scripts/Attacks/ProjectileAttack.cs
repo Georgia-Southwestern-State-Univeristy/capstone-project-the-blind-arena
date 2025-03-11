@@ -1,8 +1,5 @@
 using System;
-using TMPro;
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class ProjectileAttack : MonoBehaviour
 {
@@ -11,6 +8,7 @@ public class ProjectileAttack : MonoBehaviour
     private enum Movement { Aimed, Homing, AimedHoming, Wandering, Stationary };
 
     [SerializeField] private Rigidbody projectile;
+    [SerializeField] private GameObject effectPrefab;
     [SerializeField] private Transform target;
     [SerializeField] private float speed;
     [SerializeField] private float lifespan;
@@ -22,10 +20,11 @@ public class ProjectileAttack : MonoBehaviour
 
     private float initalLifespan;
     private float initalSpeed;
-    private int counter=0;
+    private float counter=0;
     private Vector3 targetTransform;
     private Vector3 movementVector;
-    private float fixedHeight = 0.6f;
+    private float fixedHeight;
+    private bool wasHit;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -36,13 +35,13 @@ public class ProjectileAttack : MonoBehaviour
         projectile = GetComponent<Rigidbody>();
         initalLifespan = lifespan;
         initalSpeed = speed;
+        if (isEffect) { fixedHeight = 0.5f; } else { fixedHeight = 0.6f; }
     }
 
     // Update is called once per frame
     void Update()
     {
         MoveProjectile(moveType);
-        ApplySpecialEffect(elementType);
         UpdateLifespan();
     }
 
@@ -74,7 +73,7 @@ public class ProjectileAttack : MonoBehaviour
                     speed = initalSpeed;
                     targetTransform=target.position;
                     movementVector = (targetTransform - transform.position).normalized * speed;
-                    movementVector.z = movementVector.z * 1.8f;
+                    movementVector *= (Math.Abs(movementVector.z)/2)+1;
                     counter++;
                 }
                 break;
@@ -93,7 +92,7 @@ public class ProjectileAttack : MonoBehaviour
         transform.position = position;
     }
 
-    private void ApplySpecialEffect(Element ele)
+    private void ApplySpecialEffect(Element ele, GameObject target)
     {
         switch (ele)
         {
@@ -103,23 +102,33 @@ public class ProjectileAttack : MonoBehaviour
                 break;
             //Wind Effects (Knockbacks, etc.)
             case Element.Wind:
-                if (lifespan <= 0)
-                {
 
-                }
                 break;
             //Fire Attack (Fires Tiles, Damage Over Times, etc.)
             case Element.Fire:
-                if (lifespan <= 0)
+                if (!isEffect) 
                 {
-
+                    Instantiate(effectPrefab, transform.position, Quaternion.identity); 
+                }
+                if (wasHit && target!=null)
+                {
+                    int burnTime;
+                    Health targethealth= target.GetComponent<Health>();
+                    if (targethealth != null)
+                    {
+                        
+                    }
                 }
                 break;
-            //Water Attack (Soaking, Freezing, etc.)
+            //Water Attack (Pace Water, Freezing, etc.)
             case Element.Water:
-                if (lifespan <= 0)
+                if(!isEffect)
                 {
-                    //Create Water Tiles
+                    Instantiate(effectPrefab, transform.position, Quaternion.identity);
+                }
+                else
+                {
+
                 }
                 break;
             //Lightning Attack (Stuns, Chaining, etc.)
@@ -131,11 +140,12 @@ public class ProjectileAttack : MonoBehaviour
 
     private void UpdateLifespan()
     {
-        lifespan -= Time.deltaTime;
         if (lifespan <= 0)
         {
+            ApplySpecialEffect(elementType, null);
             Destroy(gameObject);
         }
+        lifespan -= Time.deltaTime;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -143,17 +153,55 @@ public class ProjectileAttack : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             HandlePlayerCollision(collision.gameObject);
-        }
-        else
-        if (breaksOnContact) 
-        { 
-            if (collision.gameObject.CompareTag("Wall"))
+            if (breaksOnContact)
             {
                 lifespan = 0;
             }
         }
-        Debug.Log($"Projectile Hit: {collision.gameObject.name}");
+        else
+        if (collision.gameObject.CompareTag("Wall")) 
+        { 
+            if (breaksOnContact)
+            {
+                lifespan = 0;
+                Debug.Log($"Projectile Hit: {collision.gameObject.name}");
+            }
+        }
     }
+    private void OnTriggerEnter(Collider collision)
+    {
+        counter=0;
+    }
+    private void OnTriggerStay(Collider collision)
+    {
+        if (collision.tag=="Player")
+        {
+            if (counter >= 1)
+            {
+                counter = 0;
+            }
+            if (counter == 0)
+            {
+                HandlePlayerCollision(collision.gameObject);
+            }
+            counter += Time.deltaTime;
+            if (breaksOnContact)
+            {
+                lifespan = 0;
+            }
+            else
+                lifespan -= Time.deltaTime;
+        }
+        else
+        if (collision.tag == "Wall")
+        {
+            if (breaksOnContact)
+            {
+                lifespan = 0;
+            }
+        }
+    }
+
 
     private void HandlePlayerCollision(GameObject player)
     {
@@ -162,7 +210,8 @@ public class ProjectileAttack : MonoBehaviour
         if (playerHealth != null)
         {
             playerHealth.Damage(damage);
+            wasHit = true;
+            ApplySpecialEffect(elementType, player);
         }
-        lifespan = 0;
     }
 }
