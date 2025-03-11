@@ -5400,6 +5400,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5429908474085411193}
     - target: {fileID: 3830712414040057594, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      propertyPath: moveInstructions
+      value: 
+      objectReference: {fileID: 5429908474085411193}
+    - target: {fileID: 3830712414040057594, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      propertyPath: attackInstructions
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3830712414040057594, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       propertyPath: objectForPlayerMovement
       value: 
       objectReference: {fileID: 1091505806}

@@ -27,42 +27,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject enemyAI3;
     [SerializeField] private GameObject enemyAI4;
     [SerializeField] private GameObject enemyAI5;
-    [SerializeField] private GameObject enemyAIFire;
-    [SerializeField] private GameObject moveInstructions;
-    [SerializeField] private GameObject attackInstructions;
-    [SerializeField] private GameObject preparationDialogue;
 
 
     private bool enemyAI2Activated = false;
     private bool enemyAI3Activated = false;
     private bool enemyAI4Activated = false;
     private bool enemyAI5Activated = false;
-
-
-    [SerializeField] private GameObject tutorialBoss;
-    [SerializeField] private GameObject tutorialBossSwarm1;
-    [SerializeField] private GameObject tutorialBossSwarm2;
-    [SerializeField] private GameObject tutorialBossSwarm3;
-    [SerializeField] private GameObject tutorialBossSwarm4;
-    [SerializeField] private GameObject tutorialBossSwarm5;
-    [SerializeField] private GameObject tutorialBossSwarm6;
-    [SerializeField] private GameObject tutorialBossSwarm7;
-    [SerializeField] private GameObject tutorialBossSwarm8;
-    [SerializeField] private GameObject tutorialBossSwarm9;
-    [SerializeField] private GameObject tutorialBossSwarm10;
-    [SerializeField] private GameObject tutorialBossSwarm11;
-    [SerializeField] private GameObject tutorialBossSwarm12;
-    [SerializeField] private GameObject tutorialBossSwarm13;
-    [SerializeField] private GameObject tutorialBossSwarm14;
-    [SerializeField] private GameObject tutorialBossSwarm15;
-    [SerializeField] private GameObject tutorialBossSwarm16;
-    [SerializeField] private GameObject tutorialBossSwarm17;
-    [SerializeField] private GameObject tutorialBossSwarm18;
-    [SerializeField] private GameObject tutorialBossSwarm19;
-
-    private bool tutorialBossActivated = false;
-    private bool attackInstructionsShown = false;
-    private bool preparationDialogueShown = false;
 
 
 
@@ -86,55 +56,11 @@ public class PlayerController : MonoBehaviour
             moveDir = Vector3.zero;
             return;
         }
-
-        if (tutorialcounter == 0)
-        {
-            moveInstructions.SetActive(true);
-        }
-
-        if (Input.GetKeyDown(KeyCode.W) && (tutorialcounter < 4)) { tutorialcounter++; }
-        if (Input.GetKeyDown(KeyCode.A) && (tutorialcounter < 4)) { tutorialcounter++; }
-        if (Input.GetKeyDown(KeyCode.S) && (tutorialcounter < 4)) { tutorialcounter++; }
-        if (Input.GetKeyDown(KeyCode.D) && (tutorialcounter < 4)) { tutorialcounter++; }
-
-        // Once all four keys have been pressed, hide the instructions
-        if (tutorialcounter >= 4)
-        {
-            moveInstructions.SetActive(false);
-        }
-
-        if (tutorialcounter == 4 && !attackInstructionsShown)
-        {
-            attackInstructions.SetActive(true);
-            attackInstructionsShown = true;
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha1) && (tutorialcounter < 7)) { tutorialcounter++; }
-        if (Input.GetKeyDown(KeyCode.Alpha2) && (tutorialcounter < 7)) { tutorialcounter++; }
-        if (Input.GetKeyDown(KeyCode.Alpha3) && (tutorialcounter < 7)) { tutorialcounter++; }
-        if (Input.GetKey(KeyCode.Space) && (tutorialcounter < 7)) { tutorialcounter++; }
-
-        if (tutorialcounter >= 7)
-        {
-            attackInstructions.SetActive(false);
-        }
-
-        if (tutorialcounter == 7 && !preparationDialogueShown)
-        {
-            preparationDialogue.SetActive(true);
-            preparationDialogueShown = true;
-            StartCoroutine(ActivateEnemyAIDelayed());
-        }
-
-
-
-
-
-
-            if (tutorialcounter == 1)
+        
+        if (deathcounter == 1)
         {
             
-            objectForPlayerMovement.SetActive(true);
+            enemyAI.SetActive(true);
         }
 
         else if (GameData.deathcounter == 2 && !enemyAI2Activated)
@@ -159,12 +85,6 @@ public class PlayerController : MonoBehaviour
         {
             enemyAI5Activated = true; 
             StartCoroutine(ActivateEnemyAI5Delayed());
-        }
-        else if (GameData.deathcounter == 1 && !tutorialBossActivated)
-        {
-            tutorialBossActivated = true;
-            enemyAIFire.SetActive(true);
-            StartCoroutine(ActivateEnemySwarmDelayed());
         }
 
 
@@ -307,30 +227,6 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(3.5f);
         enemyAI5.SetActive(true);
-    }
-
-    private IEnumerator ActivateEnemySwarmDelayed()
-    {
-        yield return new WaitForSeconds(1.5f);
-        tutorialBossSwarm1.SetActive(true);
-        tutorialBossSwarm2.SetActive(true);
-        tutorialBossSwarm3.SetActive(true);
-        tutorialBossSwarm4.SetActive(true);
-        tutorialBossSwarm5.SetActive(true);
-        tutorialBossSwarm6.SetActive(true);
-        tutorialBossSwarm7.SetActive(true);
-        tutorialBossSwarm8.SetActive(true);
-        tutorialBossSwarm9.SetActive(true);
-        tutorialBossSwarm10.SetActive(true);
-        tutorialBossSwarm11.SetActive(true);
-        tutorialBossSwarm12.SetActive(true);
-        tutorialBossSwarm13.SetActive(true);
-        tutorialBossSwarm14.SetActive(true);
-        tutorialBossSwarm15.SetActive(true);
-        tutorialBossSwarm16.SetActive(true);
-        tutorialBossSwarm17.SetActive(true);
-        tutorialBossSwarm18.SetActive(true);
-        tutorialBossSwarm19.SetActive(true);
     }
 
 }
