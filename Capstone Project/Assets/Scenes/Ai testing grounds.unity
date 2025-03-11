@@ -185,6 +185,11 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 2
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &99444262 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4152816878500907604, guid: 94c1d716c593b34428136bc73695cc26, type: 3}
+  m_PrefabInstance: {fileID: 1631964225}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &102405720
 GameObject:
   m_ObjectHideFlags: 0
@@ -4062,6 +4067,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 94c1d716c593b34428136bc73695cc26, type: 3}
+--- !u!1 &1725596265 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7970103160979718905, guid: b88c70b1171cad44f825987b7bbeefbb, type: 3}
+  m_PrefabInstance: {fileID: 1057819130}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1789216285
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4778,6 +4788,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d2c635542ada48c41b871496515c7f15, type: 3}
+--- !u!1 &1880636528 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2487194063765125954, guid: e34d778dd20bdc4489427b929c807a47, type: 3}
+  m_PrefabInstance: {fileID: 2066267472}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1905145755
 GameObject:
   m_ObjectHideFlags: 0
@@ -5411,6 +5426,18 @@ PrefabInstance:
       propertyPath: objectForPlayerMovement
       value: 
       objectReference: {fileID: 1091505806}
+    - target: {fileID: 4355459727560426660, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      propertyPath: attributeUI
+      value: 
+      objectReference: {fileID: 99444262}
+    - target: {fileID: 4355459727560426660, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      propertyPath: inventoryUI
+      value: 
+      objectReference: {fileID: 1725596265}
+    - target: {fileID: 4355459727560426660, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      propertyPath: pauseMenuUI
+      value: 
+      objectReference: {fileID: 1880636528}
     - target: {fileID: 4673221386155297866, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -5644,6 +5671,10 @@ PrefabInstance:
       propertyPath: counterText
       value: 
       objectReference: {fileID: 779073045}
+    - target: {fileID: 7591824933140468563, guid: 9a9aa303a578df1428a74bf50483a499, type: 3}
+      propertyPath: respawnPenalty
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6142,20 +6173,20 @@ SceneRoots:
   - {fileID: 402060047}
   - {fileID: 1351617027}
   - {fileID: 1589083950}
+  - {fileID: 1091505807}
   - {fileID: 1595946890}
   - {fileID: 1847501434}
   - {fileID: 1220602294}
   - {fileID: 1377479131}
   - {fileID: 2066267472}
-  - {fileID: 1789216285}
-  - {fileID: 4675713707112488128}
+  - {fileID: 320662414}
+  - {fileID: 1057819130}
+  - {fileID: 1631964225}
   - {fileID: 5992744306266666624}
   - {fileID: 5093642067094995891}
-  - {fileID: 1057819130}
   - {fileID: 1811411052}
-  - {fileID: 1631964225}
-  - {fileID: 7042568470700225437}
-  - {fileID: 4612638134040174042}
-  - {fileID: 320662414}
   - {fileID: 306989228}
-  - {fileID: 1091505807}
+  - {fileID: 4675713707112488128}
+  - {fileID: 1789216285}
+  - {fileID: 4612638134040174042}
+  - {fileID: 7042568470700225437}

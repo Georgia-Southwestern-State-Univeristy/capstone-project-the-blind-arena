@@ -499,6 +499,7 @@ GameObject:
   m_Component:
   - component: {fileID: 168013719982219207}
   - component: {fileID: 1458904164212163424}
+  - component: {fileID: 4355459727560426660}
   - component: {fileID: 3492943963764936552}
   - component: {fileID: 4058516955631113346}
   - component: {fileID: 8374595490132852058}
@@ -545,6 +546,26 @@ MonoBehaviour:
   stamina: 100
   healthBarSlider: {fileID: 4687745841240717153}
   staminaBarSlider: {fileID: 3966651007617308723}
+  triggerSequenceOnDeath: 0
+  objectToReveal: {fileID: 0}
+  secondObjectToReveal: {fileID: 0}
+  delayBeforeSwitch: 3
+--- !u!114 &4355459727560426660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7826421661143136822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5493a827aabb7af4496de850a17af183, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pauseMenuUI: {fileID: 0}
+  inventoryUI: {fileID: 0}
+  skillUI: {fileID: 0}
+  attributeUI: {fileID: 0}
 --- !u!136 &3492943963764936552
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -748,6 +769,13 @@ MonoBehaviour:
   gravityScale: 20
   dashStaminaCost: 0.15
   animator: {fileID: 8374595490132852058}
+  tutorialcounter: 0
+  objectForPlayerMovement: {fileID: 0}
+  enemyAI: {fileID: 0}
+  enemyAI2: {fileID: 0}
+  enemyAI3: {fileID: 0}
+  enemyAI4: {fileID: 0}
+  enemyAI5: {fileID: 0}
 --- !u!114 &5523918094042336040
 MonoBehaviour:
   m_ObjectHideFlags: 0
