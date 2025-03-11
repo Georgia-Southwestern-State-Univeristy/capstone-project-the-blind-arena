@@ -19,18 +19,45 @@ public class PlayerController : MonoBehaviour
     private float originalSpeed;
 
     public double deathcounter => GameData.deathcounter;
+    public double tutorialcounter = 0;
 
+    [SerializeField] private GameObject objectForPlayerMovement;
     [SerializeField] private GameObject enemyAI;
     [SerializeField] private GameObject enemyAI2;
     [SerializeField] private GameObject enemyAI3;
     [SerializeField] private GameObject enemyAI4;
     [SerializeField] private GameObject enemyAI5;
+    [SerializeField] private GameObject enemyAIFire;
 
 
     private bool enemyAI2Activated = false;
     private bool enemyAI3Activated = false;
     private bool enemyAI4Activated = false;
     private bool enemyAI5Activated = false;
+
+
+    [SerializeField] private GameObject tutorialBoss;
+    [SerializeField] private GameObject tutorialBossSwarm1;
+    [SerializeField] private GameObject tutorialBossSwarm2;
+    [SerializeField] private GameObject tutorialBossSwarm3;
+    [SerializeField] private GameObject tutorialBossSwarm4;
+    [SerializeField] private GameObject tutorialBossSwarm5;
+    [SerializeField] private GameObject tutorialBossSwarm6;
+    [SerializeField] private GameObject tutorialBossSwarm7;
+    [SerializeField] private GameObject tutorialBossSwarm8;
+    [SerializeField] private GameObject tutorialBossSwarm9;
+    [SerializeField] private GameObject tutorialBossSwarm10;
+    [SerializeField] private GameObject tutorialBossSwarm11;
+    [SerializeField] private GameObject tutorialBossSwarm12;
+    [SerializeField] private GameObject tutorialBossSwarm13;
+    [SerializeField] private GameObject tutorialBossSwarm14;
+    [SerializeField] private GameObject tutorialBossSwarm15;
+    [SerializeField] private GameObject tutorialBossSwarm16;
+    [SerializeField] private GameObject tutorialBossSwarm17;
+    [SerializeField] private GameObject tutorialBossSwarm18;
+    [SerializeField] private GameObject tutorialBossSwarm19;
+
+    private bool tutorialBossActivated = false;
 
 
 
@@ -59,31 +86,39 @@ public class PlayerController : MonoBehaviour
         if ( deathcounter == 0)
         {
             enemyAI.SetActive(true);
+            objectForPlayerMovement.SetActive(true);
         }
 
-        else if (GameData.deathcounter == 1 && !enemyAI2Activated)
+        else if (GameData.deathcounter == 2 && !enemyAI2Activated)
         {
             enemyAI2Activated = true; // Prevents repeated activation
             StartCoroutine(ActivateEnemyAI2Delayed());
         }
 
-        else if (GameData.deathcounter == 2 && !enemyAI3Activated)
+        else if (GameData.deathcounter == 3 && !enemyAI3Activated)
         {
             enemyAI3Activated = true; 
             StartCoroutine(ActivateEnemyAI3Delayed());
         }
 
-        else if (GameData.deathcounter == 3 && !enemyAI4Activated)
+        else if (GameData.deathcounter == 4 && !enemyAI4Activated)
         {
             enemyAI4Activated = true; 
             StartCoroutine(ActivateEnemyAI4Delayed());
         }
 
-        else if (GameData.deathcounter == 4 && !enemyAI5Activated)
+        else if (GameData.deathcounter == 5 && !enemyAI5Activated)
         {
             enemyAI5Activated = true; 
             StartCoroutine(ActivateEnemyAI5Delayed());
         }
+        else if (GameData.deathcounter == 1 && !tutorialBossActivated)
+        {
+            tutorialBossActivated = true;
+            enemyAIFire.SetActive(true);
+            StartCoroutine(ActivateEnemySwarmDelayed());
+        }
+
 
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
@@ -216,6 +251,30 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(3.5f);
         enemyAI5.SetActive(true);
+    }
+
+    private IEnumerator ActivateEnemySwarmDelayed()
+    {
+        yield return new WaitForSeconds(1.5f);
+        tutorialBossSwarm1.SetActive(true);
+        tutorialBossSwarm2.SetActive(true);
+        tutorialBossSwarm3.SetActive(true);
+        tutorialBossSwarm4.SetActive(true);
+        tutorialBossSwarm5.SetActive(true);
+        tutorialBossSwarm6.SetActive(true);
+        tutorialBossSwarm7.SetActive(true);
+        tutorialBossSwarm8.SetActive(true);
+        tutorialBossSwarm9.SetActive(true);
+        tutorialBossSwarm10.SetActive(true);
+        tutorialBossSwarm11.SetActive(true);
+        tutorialBossSwarm12.SetActive(true);
+        tutorialBossSwarm13.SetActive(true);
+        tutorialBossSwarm14.SetActive(true);
+        tutorialBossSwarm15.SetActive(true);
+        tutorialBossSwarm16.SetActive(true);
+        tutorialBossSwarm17.SetActive(true);
+        tutorialBossSwarm18.SetActive(true);
+        tutorialBossSwarm19.SetActive(true);
     }
 
 }

@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class EnemyHealth : MonoBehaviour
 {
@@ -92,15 +93,55 @@ public class EnemyHealth : MonoBehaviour
     private void Die()
     {
         Debug.Log($"{gameObject.name} has died.");
-        if (triggerSequenceOnDeath && objectToReveal != null && secondObjectToReveal != null)
+
+        if (gameObject.CompareTag("Boss"))
         {
-            ObjectSequenceManager.Instance.StartObjectSequence(objectToReveal, secondObjectToReveal, delayBeforeSwitch);
+            Destroy(gameObject);
+            GameData.deathcounter++;
+            SceneController.Instance.LoadScene(2);
+            return; // Exit function to prevent further execution
+        }
+
+        // Check if it's the player dying
+        if (gameObject.CompareTag("Player"))
+        {
+            int currentScene = SceneManager.GetActiveScene().buildIndex;
+
+            // Destroy the object before transitioning
+            Destroy(gameObject);
+
+            // If the player dies in scene 1, load scene 2
+            if (currentScene == 1)
+            {
+                SceneController.Instance.LoadScene(2);
+            }
+            else
+            {
+                // Handle object sequences if applicable
+                if (triggerSequenceOnDeath && objectToReveal != null && secondObjectToReveal != null)
+                {
+                    ObjectSequenceManager.Instance.StartObjectSequence(objectToReveal, secondObjectToReveal, delayBeforeSwitch);
+                }
+                else
+                {
+                    SceneController.Instance.LoadScene(2);
+                }
+            }
         }
         else
         {
-            GameData.deathcounter++;
-            SceneController.Instance.LoadScene(2);
+            // Handle enemy deaths
+            if (triggerSequenceOnDeath && objectToReveal != null && secondObjectToReveal != null)
+            {
+                ObjectSequenceManager.Instance.StartObjectSequence(objectToReveal, secondObjectToReveal, delayBeforeSwitch);
+            }
+            else
+            {
+                GameData.deathcounter++;
+            }
+
+            // Destroy enemy object
+            Destroy(gameObject);
         }
-        Destroy(gameObject);
     }
 }

@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Health : MonoBehaviour
 {
@@ -120,9 +121,11 @@ public class Health : MonoBehaviour
                 // Reset the timer after each regen cycle
                 timeSinceLastRegen = 0f;
             }
-        } else {
-        // Reset the regen timer if stamina was recently used
-        timeSinceLastRegen = 0f;
+        }
+        else
+        {
+            // Reset the regen timer if stamina was recently used
+            timeSinceLastRegen = 0f;
         }
     }
 
@@ -144,16 +147,27 @@ public class Health : MonoBehaviour
 
     private void PlayerDie()
     {
-
         Debug.Log($"{gameObject.name} has died.");
-        if (triggerSequenceOnDeath && objectToReveal != null && secondObjectToReveal != null)
+
+        // Check if we're in scene index 1
+        if (SceneManager.GetActiveScene().buildIndex == 1)
         {
-            ObjectSequenceManager.Instance.StartObjectSequence(objectToReveal, secondObjectToReveal, delayBeforeSwitch);
+            // If we're in scene 1, load scene 2
+            SceneController.Instance.LoadScene(2);
         }
         else
         {
-            SceneController.Instance.LoadScene(2);
+            // Otherwise, proceed with the original death behavior
+            if (triggerSequenceOnDeath && objectToReveal != null && secondObjectToReveal != null)
+            {
+                ObjectSequenceManager.Instance.StartObjectSequence(objectToReveal, secondObjectToReveal, delayBeforeSwitch);
+            }
+            else
+            {
+                SceneController.Instance.LoadScene(2);
+            }
         }
+
         Destroy(gameObject);
     }
 }

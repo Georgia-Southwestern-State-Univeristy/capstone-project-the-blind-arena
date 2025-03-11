@@ -1018,7 +1018,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 704160757821374690, guid: d9b1ef5c3c78d894083e0a9f3095b0b1, type: 3}
       propertyPath: m_TagString
-      value: FireBoss
+      value: Boss
       objectReference: {fileID: 0}
     - target: {fileID: 1223252900176456733, guid: d9b1ef5c3c78d894083e0a9f3095b0b1, type: 3}
       propertyPath: target
@@ -1299,7 +1299,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 704160757821374690, guid: d9b1ef5c3c78d894083e0a9f3095b0b1, type: 3}
       propertyPath: m_TagString
-      value: FireBoss
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 1223252900176456733, guid: d9b1ef5c3c78d894083e0a9f3095b0b1, type: 3}
       propertyPath: target
@@ -1910,7 +1910,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 704160757821374690, guid: d9b1ef5c3c78d894083e0a9f3095b0b1, type: 3}
       propertyPath: m_TagString
-      value: FireBoss
+      value: Boss
       objectReference: {fileID: 0}
     - target: {fileID: 1223252900176456733, guid: d9b1ef5c3c78d894083e0a9f3095b0b1, type: 3}
       propertyPath: target
@@ -2645,6 +2645,37 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &1091505806
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1091505807}
+  m_Layer: 0
+  m_Name: ObjectForPlayerMovement
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1091505807
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1091505806}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -48.97526, y: 0.57767314, z: -0.400121}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1124029885
 GameObject:
   m_ObjectHideFlags: 0
@@ -3019,7 +3050,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 704160757821374690, guid: d9b1ef5c3c78d894083e0a9f3095b0b1, type: 3}
       propertyPath: m_TagString
-      value: FireBoss
+      value: Boss
       objectReference: {fileID: 0}
     - target: {fileID: 1223252900176456733, guid: d9b1ef5c3c78d894083e0a9f3095b0b1, type: 3}
       propertyPath: target
@@ -5118,7 +5149,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 704160757821374690, guid: d9b1ef5c3c78d894083e0a9f3095b0b1, type: 3}
       propertyPath: m_TagString
-      value: FireBoss
+      value: Boss
       objectReference: {fileID: 0}
     - target: {fileID: 1223252900176456733, guid: d9b1ef5c3c78d894083e0a9f3095b0b1, type: 3}
       propertyPath: target
@@ -5364,6 +5395,14 @@ PrefabInstance:
       propertyPath: enemyAI5
       value: 
       objectReference: {fileID: 402060048}
+    - target: {fileID: 3830712414040057594, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      propertyPath: enemyAIFire
+      value: 
+      objectReference: {fileID: 5429908474085411193}
+    - target: {fileID: 3830712414040057594, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      propertyPath: objectForPlayerMovement
+      value: 
+      objectReference: {fileID: 1091505806}
     - target: {fileID: 4673221386155297866, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -5592,7 +5631,7 @@ PrefabInstance:
     - target: {fileID: 7591824933140468563, guid: 9a9aa303a578df1428a74bf50483a499, type: 3}
       propertyPath: enemy
       value: 
-      objectReference: {fileID: 5429908474085411193}
+      objectReference: {fileID: 402060048}
     - target: {fileID: 7591824933140468563, guid: 9a9aa303a578df1428a74bf50483a499, type: 3}
       propertyPath: counterText
       value: 
@@ -6111,3 +6150,4 @@ SceneRoots:
   - {fileID: 4612638134040174042}
   - {fileID: 320662414}
   - {fileID: 306989228}
+  - {fileID: 1091505807}
