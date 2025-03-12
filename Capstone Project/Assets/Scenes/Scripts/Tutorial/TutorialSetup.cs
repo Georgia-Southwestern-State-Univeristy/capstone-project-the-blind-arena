@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TutorialSetup : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class TutorialSetup : MonoBehaviour
     [SerializeField] private GameObject preparationDialogue;
     [SerializeField] private GameObject runDialogue;
     [SerializeField] private GameObject attributeMenu;
+    [SerializeField] private GameObject skipTutorialButton;
 
     public int tutorialcounter = 0;
 
@@ -184,4 +186,9 @@ public class TutorialSetup : MonoBehaviour
         }
     }
 
+    public void LoadNextSceneAndIncrementDeathCounter()
+    {
+        GameData.deathcounter++; // Increment death counter
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1); // Load next scene
+    }
 }
