@@ -139,9 +139,11 @@ public class GameTimer : MonoBehaviour
     {
         // Apply respawn penalty
         elapsedTime += respawnPenalty;
+        counter += respawnPenalty; // Add penalty to counter
         persistentElapsedTime = elapsedTime;
         persistentCounter = counter;
         UpdateTimerUI();
+        StopTimerAndCalculateScore(); // Recalculate score after respawn
         SceneController.Instance.LoadScene(2);
     }
 
