@@ -125,7 +125,7 @@ public class ProjectileAttack : MonoBehaviour
                 {
                     Instantiate(effectPrefab, transform.position, Quaternion.identity); 
                 }
-                if (inTrigger)
+                else if (inTrigger)
                 {
                     StartCoroutine(DamageOverTime(player, damage));
                 }
