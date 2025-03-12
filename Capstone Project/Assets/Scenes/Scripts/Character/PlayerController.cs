@@ -139,7 +139,7 @@ public class PlayerController : MonoBehaviour
 
     public void ApplyExternalForce(Vector3 force, float duration)
     {
-        externalForce = new Vector3(force.x, 0, force.z);
+        externalForce = new Vector3(force.x, 0, force.z*2);
         Invoke(nameof(ClearExternalForce), duration);
     }
 

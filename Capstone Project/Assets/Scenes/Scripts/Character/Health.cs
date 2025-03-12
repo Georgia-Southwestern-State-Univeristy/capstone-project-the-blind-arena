@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,7 +15,6 @@ public class Health : MonoBehaviour
     private int staminaRegenRate = 9; // Stamina regenerates by 1 per 0.3 seconds
     private float staminaRegenDelay = 2f; // Delay before stamina starts regenerating
     private float lastStaminaUseTime; // Tracks last time stamina was used
-    private float counter = 0;
 
     // New variables for timer-based regeneration
     private float staminaRegenInterval = 0.3f; // Interval for stamina regeneration (0.3 seconds)
@@ -28,6 +29,7 @@ public class Health : MonoBehaviour
 
     void Start()
     {
+        MAX_HEALTH = health;
         stamina = MAX_STAMINA;
 
         if (healthBarSlider != null)

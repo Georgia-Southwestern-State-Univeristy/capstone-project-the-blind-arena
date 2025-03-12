@@ -1,5 +1,8 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class ProjectileAttack : MonoBehaviour
 {
@@ -18,13 +21,10 @@ public class ProjectileAttack : MonoBehaviour
     [SerializeField] private bool isEffect;
     [SerializeField] private bool breaksOnContact;
 
-    private float initalLifespan;
-    private float initalSpeed;
-    private float counter=0;
+    private float initalLifespan, initalSpeed, fixedHeight, mCount=0, tCount=0;
     private Vector3 targetTransform;
     private Vector3 movementVector;
-    private float fixedHeight;
-    private bool wasHit;
+    private bool inTrigger, takingDamage;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -52,7 +52,7 @@ public class ProjectileAttack : MonoBehaviour
             case Movement.Aimed:
                 break;
             case Movement.Homing:
-                if (initalLifespan - lifespan > 1 || lifespan / initalLifespan > 0.2)
+                if (initalLifespan - lifespan > 1 && lifespan >= 4)
                 {
                     targetTransform = target.position;
                     movementVector = (targetTransform - transform.position).normalized * speed * (lifespan / initalLifespan);
@@ -64,17 +64,17 @@ public class ProjectileAttack : MonoBehaviour
                 {
                     if (speed >= 0)
                     {
-                        speed = speed * 0.5f;
+                        speed = speed * 0.9f;
                         movementVector = movementVector * (speed / initalSpeed);
                     }
                 }
-                else if (initalLifespan-lifespan>3 && counter==0)
+                else if (initalLifespan-lifespan>3 && mCount==0)
                 {
                     speed = initalSpeed;
                     targetTransform=target.position;
                     movementVector = (targetTransform - transform.position).normalized * speed;
                     movementVector *= (Math.Abs(movementVector.z)/2)+1;
-                    counter++;
+                    mCount++;
                 }
                 break;
             case Movement.Wandering:
@@ -92,7 +92,7 @@ public class ProjectileAttack : MonoBehaviour
         transform.position = position;
     }
 
-    private void ApplySpecialEffect(Element ele, GameObject target)
+    private void ApplySpecialEffect(Element ele, GameObject player)
     {
         switch (ele)
         {
@@ -102,25 +102,39 @@ public class ProjectileAttack : MonoBehaviour
                 break;
             //Wind Effects (Knockbacks, etc.)
             case Element.Wind:
-
+                if (isEffect)
+                {
+                    
+                }
+                else if (player != null) 
+                {
+                    PlayerController playerController = player.GetComponent<PlayerController>();
+                    if (playerController != null)
+                    {
+                        Vector3 pushDirection = (player.transform.position - transform.position).normalized;
+                        Vector3 pushVelocity = pushDirection * 15;
+                        playerController.ApplyExternalForce(pushVelocity, 0.2f);
+                    }
+                }
+                                
                 break;
             //Fire Attack (Fires Tiles, Damage Over Times, etc.)
             case Element.Fire:
+                takingDamage=true;
                 if (!isEffect) 
                 {
                     Instantiate(effectPrefab, transform.position, Quaternion.identity); 
                 }
-                if (wasHit && target!=null)
+                if (inTrigger)
                 {
-                    int burnTime;
-                    Health targethealth= target.GetComponent<Health>();
-                    if (targethealth != null)
-                    {
-                        
-                    }
+                    StartCoroutine(DamageOverTime(player, damage));
+                }
+                if (takingDamage)
+                {
+                    StartCoroutine(DamageOverTime(player, 1));
                 }
                 break;
-            //Water Attack (Pace Water, Freezing, etc.)
+            //Water Attack (Place Water, Freezing, etc.)
             case Element.Water:
                 if(!isEffect)
                 {
@@ -170,21 +184,24 @@ public class ProjectileAttack : MonoBehaviour
     }
     private void OnTriggerEnter(Collider collision)
     {
-        counter=0;
+        if (collision.tag == "Player")
+        {
+            if (isEffect)
+            {
+                inTrigger = true;
+                ApplySpecialEffect(elementType, collision.gameObject);
+            }
+            else
+            {
+                HandlePlayerCollision(collision.gameObject);
+                ApplySpecialEffect(elementType, collision.gameObject);
+            }
+        }
     }
     private void OnTriggerStay(Collider collision)
     {
         if (collision.tag=="Player")
         {
-            if (counter >= 1)
-            {
-                counter = 0;
-            }
-            if (counter == 0)
-            {
-                HandlePlayerCollision(collision.gameObject);
-            }
-            counter += Time.deltaTime;
             if (breaksOnContact)
             {
                 lifespan = 0;
@@ -201,7 +218,11 @@ public class ProjectileAttack : MonoBehaviour
             }
         }
     }
-
+    private void OnTriggerExit(Collider other)
+    {
+        inTrigger=false;
+        ApplySpecialEffect(elementType, other.gameObject);
+    }
 
     private void HandlePlayerCollision(GameObject player)
     {
@@ -210,8 +231,30 @@ public class ProjectileAttack : MonoBehaviour
         if (playerHealth != null)
         {
             playerHealth.Damage(damage);
-            wasHit = true;
             ApplySpecialEffect(elementType, player);
+        }
+    }
+    public IEnumerator DamageOverTime(GameObject player, int damage)
+    {
+        tCount = 0;
+        while (inTrigger)
+        {
+            Health playerHealth = player.GetComponent<Health>();
+            playerHealth.Damage(damage);
+            Debug.Log("Player is standing in a damage zone!");
+            yield return new WaitForSeconds(0.5f);
+        }
+        while (takingDamage)
+        {
+            if (tCount >= 5)
+            {
+                takingDamage =false;
+            }
+            Health playerHealth = player.GetComponent<Health>();
+            playerHealth.Damage(damage);
+            Debug.Log("Player took damage over time!");
+            tCount++;
+            yield return new WaitForSeconds(1f);
         }
     }
 }
