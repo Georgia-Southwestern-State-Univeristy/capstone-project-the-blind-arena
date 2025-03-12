@@ -41,6 +41,7 @@ public class TutorialSetup : MonoBehaviour
     private bool preparationDialogueShown = false;
     private bool runDialogueShown = false;
     private bool attributeMenuShown = false;
+    private bool hasResetTutorial = false; // Flag to track if reset has been triggered
 
     void Update()
     {
@@ -139,6 +140,7 @@ public class TutorialSetup : MonoBehaviour
     {
         yield return new WaitForSeconds(1.5f);
         tutorialBoss.SetActive(true);
+        ResetRestAreaTutorial();
     }
 
     private IEnumerator ActivateEnemySwarmDelayed()
@@ -170,4 +172,16 @@ public class TutorialSetup : MonoBehaviour
         tutorialBossSwarm18.SetActive(true);
         tutorialBossSwarm19.SetActive(true);
     }
+
+    public void ResetRestAreaTutorial()
+    {
+        if (!hasResetTutorial)
+        {
+            PlayerPrefs.DeleteKey("RestAreaTutorial");
+            PlayerPrefs.Save();
+            Debug.Log("RestAreaTutorial progress has been reset.");
+            hasResetTutorial = true; // Set flag to true so it only runs once
+        }
+    }
+
 }
