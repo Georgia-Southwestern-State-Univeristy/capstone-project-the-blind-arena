@@ -124,7 +124,9 @@ public class ShopManager : MonoBehaviour
         float timeToAdd = GetItemTimeValue(purchasedSprite);
         if (timeToAdd > 0)
         {
+            Debug.Log($"Adding {timeToAdd} seconds to the timer for item {purchasedSprite.name}");
             gameTimer.AddTime(timeToAdd);
+            Debug.Log($"After Adding {timeToAdd} seconds to the timer for item {purchasedSprite.name}");
         }
 
         UpdateHotbar();

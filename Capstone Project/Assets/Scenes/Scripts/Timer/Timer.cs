@@ -105,7 +105,7 @@ public class GameTimer : MonoBehaviour
         persistentCounter = counter;
 
 
-        counter = maxAmount - counter; // Subtract counter from max amount
+        counter =  maxAmount - counter; // Subtract counter from max amount
         UpdateCounterUI();
     }
 

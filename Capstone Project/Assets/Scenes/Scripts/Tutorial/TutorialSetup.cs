@@ -6,10 +6,14 @@ public class TutorialSetup : MonoBehaviour
     [SerializeField] private GameObject enemyAIFire;
     [SerializeField] private GameObject moveInstructions;
     [SerializeField] private GameObject attackInstructions;
+    [SerializeField] private GameObject attributePointExplainationDialogue;
+    [SerializeField] private GameObject fieldPointIncreaseandDecreaseDialogue;
+    [SerializeField] private GameObject buttonExplainationDialogue;
     [SerializeField] private GameObject preparationDialogue;
     [SerializeField] private GameObject runDialogue;
+    [SerializeField] private GameObject attributeMenu;
 
-    public double tutorialcounter = 0;
+    public int tutorialcounter = 0;
 
     [SerializeField] private GameObject tutorialBoss;
     [SerializeField] private GameObject tutorialBossSwarm1;
@@ -36,13 +40,19 @@ public class TutorialSetup : MonoBehaviour
     private bool attackInstructionsShown = false;
     private bool preparationDialogueShown = false;
     private bool runDialogueShown = false;
+    private bool attributeMenuShown = false;
 
     void Update()
     {
+        Debug.Log("Tutorial Counter: " + tutorialcounter);
         TutorialMovement();
         TutorialAttackInstructions();
+        
         TutorialPreparationDialogue();
         TutorialBossActivation();
+
+
+
     }
 
     private void TutorialMovement()
@@ -76,15 +86,37 @@ public class TutorialSetup : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha3) && (tutorialcounter < 9)) { tutorialcounter++; }
         if (Input.GetKey(KeyCode.Space) && (tutorialcounter < 9)) { tutorialcounter++; }
 
-        if (tutorialcounter >= 9)
+        if (tutorialcounter >= 9 && tutorialcounter < 10)
         {
             attackInstructions.SetActive(false);
+            tutorialcounter = 10;
+            StartCoroutine(TutorialAttributeExplainationDialogue());
+        }
+    }
+
+    private IEnumerator TutorialAttributeExplainationDialogue()
+    {
+        if (tutorialcounter == 10 && !attributeMenuShown)
+        {
+            attributeMenu.SetActive(true);
+            yield return new WaitForSeconds(0.5f);
+            attributePointExplainationDialogue.SetActive(true);
+            yield return new WaitForSeconds(5f);
+            attributePointExplainationDialogue.SetActive(false);
+            fieldPointIncreaseandDecreaseDialogue.SetActive(true);
+            yield return new WaitForSeconds(7f);
+            buttonExplainationDialogue.SetActive(true);
+            yield return new WaitForSeconds(5f);
+            buttonExplainationDialogue.SetActive(false);
+            attributeMenu.SetActive(false);
+            attributeMenuShown = true;
+            tutorialcounter++;
         }
     }
 
     private void TutorialPreparationDialogue()
     {
-        if (tutorialcounter == 9 && !preparationDialogueShown)
+        if (tutorialcounter == 11 && !preparationDialogueShown)
         {
             preparationDialogue.SetActive(true);
             preparationDialogueShown = true;
