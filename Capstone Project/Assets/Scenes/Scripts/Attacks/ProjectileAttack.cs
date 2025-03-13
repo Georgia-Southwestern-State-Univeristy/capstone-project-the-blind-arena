@@ -24,7 +24,7 @@ public class ProjectileAttack : MonoBehaviour
     private float initalLifespan, initalSpeed, fixedHeight, mCount=0, tCount=0;
     private Vector3 targetTransform;
     private Vector3 movementVector;
-    private bool inTrigger, takingDamage;
+    private bool inTrigger, takingDamage, wander=false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -78,8 +78,10 @@ public class ProjectileAttack : MonoBehaviour
                 }
                 break;
             case Movement.Wandering:
-                if (initalLifespan - lifespan > 1 || lifespan / initalLifespan > 0.2)
+                if (initalLifespan - lifespan > 1)
                 {
+                    mCount=UnityEngine.Random.Range(1, 10);
+                    StartCoroutine(HandleProjectileWander((int)mCount));
                 }
                 break;
             case Movement.Stationary:
@@ -102,19 +104,22 @@ public class ProjectileAttack : MonoBehaviour
                 break;
             //Wind Effects (Knockbacks, etc.)
             case Element.Wind:
-                if (isEffect)
+                if (!isEffect)
                 {
-                    
-                }
-                else if (player != null) 
-                {
-                    PlayerController playerController = player.GetComponent<PlayerController>();
-                    if (playerController != null)
+                    if (player != null)
                     {
-                        Vector3 pushDirection = (player.transform.position - transform.position).normalized;
-                        Vector3 pushVelocity = pushDirection * 15;
-                        playerController.ApplyExternalForce(pushVelocity, 0.2f);
+                        PlayerController playerController = player.GetComponent<PlayerController>();
+                        if (playerController != null)
+                        {
+                            Vector3 pushDirection = (player.transform.position - transform.position).normalized;
+                            Vector3 pushVelocity = pushDirection * 15;
+                            playerController.ApplyExternalForce(pushVelocity, 0.2f);
+                        }
                     }
+                }
+                else
+                {
+
                 }
                                 
                 break;
@@ -127,11 +132,13 @@ public class ProjectileAttack : MonoBehaviour
                 }
                 else if (inTrigger)
                 {
-                    StartCoroutine(DamageOverTime(player, damage));
+                    if (player != null)
+                        StartCoroutine(DamageOverTime(player, damage));
                 }
                 if (takingDamage)
                 {
-                    StartCoroutine(DamageOverTime(player, 1));
+                    if (player != null)
+                        StartCoroutine(DamageOverTime(player, 1));
                 }
                 break;
             //Water Attack (Place Water, Freezing, etc.)
@@ -147,7 +154,22 @@ public class ProjectileAttack : MonoBehaviour
                 break;
             //Lightning Attack (Stuns, Chaining, etc.)
             case Element.Lightning:
-
+                if (!isEffect)
+                {
+                    if (player != null)
+                    {
+                        PlayerController playerController = player.GetComponent<PlayerController>();
+                        if (playerController != null)
+                        {
+                            playerController.LockMovement(1);
+                            Debug.Log("Lightning Stun");
+                        }
+                    }
+                }
+                else 
+                {
+                    
+                }
                 break;
         }
     }
@@ -222,6 +244,77 @@ public class ProjectileAttack : MonoBehaviour
     {
         inTrigger=false;
         ApplySpecialEffect(elementType, other.gameObject);
+    }
+
+    private IEnumerator HandleProjectileWander(int magnitude)
+    {
+        if (!wander && lifespan>3)
+        {
+            wander = true;
+            int pass=3;
+            if (magnitude == 1 || magnitude==10)
+            {
+                while (pass > 0)
+                {
+                    targetTransform = target.position;
+                    movementVector = (targetTransform - transform.position).normalized * speed;
+                    pass--;
+                    Debug.Log("Magnitude: " + magnitude);
+                    yield return new WaitForSeconds(0.5f);
+                }
+            }
+            else if (magnitude % 2 == 0)
+            {
+                if (magnitude > 5)
+                {
+                    while (pass > 0)
+                    {
+                        movementVector = (transform.right + movementVector.normalized).normalized * speed;
+                        movementVector.z = movementVector.z * 1.8f;
+                        pass--;
+                        Debug.Log("Magnitude: " + magnitude);
+                        yield return new WaitForSeconds(0.5f);
+                    }
+                }
+                else
+                {
+                    while (pass > 0)
+                    {
+                        movementVector = (transform.forward + movementVector.normalized).normalized * speed;
+                        movementVector.z = movementVector.z * 1.8f;
+                        pass--;
+                        Debug.Log("Magnitude: " + magnitude);
+                        yield return new WaitForSeconds(0.5f);
+                    }
+                }
+            }
+            else
+            {
+                if (magnitude > 5)
+                {
+                    while (pass > 0)
+                    {
+                        movementVector = (-transform.right+movementVector.normalized).normalized * speed;
+                        movementVector.z = movementVector.z * 1.8f;
+                        pass--;
+                        Debug.Log("Magnitude: " + magnitude);
+                        yield return new WaitForSeconds(0.5f);
+                    }
+                }
+                else
+                {
+                    while (pass > 0)
+                    {
+                        movementVector = (-transform.forward + movementVector.normalized).normalized * speed;
+                        movementVector.z = movementVector.z * 1.8f;
+                        pass--;
+                        Debug.Log("Magnitude: " + magnitude);
+                        yield return new WaitForSeconds(0.5f);
+                    }
+                }
+            }
+            wander=false;
+        }
     }
 
     private void HandlePlayerCollision(GameObject player)

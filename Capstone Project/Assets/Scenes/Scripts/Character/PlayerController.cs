@@ -44,6 +44,8 @@ public class PlayerController : MonoBehaviour
         if (isMovementLocked)
         {
             moveDir = Vector3.zero;
+            animator.SetFloat("Speed", 0);
+            animator.SetBool("isDashing", false);
             return;
         }
 
