@@ -19,6 +19,7 @@ public class ProjectileAttack : MonoBehaviour
     [SerializeField] private Element elementType;
     [SerializeField] private Movement moveType;
     [SerializeField] private bool isEffect;
+    [SerializeField] private bool leavesTrail;
     [SerializeField] private bool breaksOnContact;
 
     private float initalLifespan, initalSpeed, fixedHeight, mCount=0, tCount=0;
@@ -92,6 +93,10 @@ public class ProjectileAttack : MonoBehaviour
         Vector3 position = transform.position;
         position.y = fixedHeight;
         transform.position = position;
+        if (leavesTrail && effectPrefab!=null)
+        {
+            StartCoroutine(PlaceEffectTiles(.2f));
+        }
     }
 
     private void ApplySpecialEffect(Element ele, GameObject player)
@@ -128,7 +133,7 @@ public class ProjectileAttack : MonoBehaviour
                 takingDamage=true;
                 if (!isEffect) 
                 {
-                    StartCoroutine(PlaceEffectTiles());
+                    StartCoroutine(PlaceEffectTiles(1f));
                 }
                 else if (inTrigger)
                 {
@@ -145,7 +150,7 @@ public class ProjectileAttack : MonoBehaviour
             case Element.Water:
                 if(!isEffect)
                 {
-                    StartCoroutine(PlaceEffectTiles());
+                    StartCoroutine(PlaceEffectTiles(1f));
                 }
                 else
                 {
@@ -252,6 +257,7 @@ public class ProjectileAttack : MonoBehaviour
         {
             attackLock = true;
             int pass=3;
+            Debug.Log("Magnitude: " + magnitude);
             if (magnitude == 1 || magnitude==10)
             {
                 while (pass > 0)
@@ -259,7 +265,6 @@ public class ProjectileAttack : MonoBehaviour
                     targetTransform = target.position;
                     movementVector = (targetTransform - transform.position).normalized * speed;
                     pass--;
-                    Debug.Log("Magnitude: " + magnitude);
                     yield return new WaitForSeconds(0.5f);
                 }
             }
@@ -272,7 +277,6 @@ public class ProjectileAttack : MonoBehaviour
                         movementVector = (transform.right + movementVector.normalized).normalized * speed;
                         movementVector.z = movementVector.z * 1.8f;
                         pass--;
-                        Debug.Log("Magnitude: " + magnitude);
                         yield return new WaitForSeconds(0.5f);
                     }
                 }
@@ -283,7 +287,6 @@ public class ProjectileAttack : MonoBehaviour
                         movementVector = (transform.forward + movementVector.normalized).normalized * speed;
                         movementVector.z = movementVector.z * 1.8f;
                         pass--;
-                        Debug.Log("Magnitude: " + magnitude);
                         yield return new WaitForSeconds(0.5f);
                     }
                 }
@@ -297,7 +300,6 @@ public class ProjectileAttack : MonoBehaviour
                         movementVector = (-transform.right+movementVector.normalized).normalized * speed;
                         movementVector.z = movementVector.z * 1.8f;
                         pass--;
-                        Debug.Log("Magnitude: " + magnitude);
                         yield return new WaitForSeconds(0.5f);
                     }
                 }
@@ -308,7 +310,6 @@ public class ProjectileAttack : MonoBehaviour
                         movementVector = (-transform.forward + movementVector.normalized).normalized * speed;
                         movementVector.z = movementVector.z * 1.8f;
                         pass--;
-                        Debug.Log("Magnitude: " + magnitude);
                         yield return new WaitForSeconds(0.5f);
                     }
                 }
@@ -328,13 +329,13 @@ public class ProjectileAttack : MonoBehaviour
         }
     }
 
-    private IEnumerator PlaceEffectTiles()
+    private IEnumerator PlaceEffectTiles(float interval)
     {
         if (!attackLock)
         {
             attackLock = true;
             Instantiate(effectPrefab, transform.position, Quaternion.identity);
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(interval);
             attackLock = false;
         }
     }
