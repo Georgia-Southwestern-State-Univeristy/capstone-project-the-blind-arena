@@ -486,7 +486,7 @@ MonoBehaviour:
   projectile: {fileID: 360261762}
   effectPrefab: {fileID: 0}
   target: {fileID: 0}
-  speed: 3
+  speed: 4
   lifespan: 30
   damage: 20
   elementType: 1
@@ -880,7 +880,7 @@ MonoBehaviour:
   lifespan: 15
   damage: 10
   elementType: 1
-  moveType: 4
+  moveType: 2
   isEffect: 0
   breaksOnContact: 1
 --- !u!1 &1094866944
@@ -1297,7 +1297,7 @@ MonoBehaviour:
   lifespan: 30
   damage: 15
   elementType: 2
-  moveType: 4
+  moveType: 0
   isEffect: 0
   breaksOnContact: 1
 --- !u!1 &1602822603

@@ -24,7 +24,7 @@ public class ProjectileAttack : MonoBehaviour
     private float initalLifespan, initalSpeed, fixedHeight, mCount=0, tCount=0;
     private Vector3 targetTransform;
     private Vector3 movementVector;
-    private bool inTrigger, takingDamage, wander=false;
+    private bool inTrigger, takingDamage, attackLock=false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -128,7 +128,7 @@ public class ProjectileAttack : MonoBehaviour
                 takingDamage=true;
                 if (!isEffect) 
                 {
-                    Instantiate(effectPrefab, transform.position, Quaternion.identity); 
+                    StartCoroutine(PlaceEffectTiles());
                 }
                 else if (inTrigger)
                 {
@@ -145,7 +145,7 @@ public class ProjectileAttack : MonoBehaviour
             case Element.Water:
                 if(!isEffect)
                 {
-                    Instantiate(effectPrefab, transform.position, Quaternion.identity);
+                    StartCoroutine(PlaceEffectTiles());
                 }
                 else
                 {
@@ -229,7 +229,7 @@ public class ProjectileAttack : MonoBehaviour
                 lifespan = 0;
             }
             else
-                lifespan -= Time.deltaTime;
+                lifespan -= Time.deltaTime*2;
         }
         else
         if (collision.tag == "Wall")
@@ -248,9 +248,9 @@ public class ProjectileAttack : MonoBehaviour
 
     private IEnumerator HandleProjectileWander(int magnitude)
     {
-        if (!wander && lifespan>3)
+        if (!attackLock && lifespan>3)
         {
-            wander = true;
+            attackLock = true;
             int pass=3;
             if (magnitude == 1 || magnitude==10)
             {
@@ -313,7 +313,7 @@ public class ProjectileAttack : MonoBehaviour
                     }
                 }
             }
-            wander=false;
+            attackLock=false;
         }
     }
 
@@ -327,6 +327,18 @@ public class ProjectileAttack : MonoBehaviour
             ApplySpecialEffect(elementType, player);
         }
     }
+
+    private IEnumerator PlaceEffectTiles()
+    {
+        if (!attackLock)
+        {
+            attackLock = true;
+            Instantiate(effectPrefab, transform.position, Quaternion.identity);
+            yield return new WaitForSeconds(0.5f);
+            attackLock = false;
+        }
+    }
+
     public IEnumerator DamageOverTime(GameObject player, int damage)
     {
         tCount = 0;
