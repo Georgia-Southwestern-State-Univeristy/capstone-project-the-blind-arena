@@ -13401,6 +13401,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 541624280}
     - target: {fileID: 3830712414040057594, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      propertyPath: uiInventory
+      value: 
+      objectReference: {fileID: 1070255117}
+    - target: {fileID: 3830712414040057594, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       propertyPath: tutorialBoss
       value: 
       objectReference: {fileID: 0}
@@ -17356,11 +17360,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85cf28568316c0946831c551425340b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textComponent: {fileID: 1420302564}
-  lines:
-  - The number at the top shows how many available attribute points you have to implement
-    into your desired field.
-  textSpeed: 0.1
 --- !u!4 &1013300982 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7471366334826817605, guid: 63b92245c596e0f48bff75348eff61c2, type: 3}
@@ -17831,14 +17830,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85cf28568316c0946831c551425340b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textComponent: {fileID: 578802324}
-  lines:
-  - Great! Now lets start with attacks.
-  - Press the Alpha1 key to shoot boulders.
-  - Press the Alpha2 key to use an AOE attack.
-  - Press the Alpha3 key to use a wall.
-  - Hold the Space key to use a dash.
-  textSpeed: 0.1
 --- !u!224 &1039083956 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7939199724507357864, guid: 145a26cfa8398b740982b1591a6f86ac, type: 3}
@@ -18402,6 +18393,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6516398681875321347, guid: 5603d1910f8327e4099064ffd2a0b8c9, type: 3}
   m_PrefabInstance: {fileID: 1225882598}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1070255117 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1817533034763622814, guid: 1f5a36b494e187a4a87f55c35efc8cc3, type: 3}
+  m_PrefabInstance: {fileID: 1299492024}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cbcabaf96bff844495457206a070940, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1083936371 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6516398681875321347, guid: 5603d1910f8327e4099064ffd2a0b8c9, type: 3}
@@ -21604,10 +21606,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85cf28568316c0946831c551425340b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textComponent: {fileID: 123750047}
-  lines:
-  - To move press the w, a, s, and d keys.
-  textSpeed: 0.1
 --- !u!224 &1261975288 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7939199724507357864, guid: 145a26cfa8398b740982b1591a6f86ac, type: 3}
@@ -22091,6 +22089,103 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6503575961180412244, guid: 9e0e786ab1d046144826fe271b106406, type: 3}
   m_PrefabInstance: {fileID: 4840555380235041865}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1299492024
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 63378110454233361, guid: 1f5a36b494e187a4a87f55c35efc8cc3, type: 3}
+      propertyPath: m_Name
+      value: UI
+      objectReference: {fileID: 0}
+    - target: {fileID: 3492872364864454051, guid: 1f5a36b494e187a4a87f55c35efc8cc3, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3492872364864454051, guid: 1f5a36b494e187a4a87f55c35efc8cc3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 25.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5243585789355004416, guid: 1f5a36b494e187a4a87f55c35efc8cc3, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 30.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5243585789355004416, guid: 1f5a36b494e187a4a87f55c35efc8cc3, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 32.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5941092591809936115, guid: 1f5a36b494e187a4a87f55c35efc8cc3, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.1930417
+      objectReference: {fileID: 0}
+    - target: {fileID: 5941092591809936115, guid: 1f5a36b494e187a4a87f55c35efc8cc3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.9376912
+      objectReference: {fileID: 0}
+    - target: {fileID: 5941092591809936115, guid: 1f5a36b494e187a4a87f55c35efc8cc3, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 2.8263414
+      objectReference: {fileID: 0}
+    - target: {fileID: 5941092591809936115, guid: 1f5a36b494e187a4a87f55c35efc8cc3, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5941092591809936115, guid: 1f5a36b494e187a4a87f55c35efc8cc3, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5941092591809936115, guid: 1f5a36b494e187a4a87f55c35efc8cc3, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5941092591809936115, guid: 1f5a36b494e187a4a87f55c35efc8cc3, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5941092591809936115, guid: 1f5a36b494e187a4a87f55c35efc8cc3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5941092591809936115, guid: 1f5a36b494e187a4a87f55c35efc8cc3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5941092591809936115, guid: 1f5a36b494e187a4a87f55c35efc8cc3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8062043320231670717, guid: 1f5a36b494e187a4a87f55c35efc8cc3, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8062043320231670717, guid: 1f5a36b494e187a4a87f55c35efc8cc3, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8062043320231670717, guid: 1f5a36b494e187a4a87f55c35efc8cc3, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8062043320231670717, guid: 1f5a36b494e187a4a87f55c35efc8cc3, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1146
+      objectReference: {fileID: 0}
+    - target: {fileID: 8062043320231670717, guid: 1f5a36b494e187a4a87f55c35efc8cc3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -555
+      objectReference: {fileID: 0}
+    - target: {fileID: 8062043320231670717, guid: 1f5a36b494e187a4a87f55c35efc8cc3, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -498
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 1f5a36b494e187a4a87f55c35efc8cc3, type: 3}
 --- !u!4 &1300816482 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1209818058963364331, guid: b73f89d98f7d94445ae817ce72ac1dcf, type: 3}
@@ -23010,11 +23105,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85cf28568316c0946831c551425340b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textComponent: {fileID: 230479645}
-  lines:
-  - Lastly are the two buttons below. These are used to confirm the adjustment of
-    points or to reset the values and start over.
-  textSpeed: 0.1
 --- !u!1 &1360359277
 GameObject:
   m_ObjectHideFlags: 0
@@ -25116,13 +25206,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85cf28568316c0946831c551425340b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textComponent: {fileID: 2039663775}
-  lines:
-  - 'Each field has its own modifier and can be increased or decreased based on the
-    player''s desired build. '
-  - Be careful, once you put a point into the field you can't retrieve it unless
-    you reset all values.
-  textSpeed: 0.1
 --- !u!4 &1489776086 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6503575961180412244, guid: 9e0e786ab1d046144826fe271b106406, type: 3}
@@ -26699,11 +26782,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85cf28568316c0946831c551425340b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textComponent: {fileID: 313186230}
-  lines:
-  - Perfect! Now lets but what you just learn to the test! After all you're going
-    to need it to escape your pursuers.
-  textSpeed: 0.1
 --- !u!224 &1562462013 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7939199724507357864, guid: 145a26cfa8398b740982b1591a6f86ac, type: 3}
@@ -28251,10 +28329,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85cf28568316c0946831c551425340b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textComponent: {fileID: 682143182}
-  lines:
-  - RUN!
-  textSpeed: 0.1
 --- !u!224 &1656716291 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7939199724507357864, guid: 145a26cfa8398b740982b1591a6f86ac, type: 3}
@@ -38081,4 +38155,5 @@ SceneRoots:
   - {fileID: 1050237025}
   - {fileID: 1357942021}
   - {fileID: 107610132}
+  - {fileID: 1299492024}
   - {fileID: 1217778351}

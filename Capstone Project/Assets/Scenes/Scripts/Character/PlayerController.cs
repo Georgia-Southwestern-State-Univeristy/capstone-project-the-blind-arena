@@ -34,7 +34,14 @@ public class PlayerController : MonoBehaviour
     private bool enemyAI4Activated = false;
     private bool enemyAI5Activated = false;
 
+    private Inventory inventory;
+    [SerializeField] private UI_Inventory uiInventory;
 
+    private void Awake()
+    {
+        inventory = new Inventory();
+        uiInventory.Setlnventory(inventory);
+    }
 
     void Start()
     {
