@@ -14,6 +14,7 @@ public class DialogBox : MonoBehaviour
     private void Start()
     {
         textComponent.text = string.Empty;
+        StartDialogue();
     }
 
     private void Update()

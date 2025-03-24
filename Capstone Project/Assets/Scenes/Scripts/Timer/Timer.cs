@@ -10,6 +10,7 @@ public class GameTimer : MonoBehaviour
     // Static variables to persist across scenes
     private static float persistentElapsedTime = 0f;
     private static float persistentCounter = 0f;
+    public static float persistentPurchaseTimerCounter = 0f;
     private static bool hasUpdatedTime = false;
 
     private float elapsedTime = 0f;
@@ -19,21 +20,22 @@ public class GameTimer : MonoBehaviour
     public float counterIncrement = 1f; // Amount to add every second
     public float maxAmount = 10f; // Max amount for subtraction
     private float counterTimer = 0f;
+    public float respawnPenalty = 30f; // Time penalty added on respawn
+    public float purchaseTimerCounter = 0f;
 
     void Start()
     {
-        // If time was updated in a previous scene, use that time
-        if (hasUpdatedTime)
+       
+        if (persistentElapsedTime > 0)
         {
             elapsedTime = persistentElapsedTime;
             counter = persistentCounter;
+            purchaseTimerCounter = persistentPurchaseTimerCounter;
             UpdateTimerUI();
             UpdateCounterUI();
-
-            // Reset the flag after restoring
-            hasUpdatedTime = false;
         }
     }
+
 
     void Update()
     {
@@ -50,12 +52,19 @@ public class GameTimer : MonoBehaviour
             }
 
             UpdateTimerUI();
-        }
+
+            // Persist elapsed time across fights
+            persistentElapsedTime = elapsedTime;
+            persistentCounter = counter;
+            persistentPurchaseTimerCounter = purchaseTimerCounter;
+}
         else if (enemy == null && !isStopped)
         {
             StopTimerAndCalculateScore();
+
         }
     }
+
 
     void UpdateTimerUI()
     {
@@ -83,11 +92,12 @@ public class GameTimer : MonoBehaviour
     public void AddTime(float timeToAdd)
     {
         elapsedTime += timeToAdd;
+        purchaseTimerCounter += timeToAdd;
 
         // Store the updated time persistently
         persistentElapsedTime = elapsedTime;
-        persistentCounter = counter;
-        hasUpdatedTime = true;
+        persistentPurchaseTimerCounter = purchaseTimerCounter;
+
 
         UpdateTimerUI();
     }
@@ -100,9 +110,9 @@ public class GameTimer : MonoBehaviour
         // Store the current time before stopping
         persistentElapsedTime = elapsedTime;
         persistentCounter = counter;
-        hasUpdatedTime = true;
+        persistentPurchaseTimerCounter = purchaseTimerCounter;
 
-        counter = maxAmount - counter; // Subtract counter from max amount
+        counter =  maxAmount - (counter + purchaseTimerCounter); // Subtract counter from max amount
         UpdateCounterUI();
     }
 
@@ -131,4 +141,22 @@ public class GameTimer : MonoBehaviour
         elapsedTime = time;
         UpdateTimerUI();
     }
+
+    public void Respawn()
+    {
+        // Apply respawn penalty
+        elapsedTime += respawnPenalty;
+        counter += respawnPenalty; // Add penalty to counter
+        persistentElapsedTime = elapsedTime;
+        persistentCounter = counter;
+        UpdateTimerUI();
+        StopTimerAndCalculateScore(); // Recalculate score after respawn
+        SceneController.Instance.LoadScene(2);
+    }
+
+    public void TakeBackToMenu()
+    {
+        SceneController.Instance.LoadScene(0);
+    }
+
 }

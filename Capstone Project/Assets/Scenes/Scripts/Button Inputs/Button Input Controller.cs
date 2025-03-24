@@ -4,12 +4,10 @@ public class GameInputManager : MonoBehaviour
 {
     [SerializeField] private GameObject pauseMenuUI;       // Drag your Pause Menu UI GameObject here
     [SerializeField] private GameObject inventoryUI;       // Drag your Inventory UI GameObject here
-    [SerializeField] private GameObject skillUI;           // Drag your Skill UI GameObject here
     [SerializeField] private GameObject attributeUI;       // Drag your Attribute UI GameObject here
 
     private bool isPaused = false;
     private bool isInventoryOpen = false;
-    private bool isSkillOpen = false;
     private bool isAttributeOpen = false;
 
     void Update()
@@ -54,8 +52,8 @@ public class GameInputManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.I))
         {
-            Debug.Log("I Pressed for Inventory, Skills, and Attributes");
-            if (isInventoryOpen || isSkillOpen || isAttributeOpen)
+            Debug.Log("I Pressed for Inventory and Attributes");
+            if (isInventoryOpen || isAttributeOpen)
             {
                 CloseAllMenus();
             }
@@ -68,31 +66,27 @@ public class GameInputManager : MonoBehaviour
 
     private void OpenAllMenus()
     {
-        Debug.Log("Opening Inventory, Skills, and Attributes");
+        Debug.Log("Opening Inventory and Attributes");
 
         inventoryUI.SetActive(true);    // Show the inventory UI
-        skillUI.SetActive(true);        // Show the skill UI
         attributeUI.SetActive(true);    // Show the attribute UI
 
         Canvas.ForceUpdateCanvases();   // Force canvas update immediately
 
         isInventoryOpen = true;
-        isSkillOpen = true;
         isAttributeOpen = true;
     }
 
     private void CloseAllMenus()
     {
-        Debug.Log("Closing Inventory, Skills, and Attributes");
+        Debug.Log("Closing Inventory and Attributes");
 
         inventoryUI.SetActive(false);   // Hide the inventory UI
-        skillUI.SetActive(false);       // Hide the skill UI
         attributeUI.SetActive(false);   // Hide the attribute UI
 
         Canvas.ForceUpdateCanvases();   // Force canvas update immediately
 
         isInventoryOpen = false;
-        isSkillOpen = false;
         isAttributeOpen = false;
     }
 }

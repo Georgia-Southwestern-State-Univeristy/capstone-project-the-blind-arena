@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -8,6 +9,8 @@ public class VendorInteraction : MonoBehaviour
     [SerializeField] private float interactionDistance = 3f;
     [SerializeField] private KeyCode interactionKey = KeyCode.E;
     [SerializeField] private float promptHeightOffset = 2f; // Height above vendor
+    [SerializeField] private GameObject GreetingDialogue;
+    [SerializeField] private GameObject LeaveDialogue;
 
     [Header("Prompt Position Fine-tuning")]
     [SerializeField] private float horizontalOffset = 0f; // Positive = right, Negative = left
@@ -23,9 +26,14 @@ public class VendorInteraction : MonoBehaviour
     private VisibilityObjects menuVisibility;
     private Camera mainCamera;
     private bool isMenuVisible = false; // Track menu state explicitly
+    public double interactioncounter;
+    private bool GreetingDialogueShown = false;
+    private bool LeavingDialogueShown = false;
 
     private void Start()
     {
+        
+
         // Find the player in the scene
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         mainCamera = Camera.main;
@@ -57,6 +65,8 @@ public class VendorInteraction : MonoBehaviour
 
     private void Update()
     {
+
+
         if (playerTransform == null || mainCamera == null) return;
 
         // Check distance to player
@@ -86,7 +96,9 @@ public class VendorInteraction : MonoBehaviour
         // Handle interaction
         if (isInRange && Input.GetKeyDown(interactionKey))
         {
-            ToggleMenu();
+            GreetingDialogue.SetActive(true);
+            GreetingDialogueShown = true;
+            StartCoroutine(InteractionMeeting());
         }
     }
 
@@ -129,10 +141,11 @@ public class VendorInteraction : MonoBehaviour
         if (menuVisibility != null)
         {
             menuVisibility.SetVisibility(isMenuVisible);
+            LeaveDialogue.SetActive(true);
         }
     }
 
-    private void HideMenu()
+    public void HideMenu()
     {
         if (vendorMenu == null) return;
 
@@ -155,4 +168,23 @@ public class VendorInteraction : MonoBehaviour
         Gizmos.DrawLine(transform.position, transform.position + Vector3.up * promptHeightOffset);
         Gizmos.DrawWireSphere(transform.position + Vector3.up * promptHeightOffset, 0.1f);
     }
+
+    public IEnumerator InteractionMeeting()
+    {
+        if (isInRange && !isMenuVisible)
+        {
+            yield return new WaitForSeconds(3.5f);
+            ToggleMenu();
+            GreetingDialogue.SetActive(false);
+        }
+
+        else if (isInRange && Input.anyKeyDown && isMenuVisible)
+        {
+            GreetingDialogueShown = false;
+            LeavingDialogueShown = true;
+            LeaveDialogue.SetActive(true);
+        }
+
+    }
+
 }

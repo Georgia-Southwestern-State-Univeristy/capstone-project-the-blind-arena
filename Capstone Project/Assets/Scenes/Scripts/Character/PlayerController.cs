@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float gravityScale = 20f;
     [SerializeField] private float dashStaminaCost; // Stamina cost per frame while dashing
     public Animator animator;
-    private float fixedHeight = 0.5f;
+    private float fixedHeight = 0.6f;
     private bool isDashing = false;
     private Rigidbody rb;
     private Vector3 moveDir;
@@ -19,11 +19,21 @@ public class PlayerController : MonoBehaviour
     private float originalSpeed;
 
     public double deathcounter => GameData.deathcounter;
+    public double tutorialcounter = 0;
 
+    [SerializeField] private GameObject objectForPlayerMovement;
     [SerializeField] private GameObject enemyAI;
     [SerializeField] private GameObject enemyAI2;
+    [SerializeField] private GameObject enemyAI3;
+    [SerializeField] private GameObject enemyAI4;
+    [SerializeField] private GameObject enemyAI5;
+
 
     private bool enemyAI2Activated = false;
+    private bool enemyAI3Activated = false;
+    private bool enemyAI4Activated = false;
+    private bool enemyAI5Activated = false;
+
 
 
     void Start()
@@ -48,18 +58,37 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("isDashing", false);
             return;
         }
-
-
-        if ( deathcounter == 0)
+        
+        if (deathcounter == 1)
         {
+            
             enemyAI.SetActive(true);
         }
 
-        if (GameData.deathcounter == 1 && !enemyAI2Activated)
+        else if (GameData.deathcounter == 2 && !enemyAI2Activated)
         {
             enemyAI2Activated = true; // Prevents repeated activation
             StartCoroutine(ActivateEnemyAI2Delayed());
         }
+
+        else if (GameData.deathcounter == 3 && !enemyAI3Activated)
+        {
+            enemyAI3Activated = true; 
+            StartCoroutine(ActivateEnemyAI3Delayed());
+        }
+
+        else if (GameData.deathcounter == 4 && !enemyAI4Activated)
+        {
+            enemyAI4Activated = true; 
+            StartCoroutine(ActivateEnemyAI4Delayed());
+        }
+
+        else if (GameData.deathcounter == 5 && !enemyAI5Activated)
+        {
+            enemyAI5Activated = true; 
+            StartCoroutine(ActivateEnemyAI5Delayed());
+        }
+
 
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
@@ -150,11 +179,7 @@ public class PlayerController : MonoBehaviour
         externalForce = Vector3.zero;
     }
 
-    private IEnumerator ActivateEnemyAI2Delayed()
-    {
-        yield return new WaitForSeconds(3.5f); // Waits 3.5 seconds
-        enemyAI2.SetActive(true);
-    }
+    
 
     private void HandleDashInput()
     {
@@ -174,4 +199,36 @@ public class PlayerController : MonoBehaviour
             speed = originalSpeed;
         }
     }
+
+    private IEnumerator ActivateEnemyAIDelayed()
+    {
+        yield return new WaitForSeconds(2.5f);
+        enemyAI.SetActive(true);
+
+    }
+
+        private IEnumerator ActivateEnemyAI2Delayed()
+    {
+        yield return new WaitForSeconds(3.5f); // Waits 3.5 seconds
+        enemyAI2.SetActive(true);
+    }
+
+    private IEnumerator ActivateEnemyAI3Delayed()
+    {
+        yield return new WaitForSeconds(3.5f);
+        enemyAI3.SetActive(true);
+    }
+
+    private IEnumerator ActivateEnemyAI4Delayed()
+    {
+        yield return new WaitForSeconds(3.5f);
+        enemyAI4.SetActive(true);
+    }
+
+    private IEnumerator ActivateEnemyAI5Delayed()
+    {
+        yield return new WaitForSeconds(3.5f);
+        enemyAI5.SetActive(true);
+    }
+
 }

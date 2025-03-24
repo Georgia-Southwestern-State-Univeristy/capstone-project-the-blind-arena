@@ -2,16 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Health : MonoBehaviour
 {
-    [SerializeField] public int health = 100;
+    [SerializeField] public int health = 300;
     [SerializeField] public float stamina = 100f;
     [SerializeField] private Slider healthBarSlider; // Health bar UI
     [SerializeField] private Slider staminaBarSlider; // Stamina bar UI
 
-    private int MAX_HEALTH = 100;
-    private float MAX_STAMINA = 100f;
+    private int MAX_HEALTH = 300;
+    public float MAX_STAMINA = 100f;
     private int staminaRegenRate = 9; // Stamina regenerates by 1 per 0.3 seconds
     private float staminaRegenDelay = 2f; // Delay before stamina starts regenerating
     private float lastStaminaUseTime; // Tracks last time stamina was used
@@ -123,9 +124,11 @@ public class Health : MonoBehaviour
                 // Reset the timer after each regen cycle
                 timeSinceLastRegen = 0f;
             }
-        } else {
-        // Reset the regen timer if stamina was recently used
-        timeSinceLastRegen = 0f;
+        }
+        else
+        {
+            // Reset the regen timer if stamina was recently used
+            timeSinceLastRegen = 0f;
         }
     }
 
@@ -137,7 +140,7 @@ public class Health : MonoBehaviour
         }
     }
 
-    private void UpdateStaminaBar()
+    public void UpdateStaminaBar()
     {
         if (staminaBarSlider != null)
         {
@@ -148,14 +151,26 @@ public class Health : MonoBehaviour
     private void PlayerDie()
     {
         Debug.Log($"{gameObject.name} has died.");
-        if (triggerSequenceOnDeath && objectToReveal != null && secondObjectToReveal != null)
+
+        // Check if we're in scene index 1
+        if (SceneManager.GetActiveScene().buildIndex == 1)
         {
-            ObjectSequenceManager.Instance.StartObjectSequence(objectToReveal, secondObjectToReveal, delayBeforeSwitch);
+            // If we're in scene 1, load scene 2
+            SceneController.Instance.LoadScene(2);
         }
         else
         {
-            SceneController.Instance.LoadScene(2);
+            // Otherwise, proceed with the original death behavior
+            if (triggerSequenceOnDeath && objectToReveal != null && secondObjectToReveal != null)
+            {
+                ObjectSequenceManager.Instance.StartObjectSequence(objectToReveal, secondObjectToReveal, delayBeforeSwitch);
+            }
+            else
+            {
+                SceneController.Instance.LoadScene(2);
+            }
         }
+
         Destroy(gameObject);
     }
 }
