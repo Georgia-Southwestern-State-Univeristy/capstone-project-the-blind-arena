@@ -8,7 +8,7 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField] public int maxHealth = 100;
     public int currentHealth;
     [SerializeField] public Slider healthBarSlider;
-    [SerializeField] private bool triggerSequenceOnDeath = false;
+    [SerializeField] public bool triggerSequenceOnDeath = false;
     [SerializeField] private GameObject objectToReveal;
     [SerializeField] private GameObject secondObjectToReveal;
     [SerializeField] private float delayBeforeSwitch = 3f;
