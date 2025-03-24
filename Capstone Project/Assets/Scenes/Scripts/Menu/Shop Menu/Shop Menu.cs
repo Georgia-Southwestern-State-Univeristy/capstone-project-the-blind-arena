@@ -25,6 +25,8 @@ public class ShopManager : MonoBehaviour
     public Image[] hotbarSlots; // 10 slots for purchased items
     public TextMeshProUGUI[] hotbarCounts; // TextMeshPro elements for counts
     public GameTimer gameTimer; // Reference to GameTimer
+    public PlayerController playerController;
+    public Health playerHealth;
 
     private int[] selectedIndexes;
     private static Dictionary<Sprite, int> purchasedItems = new Dictionary<Sprite, int>(); // Track item counts
@@ -235,6 +237,8 @@ public class ShopManager : MonoBehaviour
             return false;
         }
 
+        ApplyItemEffect(itemSprite);
+
         // Reduce item count
         if (purchasedItems.ContainsKey(itemSprite))
         {
@@ -273,4 +277,23 @@ public class ShopManager : MonoBehaviour
 
         return purchasedItems.ContainsKey(itemSprite) ? purchasedItems[itemSprite] : 0;
     }
+    public void ApplyItemEffect(Sprite itemSprite)
+    {
+        // Apply an effect based on the item
+        if (itemSprite.name == "Shop_item_icons-removebg-preview_0") // Check for specific sprite (item)
+        {
+            // the Health script has a method to restore health
+            playerHealth.Heal(50); 
+            Debug.Log("Health restored by 50!");
+        }
+
+        if (itemSprite.name == "Shop_item_icons-removebg-preview_1") // Check for specific sprite (item)
+        {
+            playerHealth.stamina = playerHealth.MAX_STAMINA;
+            playerHealth.UpdateStaminaBar(); // Update stamina bar UI
+            Debug.Log("Stamina fully restored!");
+        }
+
+    }
+
 }

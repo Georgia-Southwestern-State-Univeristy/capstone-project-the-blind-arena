@@ -2251,6 +2251,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2142729975}
     - target: {fileID: 2950982791177150447, guid: 200026046e6469047b9ced9efa6a4430, type: 3}
+      propertyPath: playerHealth
+      value: 
+      objectReference: {fileID: 1715120177}
+    - target: {fileID: 2950982791177150447, guid: 200026046e6469047b9ced9efa6a4430, type: 3}
+      propertyPath: playerController
+      value: 
+      objectReference: {fileID: 1715120178}
+    - target: {fileID: 2950982791177150447, guid: 200026046e6469047b9ced9efa6a4430, type: 3}
       propertyPath: 'hotbarSlots.Array.data[0]'
       value: 
       objectReference: {fileID: 144601747}
@@ -2330,6 +2338,10 @@ PrefabInstance:
       propertyPath: 'hotbarCounts.Array.data[9]'
       value: 
       objectReference: {fileID: 402018924}
+    - target: {fileID: 2950982791177150447, guid: 200026046e6469047b9ced9efa6a4430, type: 3}
+      propertyPath: itemTimeValues.Array.data[0].itemSprite
+      value: 
+      objectReference: {fileID: -405650991, guid: 22f49e94325a3724e84f3b0cfc0e99d7, type: 3}
     - target: {fileID: 8268366718975478636, guid: 200026046e6469047b9ced9efa6a4430, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -12127,6 +12139,28 @@ MonoBehaviour:
   attributeMenu: {fileID: 1524882905}
   ItemShopMenu: {fileID: 2012108676}
   SkillShopMenu: {fileID: 2036413055}
+--- !u!114 &1715120177 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1458904164212163424, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+  m_PrefabInstance: {fileID: 6623403841116976208}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1715120172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 977da7f36617f0c448219444231686e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1715120178 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3830712414040057594, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+  m_PrefabInstance: {fileID: 6623403841116976208}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1715120172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9e59a05668df02408624c930c6d0b71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1733921126 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2906078004850483194, guid: b88c70b1171cad44f825987b7bbeefbb, type: 3}
@@ -15404,7 +15438,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1458904164212163424, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       propertyPath: health
-      value: 100
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 2465469588755297573, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       propertyPath: m_LocalPosition.x
