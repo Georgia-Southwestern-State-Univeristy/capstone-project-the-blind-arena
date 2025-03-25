@@ -138,7 +138,7 @@ Transform:
   m_GameObject: {fileID: 9200143668361561770}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.28, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -157,7 +157,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93d55caf0abb2bd46a1478154d00ade5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectile: {fileID: 8333373046978369463}
+  sprite: {fileID: 2627846825797017493}
   effectPrefab: {fileID: 0}
   target: {fileID: 0}
   speed: 7
@@ -166,6 +166,7 @@ MonoBehaviour:
   elementType: 1
   moveType: 2
   isEffect: 0
+  rotates: 0
   leavesTrail: 0
   breaksOnContact: 1
 --- !u!54 &8333373046978369463

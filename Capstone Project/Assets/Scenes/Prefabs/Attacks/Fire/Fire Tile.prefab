@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 2674293016379792414}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.3342829, y: 0.1987341, z: -0.5320947}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -47,15 +47,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93d55caf0abb2bd46a1478154d00ade5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectile: {fileID: 8756638260116164595}
+  sprite: {fileID: 5234737859182667433}
   effectPrefab: {fileID: 2674293016379792414}
   target: {fileID: 0}
   speed: 0
-  lifespan: 50
+  lifespan: 25
   damage: 5
   elementType: 2
   moveType: 4
   isEffect: 1
+  rotates: 0
   leavesTrail: 0
   breaksOnContact: 0
 --- !u!54 &8756638260116164595

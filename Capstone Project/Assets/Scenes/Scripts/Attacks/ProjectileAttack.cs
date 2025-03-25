@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEngine.EventSystems.EventTrigger;
 
@@ -10,7 +11,7 @@ public class ProjectileAttack : MonoBehaviour
     private enum Element { Earth, Wind, Fire, Water, Lightning };
     private enum Movement { Aimed, Homing, AimedHoming, Wandering, Stationary };
 
-    [SerializeField] private Rigidbody projectile;
+    [SerializeField] private GameObject sprite;
     [SerializeField] private GameObject effectPrefab;
     [SerializeField] private Transform target;
     [SerializeField] private float speed;
@@ -19,21 +20,24 @@ public class ProjectileAttack : MonoBehaviour
     [SerializeField] private Element elementType;
     [SerializeField] private Movement moveType;
     [SerializeField] private bool isEffect;
+    [SerializeField] private bool rotates;
     [SerializeField] private bool leavesTrail;
     [SerializeField] private bool breaksOnContact;
 
     private float initalLifespan, initalSpeed, fixedHeight, mCount=0, tCount=0;
-    private Vector3 targetTransform;
-    private Vector3 movementVector;
+    private Rigidbody body;
+    private Vector3 targetTransform, movementVector;
+    private SpriteRenderer sR;
     private bool inTrigger, takingDamage, attackLock=false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         target = FindFirstObjectByType<PlayerController>().transform;
+        body = GetComponent<Rigidbody>();
+        sR = sprite.GetComponent<SpriteRenderer>();
         targetTransform = target.position;
         movementVector = (targetTransform - transform.position).normalized * speed;
         movementVector.z = movementVector.z * 1.8f;
-        projectile = GetComponent<Rigidbody>();
         initalLifespan = lifespan;
         initalSpeed = speed;
         if (isEffect) { fixedHeight = 0.5f; } else { fixedHeight = 0.6f; }
@@ -53,10 +57,13 @@ public class ProjectileAttack : MonoBehaviour
             case Movement.Aimed:
                 break;
             case Movement.Homing:
-                if (initalLifespan - lifespan > 1 && lifespan >= 4)
+                if (initalLifespan - lifespan > 1 && lifespan >= 3)
                 {
                     targetTransform = target.position;
-                    movementVector = (targetTransform - transform.position).normalized * speed * (lifespan / initalLifespan);
+                    if (lifespan / initalLifespan > 0.5)
+                        movementVector = (targetTransform - transform.position).normalized * speed * (lifespan / initalLifespan);
+                    else
+                        movementVector = (targetTransform - transform.position).normalized * (speed / 2);
                     movementVector.z = movementVector.z * 1.8f;
                 }
                 break;
@@ -74,7 +81,7 @@ public class ProjectileAttack : MonoBehaviour
                     speed = initalSpeed;
                     targetTransform=target.position;
                     movementVector = (targetTransform - transform.position).normalized * speed;
-                    movementVector *= (Math.Abs(movementVector.z)/2)+1;
+                    movementVector *= (Math.Abs(movementVector.z)*1.8f)+1;
                     mCount++;
                 }
                 break;
@@ -93,10 +100,35 @@ public class ProjectileAttack : MonoBehaviour
         Vector3 position = transform.position;
         position.y = fixedHeight;
         transform.position = position;
+        
+        if (rotates)
+        {
+            ApplyRotation(sprite, movementVector, speed);
+        }
         if (leavesTrail && effectPrefab!=null)
         {
             StartCoroutine(PlaceEffectTiles(.2f));
         }
+    }
+
+    private void ApplyRotation(GameObject projectile, Vector3 vector, float iSpeed)
+    {
+        vector = vector.normalized;
+        if (vector.z > 0)
+        {
+            vector.z = -vector.x;
+            vector = vector * 90;
+            vector.z += 90;
+        }
+        else
+        {
+            vector.z = vector.x;
+            vector = vector * 90;
+            vector.z -= 90;
+        }
+        vector.y = 0;
+        vector.x = 0;
+        projectile.transform.eulerAngles = vector;
     }
 
     private void ApplySpecialEffect(Element ele, GameObject player)
@@ -131,7 +163,7 @@ public class ProjectileAttack : MonoBehaviour
             //Fire Attack (Fires Tiles, Damage Over Times, etc.)
             case Element.Fire:
                 takingDamage=true;
-                if (!isEffect) 
+                if (!isEffect && lifespan<=0) 
                 {
                     StartCoroutine(PlaceEffectTiles(1f));
                 }
@@ -211,7 +243,7 @@ public class ProjectileAttack : MonoBehaviour
     }
     private void OnTriggerEnter(Collider collision)
     {
-        if (collision.tag == "Player")
+        if (collision.CompareTag("Player"))
         {
             if (isEffect)
             {
@@ -227,7 +259,7 @@ public class ProjectileAttack : MonoBehaviour
     }
     private void OnTriggerStay(Collider collision)
     {
-        if (collision.tag=="Player")
+        if (collision.CompareTag("Player"))
         {
             if (breaksOnContact)
             {
@@ -237,7 +269,7 @@ public class ProjectileAttack : MonoBehaviour
                 lifespan -= Time.deltaTime*2;
         }
         else
-        if (collision.tag == "Wall")
+        if (collision.CompareTag("Wall"))
         {
             if (breaksOnContact)
             {
