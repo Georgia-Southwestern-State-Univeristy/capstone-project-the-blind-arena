@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private float speed;
+    [SerializeField] public float speed;
     [SerializeField] private float dashSpeedMultiplier = 2f; // Multiplier for dash speed
     [SerializeField] private float gravityScale = 20f;
     [SerializeField] private float dashStaminaCost; // Stamina cost per frame while dashing
@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 externalForce = Vector3.zero; // Tracks enemy knockback or external forces
     private Renderer playerRenderer;
     private Health healthScript;
-    private float originalSpeed;
+    public float originalSpeed;
 
     public double deathcounter => GameData.deathcounter;
     public double tutorialcounter = 0;
@@ -228,5 +228,18 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(3.5f);
         enemyAI5.SetActive(true);
     }
+
+    public void AdjustSpeed(float speedChange, float duration)
+    {
+        StartCoroutine(AdjustSpeedCoroutine(speedChange, duration));
+    }
+
+    private IEnumerator AdjustSpeedCoroutine(float speedChange, float duration)
+    {
+        speed += speedChange;
+        yield return new WaitForSeconds(duration);
+        speed -= speedChange;
+    }
+
 
 }

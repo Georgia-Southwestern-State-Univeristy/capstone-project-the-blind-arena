@@ -294,6 +294,12 @@ public class ShopManager : MonoBehaviour
             Debug.Log("Stamina fully restored!");
         }
 
+        if (itemSprite.name == "Shop_item_icons-removebg-preview_2") // Check for specific sprite (item)
+        {
+            // Apply speed boost
+            playerController.AdjustSpeed(5f, 3f); // Increase speed by 5 for 3 seconds
+        }
+
     }
 
 }
