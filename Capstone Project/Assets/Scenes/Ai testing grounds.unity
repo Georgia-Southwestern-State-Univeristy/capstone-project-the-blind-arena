@@ -392,7 +392,7 @@ MonoBehaviour:
   tsunamiDamage: 25
   animator: {fileID: 0}
   waterWhipPrefab: {fileID: 1537606961}
-  waterBubblePrefab: {fileID: 1941561105}
+  waterBubblePrefab: {fileID: 0}
   iceSpikePrefab: {fileID: 3385370464702776025, guid: 92ba59d049dbfe941ada05bce059441d, type: 3}
   tsunamiPrefab: {fileID: 1206794970}
   tsunamiSpawnPoint: {fileID: 1139748627}
@@ -1577,7 +1577,7 @@ MonoBehaviour:
   tsunamiDamage: 25
   animator: {fileID: 0}
   waterWhipPrefab: {fileID: 1537606961}
-  waterBubblePrefab: {fileID: 1941561105}
+  waterBubblePrefab: {fileID: 0}
   iceSpikePrefab: {fileID: 3385370464702776025, guid: 92ba59d049dbfe941ada05bce059441d, type: 3}
   tsunamiPrefab: {fileID: 1206794970}
   tsunamiSpawnPoint: {fileID: 1139748627}
@@ -1859,6 +1859,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1220602294}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &764029259 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6975942284501398249, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
+  m_PrefabInstance: {fileID: 792780529}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &779073045 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3547261113655723879, guid: 8a33a7b93bb1d0c4ba3f0a84f5ea8e5e, type: 3}
@@ -1870,6 +1875,135 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1001 &792780529
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 126280917018235014, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 970050690396004669, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 970050690396004669, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 970050690396004669, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 970050690396004669, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 970050690396004669, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 970050690396004669, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 970050690396004669, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 970050690396004669, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 970050690396004669, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 970050690396004669, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 970050690396004669, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 970050690396004669, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 970050690396004669, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 970050690396004669, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 970050690396004669, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 970050690396004669, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 970050690396004669, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 970050690396004669, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 970050690396004669, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 970050690396004669, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 970050690396004669, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 970050690396004669, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 970050690396004669, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2417836149554174053, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4959812198582786283, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5035020703392800153, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6975942284501398249, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
+      propertyPath: m_Name
+      value: Options Menu
+      objectReference: {fileID: 0}
+    - target: {fileID: 6975942284501398249, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
 --- !u!1 &937860855
 GameObject:
   m_ObjectHideFlags: 0
@@ -2188,7 +2322,7 @@ MonoBehaviour:
   tsunamiDamage: 25
   animator: {fileID: 0}
   waterWhipPrefab: {fileID: 1537606961}
-  waterBubblePrefab: {fileID: 1941561105}
+  waterBubblePrefab: {fileID: 0}
   iceSpikePrefab: {fileID: 3385370464702776025, guid: 92ba59d049dbfe941ada05bce059441d, type: 3}
   tsunamiPrefab: {fileID: 1206794970}
   tsunamiSpawnPoint: {fileID: 1139748627}
@@ -2893,36 +3027,6 @@ Transform:
   - {fileID: 937860856}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1262842950 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5856651117329615695, guid: e34d778dd20bdc4489427b929c807a47, type: 3}
-  m_PrefabInstance: {fileID: 2066267472}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1262842952 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7113033661702766263, guid: e34d778dd20bdc4489427b929c807a47, type: 3}
-  m_PrefabInstance: {fileID: 2066267472}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1262842950}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1262842955
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1262842950}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 279accfa3781b2f4d8268ceacb4fcec0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nextSceneIndex: 0
-  skipButton: {fileID: 1262842952}
 --- !u!114 &1279229391 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4812332629569033352, guid: 8a33a7b93bb1d0c4ba3f0a84f5ea8e5e, type: 3}
@@ -3328,7 +3432,7 @@ MonoBehaviour:
   tsunamiDamage: 25
   animator: {fileID: 0}
   waterWhipPrefab: {fileID: 1537606961}
-  waterBubblePrefab: {fileID: 1941561105}
+  waterBubblePrefab: {fileID: 0}
   iceSpikePrefab: {fileID: 3385370464702776025, guid: 92ba59d049dbfe941ada05bce059441d, type: 3}
   tsunamiPrefab: {fileID: 1206794970}
   tsunamiSpawnPoint: {fileID: 1139748627}
@@ -3597,6 +3701,17 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1422277121 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3615818658925299666, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
+  m_PrefabInstance: {fileID: 792780529}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1433606000
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3685,6 +3800,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1220602294}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1504199774 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3046205979308225917, guid: e34d778dd20bdc4489427b929c807a47, type: 3}
+  m_PrefabInstance: {fileID: 2066267472}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1512510537
 GameObject:
   m_ObjectHideFlags: 0
@@ -4796,11 +4916,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d2c635542ada48c41b871496515c7f15, type: 3}
---- !u!1 &1880636528 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2487194063765125954, guid: e34d778dd20bdc4489427b929c807a47, type: 3}
-  m_PrefabInstance: {fileID: 2066267472}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1905145755
 GameObject:
   m_ObjectHideFlags: 0
@@ -4834,11 +4949,6 @@ Transform:
   - {fileID: 525766139}
   m_Father: {fileID: 402060050}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1941561105 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 11327080380127332, guid: e34d778dd20bdc4489427b929c807a47, type: 3}
-  m_PrefabInstance: {fileID: 2066267472}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2057438803
 GameObject:
   m_ObjectHideFlags: 0
@@ -4921,6 +5031,18 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2547431106987765651, guid: e34d778dd20bdc4489427b929c807a47, type: 3}
+      propertyPath: 'menus.Array.data[0]'
+      value: 
+      objectReference: {fileID: 764029259}
+    - target: {fileID: 2547431106987765651, guid: e34d778dd20bdc4489427b929c807a47, type: 3}
+      propertyPath: 'menus.Array.data[1]'
+      value: 
+      objectReference: {fileID: 764029259}
+    - target: {fileID: 2547431106987765651, guid: e34d778dd20bdc4489427b929c807a47, type: 3}
+      propertyPath: 'buttons.Array.data[1]'
+      value: 
+      objectReference: {fileID: 1422277121}
     - target: {fileID: 4902651554597026693, guid: e34d778dd20bdc4489427b929c807a47, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -5004,10 +5126,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5856651117329615695, guid: e34d778dd20bdc4489427b929c807a47, type: 3}
-      insertIndex: 1
-      addedObject: {fileID: 1262842955}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e34d778dd20bdc4489427b929c807a47, type: 3}
 --- !u!1 &2076841166
 GameObject:
@@ -5449,7 +5568,7 @@ PrefabInstance:
     - target: {fileID: 4355459727560426660, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       propertyPath: pauseMenuUI
       value: 
-      objectReference: {fileID: 1880636528}
+      objectReference: {fileID: 1504199774}
     - target: {fileID: 4673221386155297866, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -5886,7 +6005,7 @@ MonoBehaviour:
   tsunamiDamage: 25
   animator: {fileID: 0}
   waterWhipPrefab: {fileID: 1537606961}
-  waterBubblePrefab: {fileID: 1941561105}
+  waterBubblePrefab: {fileID: 0}
   iceSpikePrefab: {fileID: 3385370464702776025, guid: 92ba59d049dbfe941ada05bce059441d, type: 3}
   tsunamiPrefab: {fileID: 1206794970}
   tsunamiSpawnPoint: {fileID: 1139748627}
@@ -6213,6 +6332,7 @@ SceneRoots:
   - {fileID: 1220602294}
   - {fileID: 1377479131}
   - {fileID: 2066267472}
+  - {fileID: 792780529}
   - {fileID: 320662414}
   - {fileID: 1057819130}
   - {fileID: 1631964225}
