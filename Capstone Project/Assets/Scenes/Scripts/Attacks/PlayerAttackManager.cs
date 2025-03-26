@@ -9,6 +9,8 @@ public class PlayerAttackManager : MonoBehaviour
     private PlayerController playerController;
     public Animator animator;
 
+    public float damageModifier = 0f;
+
     [System.Serializable]
     public class AttackAttributes
     {
@@ -152,7 +154,7 @@ public class PlayerAttackManager : MonoBehaviour
             attack.spriteSize.y, attack.spriteSize.z);
 
         DamageOnHit damageOnHit = colliderObject.AddComponent<DamageOnHit>();
-        damageOnHit.damageAmount = Mathf.RoundToInt(attack.damage);
+        damageOnHit.damageAmount = Mathf.RoundToInt(attack.damage + damageModifier);
         damageOnHit.knockbackStrength = attack.knockbackStrength;
         damageOnHit.detachFromPlayer = attack.detachFromPlayer;
 
@@ -233,4 +235,20 @@ public class PlayerAttackManager : MonoBehaviour
         rb.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotation;
         rb.linearVelocity = direction * speed;
     }
+
+    public void AdjustDamage(float damageChange, float duration)
+    {
+        StartCoroutine(AdjustDamageCoroutine(damageChange, duration));
+    }
+
+    private IEnumerator AdjustDamageCoroutine(float damageChange, float duration)
+    {
+        damageModifier += damageChange; // Increase damage
+        yield return new WaitForSeconds(duration);
+        damageModifier -= damageChange; // Revert damage after duration
+    }
+
+
+
+
 }

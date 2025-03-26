@@ -2157,6 +2157,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1715120178}
     - target: {fileID: 2950982791177150447, guid: 200026046e6469047b9ced9efa6a4430, type: 3}
+      propertyPath: playerAttackManager
+      value: 
+      objectReference: {fileID: 1715120179}
+    - target: {fileID: 2950982791177150447, guid: 200026046e6469047b9ced9efa6a4430, type: 3}
       propertyPath: 'hotbarSlots.Array.data[0]'
       value: 
       objectReference: {fileID: 144601747}
@@ -12057,6 +12061,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a9e59a05668df02408624c930c6d0b71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1715120179 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 763552383391210748, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+  m_PrefabInstance: {fileID: 6623403841116976208}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1715120172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf88848a0012263429f5de952eb8e0d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1733921126 stripped

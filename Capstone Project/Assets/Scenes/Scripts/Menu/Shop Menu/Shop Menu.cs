@@ -27,6 +27,8 @@ public class ShopManager : MonoBehaviour
     public GameTimer gameTimer; // Reference to GameTimer
     public PlayerController playerController;
     public Health playerHealth;
+    public PlayerAttackManager playerAttackManager;
+    public Projectile projectile;
 
     private int[] selectedIndexes;
     private static Dictionary<Sprite, int> purchasedItems = new Dictionary<Sprite, int>(); // Track item counts
@@ -300,6 +302,11 @@ public class ShopManager : MonoBehaviour
             playerController.AdjustSpeed(5f, 3f); // Increase speed by 5 for 3 seconds
         }
 
+        if (itemSprite.name == "Shop_item_icons-removebg-preview_3") // Check for specific sprite (item)
+        {
+            // Apply speed boost
+            playerAttackManager.AdjustDamage(5f, 5f); // Increase damage dealt by 10 for 3 seconds
+        }
     }
 
 }

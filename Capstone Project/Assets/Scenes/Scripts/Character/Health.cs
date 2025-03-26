@@ -14,6 +14,7 @@ public class Health : MonoBehaviour
     private int staminaRegenRate = 9; // Stamina regenerates by 1 per 0.3 seconds
     private float staminaRegenDelay = 2f; // Delay before stamina starts regenerating
     private float lastStaminaUseTime; // Tracks last time stamina was used
+    private float damageMultiplier = 1f; // Default to 100% damage taken
 
     // New variables for timer-based regeneration
     private float staminaRegenInterval = 0.3f; // Interval for stamina regeneration (0.3 seconds)
@@ -79,6 +80,7 @@ public class Health : MonoBehaviour
     {
         if (amount < 0) throw new System.ArgumentOutOfRangeException("Cannot have negative Damage");
 
+        
         health -= amount;
         UpdateHealthBar();
 
