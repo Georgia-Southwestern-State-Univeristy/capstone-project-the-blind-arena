@@ -8,15 +8,17 @@ using static UnityEngine.EventSystems.EventTrigger;
 public class ProjectileAttack : MonoBehaviour
 {
 
+    private enum Facing { Up, Down, Right, Left };
     private enum Element { Earth, Wind, Fire, Water, Lightning };
     private enum Movement { Aimed, Homing, AimedHoming, Wandering, Stationary };
 
     [SerializeField] private GameObject sprite;
     [SerializeField] private GameObject effectPrefab;
-    [SerializeField] private Transform target;
+    [SerializeField] public Transform target;
     [SerializeField] private float speed;
     [SerializeField] private float lifespan;
     [SerializeField] private int damage;
+    [SerializeField] private Facing spriteDirection;
     [SerializeField] private Element elementType;
     [SerializeField] private Movement moveType;
     [SerializeField] private bool isEffect;
@@ -25,22 +27,35 @@ public class ProjectileAttack : MonoBehaviour
     [SerializeField] private bool breaksOnContact;
 
     private float initalLifespan, initalSpeed, fixedHeight, mCount=0, tCount=0;
-    private Rigidbody body;
     private Vector3 targetTransform, movementVector;
-    private SpriteRenderer sR;
-    private bool inTrigger, takingDamage, attackLock=false;
+    private bool inTrigger, takingDamage, skipStart=false, attackLock=false, damageLock=false;
+
+    public void Init(Transform targ, Vector3 vector)
+    {
+        Debug.Log("Init Start");
+        skipStart =true;
+        target = targ;
+        targetTransform = target.position;
+        movementVector = (vector).normalized * speed;
+        movementVector *= (Math.Abs(movementVector.z) * .2f) + 1;
+        Debug.Log("Init Finish");
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        target = FindFirstObjectByType<PlayerController>().transform;
-        body = GetComponent<Rigidbody>();
-        sR = sprite.GetComponent<SpriteRenderer>();
-        targetTransform = target.position;
-        movementVector = (targetTransform - transform.position).normalized * speed;
-        movementVector.z = movementVector.z * 1.8f;
+        Debug.Log("Start Start");
+        if (!skipStart)
+        {
+            target = FindFirstObjectByType<PlayerController>().transform;
+            targetTransform = target.position;
+            movementVector = (targetTransform - transform.position).normalized * speed;
+            movementVector *= (Math.Abs(movementVector.z) * .2f) + 1;
+        }
         initalLifespan = lifespan;
         initalSpeed = speed;
         if (isEffect) { fixedHeight = 0.5f; } else { fixedHeight = 0.6f; }
+        Debug.Log("Start Finish");
     }
 
     // Update is called once per frame
@@ -57,18 +72,23 @@ public class ProjectileAttack : MonoBehaviour
             case Movement.Aimed:
                 break;
             case Movement.Homing:
-                if (initalLifespan - lifespan > 1 && lifespan >= 3)
+                if (initalLifespan - lifespan > 0.5 && lifespan >= 3)
                 {
                     targetTransform = target.position;
+
+                    Vector3 aimVector = targetTransform -transform.position;
+                    Vector3 forward = transform.forward;
+                    forward = Vector3.Slerp(forward, aimVector.normalized, (speed/3)*Time.deltaTime);
+                    transform.forward = forward;
                     if (lifespan / initalLifespan > 0.5)
-                        movementVector = (targetTransform - transform.position).normalized * speed * (lifespan / initalLifespan);
+                        movementVector = transform.forward * speed * (lifespan / initalLifespan);
                     else
-                        movementVector = (targetTransform - transform.position).normalized * (speed / 2);
-                    movementVector.z = movementVector.z * 1.8f;
+                        movementVector = transform.forward * (speed / 2);
+                    movementVector *= (Math.Abs(movementVector.z) * .2f) + 1;
                 }
                 break;
             case Movement.AimedHoming:
-                if (initalLifespan-lifespan > 1 && initalLifespan-lifespan < 3)
+                if (initalLifespan-lifespan > 0.5 && initalLifespan-lifespan < 3)
                 {
                     if (speed >= 0)
                     {
@@ -81,7 +101,7 @@ public class ProjectileAttack : MonoBehaviour
                     speed = initalSpeed;
                     targetTransform=target.position;
                     movementVector = (targetTransform - transform.position).normalized * speed;
-                    movementVector *= (Math.Abs(movementVector.z)*1.8f)+1;
+                    movementVector *= (Math.Abs(movementVector.z)*.2f)+1;
                     mCount++;
                 }
                 break;
@@ -103,7 +123,7 @@ public class ProjectileAttack : MonoBehaviour
         
         if (rotates)
         {
-            ApplyRotation(sprite, movementVector, speed);
+            ApplyRotation(sprite, spriteDirection, movementVector, speed);
         }
         if (leavesTrail && effectPrefab!=null)
         {
@@ -111,20 +131,33 @@ public class ProjectileAttack : MonoBehaviour
         }
     }
 
-    private void ApplyRotation(GameObject projectile, Vector3 vector, float iSpeed)
+    private void ApplyRotation(GameObject projectile, Facing direction, Vector3 vector, float iSpeed)
     {
+        float spin=0;
+        if (direction == Facing.Up)
+        {
+            spin = 180;
+        }
+        else if (direction == Facing.Right) 
+        {
+            spin = 90;
+        }
+        else if (direction == Facing.Left)
+        {
+            spin = -90;
+        }
         vector = vector.normalized;
         if (vector.z > 0)
         {
             vector.z = -vector.x;
             vector = vector * 90;
-            vector.z += 90;
+            vector.z += spin;
         }
         else
         {
             vector.z = vector.x;
             vector = vector * 90;
-            vector.z -= 90;
+            vector.z -= spin;
         }
         vector.y = 0;
         vector.x = 0;
@@ -169,12 +202,12 @@ public class ProjectileAttack : MonoBehaviour
                 }
                 else if (inTrigger)
                 {
-                    if (player != null)
+                    if (player)
                         StartCoroutine(DamageOverTime(player, damage));
                 }
                 if (takingDamage)
                 {
-                    if (player != null)
+                    if (player)
                         StartCoroutine(DamageOverTime(player, 1));
                 }
                 break;
@@ -296,6 +329,7 @@ public class ProjectileAttack : MonoBehaviour
                 {
                     targetTransform = target.position;
                     movementVector = (targetTransform - transform.position).normalized * speed;
+                    movementVector *= (Math.Abs(movementVector.z) * .2f) + 1;
                     pass--;
                     yield return new WaitForSeconds(0.5f);
                 }
@@ -307,7 +341,7 @@ public class ProjectileAttack : MonoBehaviour
                     while (pass > 0)
                     {
                         movementVector = (transform.right + movementVector.normalized).normalized * speed;
-                        movementVector.z = movementVector.z * 1.8f;
+                        movementVector *= (Math.Abs(movementVector.z) * .2f) + 1;
                         pass--;
                         yield return new WaitForSeconds(0.5f);
                     }
@@ -317,7 +351,7 @@ public class ProjectileAttack : MonoBehaviour
                     while (pass > 0)
                     {
                         movementVector = (transform.forward + movementVector.normalized).normalized * speed;
-                        movementVector.z = movementVector.z * 1.8f;
+                        movementVector *= (Math.Abs(movementVector.z) * .2f) + 1;
                         pass--;
                         yield return new WaitForSeconds(0.5f);
                     }
@@ -330,7 +364,7 @@ public class ProjectileAttack : MonoBehaviour
                     while (pass > 0)
                     {
                         movementVector = (-transform.right+movementVector.normalized).normalized * speed;
-                        movementVector.z = movementVector.z * 1.8f;
+                        movementVector *= (Math.Abs(movementVector.z) * .2f) + 1;
                         pass--;
                         yield return new WaitForSeconds(0.5f);
                     }
@@ -340,7 +374,7 @@ public class ProjectileAttack : MonoBehaviour
                     while (pass > 0)
                     {
                         movementVector = (-transform.forward + movementVector.normalized).normalized * speed;
-                        movementVector.z = movementVector.z * 1.8f;
+                        movementVector *= (Math.Abs(movementVector.z) * .2f) + 1;
                         pass--;
                         yield return new WaitForSeconds(0.5f);
                     }
@@ -375,24 +409,30 @@ public class ProjectileAttack : MonoBehaviour
     public IEnumerator DamageOverTime(GameObject player, int damage)
     {
         tCount = 0;
-        while (inTrigger)
+        if (!damageLock)
         {
-            Health playerHealth = player.GetComponent<Health>();
-            playerHealth.Damage(damage);
-            Debug.Log("Player is standing in a damage zone!");
-            yield return new WaitForSeconds(0.5f);
-        }
-        while (takingDamage)
-        {
-            if (tCount >= 5)
+            damageLock = true;
+            while (inTrigger)
             {
-                takingDamage =false;
+                Health playerHealth = player.GetComponent<Health>();
+                playerHealth.Damage(damage);
+                Debug.Log("Player is standing in a damage zone!");
+                yield return new WaitForSeconds(0.5f);
             }
-            Health playerHealth = player.GetComponent<Health>();
-            playerHealth.Damage(damage);
-            Debug.Log("Player took damage over time!");
-            tCount++;
-            yield return new WaitForSeconds(1f);
+            while (takingDamage)
+            {
+                if (tCount >= 5)
+                {
+                    takingDamage =false;
+                }
+                Health playerHealth = player.GetComponent<Health>();
+                playerHealth.Damage(damage);
+                Debug.Log("Player took damage over time!");
+                tCount++;
+                yield return new WaitForSeconds(1f);
+            }
+            damageLock = false;
         }
+        
     }
 }

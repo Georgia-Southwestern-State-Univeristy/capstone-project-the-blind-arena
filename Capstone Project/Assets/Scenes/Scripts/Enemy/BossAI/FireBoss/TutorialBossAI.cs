@@ -22,6 +22,7 @@ public class TutorialBossAI : MonoBehaviour
     private bool isReturning;
     private bool isThrowingProjectiles;
     private bool isKnockedBack = false;
+    private bool targetLock=false;
     private float knockbackRecoveryTime = 0.5f;
 
     private float fixedHeight = 0.6f;
@@ -45,11 +46,6 @@ public class TutorialBossAI : MonoBehaviour
 
     private void Update()
     {
-        if (!target)
-        {
-            Debug.LogWarning("No target assigned to TutorialBoss!");
-            return;
-        }
 
         // If being knocked back, don't run normal movement logic
         if (isKnockedBack)
@@ -57,24 +53,19 @@ public class TutorialBossAI : MonoBehaviour
             return;
         }
 
+        CheckForTarget();
+
         // Normal phase
         if (!isDashing && !isReturning)
         {
             // Start shooting if not already
             if (!isThrowingProjectiles)
             {
-                StartCoroutine(ProjectileAttackLoop());
+                StartCoroutine(ShootProjectilesInArc());
             }
 
             // Handle movement
-            if (Vector3.Distance(transform.position, target.position) <= minimumDistance)
-            {
-                if (!isDashing)
-                {
-                    StartCoroutine(DashAttack());
-                }
-            }
-            else
+            if (Vector3.Distance(transform.position, target.position) > minimumDistance)
             {
                 MoveTowardsPlayer();
             }
@@ -93,28 +84,6 @@ public class TutorialBossAI : MonoBehaviour
         transform.position = position;
     }
 
-    private IEnumerator DashAttack()
-    {
-        isDashing = true;
-
-        yield return new WaitForSeconds(0.5f);
-
-        Vector3 dashDirection = (target.position - transform.position).normalized;
-        float elapsedTime = 0f;
-
-        while (elapsedTime < dashDuration)
-        {
-            transform.position += dashDirection * dashSpeed * Time.deltaTime;
-            FlipSprite(dashDirection.x);
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-
-        yield return new WaitForSeconds(0.5f);
-
-        isDashing = false;
-    }
-
     private IEnumerator ProjectileAttackLoop()
     {
         isThrowingProjectiles = true;
@@ -123,17 +92,48 @@ public class TutorialBossAI : MonoBehaviour
             if (attackPrefabs.Length > 0)
             {
                 GameObject projectile = Instantiate(attackPrefabs[0], transform.position, Quaternion.identity);
-                Vector3 direction = (target.position - transform.position).normalized;
+                ProjectileAttack attack = projectile.GetComponent<ProjectileAttack>();
+                attack.target = target;
                 FlipSprite(target.position.x);
-                Rigidbody rb = projectile.GetComponent<Rigidbody>();
-                if (rb != null)
-                {
-                    rb.linearVelocity = direction * projectileSpeed;
-                }
             }
 
             yield return new WaitForSeconds(projectileAttackRate);
         }
+    }
+
+    private IEnumerator ShootProjectilesInArc()
+    {
+        int arcAngle = 60, projectileCount = 5;
+        float startAngle = -arcAngle / 2f;
+        float angleStep = arcAngle / (projectileCount - 1);
+
+        isThrowingProjectiles = true;
+        while (isThrowingProjectiles)
+        {
+            for (int i = 0; i < projectileCount; i++)
+            {
+                float angle = startAngle + (angleStep * i);
+                float projectileDirX = Mathf.Sin(target.transform.position.x + angle * Mathf.Deg2Rad);
+                float projectileDirZ = Mathf.Sin(target.transform.position.z + angle * Mathf.Deg2Rad);
+                Vector3 projectileDirection = new Vector3(projectileDirX, 0f, projectileDirZ).normalized;
+
+                GameObject projectile = Instantiate(attackPrefabs[0], transform.position, Quaternion.identity);
+                ProjectileAttack attack = projectile.GetComponent<ProjectileAttack>();
+                attack.Init(target.transform, projectileDirection);
+            }
+            yield return new WaitForSeconds(projectileAttackRate);
+        }
+    }
+
+    private IEnumerator CheckForTarget()
+    {
+        if (!targetLock)
+        {
+            targetLock=true;
+            target = FindFirstObjectByType<PlayerController>().transform;
+            yield return new WaitForSeconds(5f);
+        }
+        targetLock=false;
     }
 
     public void OnKnockback()

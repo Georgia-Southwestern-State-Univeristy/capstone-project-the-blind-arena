@@ -163,6 +163,7 @@ MonoBehaviour:
   speed: 7
   lifespan: 15
   damage: 20
+  spriteDirection: 2
   elementType: 2
   moveType: 0
   isEffect: 0
