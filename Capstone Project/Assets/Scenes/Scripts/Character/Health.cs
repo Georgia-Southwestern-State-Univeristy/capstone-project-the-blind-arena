@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -26,6 +27,8 @@ public class Health : MonoBehaviour
     [SerializeField] private float delayBeforeSwitch = 3f;
     private VisibilityObjects visibilityController;
     private VisibilityObjects secondVisibilityController;
+
+    public float takeDamageModifier = 0f;
 
     void Start()
     {
@@ -80,8 +83,8 @@ public class Health : MonoBehaviour
     {
         if (amount < 0) throw new System.ArgumentOutOfRangeException("Cannot have negative Damage");
 
-        
-        health -= amount;
+        int finalDamage = Mathf.CeilToInt((amount + 1) - takeDamageModifier);
+        health -= finalDamage;
         UpdateHealthBar();
 
         if (health <= 0)
@@ -89,6 +92,19 @@ public class Health : MonoBehaviour
             PlayerDie();
         }
     }
+
+    public void AdjustTakeDamage(float takeDamageChange, float duration)
+    {
+        StartCoroutine(AdjustTakeDamageCoroutine(takeDamageChange, duration));
+    }
+
+    private IEnumerator AdjustTakeDamageCoroutine (float takeDamageChange, float duration)
+    {
+        takeDamageModifier += takeDamageChange; //decrease damage taken
+        yield return new WaitForSeconds(duration);
+        takeDamageModifier -= takeDamageChange; //revert damage back to normal
+    }
+
 
     public void Heal(int amount)
     {

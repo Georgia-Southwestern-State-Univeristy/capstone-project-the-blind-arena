@@ -307,6 +307,17 @@ public class ShopManager : MonoBehaviour
             // Apply speed boost
             playerAttackManager.AdjustDamage(5f, 5f); // Increase damage dealt by 10 for 3 seconds
         }
+
+        if (itemSprite.name == "Shop_item_icons-removebg-preview_6") // Check for specific sprite (item)
+        {
+            // Apply speed boost
+            playerHealth.AdjustTakeDamage(5f, 5f); // Decrease damage taken by 5 for 5 seconds
+        }
+
+        if (itemSprite.name == "Shop_item_icons-removebg-preview_7") // Check for specific sprite (item)
+        {
+            
+        }
     }
 
 }
