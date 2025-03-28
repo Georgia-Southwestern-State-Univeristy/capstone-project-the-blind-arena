@@ -28,7 +28,6 @@ public class ShopManager : MonoBehaviour
     public PlayerController playerController;
     public Health playerHealth;
     public PlayerAttackManager playerAttackManager;
-    public Projectile projectile;
 
     private int[] selectedIndexes;
     private static Dictionary<Sprite, int> purchasedItems = new Dictionary<Sprite, int>(); // Track item counts
@@ -316,7 +315,8 @@ public class ShopManager : MonoBehaviour
 
         if (itemSprite.name == "Shop_item_icons-removebg-preview_7") // Check for specific sprite (item)
         {
-            
+            playerHealth.Heal(playerHealth.damageCollected);
+            playerHealth.damageCollected = 0; // Reset damageCollected after healing
         }
     }
 

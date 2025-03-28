@@ -29,6 +29,7 @@ public class Health : MonoBehaviour
     private VisibilityObjects secondVisibilityController;
 
     public float takeDamageModifier = 0f;
+    public int damageCollected = 0;
 
     void Start()
     {
@@ -84,6 +85,7 @@ public class Health : MonoBehaviour
         if (amount < 0) throw new System.ArgumentOutOfRangeException("Cannot have negative Damage");
 
         int finalDamage = Mathf.CeilToInt((amount + 1) - takeDamageModifier);
+        damageCollected += finalDamage;
         health -= finalDamage;
         UpdateHealthBar();
 
