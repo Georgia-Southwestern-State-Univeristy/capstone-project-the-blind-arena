@@ -1,7 +1,8 @@
 using System.Collections;
 using UnityEngine;
+using Unity.Netcode; // Add this for Netcode
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : NetworkBehaviour
 {
     [SerializeField] public float speed;
     [SerializeField] private float dashSpeedMultiplier = 2f; // Multiplier for dash speed
@@ -34,7 +35,7 @@ public class PlayerController : MonoBehaviour
     private bool enemyAI4Activated = false;
     private bool enemyAI5Activated = false;
 
-
+    public Camera playerCamera; // Assign this in the Inspector or instantiate dynamically
 
     void Start()
     {
@@ -49,8 +50,39 @@ public class PlayerController : MonoBehaviour
         originalSpeed = speed;
     }
 
+    public override void OnNetworkSpawn()
+    {
+        if (!IsOwner) return; // Only allow the owner to process input
+
+        // Enable necessary components for the local player
+        GetComponent<PlayerController>().enabled = true;
+
+        if (!IsOwner)
+        {
+            enabled = false; // Disable the script for non-owners
+            if (playerCamera != null)
+            {
+                playerCamera.gameObject.SetActive(false); // Disable camera for non-owners
+            }
+            return;
+        }
+
+        // If this is the local player, make the camera follow them
+        if (playerCamera == null)
+        {
+            playerCamera = Camera.main; // Find the main camera if not assigned
+        }
+
+        if (playerCamera != null)
+        {
+            playerCamera.GetComponent<CameraFollow>().SetTarget(transform);
+        }
+    }
+
     void Update()
     {
+        if (!IsOwner) return; // Ensure only the owner processes input
+
         if (isMovementLocked)
         {
             moveDir = Vector3.zero;
@@ -104,6 +136,8 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!IsOwner) return; // Ensure only the owner processes physics
+
         ApplyCustomGravity();
         Move();
     }
