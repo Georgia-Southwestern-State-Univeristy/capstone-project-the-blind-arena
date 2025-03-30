@@ -200,6 +200,7 @@ GameObject:
   - component: {fileID: 3237923082737598756}
   - component: {fileID: 4242732548477989959}
   - component: {fileID: -2236421201880719348}
+  - component: {fileID: -973018348909821690}
   m_Layer: 0
   m_Name: Player Multiplayer
   m_TagString: Player
@@ -395,7 +396,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2235686634626492567}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5e3ae456ec9c71240ad82e77212604c8, type: 3}
   m_Name: 
@@ -406,6 +407,8 @@ MonoBehaviour:
   attributeMenu: {fileID: 0}
   ItemShopMenu: {fileID: 0}
   SkillShopMenu: {fileID: 0}
+  xbuttonshop: {fileID: 0}
+  xbuttonskill: {fileID: 0}
 --- !u!114 &7375811039085815516
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -597,6 +600,67 @@ MonoBehaviour:
   enemyAI4: {fileID: 0}
   enemyAI5: {fileID: 0}
   playerCamera: {fileID: 0}
+--- !u!114 &-973018348909821690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2235686634626492567}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b13e2ae27ae6ec74bab48078e3949aad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  health: {fileID: 6755805794264067628}
+  player: {fileID: 2235686634626492567}
+  audioSource: {fileID: 0}
+  animator: {fileID: 1978937642749280711}
+  damageModifier: 0
+  attacks:
+  - name: RockThrow
+    damage: 10
+    knockbackStrength: 0
+    speed: 10
+    duration: 10
+    delay: 0.6
+    gravityScale: 0
+    lockDuration: 0.8
+    staminaUse: 12
+    cooldown: 0.8
+    detachFromPlayer: 1
+    lockVelocity: 1
+    isPhysical: 0
+    colliderShape: 0
+    colliderSize: {x: 2, y: 1, z: 1}
+    colliderRotation: {x: -25, y: 0, z: 0}
+    spriteSize: {x: 1, y: 1, z: 1}
+    spriteRotation: {x: 25, y: 0, z: 0}
+    startingOffset: {x: 0.6, y: 0, z: 0}
+    attackSprite: {fileID: -1982924380, guid: 4148c79904d0106419d4752298b7a78e, type: 3}
+    attackSound: {fileID: 0}
+  - name: EarthQuake
+    damage: 50
+    knockbackStrength: 0
+    speed: 0
+    duration: 2
+    delay: 1.2
+    gravityScale: 0
+    lockDuration: 1.2
+    staminaUse: 40
+    cooldown: 1.5
+    detachFromPlayer: 1
+    lockVelocity: 1
+    isPhysical: 0
+    colliderShape: 1
+    colliderSize: {x: 6, y: 5, z: 6}
+    colliderRotation: {x: -25, y: 0, z: 0}
+    spriteSize: {x: 0.8, y: 0.8, z: 0}
+    spriteRotation: {x: 90, y: 0, z: 0}
+    startingOffset: {x: 0, y: -0.45, z: 0.1}
+    attackSprite: {fileID: -588469400, guid: caa25d87f2e59a146bb02724521fa691, type: 3}
+    attackSound: {fileID: 0}
 --- !u!1 &3214264093437811636
 GameObject:
   m_ObjectHideFlags: 0
