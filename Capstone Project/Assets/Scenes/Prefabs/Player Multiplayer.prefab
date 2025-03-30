@@ -201,6 +201,7 @@ GameObject:
   - component: {fileID: 4242732548477989959}
   - component: {fileID: -2236421201880719348}
   - component: {fileID: -973018348909821690}
+  - component: {fileID: 4404192834963016107}
   m_Layer: 0
   m_Name: Player Multiplayer
   m_TagString: Player
@@ -661,6 +662,19 @@ MonoBehaviour:
     startingOffset: {x: 0, y: -0.45, z: 0.1}
     attackSprite: {fileID: -588469400, guid: caa25d87f2e59a146bb02724521fa691, type: 3}
     attackSound: {fileID: 0}
+--- !u!114 &4404192834963016107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2235686634626492567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1af67e2efa370344ab6ab54c40124bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
 --- !u!1 &3214264093437811636
 GameObject:
   m_ObjectHideFlags: 0
