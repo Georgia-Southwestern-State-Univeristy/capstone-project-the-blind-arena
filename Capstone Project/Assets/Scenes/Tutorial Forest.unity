@@ -28982,6 +28982,7 @@ MonoBehaviour:
   preparationDialogue: {fileID: 1562462008}
   runDialogue: {fileID: 1656716286}
   attributeMenu: {fileID: 2048980}
+  xbuttonupgrade: {fileID: 2127319497}
   skipTutorialButton: {fileID: 0}
   tutorialcounter: 0
   tutorialBoss: {fileID: 7922312881509618573}
@@ -36606,6 +36607,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9e0e786ab1d046144826fe271b106406, type: 3}
+--- !u!1 &2127319497 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7886672429249314278, guid: 94c1d716c593b34428136bc73695cc26, type: 3}
+  m_PrefabInstance: {fileID: 1878958074}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2130388457 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4836421392444868706, guid: 9a60a718664971342af7200bdddc02d1, type: 3}

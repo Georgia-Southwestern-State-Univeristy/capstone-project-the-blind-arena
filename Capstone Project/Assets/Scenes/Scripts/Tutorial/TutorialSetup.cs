@@ -13,6 +13,7 @@ public class TutorialSetup : MonoBehaviour
     [SerializeField] private GameObject preparationDialogue;
     [SerializeField] private GameObject runDialogue;
     [SerializeField] private GameObject attributeMenu;
+    [SerializeField] private GameObject xbuttonupgrade;
     [SerializeField] private GameObject skipTutorialButton;
 
     public int tutorialcounter = 0;
@@ -102,6 +103,7 @@ public class TutorialSetup : MonoBehaviour
         if (tutorialcounter == 10 && !attributeMenuShown)
         {
             attributeMenu.SetActive(true);
+            xbuttonupgrade.SetActive(false);
             yield return new WaitForSeconds(0.5f);
             attributePointExplainationDialogue.SetActive(true);
             yield return new WaitForSeconds(5f);
@@ -112,6 +114,7 @@ public class TutorialSetup : MonoBehaviour
             yield return new WaitForSeconds(5f);
             buttonExplainationDialogue.SetActive(false);
             attributeMenu.SetActive(false);
+            xbuttonupgrade.SetActive(true);
             attributeMenuShown = true;
             tutorialcounter++;
         }

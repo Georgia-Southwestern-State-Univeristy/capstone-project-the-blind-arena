@@ -9,6 +9,8 @@ public class RestAreaTutorialSetup : MonoBehaviour
     [SerializeField] private GameObject attributeMenu;
     [SerializeField] private GameObject ItemShopMenu;
     [SerializeField] private GameObject SkillShopMenu;
+    [SerializeField] private GameObject xbuttonshop;
+    [SerializeField] private GameObject xbuttonskill;
 
     private int tutorialCounter;
 
@@ -38,11 +40,13 @@ public class RestAreaTutorialSetup : MonoBehaviour
         if (tutorialCounter == 1)
         {
             ItemShopMenu.SetActive(true);
+            xbuttonshop.SetActive(false);
             yield return new WaitForSeconds(0.5f);
             ShopMenuDialogue.SetActive(true);
             yield return new WaitForSeconds(5f);
             ShopMenuDialogue.SetActive(false);
             ItemShopMenu.SetActive(false);
+            xbuttonshop.SetActive(true);
             tutorialCounter++;
             PlayerPrefs.SetInt("RestAreaTutorial", tutorialCounter);
             PlayerPrefs.Save();
@@ -55,11 +59,13 @@ public class RestAreaTutorialSetup : MonoBehaviour
         if (tutorialCounter == 2)
         {
             SkillShopMenu.SetActive(true);
+            xbuttonskill.SetActive(false);
             yield return new WaitForSeconds(0.5f);
             SkillMenuDialogue.SetActive(true);
             yield return new WaitForSeconds(5f);
             SkillMenuDialogue.SetActive(false);
             SkillShopMenu.SetActive(false);
+            xbuttonskill.SetActive(true);
             tutorialCounter++;
             PlayerPrefs.SetInt("RestAreaTutorial", tutorialCounter);
             PlayerPrefs.Save();

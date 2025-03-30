@@ -6823,7 +6823,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &941881361
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12641,6 +12641,8 @@ MonoBehaviour:
   attributeMenu: {fileID: 1524882905}
   ItemShopMenu: {fileID: 2012108676}
   SkillShopMenu: {fileID: 2036413055}
+  xbuttonshop: {fileID: 2105851897}
+  xbuttonskill: {fileID: 1778432135}
 --- !u!114 &1715120177 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1458904164212163424, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
@@ -12744,6 +12746,11 @@ Transform:
   - {fileID: 121326989}
   m_Father: {fileID: 413517847}
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!1 &1778432135 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6017598330041065486, guid: 8286a95207c11e747b9130190a0642d8, type: 3}
+  m_PrefabInstance: {fileID: 949198842}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1801665738
 GameObject:
   m_ObjectHideFlags: 0
@@ -14647,6 +14654,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &2105851897 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3416548240470985281, guid: 200026046e6469047b9ced9efa6a4430, type: 3}
+  m_PrefabInstance: {fileID: 429469606}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2116087601
 GameObject:
   m_ObjectHideFlags: 0
@@ -16342,7 +16354,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 31676a73dc4a88245a8a4b33172a3a4e, type: 2}
     - target: {fileID: 4673221386155297866, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4821320949994833509, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       propertyPath: m_AnchorMax.y
@@ -16350,7 +16362,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5112869091303994359, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5178902598463079486, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       propertyPath: m_LocalPosition.y
@@ -16378,7 +16390,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7826421661143136822, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
