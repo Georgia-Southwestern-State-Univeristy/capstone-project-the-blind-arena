@@ -116,7 +116,7 @@ public class TutorialBossAI : MonoBehaviour
 
                 GameObject projectile = Instantiate(attackPrefabs[0], transform.position, Quaternion.identity);
                 ProjectileAttack attack = projectile.GetComponent<ProjectileAttack>();
-                attack.Init(target.transform, spreadDirection, 10);
+                attack.Init(target.transform, spreadDirection);
             }
             yield return new WaitForSeconds(projectileAttackRate);
         }

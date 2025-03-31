@@ -18,7 +18,7 @@ public class EnemyHealth : MonoBehaviour
 
     // New fields for sprite flash
     private SpriteRenderer spriteRenderer;
-    private SkinnedMeshRenderer renderer;
+    private SkinnedMeshRenderer skinnedMeshRenderer;
     private Material hold;
     [SerializeField] private float flashDuration = 0.1f;
     [SerializeField] private Color flashColor = Color.red;
@@ -55,7 +55,7 @@ public class EnemyHealth : MonoBehaviour
 
         // Get sprite renderer for flash effect
         spriteRenderer = GetComponent<SpriteRenderer>();
-        renderer = GetComponent<SkinnedMeshRenderer>();
+        skinnedMeshRenderer = GetComponent<SkinnedMeshRenderer>();
     }
 
     public void Damage(int amount)
@@ -77,11 +77,11 @@ public class EnemyHealth : MonoBehaviour
     {
         // Store original color
         hold = spriteRenderer.material;
-        spriteRenderer.material = renderer.material;
+        spriteRenderer.material = skinnedMeshRenderer.material;
         Color originalColor = spriteRenderer.color;
 
         Debug.Log("Sprite Material = "+hold);
-        Debug.Log("Other Material = " + renderer.material);
+        Debug.Log("Other Material = " + skinnedMeshRenderer.material);
 
         // Change to flash color
         spriteRenderer.color = flashColor;

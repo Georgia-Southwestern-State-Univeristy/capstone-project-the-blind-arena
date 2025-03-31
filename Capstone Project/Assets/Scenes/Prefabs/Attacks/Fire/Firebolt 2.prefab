@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 673173951379776968}
   - component: {fileID: 2743585057814864642}
   m_Layer: 0
-  m_Name: Firebolt
+  m_Name: Firebolt 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -50,12 +50,12 @@ MonoBehaviour:
   sprite: {fileID: 6574358655820503319}
   effectPrefab: {fileID: 2674293016379792414, guid: edd1b7cdf4823f44ca16aead2fa90269, type: 3}
   target: {fileID: 0}
-  speed: 15
+  speed: 21
   lifespan: 20
   damage: 15
   spriteDirection: 3
   elementType: 2
-  moveType: 0
+  moveType: 2
   isEffect: 0
   rotates: 1
   leavesTrail: 0

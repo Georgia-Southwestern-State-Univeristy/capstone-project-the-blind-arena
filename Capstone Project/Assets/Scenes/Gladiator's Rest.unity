@@ -1836,7 +1836,7 @@ Transform:
   m_GameObject: {fileID: 392614807}
   serializedVersion: 2
   m_LocalRotation: {x: 0.38268343, y: 0.000023360773, z: -0.000056397897, w: 0.92387956}
-  m_LocalPosition: {x: 0, y: 15.342136, z: -15.532137}
+  m_LocalPosition: {x: 0, y: 14.842136, z: -24.902138}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7260,7 +7260,7 @@ MonoBehaviour:
   m_StreamingVersion: 20241001
   m_LegacyPriority: 0
   Target:
-    TrackingTarget: {fileID: 2103527932}
+    TrackingTarget: {fileID: 1715120188}
     LookAtTarget: {fileID: 0}
     CustomLookAtTarget: 0
   Lens:
@@ -7292,7 +7292,7 @@ Transform:
   m_GameObject: {fileID: 995968299}
   serializedVersion: 2
   m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: 0, y: 15.342136, z: -15.532137}
+  m_LocalPosition: {x: 0, y: 14.842136, z: -24.902138}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -12191,6 +12191,11 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
+--- !u!4 &1715120188 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 168013719982219207, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+  m_PrefabInstance: {fileID: 6623403841116976208}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1733921126 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2906078004850483194, guid: b88c70b1171cad44f825987b7bbeefbb, type: 3}
@@ -13921,11 +13926,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!4 &2103527932 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1692034431386500257, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
-  m_PrefabInstance: {fileID: 6623403841116976208}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2105294497
 GameObject:
   m_ObjectHideFlags: 0

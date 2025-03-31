@@ -30,15 +30,14 @@ public class ProjectileAttack : MonoBehaviour
     private Vector3 targetTransform, movementVector;
     private bool inTrigger, takingDamage, skipStart=false, attackLock=false, damageLock=false;
 
-    public void Init(Transform targ, Vector3 vector, float speed)
+    public void Init(Transform targ, Vector3 vector)
     {
         Debug.Log("Init Start");
         skipStart =true;
         target = targ;
-        this.speed = speed;
         targetTransform = target.position;
         movementVector = (vector).normalized;
-        movementVector *= ((Math.Abs(movementVector.z) * .6f) + 1)*speed;
+        movementVector *= ((Math.Abs(movementVector.z) * .6f) + 1) * speed;
         Debug.Log("Init Finish");
     }
 
