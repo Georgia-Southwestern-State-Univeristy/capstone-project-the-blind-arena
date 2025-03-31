@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using UnityEditor.SearchService;
 
 public class EnemyHealth : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class EnemyHealth : MonoBehaviour
 
     // New fields for sprite flash
     private SpriteRenderer spriteRenderer;
+    private SkinnedMeshRenderer renderer;
+    private Material hold;
     [SerializeField] private float flashDuration = 0.1f;
     [SerializeField] private Color flashColor = Color.red;
     public double deathcounter;
@@ -52,6 +55,7 @@ public class EnemyHealth : MonoBehaviour
 
         // Get sprite renderer for flash effect
         spriteRenderer = GetComponent<SpriteRenderer>();
+        renderer = GetComponent<SkinnedMeshRenderer>();
     }
 
     public void Damage(int amount)
@@ -72,7 +76,12 @@ public class EnemyHealth : MonoBehaviour
     private IEnumerator FlashSprite()
     {
         // Store original color
+        hold = spriteRenderer.material;
+        spriteRenderer.material = renderer.material;
         Color originalColor = spriteRenderer.color;
+
+        Debug.Log("Sprite Material = "+hold);
+        Debug.Log("Other Material = " + renderer.material);
 
         // Change to flash color
         spriteRenderer.color = flashColor;
@@ -82,6 +91,7 @@ public class EnemyHealth : MonoBehaviour
 
         // Restore original color
         spriteRenderer.color = originalColor;
+        spriteRenderer.material = hold;
     }
 
     private void UpdateHealthBar()

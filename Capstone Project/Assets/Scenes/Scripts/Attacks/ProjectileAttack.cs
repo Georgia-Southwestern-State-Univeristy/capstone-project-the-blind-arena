@@ -30,32 +30,33 @@ public class ProjectileAttack : MonoBehaviour
     private Vector3 targetTransform, movementVector;
     private bool inTrigger, takingDamage, skipStart=false, attackLock=false, damageLock=false;
 
-    public void Init(Transform targ, Vector3 vector)
+    public void Init(Transform targ, Vector3 vector, float speed)
     {
         Debug.Log("Init Start");
         skipStart =true;
         target = targ;
+        this.speed = speed;
         targetTransform = target.position;
-        movementVector = (vector).normalized * speed;
-        movementVector *= (Math.Abs(movementVector.z) * .2f) + 1;
+        movementVector = (vector).normalized;
+        movementVector *= ((Math.Abs(movementVector.z) * .6f) + 1)*speed;
         Debug.Log("Init Finish");
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        Debug.Log("Start Start");
+        Debug.Log("Start");
         if (!skipStart)
         {
             target = FindFirstObjectByType<PlayerController>().transform;
             targetTransform = target.position;
-            movementVector = (targetTransform - transform.position).normalized * speed;
-            movementVector *= (Math.Abs(movementVector.z) * .2f) + 1;
+            movementVector = (targetTransform - transform.position).normalized;
+            movementVector *= ((Math.Abs(movementVector.z) * .6f) + 1) * speed;
         }
         initalLifespan = lifespan;
         initalSpeed = speed;
         if (isEffect) { fixedHeight = 0.5f; } else { fixedHeight = 0.6f; }
-        Debug.Log("Start Finish");
+        Debug.Log("Finish");
     }
 
     // Update is called once per frame
@@ -76,15 +77,22 @@ public class ProjectileAttack : MonoBehaviour
                 {
                     targetTransform = target.position;
 
-                    Vector3 aimVector = targetTransform -transform.position;
+                    Vector3 aimVector = targetTransform - transform.position;
                     Vector3 forward = transform.forward;
-                    forward = Vector3.Slerp(forward, aimVector.normalized, (speed/3)*Time.deltaTime);
+                    forward = Vector3.Slerp(forward, aimVector, (speed/3)*Time.deltaTime);
                     transform.forward = forward;
                     if (lifespan / initalLifespan > 0.5)
-                        movementVector = transform.forward * speed * (lifespan / initalLifespan);
+                    {
+                        movementVector = transform.forward * (lifespan / initalLifespan);
+                        movementVector *= ((Math.Abs(movementVector.z) * .6f) + 1) * speed;
+                    }
+                        
                     else
-                        movementVector = transform.forward * (speed / 2);
-                    movementVector *= (Math.Abs(movementVector.z) * .2f) + 1;
+                    {
+                        movementVector = transform.forward;
+                        movementVector *= ((Math.Abs(movementVector.z) * .6f) + 1) * (speed/2);
+                    }
+                        
                 }
                 break;
             case Movement.AimedHoming:
@@ -100,8 +108,8 @@ public class ProjectileAttack : MonoBehaviour
                 {
                     speed = initalSpeed;
                     targetTransform=target.position;
-                    movementVector = (targetTransform - transform.position).normalized * speed;
-                    movementVector *= (Math.Abs(movementVector.z)*.2f)+1;
+                    movementVector = (targetTransform - transform.position).normalized;
+                    movementVector *= ((Math.Abs(movementVector.z) * .6f) + 1) * speed;
                     mCount++;
                 }
                 break;
@@ -131,7 +139,7 @@ public class ProjectileAttack : MonoBehaviour
         }
     }
 
-    private void ApplyRotation(GameObject projectile, Facing direction, Vector3 vector, float iSpeed)
+    private void ApplyRotation(GameObject projectile, Facing direction, Vector3 vector, float rSpeed)
     {
         float spin=0;
         if (direction == Facing.Up)
@@ -328,8 +336,8 @@ public class ProjectileAttack : MonoBehaviour
                 while (pass > 0)
                 {
                     targetTransform = target.position;
-                    movementVector = (targetTransform - transform.position).normalized * speed;
-                    movementVector *= (Math.Abs(movementVector.z) * .2f) + 1;
+                    movementVector = (targetTransform - transform.position).normalized;
+                    movementVector *= ((Math.Abs(movementVector.z) * .6f) + 1) * speed;
                     pass--;
                     yield return new WaitForSeconds(0.5f);
                 }
@@ -340,8 +348,8 @@ public class ProjectileAttack : MonoBehaviour
                 {
                     while (pass > 0)
                     {
-                        movementVector = (transform.right + movementVector.normalized).normalized * speed;
-                        movementVector *= (Math.Abs(movementVector.z) * .2f) + 1;
+                        movementVector = (transform.right + movementVector.normalized).normalized;
+                        movementVector *= ((Math.Abs(movementVector.z) * .6f) + 1) * speed;
                         pass--;
                         yield return new WaitForSeconds(0.5f);
                     }
@@ -350,8 +358,8 @@ public class ProjectileAttack : MonoBehaviour
                 {
                     while (pass > 0)
                     {
-                        movementVector = (transform.forward + movementVector.normalized).normalized * speed;
-                        movementVector *= (Math.Abs(movementVector.z) * .2f) + 1;
+                        movementVector = (transform.forward + movementVector.normalized).normalized;
+                        movementVector *= ((Math.Abs(movementVector.z) * .6f) + 1) * speed;
                         pass--;
                         yield return new WaitForSeconds(0.5f);
                     }
@@ -363,8 +371,8 @@ public class ProjectileAttack : MonoBehaviour
                 {
                     while (pass > 0)
                     {
-                        movementVector = (-transform.right+movementVector.normalized).normalized * speed;
-                        movementVector *= (Math.Abs(movementVector.z) * .2f) + 1;
+                        movementVector = (-transform.right+movementVector.normalized).normalized;
+                        movementVector *= ((Math.Abs(movementVector.z) * .6f) + 1) * speed;
                         pass--;
                         yield return new WaitForSeconds(0.5f);
                     }
@@ -373,8 +381,8 @@ public class ProjectileAttack : MonoBehaviour
                 {
                     while (pass > 0)
                     {
-                        movementVector = (-transform.forward + movementVector.normalized).normalized * speed;
-                        movementVector *= (Math.Abs(movementVector.z) * .2f) + 1;
+                        movementVector = (-transform.forward + movementVector.normalized).normalized;
+                        movementVector *= ((Math.Abs(movementVector.z) * .6f) + 1) * speed;
                         pass--;
                         yield return new WaitForSeconds(0.5f);
                     }

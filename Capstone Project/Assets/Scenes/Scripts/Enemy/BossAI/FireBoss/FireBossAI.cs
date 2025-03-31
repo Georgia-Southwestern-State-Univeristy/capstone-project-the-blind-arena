@@ -6,7 +6,7 @@ public class FireBossAI : MonoBehaviour
 {
     public float speed;
     public float dashSpeed = 15f;
-    public float dashDuration = 0.2f;
+    public float dashDuration = 0.5f;
     public Transform target;
     public Transform returnWaypoint;
     public float minimumDistance = 5f;
@@ -27,6 +27,7 @@ public class FireBossAI : MonoBehaviour
     private bool isFinalPhase;
     private Vector3 retreatDirection;
     private bool isKnockedBack = false;
+    private bool targetLock = false;
     private float knockbackRecoveryTime = 0.5f;
 
     private float fixedHeight = 0.6f;
@@ -52,8 +53,7 @@ public class FireBossAI : MonoBehaviour
     {
         if (!target)
         {
-            Debug.LogWarning("No target assigned to FireBoss!");
-            return;
+        StartCoroutine(CheckForTarget());
         }
 
         // If being knocked back, don't run normal movement logic
@@ -126,6 +126,32 @@ public class FireBossAI : MonoBehaviour
         Vector3 position = transform.position;
         position.y = fixedHeight;
         transform.position = position;
+    }
+
+    private IEnumerator CheckForTarget()
+    {
+        if (!targetLock)
+        {
+            targetLock = true;
+            target = FindFirstObjectByType<PlayerController>().transform;
+            yield return new WaitForSeconds(5f);
+        }
+        targetLock = false;
+    }
+
+    private void PhaseOne()
+    {
+
+    }
+
+    private void PhaseTwo()
+    {
+
+    }
+
+    private void PhaseThree()
+    {
+
     }
 
     private IEnumerator DashAttack()

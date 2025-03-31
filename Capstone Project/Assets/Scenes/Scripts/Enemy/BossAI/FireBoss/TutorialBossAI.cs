@@ -18,8 +18,6 @@ public class TutorialBossAI : MonoBehaviour
     public GameObject[] attackPrefabs;
 
     private EnemyHealth enemyHealth;
-    private bool isDashing;
-    private bool isReturning;
     private bool isThrowingProjectiles;
     private bool isKnockedBack = false;
     private bool targetLock=false;
@@ -56,7 +54,7 @@ public class TutorialBossAI : MonoBehaviour
         CheckForTarget();
 
         // Normal phase
-        if (!isDashing && !isReturning)
+        if (true)
         {
             // Start shooting if not already
             if (!isThrowingProjectiles)
@@ -103,23 +101,22 @@ public class TutorialBossAI : MonoBehaviour
 
     private IEnumerator ShootProjectilesInArc()
     {
-        int arcAngle = 60, projectileCount = 5;
+        int arcAngle = 75, projectileCount = 5;
         float startAngle = -arcAngle / 2f;
         float angleStep = arcAngle / (projectileCount - 1);
 
         isThrowingProjectiles = true;
         while (isThrowingProjectiles)
         {
+            Vector3 directionToTarget = (target.position - transform.position).normalized;
             for (int i = 0; i < projectileCount; i++)
             {
                 float angle = startAngle + (angleStep * i);
-                float projectileDirX = Mathf.Sin(target.transform.position.x + angle * Mathf.Deg2Rad);
-                float projectileDirZ = Mathf.Sin(target.transform.position.z + angle * Mathf.Deg2Rad);
-                Vector3 projectileDirection = new Vector3(projectileDirX, 0f, projectileDirZ).normalized;
+                Vector3 spreadDirection = Quaternion.Euler(0, angle, 0) * directionToTarget;
 
                 GameObject projectile = Instantiate(attackPrefabs[0], transform.position, Quaternion.identity);
                 ProjectileAttack attack = projectile.GetComponent<ProjectileAttack>();
-                attack.Init(target.transform, projectileDirection);
+                attack.Init(target.transform, spreadDirection, 10);
             }
             yield return new WaitForSeconds(projectileAttackRate);
         }
