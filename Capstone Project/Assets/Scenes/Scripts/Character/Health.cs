@@ -16,6 +16,7 @@ public class Health : MonoBehaviour
     private int staminaRegenRate = 9; // Stamina regenerates by 1 per 0.3 seconds
     private float staminaRegenDelay = 2f; // Delay before stamina starts regenerating
     private float lastStaminaUseTime; // Tracks last time stamina was used
+    private float damageMultiplier = 1f; // Default to 100% damage taken
 
     // New variables for timer-based regeneration
     private float staminaRegenInterval = 0.3f; // Interval for stamina regeneration (0.3 seconds)
@@ -27,6 +28,9 @@ public class Health : MonoBehaviour
     [SerializeField] private float delayBeforeSwitch = 3f;
     private VisibilityObjects visibilityController;
     private VisibilityObjects secondVisibilityController;
+
+    public float takeDamageModifier = 0f;
+    public int damageCollected = 0;
 
     void Start()
     {
@@ -82,7 +86,9 @@ public class Health : MonoBehaviour
     {
         if (amount < 0) throw new System.ArgumentOutOfRangeException("Cannot have negative Damage");
 
-        health -= amount;
+        int finalDamage = Mathf.CeilToInt((amount + 1) - takeDamageModifier);
+        damageCollected += finalDamage;
+        health -= finalDamage;
         UpdateHealthBar();
 
         if (health <= 0)
@@ -90,6 +96,19 @@ public class Health : MonoBehaviour
             PlayerDie();
         }
     }
+
+    public void AdjustTakeDamage(float takeDamageChange, float duration)
+    {
+        StartCoroutine(AdjustTakeDamageCoroutine(takeDamageChange, duration));
+    }
+
+    private IEnumerator AdjustTakeDamageCoroutine (float takeDamageChange, float duration)
+    {
+        takeDamageModifier += takeDamageChange; //decrease damage taken
+        yield return new WaitForSeconds(duration);
+        takeDamageModifier -= takeDamageChange; //revert damage back to normal
+    }
+
 
     public void Heal(int amount)
     {

@@ -1,7 +1,8 @@
 using System.Collections;
 using UnityEngine;
+using Unity.Netcode; // Add this for Netcode
 
-public class PlayerController : MonoBehaviour
+public class MultiplayerPlayerController : NetworkBehaviour
 {
     [SerializeField] public float speed;
     [SerializeField] private float dashSpeedMultiplier = 2f; // Multiplier for dash speed
@@ -49,19 +50,48 @@ public class PlayerController : MonoBehaviour
         originalSpeed = speed;
     }
 
+    public override void OnNetworkSpawn()
+    {
+        if (!IsOwner) return; // Only allow the owner to process input
+
+        // Enable necessary components for the local player
+        GetComponent<PlayerController>().enabled = true;
+
+        if (!IsOwner)
+        {
+            enabled = false; // Disable the script for non-owners
+            if (playerCamera != null)
+            {
+                playerCamera.gameObject.SetActive(false); // Disable camera for non-owners
+            }
+            return;
+        }
+
+        // If this is the local player, make the camera follow them
+        if (playerCamera == null)
+        {
+            playerCamera = Camera.main; // Find the main camera if not assigned
+        }
+
+        if (playerCamera != null)
+        {
+            playerCamera.GetComponent<CameraFollow>().SetTarget(transform);
+        }
+    }
+
     void Update()
     {
+        if (!IsOwner) return; // Ensure only the owner processes input
+
         if (isMovementLocked)
         {
             moveDir = Vector3.zero;
-            animator.SetFloat("Speed", 0);
-            animator.SetBool("isDashing", false);
             return;
         }
-        
+
         if (deathcounter == 1)
         {
-            
+
             enemyAI.SetActive(true);
         }
 
@@ -73,19 +103,19 @@ public class PlayerController : MonoBehaviour
 
         else if (GameData.deathcounter == 3 && !enemyAI3Activated)
         {
-            enemyAI3Activated = true; 
+            enemyAI3Activated = true;
             StartCoroutine(ActivateEnemyAI3Delayed());
         }
 
         else if (GameData.deathcounter == 4 && !enemyAI4Activated)
         {
-            enemyAI4Activated = true; 
+            enemyAI4Activated = true;
             StartCoroutine(ActivateEnemyAI4Delayed());
         }
 
         else if (GameData.deathcounter == 5 && !enemyAI5Activated)
         {
-            enemyAI5Activated = true; 
+            enemyAI5Activated = true;
             StartCoroutine(ActivateEnemyAI5Delayed());
         }
 
@@ -106,6 +136,8 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!IsOwner) return; // Ensure only the owner processes physics
+
         ApplyCustomGravity();
         Move();
     }
@@ -170,7 +202,7 @@ public class PlayerController : MonoBehaviour
 
     public void ApplyExternalForce(Vector3 force, float duration)
     {
-        externalForce = new Vector3(force.x, 0, force.z*2);
+        externalForce = new Vector3(force.x, 0, force.z);
         Invoke(nameof(ClearExternalForce), duration);
     }
 
@@ -179,7 +211,7 @@ public class PlayerController : MonoBehaviour
         externalForce = Vector3.zero;
     }
 
-    
+
 
     private void HandleDashInput()
     {
@@ -207,7 +239,7 @@ public class PlayerController : MonoBehaviour
 
     }
 
-        private IEnumerator ActivateEnemyAI2Delayed()
+    private IEnumerator ActivateEnemyAI2Delayed()
     {
         yield return new WaitForSeconds(3.5f); // Waits 3.5 seconds
         enemyAI2.SetActive(true);

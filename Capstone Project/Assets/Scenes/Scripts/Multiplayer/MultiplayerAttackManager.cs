@@ -1,7 +1,8 @@
 using System.Collections;
 using UnityEngine;
+using Unity.Netcode; // Add this for Netcode
 
-public class PlayerAttackManager : MonoBehaviour
+public class MultplayerAttackManager : NetworkBehaviour
 {
     public Health health;
     public GameObject player;
@@ -47,6 +48,9 @@ public class PlayerAttackManager : MonoBehaviour
 
     public void TriggerAttack(string attackName)
     {
+        if (!GetComponent<NetworkObject>().IsOwner)
+            return;
+
         // Check if the player is on cooldown
         if (isOnCooldown)
         {
@@ -247,4 +251,8 @@ public class PlayerAttackManager : MonoBehaviour
         yield return new WaitForSeconds(duration);
         damageModifier -= damageChange; // Revert damage after duration
     }
+
+
+
+
 }
