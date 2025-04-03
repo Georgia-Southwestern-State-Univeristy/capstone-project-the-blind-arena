@@ -29,6 +29,13 @@ public class Health : MonoBehaviour
     private VisibilityObjects visibilityController;
     private VisibilityObjects secondVisibilityController;
 
+
+    private SpriteRenderer spriteRenderer;
+    private SkinnedMeshRenderer skinnedMeshRenderer;
+    private Material initialMaterial, hold;
+    [SerializeField] private float flashDuration = 0.1f;
+    [SerializeField] private Color flashColor = Color.red;
+
     public float takeDamageModifier = 0f;
     public int damageCollected = 0;
 
@@ -36,6 +43,11 @@ public class Health : MonoBehaviour
     {
         MAX_HEALTH = health;
         stamina = MAX_STAMINA;
+
+        // Get sprite renderer for flash effect
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        initialMaterial = spriteRenderer.material;
+        skinnedMeshRenderer = GetComponent<SkinnedMeshRenderer>();
 
         if (healthBarSlider != null)
         {
@@ -91,6 +103,11 @@ public class Health : MonoBehaviour
         health -= finalDamage;
         UpdateHealthBar();
 
+        if (spriteRenderer != null)
+        {
+            StartCoroutine(FlashSprite());
+        }
+
         if (health <= 0)
         {
             PlayerDie();
@@ -108,7 +125,21 @@ public class Health : MonoBehaviour
         yield return new WaitForSeconds(duration);
         takeDamageModifier -= takeDamageChange; //revert damage back to normal
     }
+    private IEnumerator FlashSprite()
+    {
+        // Store original color
+        spriteRenderer.material = skinnedMeshRenderer.material;
 
+        // Change to flash color
+        spriteRenderer.color = flashColor;
+
+        // Wait for flash duration
+        yield return new WaitForSeconds(flashDuration);
+
+        // Restore original color
+        spriteRenderer.color = Color.white;
+        spriteRenderer.material = initialMaterial;
+    }
 
     public void Heal(int amount)
     {

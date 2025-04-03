@@ -50,7 +50,7 @@ MonoBehaviour:
   sprite: {fileID: 6574358655820503319}
   effectPrefab: {fileID: 2674293016379792414, guid: edd1b7cdf4823f44ca16aead2fa90269, type: 3}
   target: {fileID: 0}
-  speed: 21
+  speed: 18
   lifespan: 20
   damage: 15
   spriteDirection: 3

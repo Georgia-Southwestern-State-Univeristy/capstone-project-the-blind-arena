@@ -75,23 +75,26 @@ public class EnemyHealth : MonoBehaviour
 
     private IEnumerator FlashSprite()
     {
-        // Store original color
-        hold = spriteRenderer.material;
-        spriteRenderer.material = skinnedMeshRenderer.material;
-        Color originalColor = spriteRenderer.color;
+        for (int i = 0; i < 2; i++)
+        {
+            // Store original color
+            hold = spriteRenderer.material;
+            spriteRenderer.material = skinnedMeshRenderer.material;
+            Color originalColor = spriteRenderer.color;
 
-        Debug.Log("Sprite Material = "+hold);
-        Debug.Log("Other Material = " + skinnedMeshRenderer.material);
+            Debug.Log("Sprite Material = " + hold);
+            Debug.Log("Other Material = " + skinnedMeshRenderer.material);
 
-        // Change to flash color
-        spriteRenderer.color = flashColor;
+            // Change to flash color
+            spriteRenderer.color = flashColor;
 
-        // Wait for flash duration
-        yield return new WaitForSeconds(flashDuration);
+            // Wait for flash duration
+            yield return new WaitForSeconds(flashDuration);
 
-        // Restore original color
-        spriteRenderer.color = originalColor;
-        spriteRenderer.material = hold;
+            // Restore original color
+            spriteRenderer.color = originalColor;
+            spriteRenderer.material = hold;
+        }
     }
 
     private void UpdateHealthBar()

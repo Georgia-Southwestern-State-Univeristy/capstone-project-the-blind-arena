@@ -44,14 +44,16 @@ public class TutorialBossAI : MonoBehaviour
 
     private void Update()
     {
+        if (!target)
+        {
+            StartCoroutine(CheckForTarget());
+        }
 
         // If being knocked back, don't run normal movement logic
         if (isKnockedBack)
         {
             return;
         }
-
-        CheckForTarget();
 
         // Normal phase
         if (true)

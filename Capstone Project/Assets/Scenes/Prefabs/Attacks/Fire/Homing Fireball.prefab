@@ -160,9 +160,9 @@ MonoBehaviour:
   sprite: {fileID: 4499638186547016598}
   effectPrefab: {fileID: 2674293016379792414, guid: edd1b7cdf4823f44ca16aead2fa90269, type: 3}
   target: {fileID: 0}
-  speed: 10
+  speed: 8
   lifespan: 10
-  damage: 15
+  damage: 10
   spriteDirection: 1
   elementType: 2
   moveType: 1

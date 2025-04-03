@@ -1,41 +1,51 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class FireBossAI : MonoBehaviour
 {
     public float speed;
-    public float dashSpeed = 15f;
-    public float dashDuration = 0.5f;
+    public float dashLength = 15f;
+    public float dashDuration = 1f;
+    public float dashCooldown = 3f;
     public Transform target;
     public Transform returnWaypoint;
     public float minimumDistance = 5f;
     public float attackDelay = 2f;
     public float projectileAttackRate = 1.5f;
-    public float projectileSpeed = 8f;
-    public float projectileLife = 5f;
     public float retreatSpeed = 10f;
     public Animator animator;
     public GameObject[] attackPrefabs;
     public GameObject damageZonePrefab;
 
     private EnemyHealth enemyHealth;
+    private float initialSpeed;
     private bool isDashing;
     private bool isReturning;
-    private bool hasUsedSecondAbility;
-    private bool isThrowingProjectiles;
-    private bool isFinalPhase;
+    private bool startPhaseOne=false;
+    private bool startPhaseTwo=false;
+    private bool startPhaseThree=false;
+    private bool isFocused;
+    private bool interruptMovement;
+    private bool attackLock, dashLock, genLock, proLock;
     private Vector3 retreatDirection;
     private bool isKnockedBack = false;
     private bool targetLock = false;
+    private bool p1, p2, p3;
     private float knockbackRecoveryTime = 0.5f;
 
     private float fixedHeight = 0.6f;
+    private System.Random rnd = new System.Random();
+    private int random;
 
     private void Start()
     {
         enemyHealth = GetComponent<EnemyHealth>();
         Rigidbody rb = GetComponent<Rigidbody>();
+        initialSpeed = speed;
         if (rb != null)
         {
             rb.freezeRotation = true;  // Prevent the boss from rotating when hit
@@ -51,9 +61,10 @@ public class FireBossAI : MonoBehaviour
 
     private void Update()
     {
-        if (!target)
+        if (!targetLock)
         {
-        StartCoroutine(CheckForTarget());
+            targetLock = true;
+            StartCoroutine(CheckForTarget());
         }
 
         // If being knocked back, don't run normal movement logic
@@ -62,232 +73,377 @@ public class FireBossAI : MonoBehaviour
             return;
         }
 
-        // Final phase (25% health)
+        // Overheat Phase (25% health)
         if (enemyHealth.currentHealth <= enemyHealth.maxHealth * 0.25f)
         {
-            if (!isFinalPhase)
+            if (!startPhaseThree)
             {
-                isFinalPhase = true;
-                isReturning = false;  // Stop the return to waypoint behavior
-                isDashing = false;
-                isThrowingProjectiles = false;
+                startPhaseThree = true;
                 StopAllCoroutines();
-                StartCoroutine(FinalPhaseRoutine());
+                interruptMovement = false;
+                attackLock = false;
+                genLock = false;
+                StartCoroutine(PhaseThree());
             }
-            return;
-        }
-
-        // Retreat phase (50% health)
-        if (enemyHealth.currentHealth <= enemyHealth.maxHealth * 0.5f &&
-            enemyHealth.currentHealth > enemyHealth.maxHealth * 0.25f)
-        {
-            if (!isReturning)
+            if (Vector3.Distance(transform.position, target.position) > minimumDistance*1.5 && !interruptMovement && ! isFocused)
             {
-                isReturning = true;
-                isDashing = false;
-                isThrowingProjectiles = false;
-                StopAllCoroutines();
-                StartCoroutine(RetreatPhaseRoutine());
-            }
-            return;
-        }
-
-        // Normal phase
-        if (!isDashing && !isReturning)
-        {
-            // Start shooting if not already
-            if (!isThrowingProjectiles)
-            {
-                StartCoroutine(ProjectileAttackLoop());
-            }
-
-            // Handle movement
-            if (Vector3.Distance(transform.position, target.position) <= minimumDistance)
-            {
-                if (!isDashing)
-                {
-                    StartCoroutine(DashAttack());
-                }
+                MoveTowardsPlayer();
             }
             else
             {
+                animator.SetFloat("speed", 0);
+            }
+            return;
+        }
+
+        // Turret Phase (66% health)
+        else if (enemyHealth.currentHealth <= enemyHealth.maxHealth * 0.66f)
+        {
+            if (!startPhaseTwo)
+            {
+                startPhaseTwo = true;
+                StopAllCoroutines();
+                interruptMovement = false;
+                attackLock = false;
+                dashLock = false;
+                StartCoroutine(PhaseTwo());
+            }
+            if (Vector3.Distance(transform.position, returnWaypoint.position) > 1f && !interruptMovement)
+            {
+                genLock = false;
+                MoveTowardsWapoint();
+            }
+            else
+            {
+                genLock = true;
+                animator.SetFloat("speed", 0);
+            }
+            return;
+        }
+
+        else
+        {
+            if (!startPhaseOne)
+            {
+                startPhaseOne = true;
+                interruptMovement = false;
+                attackLock = false;
+                StartCoroutine(PhaseOne());
+            }
+            if (Vector3.Distance(transform.position, target.position) > minimumDistance && !interruptMovement)
+            {
                 MoveTowardsPlayer();
+            }
+            else
+            {
+                animator.SetFloat("speed", 0);
             }
         }
     }
 
+    private IEnumerator CheckForTarget()
+    {
+        System.Random rand = new System.Random();
+        int newTarg = rand.Next(0,3);
+        switch (newTarg)
+        {
+            case 0:
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+        }
+        target = FindFirstObjectByType<PlayerController>().transform;
+        yield return new WaitForSeconds(10f);
+        targetLock = false;
+    }
+
     private void MoveTowardsPlayer()
     {
+        if (isDashing)
+        {
+            speed = initialSpeed*1.5f;
+        }
+        else
+        {
+            speed = initialSpeed;
+        }
         Vector3 direction = (target.position - transform.position).normalized;
-        transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
-        animator.SetFloat("speed", Mathf.Abs(transform.position.magnitude - target.position.magnitude));
+        direction *= ((Math.Abs(direction.z) * .6f) + 1) * speed;
+        animator.SetFloat("speed", Mathf.Abs(transform.position.magnitude - direction.magnitude));
         FlipSprite(direction.x);
 
         Vector3 position = transform.position;
         position.y = fixedHeight;
         transform.position = position;
+
+        transform.position += direction * Time.deltaTime;
     }
 
-    private IEnumerator CheckForTarget()
+    private void MoveTowardsWapoint()
     {
-        if (!targetLock)
+        Vector3 direction = (returnWaypoint.position - transform.position).normalized;
+        direction *= ((Math.Abs(direction.z) * .6f) + 1) * speed;
+        animator.SetFloat("speed", Mathf.Abs(transform.position.magnitude - direction.magnitude));
+        FlipSprite(direction.x);
+
+        Vector3 position = transform.position;
+        position.y = fixedHeight;
+        transform.position = position;
+
+        transform.position += direction * Time.deltaTime;
+    }
+
+    private IEnumerator PhaseOne()
+    {
+        Debug.Log("Phase One");
+        while (startPhaseOne)
         {
-            targetLock = true;
-            target = FindFirstObjectByType<PlayerController>().transform;
-            yield return new WaitForSeconds(5f);
+            if (!attackLock)
+            {
+                random = rnd.Next(0, 2);
+                Debug.Log(random);
+            }
+            attackLock = true;
+            for (int i = 0; i < 10; i++)
+            {
+                switch (random)
+                {
+                    //Move close and Dash Attack
+                    case 0:
+                        isDashing = true;
+                        p3 = false;
+                        if (Vector3.Distance(transform.position, target.position) <= minimumDistance)
+                        {
+                            StartCoroutine(DashAttack(1));
+                        }
+                        break;
+                    //Move and Projectile Attack
+                    case 1:
+                        isDashing = false;
+                        p3 = true;
+                        if (!proLock)
+                        {
+                            StartCoroutine(ShootProjectile(0,1, 1));
+                        }
+                        break;
+                }
+                yield return new WaitForSeconds(1f);
+            }
+            attackLock = false;
         }
-        targetLock = false;
     }
 
-    private void PhaseOne()
+    private IEnumerator PhaseTwo()
     {
-
-    }
-
-    private void PhaseTwo()
-    {
-
-    }
-
-    private void PhaseThree()
-    {
-
-    }
-
-    private IEnumerator DashAttack()
-    {
-        isDashing = true;
-
-        yield return new WaitForSeconds(0.5f);
-
-        Vector3 dashDirection = (target.position - transform.position).normalized;
-        float elapsedTime = 0f;
-
-        while (elapsedTime < dashDuration)
+        Debug.Log("Phase Two");
+        while (startPhaseTwo)
         {
-            transform.position += dashDirection * dashSpeed * Time.deltaTime;
+            // If we reached the waypoint, shoot patterns
+            if (genLock)
+            {
+                Debug.Log("Reached Waypoint");
+                if (!attackLock)
+                {
+                    attackLock = true;
+                    p1 = true;
+                    p2 = false; p3 = false;
+                    StartCoroutine(ProjectileArc(90, 4, 1, 5));
+                    yield return new WaitForSeconds(projectileAttackRate*5 + 3);
+                    p2 = true;
+                    p1 = false; p3 = false;
+                    StartCoroutine(SlowArc(180, 3, 2, 3));
+                    yield return new WaitForSeconds(projectileAttackRate*5 + 3);
+                    p3 = true;
+                    p1 = false; p2 = false;
+                    StartCoroutine(ShootProjectile(3,5, 1));
+                    yield return new WaitForSeconds(projectileAttackRate*5 + 4);
+                    attackLock = false;
+                }
+            }
+            yield return new WaitForSeconds(1f);
+        }
+    }
+
+    private IEnumerator PhaseThree()
+    {
+        Debug.Log("Phase Three");
+        while (startPhaseThree)
+        {
+            Debug.Log("Striking Distance");
+            if (!attackLock)
+            {
+                attackLock = true;
+                //Rushing
+                isDashing = true;
+                for (int i = 0; i < 5; i++)
+                {
+                    StartCoroutine(DashAttack(2));
+                    Debug.Log("Attempt Rush");
+                    yield return new WaitForSeconds(dashCooldown + dashDuration + 1f);
+                }
+                yield return new WaitForSeconds(1f);
+                //Fire Stars
+                isFocused = true;
+                isDashing = false;
+                p1 = true;
+                p3 = true;
+                for (int i = 0; i < 5; i++)
+                {
+                    Debug.Log("Attempt Walls");
+                    StartCoroutine(ProjectileArc(180, 2, 3, 1));
+                    yield return new WaitForSeconds(.1f);
+                    StartCoroutine(ProjectileArc(158, 2, 3, 1));
+                    yield return new WaitForSeconds(.1f);
+                    StartCoroutine(ProjectileArc(135, 2, 3, 1));
+                    yield return new WaitForSeconds(.1f);
+                    StartCoroutine(ProjectileArc(113, 2, 3, 1));
+                    yield return new WaitForSeconds(.1f);
+                    StartCoroutine(ProjectileArc(90, 2, 3, 1));
+                    yield return new WaitForSeconds(.1f);
+                    Debug.Log("Attempt Stream");
+                    StartCoroutine(ShootProjectile(0, 20, 10));
+                    yield return new WaitForSeconds((projectileAttackRate/10+.5f)*10);
+                    yield return new WaitForSeconds(3f);
+                }
+                //Rest
+                p1 = false;
+                Debug.Log("Attempt Rest");
+                yield return new WaitForSeconds(20f);
+                isFocused = false;
+                attackLock = false;
+            }
+            yield return new WaitForSeconds(1f);
+        }
+        yield return null;
+    }
+
+    private IEnumerator DashAttack(float magnitude)
+    {
+        if (!dashLock)
+        {
+            dashLock = true;
+            interruptMovement = true;
+            yield return new WaitForSeconds(0.2f);
+
+            Vector3 dashDirection = (target.position - transform.position).normalized;
+            dashDirection *= ((Math.Abs(dashDirection.z) * .6f) + 1);
+            float elapsedTime = 0f;
             FlipSprite(dashDirection.x);
-            elapsedTime += Time.deltaTime;
-            yield return null;
+
+            StartCoroutine(DashTrail());
+            while (elapsedTime < dashDuration)
+            {
+                transform.position += dashDirection * dashLength * Time.deltaTime * magnitude;
+                FlipSprite(dashDirection.x);
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+            StopCoroutine(DashTrail());
+            yield return new WaitForSeconds(dashCooldown);
+            interruptMovement = false;
+            dashLock=false;
         }
-
-        yield return new WaitForSeconds(0.5f);
-
-        isDashing = false;
     }
 
-    private IEnumerator ProjectileAttackLoop()
+    private IEnumerator DashTrail()
     {
-        isThrowingProjectiles = true;
-        while (isThrowingProjectiles)
+        for (int i = 0; i < 10; i++)
         {
-            if (attackPrefabs.Length > 0)
+            GameObject projectile = Instantiate(attackPrefabs[4], transform.position, Quaternion.identity);
+            yield return new WaitForSeconds(dashDuration/10);
+        }
+    }
+
+    private IEnumerator ShootProjectile(int type, int amount, float wait)
+    {
+        proLock = true;
+        if (p3)
+        {
+            for (int i = 0; i < amount; i++)
             {
-                GameObject projectile = Instantiate(attackPrefabs[0], transform.position, Quaternion.identity);
-                Vector3 direction = (target.position - transform.position).normalized;
-                FlipSprite(target.position.x);
-                Rigidbody rb = projectile.GetComponent<Rigidbody>();
-                if (rb != null)
+                if (attackPrefabs.Length > type)
                 {
-                    rb.linearVelocity = direction * projectileSpeed;
+                    interruptMovement = true;
+                    yield return new WaitForSeconds(0.2f);
+                    GameObject projectile = Instantiate(attackPrefabs[type], transform.position, Quaternion.identity);
+                    ProjectileAttack attack = projectile.GetComponent<ProjectileAttack>();
+                    attack.target = target;
+                    FlipSprite(target.position.x);
+                    yield return new WaitForSeconds(0.1f);
+                    interruptMovement = false;
                 }
+                yield return new WaitForSeconds(projectileAttackRate /wait);
             }
-
-            yield return new WaitForSeconds(projectileAttackRate);
+            proLock = false;
         }
     }
 
-    private IEnumerator RetreatPhaseRoutine()
+    private IEnumerator ProjectileArc(int arc, int count, int type, int amount)
     {
-        while (enemyHealth.currentHealth <= enemyHealth.maxHealth * 0.5f &&
-               enemyHealth.currentHealth > enemyHealth.maxHealth * 0.25f &&
-               isReturning)  // Add isReturning check
+        proLock=true;
+        int arcAngle = arc, projectileCount = count;
+        float startAngle = -arcAngle / 2f;
+        float angleStep = arcAngle / (projectileCount - 1);
+
+        if (p1)
         {
-            // Calculate direction to waypoint
-            Vector3 directionToWaypoint = (returnWaypoint.position - transform.position).normalized;
-            FlipSprite(directionToWaypoint.x);
-
-            // Move towards waypoint
-            transform.position += directionToWaypoint * retreatSpeed * Time.deltaTime;
-
-            // If we reached the waypoint, shoot arc pattern
-            if (Vector3.Distance(transform.position, returnWaypoint.position) < 0.5f)
+            for (int i = 0; i < amount; i++)
             {
-                ShootProjectilesInArc(8, 120f);
-                FlipSprite(target.position.x);
-
-                // Wait a bit before next volley
-                yield return new WaitForSeconds(2f);
-
-                // Move to a new position around the waypoint
-                Vector3 randomOffset = Random.insideUnitSphere * 3f;
-                randomOffset.y = 0; // Keep on same Y plane
-                Vector3 newPosition = returnWaypoint.position + randomOffset;
-
-                Vector3 position = transform.position;
-                position.y = fixedHeight;
-                transform.position = position;
-
-                // Move to new position
-                while (Vector3.Distance(transform.position, newPosition) > 0.5f &&
-                       isReturning &&  // Add isReturning check
-                       enemyHealth.currentHealth > enemyHealth.maxHealth * 0.25f)
+                interruptMovement = true;
+                yield return new WaitForSeconds(0.2f);
+                Vector3 directionToTarget = (target.position - transform.position).normalized;
+                FlipSprite(directionToTarget.x);
+                for (int j = 0; j < projectileCount; j++)
                 {
-                    transform.position = Vector3.MoveTowards(transform.position, newPosition, retreatSpeed * Time.deltaTime);
-                    yield return null;
-                }
-            }
+                    float angle = startAngle + (angleStep * j);
+                    Vector3 spreadDirection = Quaternion.Euler(0, angle, 0) * directionToTarget;
 
-            yield return null;
+                    GameObject projectile = Instantiate(attackPrefabs[type], transform.position, Quaternion.identity);
+                    ProjectileAttack attack = projectile.GetComponent<ProjectileAttack>();
+                    attack.Init(target.transform, spreadDirection);
+                }
+                yield return new WaitForSeconds(0.1f);
+                interruptMovement = false;
+                yield return new WaitForSeconds(projectileAttackRate);
+            }
         }
+        proLock=false;
     }
 
-    private IEnumerator FinalPhaseRoutine()
+    private IEnumerator SlowArc(int arc, int count, int type, int amount)
     {
-        while (true)
+        proLock = true;
+        int arcAngle = arc, projectileCount = count;
+        float startAngle = -arcAngle / 2f;
+        float angleStep = arcAngle / (projectileCount - 1);
+
+        if (p2)
         {
-            // Calculate retreat direction (opposite of player)
-            retreatDirection = (transform.position - target.position).normalized;
-
-            // Shoot projectiles while retreating
-            GameObject projectile = Instantiate(attackPrefabs[0], transform.position, Quaternion.identity);
-            Vector3 directionToPlayer = (target.position - transform.position).normalized;
-            FlipSprite(directionToPlayer.x);
-            Rigidbody rb = projectile.GetComponent<Rigidbody>();
-            if (rb != null)
+            for (int i = 0; i < amount; i++)
             {
-                rb.linearVelocity = directionToPlayer * projectileSpeed;
+                interruptMovement = true;
+                yield return new WaitForSeconds(0.2f);
+                Vector3 directionToTarget = (target.position - transform.position).normalized;
+                FlipSprite(directionToTarget.x);
+                for (int j = 0; j < projectileCount; j++)
+                {
+                    float angle = startAngle + (angleStep * j);
+                    Vector3 spreadDirection = Quaternion.Euler(0, angle, 0) * directionToTarget;
+
+                    GameObject projectile = Instantiate(attackPrefabs[type], transform.position, Quaternion.identity);
+                    ProjectileAttack attack = projectile.GetComponent<ProjectileAttack>();
+                    attack.Init(target.transform, spreadDirection);
+                }
+                yield return new WaitForSeconds(0.1f);
+                interruptMovement = false;
+                yield return new WaitForSeconds(projectileAttackRate * 1.66f);
             }
-
-            // Move away from player using MoveTowards for more reliable movement
-            Vector3 targetPosition = transform.position + (retreatDirection * 10f);
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, retreatSpeed * Time.deltaTime);
-
-            // If we're too close to a wall, try to move sideways
-            if (Physics.Raycast(transform.position, retreatDirection, 2f))
-            {
-                // Calculate a perpendicular direction
-                Vector3 sideDirection = Vector3.Cross(retreatDirection, Vector3.up).normalized;
-
-                // Randomly choose left or right
-                if (Random.value > 0.5f)
-                    sideDirection = -sideDirection;
-
-                // Move sideways
-                targetPosition = transform.position + (sideDirection * 5f);
-                transform.position = Vector3.MoveTowards(transform.position, targetPosition, retreatSpeed * Time.deltaTime);
-            }
-
-            // Keep a minimum distance from the player
-            float distanceToPlayer = Vector3.Distance(transform.position, target.position);
-            if (distanceToPlayer < minimumDistance * 2f)
-            {
-                // Move away faster when too close
-                transform.position = Vector3.MoveTowards(transform.position, targetPosition, retreatSpeed * 1.5f * Time.deltaTime);
-            }
-
-            yield return new WaitForSeconds(0.1f);
         }
+        proLock = false;
     }
 
     public void OnKnockback()
@@ -297,8 +453,6 @@ public class FireBossAI : MonoBehaviour
             isKnockedBack = true;
 
             // Cancel current state flags
-            isDashing = false;
-            isThrowingProjectiles = false;
 
             StopAllCoroutines();
             StartCoroutine(KnockbackRecovery());
@@ -311,24 +465,42 @@ public class FireBossAI : MonoBehaviour
         isKnockedBack = false;
 
         // Resume previous behavior
-        if (isFinalPhase)
+        if (startPhaseThree)
         {
-            StartCoroutine(FinalPhaseRoutine());
+            StartCoroutine(PhaseThree());
         }
-        else if (isReturning)
+        else if (startPhaseTwo)
         {
-            StartCoroutine(RetreatPhaseRoutine());
+            StartCoroutine(PhaseTwo());
         }
         else
         {
             // Default to projectile attack or normal movement
-            StartCoroutine(ProjectileAttackLoop());
+            StartCoroutine(PhaseOne());
         }
     }
 
     private void FlipSprite(float directionX)
     {
         transform.localScale = new Vector3(Mathf.Sign(directionX) * Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+    }
+
+    private void OnTriggerEnter(Collider collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            HandlePlayerCollision(collision.gameObject);      
+        }
+    }
+
+    private void HandlePlayerCollision(GameObject player)
+    {
+        Debug.Log("Boss hit the player!");
+        Health playerHealth = player.GetComponent<Health>();
+        if (playerHealth != null)
+        {
+            playerHealth.Damage(20);
+        }
     }
 
     private void SpawnDamageZone()

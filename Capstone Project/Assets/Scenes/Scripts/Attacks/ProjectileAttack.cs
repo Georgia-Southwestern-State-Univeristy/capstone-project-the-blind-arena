@@ -32,19 +32,16 @@ public class ProjectileAttack : MonoBehaviour
 
     public void Init(Transform targ, Vector3 vector)
     {
-        Debug.Log("Init Start");
         skipStart =true;
         target = targ;
         targetTransform = target.position;
         movementVector = (vector).normalized;
         movementVector *= ((Math.Abs(movementVector.z) * .6f) + 1) * speed;
-        Debug.Log("Init Finish");
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        Debug.Log("Start");
         if (!skipStart)
         {
             target = FindFirstObjectByType<PlayerController>().transform;
@@ -55,7 +52,6 @@ public class ProjectileAttack : MonoBehaviour
         initalLifespan = lifespan;
         initalSpeed = speed;
         if (isEffect) { fixedHeight = 0.5f; } else { fixedHeight = 0.6f; }
-        Debug.Log("Finish");
     }
 
     // Update is called once per frame
@@ -134,7 +130,7 @@ public class ProjectileAttack : MonoBehaviour
         }
         if (leavesTrail && effectPrefab!=null)
         {
-            StartCoroutine(PlaceEffectTiles(.2f));
+            StartCoroutine(PlaceEffectTiles(.15f));
         }
     }
 
@@ -171,7 +167,7 @@ public class ProjectileAttack : MonoBehaviour
         projectile.transform.eulerAngles = vector;
     }
 
-    private void ApplySpecialEffect(Element ele, GameObject player)
+    private void ApplySpecialEffect(Element ele, GameObject player, bool hit)
     {
         switch (ele)
         {
@@ -202,7 +198,6 @@ public class ProjectileAttack : MonoBehaviour
                 break;
             //Fire Attack (Fires Tiles, Damage Over Times, etc.)
             case Element.Fire:
-                takingDamage=true;
                 if (!isEffect && lifespan<=0) 
                 {
                     StartCoroutine(PlaceEffectTiles(1f));
@@ -211,11 +206,6 @@ public class ProjectileAttack : MonoBehaviour
                 {
                     if (player)
                         StartCoroutine(DamageOverTime(player, damage));
-                }
-                if (takingDamage)
-                {
-                    if (player)
-                        StartCoroutine(DamageOverTime(player, 1));
                 }
                 break;
             //Water Attack (Place Water, Freezing, etc.)
@@ -255,7 +245,8 @@ public class ProjectileAttack : MonoBehaviour
     {
         if (lifespan <= 0)
         {
-            ApplySpecialEffect(elementType, null);
+            ApplySpecialEffect(elementType, null, false);
+            StopAllCoroutines();
             Destroy(gameObject);
         }
         lifespan -= Time.deltaTime;
@@ -288,12 +279,12 @@ public class ProjectileAttack : MonoBehaviour
             if (isEffect)
             {
                 inTrigger = true;
-                ApplySpecialEffect(elementType, collision.gameObject);
+                ApplySpecialEffect(elementType, collision.gameObject, false);
             }
             else
             {
                 HandlePlayerCollision(collision.gameObject);
-                ApplySpecialEffect(elementType, collision.gameObject);
+                ApplySpecialEffect(elementType, collision.gameObject, false);
             }
         }
     }
@@ -320,7 +311,7 @@ public class ProjectileAttack : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         inTrigger=false;
-        ApplySpecialEffect(elementType, other.gameObject);
+        ApplySpecialEffect(elementType, other.gameObject, true);
     }
 
     private IEnumerator HandleProjectileWander(int magnitude)
@@ -398,7 +389,7 @@ public class ProjectileAttack : MonoBehaviour
         if (playerHealth != null)
         {
             playerHealth.Damage(damage);
-            ApplySpecialEffect(elementType, player);
+            ApplySpecialEffect(elementType, player, true);
         }
     }
 
@@ -415,31 +406,17 @@ public class ProjectileAttack : MonoBehaviour
 
     public IEnumerator DamageOverTime(GameObject player, int damage)
     {
-        tCount = 0;
-        if (!damageLock)
+        if (this == null || player == null)
         {
-            damageLock = true;
-            while (inTrigger)
-            {
-                Health playerHealth = player.GetComponent<Health>();
-                playerHealth.Damage(damage);
-                Debug.Log("Player is standing in a damage zone!");
-                yield return new WaitForSeconds(0.5f);
-            }
-            while (takingDamage)
-            {
-                if (tCount >= 5)
-                {
-                    takingDamage =false;
-                }
-                Health playerHealth = player.GetComponent<Health>();
-                playerHealth.Damage(damage);
-                Debug.Log("Player took damage over time!");
-                tCount++;
-                yield return new WaitForSeconds(1f);
-            }
-            damageLock = false;
+            yield break;
         }
-        
+        while (inTrigger)
+        {
+            Health playerHealth = player.GetComponent<Health>();
+            playerHealth.Damage(damage);
+            Debug.Log("Player is standing in a damage zone!");
+            yield return new WaitForSeconds(0.5f);
+        }
     }
+    
 }
