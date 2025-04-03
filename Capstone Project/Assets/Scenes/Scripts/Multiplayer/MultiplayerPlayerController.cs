@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
-using Unity.Netcode; // Add this for Netcode
+using Unity.Netcode;
+using Unity.Netcode.Components;// Add this for Netcode
 
 public class MultiplayerPlayerController : NetworkBehaviour
 {
@@ -8,7 +9,8 @@ public class MultiplayerPlayerController : NetworkBehaviour
     [SerializeField] private float dashSpeedMultiplier = 2f; // Multiplier for dash speed
     [SerializeField] private float gravityScale = 20f;
     [SerializeField] private float dashStaminaCost; // Stamina cost per frame while dashing
-    public Animator animator;
+    [SerializeField] private Animator animator;
+    [SerializeField] private NetworkAnimator networkAnimator;
     private float fixedHeight = 0.6f;
     private bool isDashing = false;
     private Rigidbody rb;
@@ -48,6 +50,9 @@ public class MultiplayerPlayerController : NetworkBehaviour
         rb.useGravity = false;
 
         originalSpeed = speed;
+
+        animator = GetComponent<Animator>();
+        networkAnimator = GetComponent<NetworkAnimator>();
     }
 
     public override void OnNetworkSpawn()
@@ -131,6 +136,12 @@ public class MultiplayerPlayerController : NetworkBehaviour
         animator.SetFloat("Speed", Mathf.Abs(combinedInput));
         animator.SetBool("isDashing", isDashing);
 
+        networkAnimator.SetTrigger("SyncAnimation"); // You can use triggers to sync animations
+
+        if (IsOwner)
+        {
+            UpdateAnimatorServerRpc(Mathf.Abs(combinedInput), isDashing);
+        }
         HandleDashInput();
     }
 
@@ -211,6 +222,13 @@ public class MultiplayerPlayerController : NetworkBehaviour
         externalForce = Vector3.zero;
     }
 
+    [ServerRpc]
+    private void UpdateAnimatorServerRpc(float speed, bool isDashing)
+    {
+        animator.SetFloat("Speed", speed);
+        animator.SetBool("isDashing", isDashing);
+        networkAnimator.SetTrigger("SyncAnimation");
+    }
 
 
     private void HandleDashInput()
