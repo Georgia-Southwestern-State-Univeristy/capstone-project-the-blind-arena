@@ -1,8 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Reflection;
-using Unity.Mathematics;
 using UnityEngine;
 
 public class FireBossAI : MonoBehaviour
@@ -19,42 +16,28 @@ public class FireBossAI : MonoBehaviour
     public float retreatSpeed = 10f;
     public Animator animator;
     public GameObject[] attackPrefabs;
-    public GameObject damageZonePrefab;
 
     private EnemyHealth enemyHealth;
     private float initialSpeed;
     private bool isDashing;
-    private bool isReturning;
     private bool startPhaseOne=false;
     private bool startPhaseTwo=false;
     private bool startPhaseThree=false;
     private bool isFocused;
     private bool interruptMovement;
     private bool attackLock, dashLock, genLock, proLock;
-    private Vector3 retreatDirection;
-    private bool isKnockedBack = false;
     private bool targetLock = false;
     private bool p1, p2, p3;
-    private float knockbackRecoveryTime = 0.5f;
-
-    private float fixedHeight = 0.6f;
+    private const float HEIGHT = 0.6f;
     private System.Random rnd = new System.Random();
     private int random;
 
     private void Start()
     {
         enemyHealth = GetComponent<EnemyHealth>();
+        animator = GetComponent<Animator>();
         Rigidbody rb = GetComponent<Rigidbody>();
         initialSpeed = speed;
-        if (rb != null)
-        {
-            rb.freezeRotation = true;  // Prevent the boss from rotating when hit
-            rb.constraints = RigidbodyConstraints.FreezeRotation;  // Only freeze rotation, allow position changes
-        }
-        else
-        {
-            Debug.LogError("Rigidbody component not found!");
-        }
 
         if (!enemyHealth) Debug.LogError("EnemyHealth component not found!");
     }
@@ -65,12 +48,6 @@ public class FireBossAI : MonoBehaviour
         {
             targetLock = true;
             StartCoroutine(CheckForTarget());
-        }
-
-        // If being knocked back, don't run normal movement logic
-        if (isKnockedBack)
-        {
-            return;
         }
 
         // Overheat Phase (25% health)
@@ -138,6 +115,7 @@ public class FireBossAI : MonoBehaviour
             {
                 animator.SetFloat("speed", 0);
             }
+            return;
         }
     }
 
@@ -177,7 +155,7 @@ public class FireBossAI : MonoBehaviour
         FlipSprite(direction.x);
 
         Vector3 position = transform.position;
-        position.y = fixedHeight;
+        position.y = HEIGHT;
         transform.position = position;
 
         transform.position += direction * Time.deltaTime;
@@ -191,7 +169,7 @@ public class FireBossAI : MonoBehaviour
         FlipSprite(direction.x);
 
         Vector3 position = transform.position;
-        position.y = fixedHeight;
+        position.y = HEIGHT;
         transform.position = position;
 
         transform.position += direction * Time.deltaTime;
@@ -446,40 +424,6 @@ public class FireBossAI : MonoBehaviour
         proLock = false;
     }
 
-    public void OnKnockback()
-    {
-        if (!isKnockedBack)
-        {
-            isKnockedBack = true;
-
-            // Cancel current state flags
-
-            StopAllCoroutines();
-            StartCoroutine(KnockbackRecovery());
-        }
-    }
-
-    private IEnumerator KnockbackRecovery()
-    {
-        yield return new WaitForSeconds(knockbackRecoveryTime);
-        isKnockedBack = false;
-
-        // Resume previous behavior
-        if (startPhaseThree)
-        {
-            StartCoroutine(PhaseThree());
-        }
-        else if (startPhaseTwo)
-        {
-            StartCoroutine(PhaseTwo());
-        }
-        else
-        {
-            // Default to projectile attack or normal movement
-            StartCoroutine(PhaseOne());
-        }
-    }
-
     private void FlipSprite(float directionX)
     {
         transform.localScale = new Vector3(Mathf.Sign(directionX) * Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
@@ -500,63 +444,6 @@ public class FireBossAI : MonoBehaviour
         if (playerHealth != null)
         {
             playerHealth.Damage(20);
-        }
-    }
-
-    private void SpawnDamageZone()
-    {
-        if (damageZonePrefab)
-        {
-            Instantiate(damageZonePrefab, transform.position, Quaternion.identity);
-        }
-    }
-
-    private void ShootProjectilesInCircle(int projectileCount)
-    {
-        float angleStep = 360f / projectileCount;
-        float angle = 0f;
-
-        for (int i = 0; i < projectileCount; i++)
-        {
-            float projectileDirX = Mathf.Cos(angle * Mathf.Deg2Rad);
-            float projectileDirY = Mathf.Sin(angle * Mathf.Deg2Rad);
-            Vector3 projectileDirection = new Vector3(projectileDirX, projectileDirY, 0f).normalized;
-
-            GameObject projectile = Instantiate(attackPrefabs[0], transform.position, Quaternion.identity);
-            Rigidbody rb = projectile.GetComponent<Rigidbody>();
-
-            if (rb != null)
-            {
-                rb.linearVelocity = projectileDirection * 5f;
-            }
-            else
-            {
-                Debug.LogError("Projectile has no Rigidbody!");
-            }
-
-            angle += angleStep;
-        }
-    }
-
-    private void ShootProjectilesInArc(int projectileCount, float arcAngle)
-    {
-        float startAngle = -arcAngle / 2f;
-        float angleStep = arcAngle / (projectileCount - 1);
-
-        for (int i = 0; i < projectileCount; i++)
-        {
-            float angle = startAngle + (angleStep * i);
-            float projectileDirX = Mathf.Cos(angle * Mathf.Deg2Rad);
-            float projectileDirY = Mathf.Sin(angle * Mathf.Deg2Rad);
-            Vector3 projectileDirection = new Vector3(projectileDirX, projectileDirY, 0f).normalized;
-
-            GameObject projectile = Instantiate(attackPrefabs[0], transform.position, Quaternion.identity);
-            Rigidbody rb = projectile.GetComponent<Rigidbody>();
-
-            if (rb != null)
-            {
-                rb.linearVelocity = projectileDirection * 5f;
-            }
         }
     }
 }
