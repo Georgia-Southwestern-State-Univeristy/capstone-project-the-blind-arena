@@ -12,7 +12,7 @@ public class MultiplayerPlayerAttack : NetworkBehaviour
 
     void Start()
     {
-        if (!GetComponent<NetworkObject>().IsOwner)
+        if (!IsOwner)
             return;
 
         if (attackManager == null)
@@ -24,15 +24,24 @@ public class MultiplayerPlayerAttack : NetworkBehaviour
 
     void Update()
     {
-        if (!GetComponent<NetworkObject>().IsOwner)
+        if (!IsOwner)
             return;
 
         for (int i = 0; i < attackTypes.Length; i++)
         {
             if (Input.GetKeyDown(KeyCode.Alpha1 + i))
             {
-                attackManager.TriggerAttack(attackTypes[i]);
+                RequestAttackServerRpc(attackTypes[i]);
             }
         }
     }
+
+    [ServerRpc]
+    void RequestAttackServerRpc(string attackName)
+    {
+        if (!IsServer) return;
+
+        attackManager.TriggerAttack(attackName);
+    }
+
 }

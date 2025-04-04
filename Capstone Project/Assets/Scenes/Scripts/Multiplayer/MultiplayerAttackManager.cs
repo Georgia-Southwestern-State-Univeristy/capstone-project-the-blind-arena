@@ -48,24 +48,41 @@ public class MultplayerAttackManager : NetworkBehaviour
 
     public void TriggerAttack(string attackName)
     {
-        if (!GetComponent<NetworkObject>().IsOwner)
-            return;
-
-        // Check if the player is on cooldown
-        if (isOnCooldown)
-        {
-            Debug.Log("Attack is on cooldown!");
-            return;
-        }
+        if (!IsOwner) return;
 
         var attack = System.Array.Find(attacks, a => a.name == attackName);
         if (attack != null)
         {
-            StartCoroutine(PerformAttack(attack));
+            TriggerAttackServerRpc(attack.name);
+            BroadcastAttackClientRpc(attackName); // Send to all clients
         }
         else
         {
             Debug.LogError($"Attack not defined: {attackName}");
+        }
+    }
+
+    [ServerRpc]
+    private void TriggerAttackServerRpc(string attackName)
+    {
+        PerformAttackClientRpc(attackName);
+    }
+
+    [ClientRpc]
+    private void PerformAttackClientRpc(string attackName)
+    {
+        if (animator != null)
+        {
+            animator.SetTrigger(attackName);
+        }
+    }
+
+    [ClientRpc]
+    private void BroadcastAttackClientRpc(string attackName)
+    {
+        if (!IsOwner)
+        {
+            animator.SetTrigger(attackName);
         }
     }
 
