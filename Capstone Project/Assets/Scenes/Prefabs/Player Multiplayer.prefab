@@ -193,15 +193,17 @@ GameObject:
   - component: {fileID: 1202139113576809702}
   - component: {fileID: 1978937642749280711}
   - component: {fileID: 8838831675431375699}
-  - component: {fileID: 873023909706159267}
-  - component: {fileID: 7375811039085815516}
-  - component: {fileID: -7153857030239939150}
   - component: {fileID: 5995649323744642498}
+  - component: {fileID: 7375811039085815516}
   - component: {fileID: 3237923082737598756}
+  - component: {fileID: -7153857030239939150}
   - component: {fileID: 4242732548477989959}
+  - component: {fileID: 7369871393990870305}
   - component: {fileID: -2236421201880719348}
   - component: {fileID: -973018348909821690}
+  - component: {fileID: 890803439378791983}
   - component: {fileID: 4404192834963016107}
+  - component: {fileID: -7109576959609007656}
   m_Layer: 0
   m_Name: Player Multiplayer
   m_TagString: Player
@@ -218,7 +220,7 @@ Transform:
   m_GameObject: {fileID: 2235686634626492567}
   serializedVersion: 2
   m_LocalRotation: {x: 0.2164396, y: 0, z: 0, w: 0.97629607}
-  m_LocalPosition: {x: 0, y: 0.7, z: -10.76}
+  m_LocalPosition: {x: 0, y: 0.7, z: -16.76}
   m_LocalScale: {x: 2.2, y: 2.2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -390,7 +392,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
---- !u!114 &873023909706159267
+--- !u!114 &5995649323744642498
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -399,17 +401,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 2235686634626492567}
   m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e3ae456ec9c71240ad82e77212604c8, type: 3}
+  m_Script: {fileID: 11500000, guid: a9e59a05668df02408624c930c6d0b71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RestAreaDialogue: {fileID: 0}
-  ShopMenuDialogue: {fileID: 0}
-  SkillMenuDialogue: {fileID: 0}
-  attributeMenu: {fileID: 0}
-  ItemShopMenu: {fileID: 0}
-  SkillShopMenu: {fileID: 0}
-  xbuttonshop: {fileID: 0}
-  xbuttonskill: {fileID: 0}
+  speed: 5
+  dashSpeedMultiplier: 1.8
+  gravityScale: 20
+  dashStaminaCost: 0.15
+  animator: {fileID: 1978937642749280711}
+  originalSpeed: 0
+  tutorialcounter: 0
+  objectForPlayerMovement: {fileID: 0}
+  tutorialMenu1: {fileID: 0}
+  tutorialMenu2: {fileID: 0}
+  enemyAI: {fileID: 704160757821374690, guid: d9b1ef5c3c78d894083e0a9f3095b0b1, type: 3}
+  enemyAI2: {fileID: 0}
+  enemyAI3: {fileID: 0}
+  enemyAI4: {fileID: 0}
+  enemyAI5: {fileID: 0}
+  playerCamera: {fileID: 0}
 --- !u!114 &7375811039085815516
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -470,6 +480,23 @@ MonoBehaviour:
     startingOffset: {x: 0, y: -0.45, z: 0.1}
     attackSprite: {fileID: -588469400, guid: caa25d87f2e59a146bb02724521fa691, type: 3}
     attackSound: {fileID: 0}
+--- !u!114 &3237923082737598756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2235686634626492567}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8990d82ef1ca5e4092df29b9e88481c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 1978937642749280711}
+  attackTypes:
+  - RockThrow
+  - EarthQuake
+  attackManager: {fileID: 7375811039085815516}
 --- !u!114 &-7153857030239939150
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -495,49 +522,6 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
---- !u!114 &5995649323744642498
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2235686634626492567}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9e59a05668df02408624c930c6d0b71, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 5
-  dashSpeedMultiplier: 1.8
-  gravityScale: 20
-  dashStaminaCost: 0.15
-  animator: {fileID: 1978937642749280711}
-  originalSpeed: 0
-  tutorialcounter: 0
-  objectForPlayerMovement: {fileID: 0}
-  enemyAI: {fileID: 704160757821374690, guid: d9b1ef5c3c78d894083e0a9f3095b0b1, type: 3}
-  enemyAI2: {fileID: 0}
-  enemyAI3: {fileID: 0}
-  enemyAI4: {fileID: 0}
-  enemyAI5: {fileID: 0}
-  playerCamera: {fileID: 0}
---- !u!114 &3237923082737598756
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2235686634626492567}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8990d82ef1ca5e4092df29b9e88481c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 1978937642749280711}
-  attackTypes:
-  - RockThrow
-  - EarthQuake
-  attackManager: {fileID: 7375811039085815516}
 --- !u!114 &4242732548477989959
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -574,6 +558,30 @@ MonoBehaviour:
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1
   SlerpPosition: 0
+--- !u!114 &7369871393990870305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2235686634626492567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6832bed5691b4a4aaf3c2f5d6f9810a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  health: 300
+  stamina: 100
+  healthBarSlider: {fileID: 8756124298544049384}
+  staminaBarSlider: {fileID: 5460271927073001556}
+  MAX_STAMINA: 100
+  triggerSequenceOnDeath: 0
+  objectToReveal: {fileID: 0}
+  secondObjectToReveal: {fileID: 0}
+  delayBeforeSwitch: 3
+  takeDamageModifier: 0
+  damageCollected: 0
 --- !u!114 &-2236421201880719348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -591,7 +599,8 @@ MonoBehaviour:
   dashSpeedMultiplier: 1.8
   gravityScale: 20
   dashStaminaCost: 0.15
-  animator: {fileID: 0}
+  animator: {fileID: 1978937642749280711}
+  networkAnimator: {fileID: -7109576959609007656}
   originalSpeed: 0
   tutorialcounter: 0
   objectForPlayerMovement: {fileID: 0}
@@ -608,7 +617,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2235686634626492567}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b13e2ae27ae6ec74bab48078e3949aad, type: 3}
   m_Name: 
@@ -618,6 +627,7 @@ MonoBehaviour:
   player: {fileID: 2235686634626492567}
   audioSource: {fileID: 0}
   animator: {fileID: 1978937642749280711}
+  networkAnimator: {fileID: -7109576959609007656}
   damageModifier: 0
   attacks:
   - name: RockThrow
@@ -662,6 +672,24 @@ MonoBehaviour:
     startingOffset: {x: 0, y: -0.45, z: 0.1}
     attackSprite: {fileID: -588469400, guid: caa25d87f2e59a146bb02724521fa691, type: 3}
     attackSound: {fileID: 0}
+--- !u!114 &890803439378791983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2235686634626492567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10a348970db9f4644b0764a5c946463b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  animator: {fileID: 1978937642749280711}
+  attackTypes:
+  - RockThrow
+  - EarthQuake
+  attackManager: {fileID: 7375811039085815516}
 --- !u!114 &4404192834963016107
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -675,6 +703,77 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+--- !u!114 &-7109576959609007656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2235686634626492567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8d0727d5ae3244e3b569694d3912374, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  TransitionStateInfoList:
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: 1485882831
+    DestinationState: 382104324
+    TransitionDuration: 0
+    TriggerNameHash: 595328902
+    TransitionIndex: 1
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: 1485882831
+    DestinationState: -1318420635
+    TransitionDuration: 0
+    TriggerNameHash: 1772285678
+    TransitionIndex: 2
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: 153422479
+    DestinationState: 382104324
+    TransitionDuration: 0
+    TriggerNameHash: 595328902
+    TransitionIndex: 1
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: 153422479
+    DestinationState: -1318420635
+    TransitionDuration: 0
+    TriggerNameHash: 1772285678
+    TransitionIndex: 2
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: 382104324
+    DestinationState: -1318420635
+    TransitionDuration: 0
+    TriggerNameHash: 1772285678
+    TransitionIndex: 2
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: -1318420635
+    DestinationState: 382104324
+    TransitionDuration: 0
+    TriggerNameHash: 595328902
+    TransitionIndex: 2
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: 1904717365
+    DestinationState: -1318420635
+    TransitionDuration: 0
+    TriggerNameHash: 1772285678
+    TransitionIndex: 2
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: 1904717365
+    DestinationState: 382104324
+    TransitionDuration: 0
+    TriggerNameHash: 595328902
+    TransitionIndex: 3
+  m_Animator: {fileID: 1978937642749280711}
 --- !u!1 &3214264093437811636
 GameObject:
   m_ObjectHideFlags: 0
