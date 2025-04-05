@@ -199,7 +199,10 @@ public class EarthBossAI : MonoBehaviour
     {
         while (startPhaseOne)
         {
-
+            if (Vector3.Distance(transform.position, target.position) <= minimumDistance)
+            {
+                PerformMeleeAttack();
+            }
         }
         yield return null;
     }
@@ -281,13 +284,6 @@ public class EarthBossAI : MonoBehaviour
 
         // Pull player and trap them
         StartCoroutine(PullPlayerAndTrap());
-    }
-
-    private void ToggleBooleans()
-    {
-        interruptMovement = false;
-        attackLock = false;
-        genLock = false;
     }
 
     private IEnumerator PullPlayerAndTrap()
