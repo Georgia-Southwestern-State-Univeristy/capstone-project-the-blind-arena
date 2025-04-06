@@ -272,6 +272,16 @@ public class FireBossAI : MonoBehaviour
                 for (int i = 0; i < 5; i++)
                 {
                     Debug.Log("Attempt Walls");
+                    StartCoroutine(ProjectileArc(300, 2, 3, 1));
+                    yield return new WaitForSeconds(.1f);
+                    StartCoroutine(ProjectileArc(300, 2, 3, 1));
+                    yield return new WaitForSeconds(.1f);
+                    StartCoroutine(ProjectileArc(270, 2, 3, 1));
+                    yield return new WaitForSeconds(.1f);
+                    StartCoroutine(ProjectileArc(240, 2, 3, 1));
+                    yield return new WaitForSeconds(.1f);
+                    StartCoroutine(ProjectileArc(210, 2, 3, 1));
+                    yield return new WaitForSeconds(.1f);
                     StartCoroutine(ProjectileArc(180, 2, 3, 1));
                     yield return new WaitForSeconds(.1f);
                     StartCoroutine(ProjectileArc(158, 2, 3, 1));
