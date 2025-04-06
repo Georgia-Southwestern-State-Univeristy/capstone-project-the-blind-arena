@@ -25,7 +25,7 @@ public class FireBossAI : MonoBehaviour
     private bool startPhaseThree=false;
     private bool isFocused;
     private bool interruptMovement;
-    private bool attackLock, dashLock, genLock, proLock;
+    private bool attackLock, dashLock, genLock, proLock, stopDash;
     private bool targetLock = false;
     private bool p1, p2, p3;
     private const float HEIGHT = 0.6f;
@@ -313,7 +313,7 @@ public class FireBossAI : MonoBehaviour
             FlipSprite(dashDirection.x);
 
             StartCoroutine(DashTrail());
-            while (elapsedTime < dashDuration)
+            while (elapsedTime < dashDuration && !stopDash)
             {
                 transform.position += dashDirection * dashLength * Time.deltaTime * magnitude;
                 FlipSprite(dashDirection.x);
@@ -435,6 +435,16 @@ public class FireBossAI : MonoBehaviour
         {
             HandlePlayerCollision(collision.gameObject);      
         }
+        if (collision.CompareTag("Wall"))
+        {
+            Debug.Log("Enemy In Wall");
+            stopDash = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider collision)
+    {
+        stopDash = false;
     }
 
     private void HandlePlayerCollision(GameObject player)
