@@ -546,10 +546,15 @@ MonoBehaviour:
   stamina: 100
   healthBarSlider: {fileID: 4687745841240717153}
   staminaBarSlider: {fileID: 3966651007617308723}
+  MAX_STAMINA: 100
   triggerSequenceOnDeath: 0
   objectToReveal: {fileID: 0}
   secondObjectToReveal: {fileID: 0}
   delayBeforeSwitch: 3
+  flashDuration: 0.1
+  flashColor: {r: 1, g: 0, b: 0, a: 1}
+  takeDamageModifier: 0
+  damageCollected: 0
 --- !u!114 &4355459727560426660
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -564,7 +569,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pauseMenuUI: {fileID: 0}
   inventoryUI: {fileID: 0}
-  skillUI: {fileID: 0}
   attributeUI: {fileID: 0}
 --- !u!136 &3492943963764936552
 CapsuleCollider:
@@ -709,6 +713,7 @@ MonoBehaviour:
   player: {fileID: 7826421661143136822}
   audioSource: {fileID: 0}
   animator: {fileID: 8374595490132852058}
+  damageModifier: 0
   attacks:
   - name: RockThrow
     damage: 10
@@ -732,10 +737,10 @@ MonoBehaviour:
     attackSprite: {fileID: -1982924380, guid: 4148c79904d0106419d4752298b7a78e, type: 3}
     attackSound: {fileID: 0}
   - name: EarthQuake
-    damage: 50
+    damage: 40
     knockbackStrength: 0
     speed: 0
-    duration: 2
+    duration: 1.5
     delay: 1.2
     gravityScale: 0
     lockDuration: 1.2
@@ -745,11 +750,11 @@ MonoBehaviour:
     lockVelocity: 1
     isPhysical: 0
     colliderShape: 1
-    colliderSize: {x: 6, y: 5, z: 6}
+    colliderSize: {x: 10, y: 10, z: 10}
     colliderRotation: {x: -25, y: 0, z: 0}
-    spriteSize: {x: 0.8, y: 0.8, z: 0}
+    spriteSize: {x: 0.6, y: 0.75, z: 0}
     spriteRotation: {x: 90, y: 0, z: 0}
-    startingOffset: {x: 0, y: -0.45, z: 0.1}
+    startingOffset: {x: 0, y: -0.45, z: 0}
     attackSprite: {fileID: -588469400, guid: caa25d87f2e59a146bb02724521fa691, type: 3}
     attackSound: {fileID: 0}
 --- !u!114 &3830712414040057594
@@ -769,13 +774,17 @@ MonoBehaviour:
   gravityScale: 20
   dashStaminaCost: 0.15
   animator: {fileID: 8374595490132852058}
+  originalSpeed: 0
   tutorialcounter: 0
   objectForPlayerMovement: {fileID: 0}
+  tutorialMenu1: {fileID: 0}
+  tutorialMenu2: {fileID: 0}
   enemyAI: {fileID: 0}
   enemyAI2: {fileID: 0}
   enemyAI3: {fileID: 0}
   enemyAI4: {fileID: 0}
   enemyAI5: {fileID: 0}
+  playerCamera: {fileID: 0}
 --- !u!114 &5523918094042336040
 MonoBehaviour:
   m_ObjectHideFlags: 0
