@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -15,6 +16,8 @@ public class TutorialSetup : MonoBehaviour
     [SerializeField] private GameObject attributeMenu;
     [SerializeField] private GameObject xbuttonupgrade;
     [SerializeField] private GameObject skipTutorialButton;
+    [SerializeField] private GameObject attributResetButton;
+    [SerializeField] private GameObject attributBuyButton;
 
     public int tutorialcounter = 0;
 
@@ -88,9 +91,9 @@ public class TutorialSetup : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha1) && (tutorialcounter < 9)) { tutorialcounter++; }
         if (Input.GetKeyDown(KeyCode.Alpha2) && (tutorialcounter < 9)) { tutorialcounter++; }
         if (Input.GetKeyDown(KeyCode.Alpha3) && (tutorialcounter < 9)) { tutorialcounter++; }
-        if (Input.GetKey(KeyCode.Space) && (tutorialcounter < 9)) { tutorialcounter++; }
+        if (Input.GetKeyUp(KeyCode.Space) && (tutorialcounter < 9)) { tutorialcounter++; }
 
-        if (tutorialcounter >= 9 && tutorialcounter < 10)
+        if (tutorialcounter >= 8 && tutorialcounter < 10)
         {
             attackInstructions.SetActive(false);
             tutorialcounter = 10;
@@ -102,6 +105,8 @@ public class TutorialSetup : MonoBehaviour
     {
         if (tutorialcounter == 10 && !attributeMenuShown)
         {
+            attributResetButton.GetComponent<UnityEngine.UI.Button>().interactable = false;
+            attributBuyButton.GetComponent<UnityEngine.UI.Button>().interactable = false;
             attributeMenu.SetActive(true);
             xbuttonupgrade.SetActive(false);
             yield return new WaitForSeconds(0.5f);
@@ -116,6 +121,8 @@ public class TutorialSetup : MonoBehaviour
             attributeMenu.SetActive(false);
             xbuttonupgrade.SetActive(true);
             attributeMenuShown = true;
+            attributResetButton.GetComponent<UnityEngine.UI.Button>().interactable = true;
+            attributBuyButton.GetComponent<UnityEngine.UI.Button>().interactable = true;
             tutorialcounter++;
         }
     }

@@ -4028,6 +4028,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4836421392444868706, guid: 9a60a718664971342af7200bdddc02d1, type: 3}
   m_PrefabInstance: {fileID: 201696531}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &302917734 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4959988182308444186, guid: 94c1d716c593b34428136bc73695cc26, type: 3}
+  m_PrefabInstance: {fileID: 1878958074}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &310840385
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23825,6 +23830,8 @@ MonoBehaviour:
   attributeMenu: {fileID: 2048980}
   xbuttonupgrade: {fileID: 2127319497}
   skipTutorialButton: {fileID: 0}
+  attributResetButton: {fileID: 302917734}
+  attributBuyButton: {fileID: 1936451776}
   tutorialcounter: 0
   tutorialBoss: {fileID: 7922312881509618573}
   tutorialBossSwarm1: {fileID: 1583553426}
@@ -27612,6 +27619,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 4995696495615882782, guid: a070af98305a492448aa2514a2ff9490, type: 3}
   m_PrefabInstance: {fileID: 1249398775}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1936451776 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5167084469447934971, guid: 94c1d716c593b34428136bc73695cc26, type: 3}
+  m_PrefabInstance: {fileID: 1878958074}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1936612525
 PrefabInstance:

@@ -2146,7 +2146,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2460255089218025392, guid: 200026046e6469047b9ced9efa6a4430, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2950982791177150447, guid: 200026046e6469047b9ced9efa6a4430, type: 3}
       propertyPath: gameTimer
@@ -7087,7 +7087,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6301596756765507559, guid: 8286a95207c11e747b9130190a0642d8, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8938,6 +8938,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1333132375 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8484606648786320680, guid: 200026046e6469047b9ced9efa6a4430, type: 3}
+  m_PrefabInstance: {fileID: 429469606}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1347786766
 GameObject:
   m_ObjectHideFlags: 0
@@ -8969,6 +8974,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1639780450}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1361036759 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3356055433510725604, guid: 200026046e6469047b9ced9efa6a4430, type: 3}
+  m_PrefabInstance: {fileID: 429469606}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1363592981
 GameObject:
   m_ObjectHideFlags: 0
@@ -9558,6 +9568,11 @@ Transform:
   - {fileID: 1655838419}
   m_Father: {fileID: 413517847}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!1 &1405828077 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3299740168944519065, guid: 200026046e6469047b9ced9efa6a4430, type: 3}
+  m_PrefabInstance: {fileID: 429469606}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1413186938
 GameObject:
   m_ObjectHideFlags: 0
@@ -12145,6 +12160,10 @@ MonoBehaviour:
   SkillShopMenu: {fileID: 2036413055}
   xbuttonshop: {fileID: 2105851897}
   xbuttonskill: {fileID: 1778432135}
+  shopBuyButton1: {fileID: 1333132375}
+  shopBuyButton2: {fileID: 1361036759}
+  shopBuyButton3: {fileID: 1405828077}
+  skillShopBuyButton: {fileID: 1845243867}
 --- !u!114 &1715120177 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1458904164212163424, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
@@ -12536,6 +12555,11 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.125, y: 2.1875002, z: 0.8}
   m_Center: {x: 0, y: 0, z: 0.39}
+--- !u!1 &1845243867 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2521697128735276509, guid: 8286a95207c11e747b9130190a0642d8, type: 3}
+  m_PrefabInstance: {fileID: 949198842}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1875590054
 GameObject:
   m_ObjectHideFlags: 0
@@ -16429,8 +16453,8 @@ SceneRoots:
   - {fileID: 3823082749177323137}
   - {fileID: 8645060608095137363}
   - {fileID: 429469606}
-  - {fileID: 855983555}
   - {fileID: 949198842}
+  - {fileID: 855983555}
   - {fileID: 367178769}
   - {fileID: 6504104247173368092}
   - {fileID: 770862862}
