@@ -1871,7 +1871,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &2247853632634349626
 GameObject:
   m_ObjectHideFlags: 0
@@ -2160,6 +2160,8 @@ MonoBehaviour:
   originalSpeed: 0
   tutorialcounter: 0
   objectForPlayerMovement: {fileID: 0}
+  tutorialMenu1: {fileID: 0}
+  tutorialMenu2: {fileID: 0}
   enemyAI: {fileID: 0}
   enemyAI2: {fileID: 0}
   enemyAI3: {fileID: 0}
@@ -2617,7 +2619,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1703532392994725273, guid: 3dc58e28b4845a84c9c3a9f305e06bdc, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7369920424675081373, guid: 3dc58e28b4845a84c9c3a9f305e06bdc, type: 3}
       propertyPath: m_LocalScale.y

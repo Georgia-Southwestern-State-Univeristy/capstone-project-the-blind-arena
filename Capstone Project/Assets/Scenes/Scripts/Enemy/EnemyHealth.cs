@@ -20,6 +20,7 @@ public class EnemyHealth : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private SkinnedMeshRenderer skinnedMeshRenderer;
     private Material hold;
+    private bool flashLock;
     [SerializeField] private float flashDuration = 0.1f;
     [SerializeField] private Color flashColor = Color.red;
     public double deathcounter;
@@ -75,25 +76,32 @@ public class EnemyHealth : MonoBehaviour
 
     private IEnumerator FlashSprite()
     {
-        for (int i = 0; i < 2; i++)
-        {
-            // Store original color
-            hold = spriteRenderer.material;
-            spriteRenderer.material = skinnedMeshRenderer.material;
-            Color originalColor = spriteRenderer.color;
+        if (!flashLock) {
+            flashLock=true;
+            for (int i = 0; i < 2; i++)
+            {
+                // Store original color
+                hold = spriteRenderer.material;
+                spriteRenderer.material = skinnedMeshRenderer.material;
+                Color originalColor = spriteRenderer.color;
 
-            Debug.Log("Sprite Material = " + hold);
-            Debug.Log("Other Material = " + skinnedMeshRenderer.material);
+                Debug.Log("Sprite Material = " + hold);
+                Debug.Log("Other Material = " + skinnedMeshRenderer.material);
 
-            // Change to flash color
-            spriteRenderer.color = flashColor;
+                // Change to flash color
+                spriteRenderer.color = flashColor;
 
-            // Wait for flash duration
-            yield return new WaitForSeconds(flashDuration);
+                // Wait for flash duration
+                yield return new WaitForSeconds(flashDuration / 2);
 
-            // Restore original color
-            spriteRenderer.color = originalColor;
-            spriteRenderer.material = hold;
+                // Restore original color
+                spriteRenderer.color = originalColor;
+                spriteRenderer.material = hold;
+
+                //Wait to flash again
+                yield return new WaitForSeconds(0.01f);
+            }
+            flashLock = false;
         }
     }
 

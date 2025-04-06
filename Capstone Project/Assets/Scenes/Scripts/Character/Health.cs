@@ -32,7 +32,8 @@ public class Health : MonoBehaviour
 
     private SpriteRenderer spriteRenderer;
     private SkinnedMeshRenderer skinnedMeshRenderer;
-    private Material initialMaterial, hold;
+    private Material hold;
+    private bool flashLock;
     [SerializeField] private float flashDuration = 0.1f;
     [SerializeField] private Color flashColor = Color.red;
 
@@ -46,7 +47,6 @@ public class Health : MonoBehaviour
 
         // Get sprite renderer for flash effect
         spriteRenderer = GetComponent<SpriteRenderer>();
-        initialMaterial = spriteRenderer.material;
         skinnedMeshRenderer = GetComponent<SkinnedMeshRenderer>();
 
         if (healthBarSlider != null)
@@ -127,18 +127,34 @@ public class Health : MonoBehaviour
     }
     private IEnumerator FlashSprite()
     {
-        // Store original color
-        spriteRenderer.material = skinnedMeshRenderer.material;
+        if (!flashLock)
+        {
+            flashLock = true;
+            for (int i = 0; i < 2; i++)
+            {
+                // Store original color
+                hold = spriteRenderer.material;
+                spriteRenderer.material = skinnedMeshRenderer.material;
+                Color originalColor = spriteRenderer.color;
 
-        // Change to flash color
-        spriteRenderer.color = flashColor;
+                Debug.Log("Sprite Material = " + hold);
+                Debug.Log("Other Material = " + skinnedMeshRenderer.material);
 
-        // Wait for flash duration
-        yield return new WaitForSeconds(flashDuration);
+                // Change to flash color
+                spriteRenderer.color = flashColor;
 
-        // Restore original color
-        spriteRenderer.color = Color.white;
-        spriteRenderer.material = initialMaterial;
+                // Wait for flash duration
+                yield return new WaitForSeconds(flashDuration / 2);
+
+                // Restore original color
+                spriteRenderer.color = originalColor;
+                spriteRenderer.material = hold;
+
+                //Wait to flash again
+                yield return new WaitForSeconds(0.01f);
+            }
+            flashLock = false;
+        }
     }
 
     public void Heal(int amount)
