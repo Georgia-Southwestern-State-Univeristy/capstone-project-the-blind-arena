@@ -752,7 +752,7 @@ MonoBehaviour:
     colliderShape: 1
     colliderSize: {x: 10, y: 10, z: 10}
     colliderRotation: {x: -25, y: 0, z: 0}
-    spriteSize: {x: 0.6, y: 0.75, z: 0}
+    spriteSize: {x: 0.8, y: 1, z: 0}
     spriteRotation: {x: 90, y: 0, z: 0}
     startingOffset: {x: 0, y: -0.45, z: 0}
     attackSprite: {fileID: -588469400, guid: caa25d87f2e59a146bb02724521fa691, type: 3}

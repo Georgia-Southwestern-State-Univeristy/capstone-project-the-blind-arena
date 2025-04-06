@@ -276,11 +276,11 @@ public class FireBossAI : MonoBehaviour
                     yield return new WaitForSeconds(.1f);
                     StartCoroutine(ProjectileArc(158, 2, 3, 1));
                     yield return new WaitForSeconds(.1f);
-                    StartCoroutine(ProjectileArc(135, 2, 3, 1));
+                    StartCoroutine(ProjectileArc(130, 2, 3, 1));
                     yield return new WaitForSeconds(.1f);
-                    StartCoroutine(ProjectileArc(113, 2, 3, 1));
+                    StartCoroutine(ProjectileArc(103, 2, 3, 1));
                     yield return new WaitForSeconds(.1f);
-                    StartCoroutine(ProjectileArc(90, 2, 3, 1));
+                    StartCoroutine(ProjectileArc(80, 2, 3, 1));
                     yield return new WaitForSeconds(.1f);
                     Debug.Log("Attempt Stream");
                     StartCoroutine(ShootProjectile(0, 20, 10));
