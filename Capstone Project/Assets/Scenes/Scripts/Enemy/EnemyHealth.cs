@@ -92,14 +92,11 @@ public class EnemyHealth : MonoBehaviour
                 spriteRenderer.color = flashColor;
 
                 // Wait for flash duration
-                yield return new WaitForSeconds(flashDuration / 2);
+                yield return new WaitForSeconds(flashDuration);
 
                 // Restore original color
                 spriteRenderer.color = originalColor;
                 spriteRenderer.material = hold;
-
-                //Wait to flash again
-                yield return new WaitForSeconds(0.01f);
             }
             flashLock = false;
         }
