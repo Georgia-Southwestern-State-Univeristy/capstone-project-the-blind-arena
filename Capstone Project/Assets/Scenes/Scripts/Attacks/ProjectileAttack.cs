@@ -163,7 +163,7 @@ public class ProjectileAttack : MonoBehaviour
             vector.z -= spin;
         }
         vector.y = 0;
-        vector.x = 0;
+        vector.x = 45;
         projectile.transform.eulerAngles = vector;
     }
 
