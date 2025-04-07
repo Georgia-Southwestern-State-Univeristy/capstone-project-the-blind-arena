@@ -17,7 +17,7 @@ public class PlayerAttackManager : MonoBehaviour
         public string name;
         public float damage, knockbackStrength, speed, duration, delay, gravityScale, lockDuration, staminaUse;
         public float cooldown; // Cooldown duration in seconds
-        public bool detachFromPlayer, lockVelocity, isPhysical;
+        public bool detachFromPlayer, lockVelocity, isPhysical, isWall;
         public ColliderType colliderShape;
         public Vector3 colliderSize = Vector3.one, colliderRotation = Vector3.zero, spriteSize = Vector3.one, spriteRotation = Vector3.zero, startingOffset = Vector3.zero;
         public Sprite attackSprite;
@@ -158,6 +158,7 @@ public class PlayerAttackManager : MonoBehaviour
         damageOnHit.knockbackStrength = attack.knockbackStrength;
         damageOnHit.detachFromPlayer = attack.detachFromPlayer;
 
+        if (attack.isWall) attackObject.tag=("Wall");
         if (attack.isPhysical) SetupPhysicalObject(attackObject);
         else colliderObject.layer = LayerMask.NameToLayer("AttackObjects");
 
