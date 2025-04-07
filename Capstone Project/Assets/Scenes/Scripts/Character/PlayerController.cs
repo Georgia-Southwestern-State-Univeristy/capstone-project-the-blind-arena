@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float gravityScale = 20f;
     [SerializeField] private float dashStaminaCost; // Stamina cost per frame while dashing
     public Animator animator;
-    private float fixedHeight = 0.6f;
+    private float fixedHeight = 0.55f;
     private bool isDashing = false;
     private Rigidbody rb;
     private Vector3 moveDir;
@@ -134,7 +134,7 @@ public class PlayerController : MonoBehaviour
         if (moveDir.x != 0 || moveDir.z != 0)
         {
             Vector3 input = new Vector3(moveDir.x, 0, moveDir.z).normalized;
-            inputVelocity = new Vector3(1.5f * input.x, 0, 2f * input.z) * speed;
+            inputVelocity = new Vector3(1.5f * input.x, 0, 2.5f * input.z) * speed;
         }
 
         Vector3 combinedVelocity = inputVelocity + new Vector3(externalForce.x, 0, externalForce.z);
