@@ -24,10 +24,10 @@ public class EarthBossAI : MonoBehaviour
     private bool startPhaseFour = false;
     private bool isSetup = false;
     private bool isLeaping = false;
-    private bool isSpiking = false;
+    private bool isStomping = false;
     private bool isFocused = false;
     private bool interruptMovement;
-    private bool attackLock, leapLock, genLock, proLock;
+    private bool attackLock, leapLock, genLock, proLock, stopLeap;
     private bool targetLock = false;
     private bool p1, p2, p3;
     private const float HEIGHT = 0.6f;
@@ -46,7 +46,6 @@ public class EarthBossAI : MonoBehaviour
 
     private void Update()
     {
-        float healthPercentage = (float)enemyHealth.currentHealth / enemyHealth.maxHealth;
 
         if (!targetLock)
         {
@@ -54,7 +53,7 @@ public class EarthBossAI : MonoBehaviour
             StartCoroutine(CheckForTarget());
         }
 
-        if (healthPercentage <= 0.25f)
+        if (enemyHealth.currentHealth <= enemyHealth.maxHealth * 0.25f)
         {
             // Phase 4: Move to waypoint and start pull/trap sequence
             if (!startPhaseFour)
@@ -63,6 +62,7 @@ public class EarthBossAI : MonoBehaviour
                 StopAllCoroutines();
                 interruptMovement = false;
                 attackLock = false;
+                targetLock = false;
                 StartCoroutine(PhaseFour());
             }
             if (Vector3.Distance(transform.position, target.position) > minimumDistance && !interruptMovement && isSetup)
@@ -74,7 +74,7 @@ public class EarthBossAI : MonoBehaviour
                 MoveTowardsWapoint();
                 if (Vector3.Distance(transform.position, returnWaypoint.position) <= 1f)
                 {
-                    
+
                 }
             }
             else
@@ -83,7 +83,7 @@ public class EarthBossAI : MonoBehaviour
             }
             return;
         }
-        else if (healthPercentage <= 0.50f)
+        else if (enemyHealth.currentHealth <= enemyHealth.maxHealth * 0.50f)
         {
             // Phase 3: Disable leaping, enable spike attack
             if (!startPhaseThree)
@@ -92,6 +92,7 @@ public class EarthBossAI : MonoBehaviour
                 StopAllCoroutines();
                 interruptMovement = false;
                 attackLock = false;
+                targetLock = false;
                 StartCoroutine(PhaseThree());
             }
             if (Vector3.Distance(transform.position, target.position) > minimumDistance && !interruptMovement)
@@ -104,7 +105,7 @@ public class EarthBossAI : MonoBehaviour
             }
             return;
         }
-        else if (healthPercentage <= 0.75f)
+        else if (enemyHealth.currentHealth <= enemyHealth.maxHealth * 0.75f)
         {
             // Phase 2: Enable Leaping, more aggression
             if (!startPhaseTwo)
@@ -113,6 +114,8 @@ public class EarthBossAI : MonoBehaviour
                 StopAllCoroutines();
                 interruptMovement = false;
                 attackLock = false;
+                targetLock=false;
+                speed += 1;
                 StartCoroutine(PhaseTwo());
             }
             if (Vector3.Distance(transform.position, target.position) > minimumDistance && !interruptMovement)
@@ -199,10 +202,18 @@ public class EarthBossAI : MonoBehaviour
     {
         while (startPhaseOne)
         {
-            if (Vector3.Distance(transform.position, target.position) <= minimumDistance)
+            if (!attackLock)
             {
-                PerformMeleeAttack();
+                attackLock = true;
+                if (Vector3.Distance(transform.position, target.position) <= minimumDistance)
+                {
+                    StartCoroutine(PerformMeleeAttack());
+                    yield return new WaitForSeconds(1.5f);
+                    interruptMovement = false;
+                }
+                attackLock = false;
             }
+            yield return new WaitForSeconds(0.1f);
         }
         yield return null;
     }
@@ -211,7 +222,30 @@ public class EarthBossAI : MonoBehaviour
     {
         while (startPhaseTwo)
         {
-
+            if (!attackLock)
+            {
+                attackLock = true;
+                yield return new WaitForSeconds(1f);
+                isLeaping = true;
+                StartCoroutine(PerformLeapAttack());
+                yield return new WaitForSeconds(leapCooldown);
+                interruptMovement = false;
+                for (int i = 0; i < 11; i++)
+                {
+                    if (Vector3.Distance(transform.position, target.position) <= minimumDistance)
+                    {
+                        StartCoroutine(PerformMeleeAttack());
+                        yield return new WaitForSeconds(1.1f);
+                        interruptMovement = false;
+                    }
+                    else
+                    {
+                        yield return new WaitForSeconds(1.1f);
+                    }
+                }
+                attackLock = false;
+            }
+            yield return new WaitForSeconds(0.1f);
         }
         yield return null;
     }
@@ -221,6 +255,7 @@ public class EarthBossAI : MonoBehaviour
         while (startPhaseThree)
         {
 
+            yield return new WaitForSeconds(0.1f);
         }
         yield return null;
     }
@@ -229,6 +264,10 @@ public class EarthBossAI : MonoBehaviour
     {
         while (startPhaseFour)
         {
+            if (isSetup)
+            {
+                yield return new WaitForSeconds(0.1f);
+            }
 
         }
         yield return null;
@@ -236,39 +275,62 @@ public class EarthBossAI : MonoBehaviour
 
     private IEnumerator PerformMeleeAttack()
     {
-        animator.SetTrigger("MeleeAttack");
-        yield return new WaitForSeconds(attackDelay);
+        interruptMovement = true;
+        animator.SetTrigger("Slam");
+        yield return new WaitForSeconds(0.5f);
 
         if (attackPrefabs.Length > 0)
         {
             Instantiate(attackPrefabs[0], transform.position, Quaternion.identity);
         }
+        yield return new WaitForSeconds(0.25f);
     }
 
-    private IEnumerator LeapToPlayer()
+    private IEnumerator PerformLeapAttack()
     {
         while (isLeaping)
         {
-            yield return new WaitForSeconds(leapCooldown);
-
-            animator.SetTrigger("Leap");
-            transform.position = target.position; // Teleporting for simplicity; use an animation for better effect.
-
-            yield return new WaitForSeconds(0.5f);
-            if (attackPrefabs.Length > 2)
+            if (!leapLock)
             {
-                Instantiate(attackPrefabs[2], transform.position, Quaternion.identity);
+                leapLock = true;
+                interruptMovement = true;
+                animator.SetTrigger("Leap");
+                
+                yield return new WaitForSeconds(0.66f);
+
+                Vector3 leapDirection = (target.position - transform.position).normalized;
+                leapDirection *= ((Math.Abs(leapDirection.z) * .6f) + 1);
+                float elapsedTime = 0f;
+                FlipSprite(leapDirection.x);
+                Vector3 position = transform.position;
+
+                while (elapsedTime < 0.42f && !stopLeap)
+                {
+                    position = transform.position;
+                    position.y = 1;
+                    transform.position = position;
+                    transform.position += leapDirection * 15 * Time.deltaTime;
+                    FlipSprite(leapDirection.x);
+                    elapsedTime += Time.deltaTime;
+                    yield return null;
+                }
+                position.y = HEIGHT;
+                transform.position = position;
+
+                Instantiate(attackPrefabs[0], transform.position, Quaternion.identity);
+                leapLock = false;
+                isLeaping = false;
             }
         }
     }
 
     private IEnumerator ShootEarthSpikes()
     {
-        while (isSpiking)
+        while (isStomping)
         {
             yield return new WaitForSeconds(spikeCooldown);
 
-            animator.SetTrigger("ShootSpikes");
+            animator.SetTrigger("Stomp");
             Instantiate(attackPrefabs[0], spikeSpawnPoint.position, Quaternion.identity);
         }
     }

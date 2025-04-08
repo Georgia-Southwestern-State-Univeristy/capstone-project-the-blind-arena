@@ -14,6 +14,7 @@ public class ProjectileAttack : MonoBehaviour
 
     [SerializeField] private GameObject sprite;
     [SerializeField] private GameObject effectPrefab;
+    [SerializeField] private Collider collider;
     [SerializeField] public Transform target;
     [SerializeField] private float speed;
     [SerializeField] private float lifespan;
@@ -22,13 +23,14 @@ public class ProjectileAttack : MonoBehaviour
     [SerializeField] private Element elementType;
     [SerializeField] private Movement moveType;
     [SerializeField] private bool isEffect;
+    [SerializeField] private bool delayDamage;
     [SerializeField] private bool rotates;
     [SerializeField] private bool leavesTrail;
     [SerializeField] private bool breaksOnContact;
 
     private float initalLifespan, initalSpeed, fixedHeight, mCount=0, tCount=0;
     private Vector3 targetTransform, movementVector;
-    private bool inTrigger, takingDamage, skipStart=false, attackLock=false, damageLock=false;
+    private bool inTrigger, skipStart=false, attackLock=false, damageLock=false;
 
     public void Init(Transform targ, Vector3 vector)
     {
@@ -49,6 +51,11 @@ public class ProjectileAttack : MonoBehaviour
             movementVector = (targetTransform - transform.position).normalized;
             movementVector *= ((Math.Abs(movementVector.z) * .6f) + 1) * speed;
         }
+        if (delayDamage)
+        {
+
+        }
+        collider = GetComponent<Collider>();
         initalLifespan = lifespan;
         initalSpeed = speed;
         if (isEffect) { fixedHeight = 0.5f; } else { fixedHeight = 0.6f; }
@@ -173,7 +180,11 @@ public class ProjectileAttack : MonoBehaviour
         {
             //Earth Effects (Breaking Projectiles, etc.)
             case Element.Earth:
-
+                if (isEffect)
+                {
+                    if (player)
+                        StartCoroutine(DamageOverTime(player, damage));
+                }
                 break;
             //Wind Effects (Knockbacks, etc.)
             case Element.Wind:
@@ -247,8 +258,14 @@ public class ProjectileAttack : MonoBehaviour
         {
             ApplySpecialEffect(elementType, null, false);
             StopAllCoroutines();
+
             Destroy(gameObject);
         }
+        else if (delayDamage && initalLifespan - lifespan < 0.8)
+        {
+            collider.enabled = false;
+        }
+        else { collider.enabled = true; }
         lifespan -= Time.deltaTime;
     }
 
@@ -410,12 +427,40 @@ public class ProjectileAttack : MonoBehaviour
         {
             yield break;
         }
-        while (inTrigger)
+        if (elementType == Element.Earth)
         {
-            Health playerHealth = player.GetComponent<Health>();
-            playerHealth.Damage(damage);
-            Debug.Log("Player is standing in a damage zone!");
-            yield return new WaitForSeconds(0.5f);
+            if (inTrigger && !damageLock && initalLifespan-lifespan<1)
+            {
+                damageLock = true;
+                Health playerHealth = player.GetComponent<Health>();
+                playerHealth.Damage(damage);
+                Debug.Log("Player is standing in a damage zone!");
+                yield return new WaitForSeconds(0.2f);
+            }
+            else
+            {
+                while (inTrigger)
+                {
+                    Animator animator = player.GetComponent<Animator>();
+                    if (animator.GetFloat("Speed") > 0f)
+                    {
+                        Health playerHealth = player.GetComponent<Health>();
+                        playerHealth.Damage(damage/10);
+                        Debug.Log("Player moved on dangerous terrain!");
+                    }
+                    yield return new WaitForSeconds(1f);
+                }
+            }
+        }
+        else
+        {
+            while (inTrigger)
+            {
+                Health playerHealth = player.GetComponent<Health>();
+                playerHealth.Damage(damage);
+                Debug.Log("Player is standing in a damage zone!");
+                yield return new WaitForSeconds(0.5f);
+            }
         }
     }
     
