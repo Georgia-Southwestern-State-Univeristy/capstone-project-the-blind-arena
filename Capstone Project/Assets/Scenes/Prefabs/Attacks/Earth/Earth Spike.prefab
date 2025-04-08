@@ -52,7 +52,7 @@ MonoBehaviour:
   collider: {fileID: 0}
   target: {fileID: 0}
   speed: 0
-  lifespan: 40
+  lifespan: 20
   damage: 15
   spriteDirection: 0
   elementType: 0
@@ -108,10 +108,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 0
   serializedVersion: 2
-  m_Radius: 0.3
+  m_Radius: 0.2
   m_Height: 2
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0, z: -0.1}
 --- !u!1 &5265391104917800294
 GameObject:
   m_ObjectHideFlags: 0

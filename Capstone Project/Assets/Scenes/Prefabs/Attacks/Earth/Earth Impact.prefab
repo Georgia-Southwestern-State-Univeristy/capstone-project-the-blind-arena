@@ -591,8 +591,8 @@ MonoBehaviour:
   collider: {fileID: 0}
   target: {fileID: 0}
   speed: 0
-  lifespan: 20
-  damage: 20
+  lifespan: 15
+  damage: 40
   spriteDirection: 0
   elementType: 0
   moveType: 4
@@ -648,7 +648,7 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Radius: 4
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: -0.4, z: 0}
 --- !u!1 &4808060780441886864
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Unity.Burst.Intrinsics;
 using UnityEngine;
 
 public class EarthBossAI : MonoBehaviour
@@ -93,6 +94,7 @@ public class EarthBossAI : MonoBehaviour
                 interruptMovement = false;
                 attackLock = false;
                 targetLock = false;
+                isLeaping = false;
                 StartCoroutine(PhaseThree());
             }
             if (Vector3.Distance(transform.position, target.position) > minimumDistance && !interruptMovement)
@@ -114,7 +116,7 @@ public class EarthBossAI : MonoBehaviour
                 StopAllCoroutines();
                 interruptMovement = false;
                 attackLock = false;
-                targetLock=false;
+                targetLock = false;
                 speed += 1;
                 StartCoroutine(PhaseTwo());
             }
@@ -254,8 +256,50 @@ public class EarthBossAI : MonoBehaviour
     {
         while (startPhaseThree)
         {
-
-            yield return new WaitForSeconds(0.1f);
+            if (!attackLock)
+            {
+                random = rnd.Next(0, 4);
+                Debug.Log(random);
+            }
+            attackLock = true;
+            yield return new WaitForSeconds(1f);
+            switch (random)
+            {
+                case 0:
+                    isStomping = true;
+                    StartCoroutine(PerformStompAttack());
+                    yield return new WaitForSeconds(3f);
+                    interruptMovement = false;
+                    break;
+                case 1:
+                    for (int i = 0; i < 6; i++)
+                    {
+                        if (Vector3.Distance(transform.position, target.position) <= minimumDistance)
+                        {
+                            StartCoroutine(PerformMeleeAttack());
+                            yield return new WaitForSeconds(1.1f);
+                            interruptMovement = false;
+                        }
+                        else
+                        {
+                            yield return new WaitForSeconds(1.1f);
+                        }
+                    }
+                    break;
+                case 2:
+                    isLeaping = true;
+                    StartCoroutine(PerformLeapAttack());
+                    yield return new WaitForSeconds(leapCooldown);
+                    interruptMovement = false;
+                    break;
+                case 3:
+                    isStomping = true;
+                    StartCoroutine(PerformStompAttack());
+                    yield return new WaitForSeconds(3f);
+                    interruptMovement = false;
+                    break;
+            }
+            attackLock = false;
         }
         yield return null;
     }
@@ -270,7 +314,7 @@ public class EarthBossAI : MonoBehaviour
             }
 
         }
-        yield return null;
+        yield return new WaitForSeconds(0.1f);
     }
 
     private IEnumerator PerformMeleeAttack()
@@ -290,9 +334,9 @@ public class EarthBossAI : MonoBehaviour
     {
         while (isLeaping)
         {
-            if (!leapLock)
+            if (!proLock)
             {
-                leapLock = true;
+                proLock = true;
                 interruptMovement = true;
                 animator.SetTrigger("Leap");
                 
@@ -317,21 +361,66 @@ public class EarthBossAI : MonoBehaviour
                 position.y = HEIGHT;
                 transform.position = position;
 
-                Instantiate(attackPrefabs[0], transform.position, Quaternion.identity);
-                leapLock = false;
+                Instantiate(attackPrefabs[1], transform.position, Quaternion.identity);
                 isLeaping = false;
+                proLock = false;
             }
         }
     }
 
-    private IEnumerator ShootEarthSpikes()
+    private IEnumerator PerformStompAttack()
+    {
+        int arcAngle = 360;
+        float startAngle = -arcAngle / 2f;
+
+
+        while (isStomping)
+        {
+            if (!proLock)
+            {
+                proLock = true;
+                interruptMovement = true;
+                animator.SetTrigger("Stomp");
+                yield return new WaitForSeconds(0.75f);
+
+                Instantiate(attackPrefabs[2], target.position, Quaternion.identity);
+                for (int i = 1; i <= 3; i++)
+                {
+                    yield return new WaitForSeconds(0.2f);
+                    for (int j = 0; j < (i * 4); j++)
+                    {
+                        Vector3 directionToTarget = (target.position - transform.position).normalized;
+                        FlipSprite(directionToTarget.x);
+                        float angle = startAngle + (arcAngle / ((i * 4)) * j);
+                        Vector3 spreadDirection = Quaternion.Euler(0, angle, 0) * directionToTarget;
+
+                        Instantiate(attackPrefabs[2], (target.position + (spreadDirection * i)), Quaternion.identity);
+                    }
+                    yield return new WaitForSeconds(0.2f);
+                }
+                interruptMovement = false;
+                isStomping = false;
+                proLock = false;
+            }
+        }
+    }
+
+    private IEnumerator PerformStompAttackL()
     {
         while (isStomping)
         {
-            yield return new WaitForSeconds(spikeCooldown);
+            if (!proLock)
+            {
 
-            animator.SetTrigger("Stomp");
-            Instantiate(attackPrefabs[0], spikeSpawnPoint.position, Quaternion.identity);
+                proLock = true;
+                interruptMovement = true;
+                animator.SetTrigger("Stomp");
+                yield return new WaitForSeconds(0.75f);
+
+                Instantiate(attackPrefabs[2], target.position, Quaternion.identity);
+                isStomping = false;
+                proLock = false;
+            }
         }
     }
 
