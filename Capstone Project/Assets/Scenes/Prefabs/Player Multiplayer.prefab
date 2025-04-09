@@ -195,8 +195,8 @@ GameObject:
   - component: {fileID: 8838831675431375699}
   - component: {fileID: 5995649323744642498}
   - component: {fileID: 7375811039085815516}
-  - component: {fileID: 3237923082737598756}
   - component: {fileID: -7153857030239939150}
+  - component: {fileID: 3237923082737598756}
   - component: {fileID: 4242732548477989959}
   - component: {fileID: 7369871393990870305}
   - component: {fileID: -2236421201880719348}
@@ -248,6 +248,8 @@ MonoBehaviour:
   objectToReveal: {fileID: 0}
   secondObjectToReveal: {fileID: 0}
   delayBeforeSwitch: 3
+  flashDuration: 0.1
+  flashColor: {r: 1, g: 0, b: 0, a: 1}
   takeDamageModifier: 0
   damageCollected: 0
 --- !u!114 &2547961308313878845
@@ -451,6 +453,7 @@ MonoBehaviour:
     detachFromPlayer: 1
     lockVelocity: 1
     isPhysical: 0
+    isWall: 0
     colliderShape: 0
     colliderSize: {x: 2, y: 1, z: 1}
     colliderRotation: {x: -25, y: 0, z: 0}
@@ -472,6 +475,7 @@ MonoBehaviour:
     detachFromPlayer: 1
     lockVelocity: 1
     isPhysical: 0
+    isWall: 0
     colliderShape: 1
     colliderSize: {x: 6, y: 5, z: 6}
     colliderRotation: {x: -25, y: 0, z: 0}
@@ -480,23 +484,6 @@ MonoBehaviour:
     startingOffset: {x: 0, y: -0.45, z: 0.1}
     attackSprite: {fileID: -588469400, guid: caa25d87f2e59a146bb02724521fa691, type: 3}
     attackSound: {fileID: 0}
---- !u!114 &3237923082737598756
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2235686634626492567}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8990d82ef1ca5e4092df29b9e88481c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 1978937642749280711}
-  attackTypes:
-  - RockThrow
-  - EarthQuake
-  attackManager: {fileID: 7375811039085815516}
 --- !u!114 &-7153857030239939150
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -522,6 +509,24 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
+--- !u!114 &3237923082737598756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2235686634626492567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8990d82ef1ca5e4092df29b9e88481c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  animator: {fileID: 1978937642749280711}
+  attackTypes:
+  - RockThrow
+  - EarthQuake
+  attackManager: {fileID: 7375811039085815516}
 --- !u!114 &4242732548477989959
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -627,7 +632,6 @@ MonoBehaviour:
   player: {fileID: 2235686634626492567}
   audioSource: {fileID: 0}
   animator: {fileID: 1978937642749280711}
-  networkAnimator: {fileID: -7109576959609007656}
   damageModifier: 0
   attacks:
   - name: RockThrow

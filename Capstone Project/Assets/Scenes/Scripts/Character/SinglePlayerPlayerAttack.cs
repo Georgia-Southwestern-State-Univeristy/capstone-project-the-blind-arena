@@ -1,10 +1,8 @@
 using UnityEngine;
-using Unity.Netcode;
 
-public class PlayerAttack : NetworkBehaviour
+public class SinglePlayerAttack : MonoBehaviour
 {
     public Animator animator;
-
     [Header("Attack Types")]
     public string[] attackTypes;
 
@@ -22,31 +20,12 @@ public class PlayerAttack : NetworkBehaviour
 
     void Update()
     {
-        if (!IsOwner) return;
-
         for (int i = 0; i < attackTypes.Length; i++)
         {
             if (Input.GetKeyDown(KeyCode.Alpha1 + i))
             {
-                // Tell server to trigger the attack
-                TriggerAttackServerRpc(attackTypes[i]);
+                attackManager.TriggerAttack(attackTypes[i]);
             }
-        }
-    }
-
-    [ServerRpc]
-    void TriggerAttackServerRpc(string attackType)
-    {
-        // Broadcast to all clients (including host) to play attack
-        TriggerAttackClientRpc(attackType);
-    }
-
-    [ClientRpc]
-    void TriggerAttackClientRpc(string attackType)
-    {
-        if (attackManager != null)
-        {
-            attackManager.TriggerAttack(attackType);
         }
     }
 }
