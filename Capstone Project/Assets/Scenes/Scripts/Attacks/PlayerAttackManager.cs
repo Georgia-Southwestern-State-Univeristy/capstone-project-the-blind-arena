@@ -17,6 +17,7 @@ public class PlayerAttackManager : MonoBehaviour
         public string name;
         public float damage, knockbackStrength, speed, duration, delay, gravityScale, lockDuration, staminaUse;
         public float cooldown; // Cooldown duration in seconds
+        public float originalCooldown; // Store the original cooldown value
         public bool detachFromPlayer, lockVelocity, isPhysical, isWall;
         public ColliderType colliderShape;
         public Vector3 colliderSize = Vector3.one, colliderRotation = Vector3.zero, spriteSize = Vector3.one, spriteRotation = Vector3.zero, startingOffset = Vector3.zero;
@@ -30,7 +31,16 @@ public class PlayerAttackManager : MonoBehaviour
     private bool isOnCooldown = false; // Tracks if the player is on cooldown
     private float cooldownTimer = 0f; // Tracks the remaining cooldown time in seconds
 
-    private void Start() => playerController = player.GetComponent<PlayerController>();
+    private void Start()
+    {
+        playerController = player.GetComponent<PlayerController>();
+
+        // Store the original cooldown values
+        foreach (var attack in attacks)
+        {
+            attack.originalCooldown = attack.cooldown;
+        }
+    }
 
     private void Update()
     {
@@ -248,4 +258,13 @@ public class PlayerAttackManager : MonoBehaviour
         yield return new WaitForSeconds(duration);
         damageModifier -= damageChange; // Revert damage after duration
     }
+
+    public void ResetCooldowns()
+    {
+        foreach (var attack in attacks)
+        {
+            attack.cooldown = attack.originalCooldown; // Restore to original cooldown
+        }
+    }
+
 }

@@ -102,6 +102,7 @@ public class AttributeMenu : MonoBehaviour
         if (playerAttackManager != null)
         {
             playerAttackManager.damageModifier = 0; // Reset speed to original value
+            playerAttackManager.ResetCooldowns(); // Reset cooldowns
         }
 
         UpdatePointsDisplay();
