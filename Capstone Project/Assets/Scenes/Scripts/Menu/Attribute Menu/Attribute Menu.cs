@@ -79,17 +79,35 @@ public class AttributeMenu : MonoBehaviour
 
     void ResetAttributes()
     {
-        // Reset all values back to zero and unlock all decrements
+        // Reset all values to their initial values and unlock all decrements
         for (int i = 0; i < attributes.Length; i++)
         {
-            availablePoints += attributes[i];
-            attributes[i] = 0;
+            availablePoints += attributes[i]; // Return the spent points
+            attributes[i] = initialAttributes[i]; // Restore original values
             confirmedAttributes[i] = 0; // Reset confirmed values
+        }
+
+        // Reset health and MAX_HEALTH to 300
+        if (playerHealth != null)
+        {
+            playerHealth.health = 300; // Reset to original health value
+            playerHealth.MAX_HEALTH = 300; // Reset to original max health value
+        }
+
+        if (playerController != null)
+        {
+            playerController.speed = playerController.originalSpeed; // Reset speed to original value
+        }
+
+        if (playerAttackManager != null)
+        {
+            playerAttackManager.damageModifier = 0; // Reset speed to original value
         }
 
         UpdatePointsDisplay();
         UpdateAttributeTexts();
     }
+
 
     void LockAttributes()
     {

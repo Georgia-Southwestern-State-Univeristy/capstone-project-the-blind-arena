@@ -256,8 +256,7 @@ public class PlayerController : MonoBehaviour
 
     public void IncreaseBaseSpeed(float amount)
     {
-        speed += amount;
-        originalSpeed = speed;
+        speed += amount;  
     }
 
 }
