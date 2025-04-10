@@ -1740,10 +1740,38 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2612371218708832067, guid: 94c1d716c593b34428136bc73695cc26, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2612371218708832067, guid: 94c1d716c593b34428136bc73695cc26, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2612371218708832067, guid: 94c1d716c593b34428136bc73695cc26, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1524882905}
+    - target: {fileID: 2612371218708832067, guid: 94c1d716c593b34428136bc73695cc26, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4152816878500907604, guid: 94c1d716c593b34428136bc73695cc26, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4983676191025412172, guid: 94c1d716c593b34428136bc73695cc26, type: 3}
+      propertyPath: playerHealth
+      value: 
+      objectReference: {fileID: 1715120177}
+    - target: {fileID: 4983676191025412172, guid: 94c1d716c593b34428136bc73695cc26, type: 3}
+      propertyPath: playerController
+      value: 
+      objectReference: {fileID: 1715120178}
+    - target: {fileID: 4983676191025412172, guid: 94c1d716c593b34428136bc73695cc26, type: 3}
+      propertyPath: playerAttackManager
+      value: 
+      objectReference: {fileID: 1715120179}
     - target: {fileID: 8229555800110724826, guid: 94c1d716c593b34428136bc73695cc26, type: 3}
       propertyPath: m_Name
       value: Attributes Menu
@@ -15683,6 +15711,10 @@ PrefabInstance:
     - target: {fileID: 422388527184198066, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       propertyPath: m_LocalPosition.z
       value: -8.58
+      objectReference: {fileID: 0}
+    - target: {fileID: 763552383391210748, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      propertyPath: attacks.Array.data[0].cooldown
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 1419612706754897418, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       propertyPath: m_AnchorMax.y
