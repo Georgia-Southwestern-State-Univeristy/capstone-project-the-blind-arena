@@ -1765,6 +1765,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1715120177}
     - target: {fileID: 4983676191025412172, guid: 94c1d716c593b34428136bc73695cc26, type: 3}
+      propertyPath: availablePoints
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4983676191025412172, guid: 94c1d716c593b34428136bc73695cc26, type: 3}
       propertyPath: playerController
       value: 
       objectReference: {fileID: 1715120178}

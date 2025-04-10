@@ -18,6 +18,7 @@ public class PlayerAttackManager : MonoBehaviour
         public float damage, knockbackStrength, speed, duration, delay, gravityScale, lockDuration, staminaUse;
         public float cooldown; // Cooldown duration in seconds
         public float originalCooldown; // Store the original cooldown value
+        public float originalStaminaUse;
         public bool detachFromPlayer, lockVelocity, isPhysical, isWall;
         public ColliderType colliderShape;
         public Vector3 colliderSize = Vector3.one, colliderRotation = Vector3.zero, spriteSize = Vector3.one, spriteRotation = Vector3.zero, startingOffset = Vector3.zero;
@@ -39,6 +40,7 @@ public class PlayerAttackManager : MonoBehaviour
         foreach (var attack in attacks)
         {
             attack.originalCooldown = attack.cooldown;
+            attack.originalStaminaUse = attack.staminaUse;
         }
     }
 
@@ -264,6 +266,7 @@ public class PlayerAttackManager : MonoBehaviour
         foreach (var attack in attacks)
         {
             attack.cooldown = attack.originalCooldown; // Restore to original cooldown
+            attack.staminaUse = attack.originalStaminaUse; // Restore to original stamina cost
         }
     }
 

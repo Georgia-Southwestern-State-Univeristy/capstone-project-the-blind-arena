@@ -129,6 +129,15 @@ public class AttributeMenu : MonoBehaviour
             {
                 playerHealth.IncreaseMaxHealth(addedPoints * 50);
             }
+            else if (i == 3 && addedPoints > 0 && playerAttackManager != null)
+            {
+                // Decrease stamina cost by 1 per point
+                float staminaReduction = addedPoints * 1f; // Subtract 1 for each added point
+                foreach (var attack in playerAttackManager.attacks)
+                {
+                    attack.staminaUse = Mathf.Max(attack.staminaUse - staminaReduction, 0f); // Prevent stamina use from going negative
+                }
+            }
             else if (i == 4 && addedPoints > 0 && playerAttackManager != null)
             {
                 // Decrease the cooldown by 0.1 per point
