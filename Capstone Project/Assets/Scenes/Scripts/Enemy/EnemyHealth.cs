@@ -65,7 +65,7 @@ public class EnemyHealth : MonoBehaviour
         UpdateHealthBar();
 
         // Flash sprite red when damaged
-        if (spriteRenderer != null)
+        if (spriteRenderer != null && amount > 0)
         {
             StartCoroutine(FlashSprite());
         }

@@ -103,7 +103,7 @@ public class Health : MonoBehaviour
         health -= finalDamage;
         UpdateHealthBar();
 
-        if (spriteRenderer != null)
+        if (spriteRenderer != null && amount > 0)
         {
             StartCoroutine(FlashSprite());
         }

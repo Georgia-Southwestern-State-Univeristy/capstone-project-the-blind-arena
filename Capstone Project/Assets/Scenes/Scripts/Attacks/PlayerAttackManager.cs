@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEditor.Animations;
 using UnityEngine;
 
 public class PlayerAttackManager : MonoBehaviour
@@ -21,6 +22,7 @@ public class PlayerAttackManager : MonoBehaviour
         public ColliderType colliderShape;
         public Vector3 colliderSize = Vector3.one, colliderRotation = Vector3.zero, spriteSize = Vector3.one, spriteRotation = Vector3.zero, startingOffset = Vector3.zero;
         public Sprite attackSprite;
+        public AnimatorController attackAnimator;
         public AudioClip attackSound;
     }
 
@@ -148,6 +150,7 @@ public class PlayerAttackManager : MonoBehaviour
 
         AddCollider(colliderObject, attack);
         AddSprite(attackObject, attack);
+        AddAnimator(attackObject, attack);
 
         attackObject.transform.localScale = new Vector3(
             player.transform.localScale.x > 0 ? attack.spriteSize.x : -attack.spriteSize.x,
@@ -158,7 +161,11 @@ public class PlayerAttackManager : MonoBehaviour
         damageOnHit.knockbackStrength = attack.knockbackStrength;
         damageOnHit.detachFromPlayer = attack.detachFromPlayer;
 
-        if (attack.isWall) attackObject.tag=("Wall");
+        if (attack.isWall)
+        {
+            attackObject.tag = ("Wall");
+            colliderObject.tag = ("Wall");
+        }
         if (attack.isPhysical) SetupPhysicalObject(attackObject);
         else colliderObject.layer = LayerMask.NameToLayer("AttackObjects");
 
@@ -203,6 +210,13 @@ public class PlayerAttackManager : MonoBehaviour
         spriteRenderer.sprite = attack.attackSprite;
         obj.transform.localScale = attack.spriteSize;
         obj.transform.eulerAngles = attack.spriteRotation;
+    }
+
+    private void AddAnimator(GameObject obj, AttackAttributes attack)
+    {
+        if (!attack.attackAnimator) { Debug.LogWarning($"No animaator assigned to attack: {attack.name}"); return; }
+        Animator animator = obj.AddComponent<Animator>();
+        animator.runtimeAnimatorController = attack.attackAnimator;
     }
 
     private void SetupPhysicalObject(GameObject attackObject)

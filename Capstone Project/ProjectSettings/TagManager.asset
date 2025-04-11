@@ -8,6 +8,7 @@ TagManager:
   - Effect Tile
   - FireBoss
   - Boss
+  - Projectile
   layers:
   - Default
   - TransparentFX
