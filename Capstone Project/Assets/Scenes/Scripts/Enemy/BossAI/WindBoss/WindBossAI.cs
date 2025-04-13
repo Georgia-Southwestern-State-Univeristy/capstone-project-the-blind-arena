@@ -46,52 +46,18 @@ public class WindBossAI : MonoBehaviour
 
     private void Update()
     {
-        if (enemyHealth == null) return;
+        // Enable Final Phase at 25% health
 
-        float healthPercentage = ((float)enemyHealth.currentHealth / enemyHealth.maxHealth) * 100f;
+        // Enable Tornadoes at 50% health
 
         // Enable homing at 75% health
-        if (healthPercentage <= 75f && !isHomingEnabled && !isInFinalPhase)
-        {
-            isHomingEnabled = true;
-        }
+    }
 
-        // Phase transitions based on enemy health
-        if (healthPercentage <= 50f && !isInTornadoPhase)
-        {
-            isInTornadoPhase = true;
-            StartCoroutine(TornadoPhase());
-        }
 
-        if (healthPercentage <= 25f && !isInFinalPhase)
-        {
-            isInTornadoPhase = false;
-            isInFinalPhase = true;
-            isHomingEnabled = false; // Disable homing in final phase
-            StartFinalPhase();
-        }
+    private IEnumerator PhaseOne()
+    {
 
-        if (isInFinalPhase)
-        {
-            HandleFinalPhase();
-        }
-        else
-        {
-            float distanceToPlayer = Vector3.Distance(transform.position, target.position);
-
-            if (distanceToPlayer < pushDistance)
-            {
-                PushPlayerAway();
-            }
-            else if (distanceToPlayer < retreatDistance)
-            {
-                RetreatFromPlayer();
-            }
-            else
-            {
-                isRetreating = false;
-            }
-        }
+        yield return new WaitForSeconds(0.01f);
     }
 
     private void RetreatFromPlayer()

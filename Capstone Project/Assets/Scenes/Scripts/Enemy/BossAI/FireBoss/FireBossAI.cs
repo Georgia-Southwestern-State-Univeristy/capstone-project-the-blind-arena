@@ -453,6 +453,26 @@ public class FireBossAI : MonoBehaviour
         stopDash = false;
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+
+        if (collision.collider.CompareTag("Player"))
+        {
+            HandlePlayerCollision(collision.gameObject);
+        }
+        if (collision.collider.CompareTag("Wall"))
+        {
+            Debug.Log("Enemy In Wall");
+            stopDash = true;
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+
+        stopDash = false;
+    }
+
     private void HandlePlayerCollision(GameObject player)
     {
         Debug.Log("Boss hit the player!");

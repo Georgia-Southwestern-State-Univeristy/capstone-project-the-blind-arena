@@ -316,8 +316,7 @@ public class ProjectileAttack : MonoBehaviour
             else
                 lifespan -= Time.deltaTime*2;
         }
-        else
-        if (collision.CompareTag("Wall"))
+        else if (collision.CompareTag("Wall"))
         {
             if (breaksOnContact)
             {
