@@ -1,15 +1,16 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class OptionsMenuToggle : MonoBehaviour
 {
     public GameObject optionsMenu;    // The options menu to show/hide
-    public GameObject[] otherObjects;  // Other objects to hide/show
-    public Button optionsButton;       // The button to trigger the options menu
+    public GameObject[] otherObjects; // Other objects to hide/show
+    public Button optionsButton;      // The button to trigger the options menu
+    public GameObject resumeObject;   // The specific object to resume time when clicked
 
     void Start()
     {
-        // Ensure the button is assigned and set up the click listener
         if (optionsButton != null)
         {
             optionsButton.onClick.AddListener(ToggleOptionsMenu);
@@ -19,7 +20,6 @@ public class OptionsMenuToggle : MonoBehaviour
             Debug.LogError("Options button is not assigned in the Inspector.");
         }
 
-        // Ensure the initial state of the options menu and other objects
         if (optionsMenu != null)
         {
             optionsMenu.SetActive(false); // Hide options menu initially
@@ -38,6 +38,24 @@ public class OptionsMenuToggle : MonoBehaviour
         }
     }
 
+    void Update()
+    {
+        // Check if the mouse is clicked and if the clicked object is the resumeObject
+        if (Input.GetMouseButtonDown(0))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit))
+            {
+                if (hit.collider.gameObject == resumeObject)
+                {
+                    ResumeGame();
+                }
+            }
+        }
+    }
+
     void ToggleOptionsMenu()
     {
         if (optionsMenu == null)
@@ -46,19 +64,33 @@ public class OptionsMenuToggle : MonoBehaviour
             return;
         }
 
-        // Toggle the visibility of the options menu
         bool isMenuActive = optionsMenu.activeSelf;
         optionsMenu.SetActive(!isMenuActive);
 
-        // Force the canvas to update immediately (ensures visibility updates)
+        // Pause the game when the menu is active
+        Time.timeScale = isMenuActive ? 1 : 0;
+
         Canvas.ForceUpdateCanvases();
 
-        // Hide or show other objects based on the menu's visibility
         foreach (var obj in otherObjects)
         {
             if (obj != null)
             {
-                obj.SetActive(isMenuActive); // Show if menu is active, hide if not
+                obj.SetActive(isMenuActive);
+            }
+        }
+    }
+
+    void ResumeGame()
+    {
+        optionsMenu.SetActive(false);
+        Time.timeScale = 1;
+
+        foreach (var obj in otherObjects)
+        {
+            if (obj != null)
+            {
+                obj.SetActive(true);
             }
         }
     }

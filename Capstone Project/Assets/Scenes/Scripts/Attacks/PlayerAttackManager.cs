@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEditor.Animations;
 using UnityEngine;
 
 public class PlayerAttackManager : MonoBehaviour
@@ -9,16 +10,21 @@ public class PlayerAttackManager : MonoBehaviour
     private PlayerController playerController;
     public Animator animator;
 
+    public float damageModifier = 0f;
+
     [System.Serializable]
     public class AttackAttributes
     {
         public string name;
         public float damage, knockbackStrength, speed, duration, delay, gravityScale, lockDuration, staminaUse;
         public float cooldown; // Cooldown duration in seconds
-        public bool detachFromPlayer, lockVelocity, isPhysical;
+        public float originalCooldown; // Store the original cooldown value
+        public float originalStaminaUse;
+        public bool detachFromPlayer, lockVelocity, isPhysical, isWall;
         public ColliderType colliderShape;
         public Vector3 colliderSize = Vector3.one, colliderRotation = Vector3.zero, spriteSize = Vector3.one, spriteRotation = Vector3.zero, startingOffset = Vector3.zero;
         public Sprite attackSprite;
+        public AnimatorController attackAnimator;
         public AudioClip attackSound;
     }
 
@@ -28,7 +34,17 @@ public class PlayerAttackManager : MonoBehaviour
     private bool isOnCooldown = false; // Tracks if the player is on cooldown
     private float cooldownTimer = 0f; // Tracks the remaining cooldown time in seconds
 
-    private void Start() => playerController = player.GetComponent<PlayerController>();
+    private void Start()
+    {
+        playerController = player.GetComponent<PlayerController>();
+
+        // Store the original cooldown values
+        foreach (var attack in attacks)
+        {
+            attack.originalCooldown = attack.cooldown;
+            attack.originalStaminaUse = attack.staminaUse;
+        }
+    }
 
     private void Update()
     {
@@ -146,16 +162,22 @@ public class PlayerAttackManager : MonoBehaviour
 
         AddCollider(colliderObject, attack);
         AddSprite(attackObject, attack);
+        AddAnimator(attackObject, attack);
 
         attackObject.transform.localScale = new Vector3(
             player.transform.localScale.x > 0 ? attack.spriteSize.x : -attack.spriteSize.x,
             attack.spriteSize.y, attack.spriteSize.z);
 
         DamageOnHit damageOnHit = colliderObject.AddComponent<DamageOnHit>();
-        damageOnHit.damageAmount = Mathf.RoundToInt(attack.damage);
+        damageOnHit.damageAmount = Mathf.RoundToInt(attack.damage + damageModifier);
         damageOnHit.knockbackStrength = attack.knockbackStrength;
         damageOnHit.detachFromPlayer = attack.detachFromPlayer;
 
+        if (attack.isWall)
+        {
+            attackObject.tag = ("Wall");
+            colliderObject.tag = ("Wall");
+        }
         if (attack.isPhysical) SetupPhysicalObject(attackObject);
         else colliderObject.layer = LayerMask.NameToLayer("AttackObjects");
 
@@ -202,6 +224,13 @@ public class PlayerAttackManager : MonoBehaviour
         obj.transform.eulerAngles = attack.spriteRotation;
     }
 
+    private void AddAnimator(GameObject obj, AttackAttributes attack)
+    {
+        if (!attack.attackAnimator) { Debug.LogWarning($"No animaator assigned to attack: {attack.name}"); return; }
+        Animator animator = obj.AddComponent<Animator>();
+        animator.runtimeAnimatorController = attack.attackAnimator;
+    }
+
     private void SetupPhysicalObject(GameObject attackObject)
     {
         Rigidbody rb = attackObject.AddComponent<Rigidbody>();
@@ -233,4 +262,26 @@ public class PlayerAttackManager : MonoBehaviour
         rb.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotation;
         rb.linearVelocity = direction * speed;
     }
+
+    public void AdjustDamage(float damageChange, float duration)
+    {
+        StartCoroutine(AdjustDamageCoroutine(damageChange, duration));
+    }
+
+    private IEnumerator AdjustDamageCoroutine(float damageChange, float duration)
+    {
+        damageModifier += damageChange; // Increase damage
+        yield return new WaitForSeconds(duration);
+        damageModifier -= damageChange; // Revert damage after duration
+    }
+
+    public void ResetCooldowns()
+    {
+        foreach (var attack in attacks)
+        {
+            attack.cooldown = attack.originalCooldown; // Restore to original cooldown
+            attack.staminaUse = attack.originalStaminaUse; // Restore to original stamina cost
+        }
+    }
+
 }

@@ -165,6 +165,7 @@ MonoBehaviour:
   delayBeforeSwitch: 3
   flashDuration: 0.1
   flashColor: {r: 1, g: 0, b: 0, a: 1}
+  deathcounter: 0
 --- !u!114 &8970992075808893304
 MonoBehaviour:
   m_ObjectHideFlags: 0

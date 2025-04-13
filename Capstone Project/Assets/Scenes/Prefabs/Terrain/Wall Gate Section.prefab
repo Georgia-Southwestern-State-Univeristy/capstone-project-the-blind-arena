@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1793773620321423766}
   m_Layer: 0
   m_Name: Arena_Wall_Texture_1 (1)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -99,7 +99,7 @@ GameObject:
   - component: {fileID: 5350965591137981616}
   m_Layer: 0
   m_Name: Arena_Gate_2
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -186,7 +186,7 @@ GameObject:
   - component: {fileID: 8722427547140369925}
   m_Layer: 0
   m_Name: Arena_Wall_Texture_1 (2)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -273,7 +273,7 @@ GameObject:
   - component: {fileID: 3761938981429046137}
   m_Layer: 0
   m_Name: Arena_Wall_Texture_1
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -360,7 +360,7 @@ GameObject:
   - component: {fileID: 4319184956359855309}
   m_Layer: 0
   m_Name: Arena_Gate_0
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -447,7 +447,7 @@ GameObject:
   - component: {fileID: 7790119073830982936}
   m_Layer: 0
   m_Name: Arena_Wall_0
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -534,7 +534,7 @@ GameObject:
   - component: {fileID: 8704639867477534920}
   m_Layer: 0
   m_Name: Arena_Gate_3
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -621,7 +621,7 @@ GameObject:
   - component: {fileID: 4220129934703683077}
   m_Layer: 0
   m_Name: Arena_Wall_0 (1)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -710,7 +710,7 @@ GameObject:
   - component: {fileID: 1455634534611216452}
   m_Layer: 0
   m_Name: Gate Darkness
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -815,7 +815,7 @@ GameObject:
   - component: {fileID: 1855644672405286560}
   m_Layer: 0
   m_Name: Wall Gate Section
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -857,7 +857,7 @@ GameObject:
   - component: {fileID: 345518313633698536}
   m_Layer: 0
   m_Name: Arena_Gate_1
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

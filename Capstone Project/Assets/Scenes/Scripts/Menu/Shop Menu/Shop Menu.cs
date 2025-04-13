@@ -25,9 +25,12 @@ public class ShopManager : MonoBehaviour
     public Image[] hotbarSlots; // 10 slots for purchased items
     public TextMeshProUGUI[] hotbarCounts; // TextMeshPro elements for counts
     public GameTimer gameTimer; // Reference to GameTimer
+    public PlayerController playerController;
+    public Health playerHealth;
+    public PlayerAttackManager playerAttackManager;
 
     private int[] selectedIndexes;
-    private Dictionary<Sprite, int> purchasedItems = new Dictionary<Sprite, int>(); // Track item counts
+    private static Dictionary<Sprite, int> purchasedItems = new Dictionary<Sprite, int>(); // Track item counts
 
     // List of items with their unique time values
     public List<ItemTime> itemTimeValues = new List<ItemTime>();
@@ -36,6 +39,19 @@ public class ShopManager : MonoBehaviour
     {
         selectedIndexes = new int[boxes.Length];
         InitializeShop();
+
+        // Debug logging for purchased items
+        Debug.Log($"ShopManager Start - Purchased Items Count: {purchasedItems.Count}");
+        foreach (var item in purchasedItems)
+        {
+            Debug.Log($"Purchased Item: Sprite = {item.Key.name}, Count = {item.Value}");
+        }
+
+        // Restore hotbar from static dictionary if it's not empty
+        if (purchasedItems.Count > 0)
+        {
+            UpdateHotbar();
+        }
     }
 
     void InitializeShop()
@@ -111,7 +127,9 @@ public class ShopManager : MonoBehaviour
         float timeToAdd = GetItemTimeValue(purchasedSprite);
         if (timeToAdd > 0)
         {
+            Debug.Log($"Adding {timeToAdd} seconds to the timer for item {purchasedSprite.name}");
             gameTimer.AddTime(timeToAdd);
+            Debug.Log($"After Adding {timeToAdd} seconds to the timer for item {purchasedSprite.name}");
         }
 
         UpdateHotbar();
@@ -199,4 +217,107 @@ public class ShopManager : MonoBehaviour
         }
         return 0;
     }
+
+    // New method to use an item from a specific hotbar slot
+    public bool UseItemFromHotbar(int slotIndex)
+    {
+        // Validate slot index
+        if (slotIndex < 0 || slotIndex >= hotbarSlots.Length)
+        {
+            Debug.LogWarning($"Invalid hotbar slot index: {slotIndex}");
+            return false;
+        }
+
+        // Get the sprite for the slot
+        Sprite itemSprite = hotbarSlots[slotIndex].sprite;
+
+        // Check if the slot is empty
+        if (itemSprite == null)
+        {
+            Debug.Log($"Hotbar slot {slotIndex} is empty");
+            return false;
+        }
+
+        ApplyItemEffect(itemSprite);
+
+        // Reduce item count
+        if (purchasedItems.ContainsKey(itemSprite))
+        {
+            purchasedItems[itemSprite]--;
+
+            // Remove the item if count reaches zero
+            if (purchasedItems[itemSprite] <= 0)
+            {
+                purchasedItems.Remove(itemSprite);
+            }
+
+            // Update the hotbar display
+            UpdateHotbar();
+
+            Debug.Log($"Used item from slot {slotIndex}: {itemSprite.name}");
+            return true;
+        }
+
+        return false;
+    }
+
+    // Optional: Method to get the current count of an item in a specific slot
+    public int GetItemCountInSlot(int slotIndex)
+    {
+        if (slotIndex < 0 || slotIndex >= hotbarSlots.Length)
+        {
+            return 0;
+        }
+
+        Sprite itemSprite = hotbarSlots[slotIndex].sprite;
+
+        if (itemSprite == null)
+        {
+            return 0;
+        }
+
+        return purchasedItems.ContainsKey(itemSprite) ? purchasedItems[itemSprite] : 0;
+    }
+    public void ApplyItemEffect(Sprite itemSprite)
+    {
+        // Apply an effect based on the item
+        if (itemSprite.name == "Shop_item_icons-removebg-preview_0") // Check for specific sprite (item)
+        {
+            // the Health script has a method to restore health
+            playerHealth.Heal(50); 
+            Debug.Log("Health restored by 50!");
+        }
+
+        if (itemSprite.name == "Shop_item_icons-removebg-preview_1") // Check for specific sprite (item)
+        {
+            playerHealth.stamina = playerHealth.MAX_STAMINA;
+            playerHealth.UpdateStaminaBar(); // Update stamina bar UI
+            Debug.Log("Stamina fully restored!");
+        }
+
+        if (itemSprite.name == "Shop_item_icons-removebg-preview_2") // Check for specific sprite (item)
+        {
+            // Apply speed boost
+            playerController.AdjustSpeed(5f, 3f); // Increase speed by 5 for 3 seconds
+        }
+
+        if (itemSprite.name == "Shop_item_icons-removebg-preview_3") // Check for specific sprite (item)
+        {
+            // Apply speed boost
+            playerAttackManager.AdjustDamage(5f, 5f); // Increase damage dealt by 10 for 3 seconds
+        }
+
+        if (itemSprite.name == "Shop_item_icons-removebg-preview_6") // Check for specific sprite (item)
+        {
+            // Apply speed boost
+            playerHealth.AdjustTakeDamage(5f, 5f); // Decrease damage taken by 5 for 5 seconds
+        }
+
+        if (itemSprite.name == "Shop_item_icons-removebg-preview_7") // Check for specific sprite (item)
+        {
+            playerHealth.Heal(playerHealth.damageCollected);
+            playerHealth.damageCollected = 0; // Reset damageCollected after healing
+        }
+    }
+
 }

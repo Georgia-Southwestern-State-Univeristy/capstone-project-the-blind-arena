@@ -1,13 +1,15 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.SceneManagement;
+using UnityEditor.SearchService;
 
 public class EnemyHealth : MonoBehaviour
 {
     [SerializeField] public int maxHealth = 100;
     public int currentHealth;
     [SerializeField] public Slider healthBarSlider;
-    [SerializeField] private bool triggerSequenceOnDeath = false;
+    [SerializeField] public bool triggerSequenceOnDeath = false;
     [SerializeField] private GameObject objectToReveal;
     [SerializeField] private GameObject secondObjectToReveal;
     [SerializeField] private float delayBeforeSwitch = 3f;
@@ -16,8 +18,12 @@ public class EnemyHealth : MonoBehaviour
 
     // New fields for sprite flash
     private SpriteRenderer spriteRenderer;
+    private SkinnedMeshRenderer skinnedMeshRenderer;
+    private Material hold;
+    private bool flashLock;
     [SerializeField] private float flashDuration = 0.1f;
     [SerializeField] private Color flashColor = Color.red;
+    public double deathcounter;
 
     void Start()
     {
@@ -50,6 +56,7 @@ public class EnemyHealth : MonoBehaviour
 
         // Get sprite renderer for flash effect
         spriteRenderer = GetComponent<SpriteRenderer>();
+        skinnedMeshRenderer = GetComponent<SkinnedMeshRenderer>();
     }
 
     public void Damage(int amount)
@@ -58,7 +65,7 @@ public class EnemyHealth : MonoBehaviour
         UpdateHealthBar();
 
         // Flash sprite red when damaged
-        if (spriteRenderer != null)
+        if (spriteRenderer != null && amount > 0)
         {
             StartCoroutine(FlashSprite());
         }
@@ -69,17 +76,30 @@ public class EnemyHealth : MonoBehaviour
 
     private IEnumerator FlashSprite()
     {
-        // Store original color
-        Color originalColor = spriteRenderer.color;
+        if (!flashLock) {
+            flashLock=true;
+            for (int i = 0; i < 2; i++)
+            {
+                // Store original color
+                hold = spriteRenderer.material;
+                spriteRenderer.material = skinnedMeshRenderer.material;
+                Color originalColor = spriteRenderer.color;
 
-        // Change to flash color
-        spriteRenderer.color = flashColor;
+                Debug.Log("Sprite Material = " + hold);
+                Debug.Log("Other Material = " + skinnedMeshRenderer.material);
 
-        // Wait for flash duration
-        yield return new WaitForSeconds(flashDuration);
+                // Change to flash color
+                spriteRenderer.color = flashColor;
 
-        // Restore original color
-        spriteRenderer.color = originalColor;
+                // Wait for flash duration
+                yield return new WaitForSeconds(flashDuration);
+
+                // Restore original color
+                spriteRenderer.color = originalColor;
+                spriteRenderer.material = hold;
+            }
+            flashLock = false;
+        }
     }
 
     private void UpdateHealthBar()
@@ -91,14 +111,55 @@ public class EnemyHealth : MonoBehaviour
     private void Die()
     {
         Debug.Log($"{gameObject.name} has died.");
-        if (triggerSequenceOnDeath && objectToReveal != null && secondObjectToReveal != null)
+
+        if (gameObject.CompareTag("Boss"))
         {
-            ObjectSequenceManager.Instance.StartObjectSequence(objectToReveal, secondObjectToReveal, delayBeforeSwitch);
+            Destroy(gameObject);
+            GameData.deathcounter++;
+            SceneController.Instance.LoadScene(2);
+            return; // Exit function to prevent further execution
+        }
+
+        // Check if it's the player dying
+        if (gameObject.CompareTag("Player"))
+        {
+            int currentScene = SceneManager.GetActiveScene().buildIndex;
+
+            // Destroy the object before transitioning
+            Destroy(gameObject);
+
+            // If the player dies in scene 1, load scene 2
+            if (currentScene == 1)
+            {
+                SceneController.Instance.LoadScene(2);
+            }
+            else
+            {
+                // Handle object sequences if applicable
+                if (triggerSequenceOnDeath && objectToReveal != null && secondObjectToReveal != null)
+                {
+                    ObjectSequenceManager.Instance.StartObjectSequence(objectToReveal, secondObjectToReveal, delayBeforeSwitch);
+                }
+                else
+                {
+                    SceneController.Instance.LoadScene(2);
+                }
+            }
         }
         else
         {
-            SceneController.Instance.LoadScene(2);
+            // Handle enemy deaths
+            if (triggerSequenceOnDeath && objectToReveal != null && secondObjectToReveal != null)
+            {
+                ObjectSequenceManager.Instance.StartObjectSequence(objectToReveal, secondObjectToReveal, delayBeforeSwitch);
+            }
+            else
+            {
+                GameData.deathcounter++;
+            }
+
+            // Destroy enemy object
+            Destroy(gameObject);
         }
-        Destroy(gameObject);
     }
 }

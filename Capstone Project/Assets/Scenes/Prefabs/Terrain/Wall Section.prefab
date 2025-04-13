@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 330617439178470002}
   m_Layer: 0
   m_Name: North Wall Trim
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -122,7 +122,7 @@ GameObject:
   - component: {fileID: 334672254531208159}
   m_Layer: 0
   m_Name: North Wall Top 2
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -231,7 +231,7 @@ GameObject:
   - component: {fileID: 1498267769050238398}
   m_Layer: 0
   m_Name: North Wall
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -338,7 +338,7 @@ GameObject:
   - component: {fileID: 5195920407540681157}
   m_Layer: 0
   m_Name: Wall Section
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -375,7 +375,7 @@ GameObject:
   - component: {fileID: 3354099614772171269}
   m_Layer: 0
   m_Name: North Wall Top
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
