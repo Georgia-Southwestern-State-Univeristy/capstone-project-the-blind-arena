@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerAttack : MonoBehaviour
 {
     public Animator animator;
-    
+
     [Header("Attack Types")]
     public string[] attackTypes; // Should be max 4
 
@@ -21,16 +21,12 @@ public class PlayerAttack : MonoBehaviour
 
     void Update()
     {
-        if (attackTypes.Length > 0 && Input.GetMouseButtonDown(0)) // Right Click
-            attackManager.TriggerAttack(attackTypes[0]);
-
-        if (attackTypes.Length > 1 && Input.GetMouseButtonDown(1)) // Left Click
-            attackManager.TriggerAttack(attackTypes[1]);
-
-        if (attackTypes.Length > 2 && Input.GetKeyDown(KeyCode.E)) // E key
-            attackManager.TriggerAttack(attackTypes[2]);
-
-        if (attackTypes.Length > 3 && Input.GetKeyDown(KeyCode.Q)) // Q key
-            attackManager.TriggerAttack(attackTypes[3]);
+        for (int i = 0; i < attackTypes.Length; i++)
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha1 + i))
+            {
+                attackManager.TriggerAttack(attackTypes[i]);
+            }
+        }
     }
 }
