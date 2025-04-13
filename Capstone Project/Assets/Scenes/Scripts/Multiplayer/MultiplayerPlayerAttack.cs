@@ -24,16 +24,19 @@ public class MultiplayerPlayerAttack : NetworkBehaviour
 
     void Update()
     {
-        if (!IsOwner)
-            return;
+        if (!IsOwner) return;
 
-        for (int i = 0; i < attackTypes.Length; i++)
-        {
-            if (Input.GetKeyDown(KeyCode.Alpha1 + i))
-            {
-                RequestAttackServerRpc(attackTypes[i]);
-            }
-        }
+        if (attackTypes.Length > 0 && Input.GetMouseButtonDown(0)) // Left Click
+            RequestAttackServerRpc(attackTypes[0]);
+
+        if (attackTypes.Length > 1 && Input.GetMouseButtonDown(1)) // Right Click
+            RequestAttackServerRpc(attackTypes[1]);
+
+        if (attackTypes.Length > 2 && Input.GetKeyDown(KeyCode.E)) // E key
+            RequestAttackServerRpc(attackTypes[2]);
+
+        if (attackTypes.Length > 3 && Input.GetKeyDown(KeyCode.Q)) // Q key
+            RequestAttackServerRpc(attackTypes[3]);
     }
 
     [ServerRpc]
