@@ -11543,6 +11543,14 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6871928204999936856, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 2965336948
+      objectReference: {fileID: 0}
+    - target: {fileID: 6871928204999936856, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      propertyPath: InScenePlacedSourceGlobalObjectIdHash
+      value: 3558765400
+      objectReference: {fileID: 0}
     - target: {fileID: 7826421661143136822, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       propertyPath: m_Name
       value: Player 1
@@ -15181,9 +15189,9 @@ MonoBehaviour:
   textComponent: {fileID: 578802324}
   lines:
   - Great! Now lets start with attacks.
-  - Press the Alpha1 key to shoot boulders.
-  - Press the Alpha2 key to use an AOE attack.
-  - Press the Alpha3 key to use a wall.
+  - Mouse left click is to shoot boulders.
+  - Mouse right click is to use an AOE attack.
+  - Press the "E" key to use a wall.
   - Hold the Space key to use a dash.
   textSpeed: 0.1
 --- !u!224 &1039083956 stripped

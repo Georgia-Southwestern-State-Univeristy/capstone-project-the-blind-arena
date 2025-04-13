@@ -88,9 +88,9 @@ public class TutorialSetup : MonoBehaviour
             attackInstructionsShown = true;
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha1) && (tutorialcounter < 9)) { tutorialcounter++; }
-        if (Input.GetKeyDown(KeyCode.Alpha2) && (tutorialcounter < 9)) { tutorialcounter++; }
-        if (Input.GetKeyDown(KeyCode.Alpha3) && (tutorialcounter < 9)) { tutorialcounter++; }
+        if (Input.GetMouseButtonDown(0) && (tutorialcounter < 9)) { tutorialcounter++; }
+        if (Input.GetMouseButtonDown(1) && (tutorialcounter < 9)) { tutorialcounter++; }
+        if (Input.GetKeyDown(KeyCode.E) && (tutorialcounter < 9)) { tutorialcounter++; }
         if (Input.GetKeyUp(KeyCode.Space) && (tutorialcounter < 9)) { tutorialcounter++; }
 
         if (tutorialcounter >= 8 && tutorialcounter < 10)

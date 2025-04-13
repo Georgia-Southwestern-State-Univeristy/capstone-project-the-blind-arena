@@ -24,14 +24,17 @@ public class PlayerAttack : NetworkBehaviour
     {
         if (!IsOwner) return;
 
-        for (int i = 0; i < attackTypes.Length; i++)
-        {
-            if (Input.GetKeyDown(KeyCode.Alpha1 + i))
-            {
-                // Tell server to trigger the attack
-                TriggerAttackServerRpc(attackTypes[i]);
-            }
-        }
+        if (attackTypes.Length > 0 && Input.GetMouseButtonDown(0)) // Left Click
+            TriggerAttackServerRpc(attackTypes[0]);
+
+        if (attackTypes.Length > 1 && Input.GetMouseButtonDown(1)) // Right Click
+            TriggerAttackServerRpc(attackTypes[1]);
+
+        if (attackTypes.Length > 2 && Input.GetKeyDown(KeyCode.E)) // E key
+            TriggerAttackServerRpc(attackTypes[2]);
+
+        if (attackTypes.Length > 3 && Input.GetKeyDown(KeyCode.Q)) // Q key
+            TriggerAttackServerRpc(attackTypes[3]);
     }
 
     [ServerRpc]

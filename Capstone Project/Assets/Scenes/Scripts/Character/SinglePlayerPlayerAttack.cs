@@ -20,12 +20,16 @@ public class SinglePlayerAttack : MonoBehaviour
 
     void Update()
     {
-        for (int i = 0; i < attackTypes.Length; i++)
-        {
-            if (Input.GetKeyDown(KeyCode.Alpha1 + i))
-            {
-                attackManager.TriggerAttack(attackTypes[i]);
-            }
-        }
+        if (attackTypes.Length > 0 && Input.GetMouseButtonDown(0)) // Left Click
+            attackManager.TriggerAttack(attackTypes[0]);
+
+        if (attackTypes.Length > 1 && Input.GetMouseButtonDown(1)) // Right Click
+            attackManager.TriggerAttack(attackTypes[1]);
+
+        if (attackTypes.Length > 2 && Input.GetKeyDown(KeyCode.E)) // E key
+            attackManager.TriggerAttack(attackTypes[2]);
+
+        if (attackTypes.Length > 3 && Input.GetKeyDown(KeyCode.Q)) // Q key
+            attackManager.TriggerAttack(attackTypes[3]);
     }
 }
