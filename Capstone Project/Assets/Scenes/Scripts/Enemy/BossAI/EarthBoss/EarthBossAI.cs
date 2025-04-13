@@ -23,6 +23,7 @@ public class EarthBossAI : MonoBehaviour
     private bool startPhaseTwo = false;
     private bool startPhaseThree = false;
     private bool startPhaseFour = false;
+    private bool startSetup = false;
     private bool isSetup = false;
     private bool isLeaping = false;
     private bool isStomping = false;
@@ -70,13 +71,10 @@ public class EarthBossAI : MonoBehaviour
             {
                 MoveTowardsPlayer();
             }
-            else if (!isSetup)
+            else if (!startSetup)
             {
-                MoveTowardsWapoint();
-                if (Vector3.Distance(transform.position, returnWaypoint.position) <= 1f)
-                {
-
-                }
+                startSetup = true;
+                StartCoroutine(SetupArena());
             }
             else
             {
@@ -258,21 +256,25 @@ public class EarthBossAI : MonoBehaviour
         {
             if (!attackLock)
             {
-                random = rnd.Next(0, 4);
+                random = rnd.Next(0, 3);
                 Debug.Log(random);
             }
             attackLock = true;
             yield return new WaitForSeconds(1f);
+            isStomping = true;
+            StartCoroutine(PerformStompAttack());
+            yield return new WaitForSeconds(3f);
+            interruptMovement = false;
             switch (random)
             {
                 case 0:
                     isStomping = true;
                     StartCoroutine(PerformStompAttack());
                     yield return new WaitForSeconds(3f);
-                    interruptMovement = false;
+                    interruptMovement = false; 
                     break;
                 case 1:
-                    for (int i = 0; i < 6; i++)
+                    for (int i = 0; i < 8; i++)
                     {
                         if (Vector3.Distance(transform.position, target.position) <= minimumDistance)
                         {
@@ -292,12 +294,6 @@ public class EarthBossAI : MonoBehaviour
                     yield return new WaitForSeconds(leapCooldown);
                     interruptMovement = false;
                     break;
-                case 3:
-                    isStomping = true;
-                    StartCoroutine(PerformStompAttack());
-                    yield return new WaitForSeconds(3f);
-                    interruptMovement = false;
-                    break;
             }
             attackLock = false;
         }
@@ -310,9 +306,46 @@ public class EarthBossAI : MonoBehaviour
         {
             if (isSetup)
             {
-                yield return new WaitForSeconds(0.1f);
+                if (!attackLock)
+                {
+                    random = rnd.Next(0, 3);
+                    Debug.Log(random);
+                }
+                attackLock = true;
+                yield return new WaitForSeconds(1f);
+                switch (random)
+                {
+                    case 0:
+                        isStomping = true;
+                        StartCoroutine(PerformStompAttack());
+                        yield return new WaitForSeconds(3f);
+                        interruptMovement = false;
+                        break;
+                    case 1:
+                        for (int i = 0; i < 8; i++)
+                        {
+                            if (Vector3.Distance(transform.position, target.position) <= minimumDistance)
+                            {
+                                StartCoroutine(PerformMeleeAttack());
+                                yield return new WaitForSeconds(1.1f);
+                                interruptMovement = false;
+                            }
+                            else
+                            {
+                                yield return new WaitForSeconds(1.1f);
+                            }
+                        }
+                        break;
+                    case 2:
+                        isLeaping = true;
+                        StartCoroutine(PerformLeapAttack());
+                        yield return new WaitForSeconds(leapCooldown);
+                        interruptMovement = false;
+                        break;
+                }
+                attackLock = false;
             }
-
+            yield return new WaitForSeconds(0.1f);
         }
         yield return new WaitForSeconds(0.1f);
     }
@@ -373,7 +406,6 @@ public class EarthBossAI : MonoBehaviour
         int arcAngle = 360;
         float startAngle = -arcAngle / 2f;
 
-
         while (isStomping)
         {
             if (!proLock)
@@ -405,32 +437,13 @@ public class EarthBossAI : MonoBehaviour
         }
     }
 
-    private IEnumerator PerformStompAttackL()
-    {
-        while (isStomping)
-        {
-            if (!proLock)
-            {
-
-                proLock = true;
-                interruptMovement = true;
-                animator.SetTrigger("Stomp");
-                yield return new WaitForSeconds(0.75f);
-
-                Instantiate(attackPrefabs[2], target.position, Quaternion.identity);
-                isStomping = false;
-                proLock = false;
-            }
-        }
-    }
-
-    private IEnumerator ReturnAndTrapPlayer()
+    public IEnumerator SetupArena()
     {
         // Move to waypoint
         while (Vector3.Distance(transform.position, returnWaypoint.position) > 0.5f)
         {
-            transform.position = Vector3.MoveTowards(transform.position, returnWaypoint.position, speed * Time.deltaTime);
-            yield return null;
+            MoveTowardsWapoint();
+            yield return new WaitForSeconds(0.01f);
         }
 
         // Pull player and trap them
@@ -439,11 +452,17 @@ public class EarthBossAI : MonoBehaviour
 
     private IEnumerator PullPlayerAndTrap()
     {
-        animator.SetTrigger("Pull");
-        yield return new WaitForSeconds(0.5f);
-        target.position = transform.position;
+        StopCoroutine(SetupArena());
+        interruptMovement = true;
+        animator.SetTrigger("Raise");
+        yield return new WaitForSeconds(0.8f);
+        target.position = transform.position + new Vector3 (0, 0, -5);
 
-        Instantiate(attackPrefabs[0], transform.position + new Vector3(3, 0, 0), Quaternion.identity);
+        Instantiate(attackPrefabs[3], returnWaypoint.position + new Vector3(0, -1f, 0), new Quaternion(0, 0, 0, 0));
+
+        yield return new WaitForSeconds(0.8f);
+        interruptMovement = false;
+        isSetup=true;
     }
 
     private void FlipSprite(float directionX)
@@ -452,5 +471,52 @@ public class EarthBossAI : MonoBehaviour
             transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
         else if (directionX > 0)
             transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+    }
+
+    private void OnTriggerEnter(Collider collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            HandlePlayerCollision(collision.gameObject);
+        }
+        if (collision.CompareTag("Wall"))
+        {
+            Debug.Log("Enemy In Wall");
+            stopLeap = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider collision)
+    {
+        stopLeap = false;
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+
+        if (collision.collider.CompareTag("Player"))
+        {
+            HandlePlayerCollision(collision.gameObject);
+        }
+        if (collision.collider.CompareTag("Wall"))
+        {
+            Debug.Log("Enemy In Wall");
+            stopLeap = true;
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+
+        stopLeap = false;
+    }
+
+    private void HandlePlayerCollision(GameObject player)
+    {
+        Debug.Log("Boss hit the player!");
+        Health playerHealth = player.GetComponent<Health>();
+        if (playerHealth != null)
+        {
+            playerHealth.Damage(20);
+        }
     }
 }
