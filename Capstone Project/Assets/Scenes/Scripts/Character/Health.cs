@@ -11,7 +11,7 @@ public class Health : MonoBehaviour
     [SerializeField] private Slider healthBarSlider; // Health bar UI
     [SerializeField] private Slider staminaBarSlider; // Stamina bar UI
 
-    private int MAX_HEALTH = 300;
+    public int MAX_HEALTH = 300;
     public float MAX_STAMINA = 100f;
     private int staminaRegenRate = 9; // Stamina regenerates by 1 per 0.3 seconds
     private float staminaRegenDelay = 2f; // Delay before stamina starts regenerating
@@ -195,7 +195,7 @@ public class Health : MonoBehaviour
         }
     }
 
-    private void UpdateHealthBar()
+    public void UpdateHealthBar()
     {
         if (healthBarSlider != null)
         {
@@ -208,6 +208,32 @@ public class Health : MonoBehaviour
         if (staminaBarSlider != null)
         {
             staminaBarSlider.value = Mathf.RoundToInt(stamina); // Convert float to int for UI
+        }
+    }
+
+    public void IncreaseMaxHealth(int amount)
+    {
+        MAX_HEALTH += amount;
+        health += amount;
+        UpdateHealthBar();
+        if (healthBarSlider != null)
+        {
+            healthBarSlider.maxValue = MAX_HEALTH;
+            healthBarSlider.value = health;
+        }
+    }
+
+    public void IncreaseMaxStamina(float amount)
+    {
+        MAX_STAMINA += amount;
+        stamina += amount;
+        stamina = Mathf.Min(stamina, MAX_STAMINA);
+        UpdateStaminaBar();
+
+        if (staminaBarSlider != null)
+        {
+            staminaBarSlider.maxValue = MAX_STAMINA;
+            staminaBarSlider.value = stamina;
         }
     }
 

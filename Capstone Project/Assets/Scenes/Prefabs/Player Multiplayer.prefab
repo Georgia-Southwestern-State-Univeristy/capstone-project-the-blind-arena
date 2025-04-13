@@ -195,8 +195,8 @@ GameObject:
   - component: {fileID: 8838831675431375699}
   - component: {fileID: 5995649323744642498}
   - component: {fileID: 7375811039085815516}
-  - component: {fileID: 3237923082737598756}
   - component: {fileID: -7153857030239939150}
+  - component: {fileID: 3237923082737598756}
   - component: {fileID: 4242732548477989959}
   - component: {fileID: 7369871393990870305}
   - component: {fileID: -2236421201880719348}
@@ -461,7 +461,6 @@ MonoBehaviour:
     spriteRotation: {x: 25, y: 0, z: 0}
     startingOffset: {x: 0.6, y: 0, z: 0}
     attackSprite: {fileID: -1982924380, guid: 4148c79904d0106419d4752298b7a78e, type: 3}
-    attackAnimator: {fileID: 0}
     attackSound: {fileID: 0}
   - name: EarthQuake
     damage: 50
@@ -484,25 +483,7 @@ MonoBehaviour:
     spriteRotation: {x: 90, y: 0, z: 0}
     startingOffset: {x: 0, y: -0.45, z: 0.1}
     attackSprite: {fileID: -588469400, guid: caa25d87f2e59a146bb02724521fa691, type: 3}
-    attackAnimator: {fileID: 0}
     attackSound: {fileID: 0}
---- !u!114 &3237923082737598756
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2235686634626492567}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8990d82ef1ca5e4092df29b9e88481c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 1978937642749280711}
-  attackTypes:
-  - RockThrow
-  - EarthQuake
-  attackManager: {fileID: 7375811039085815516}
 --- !u!114 &-7153857030239939150
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -528,6 +509,24 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
+--- !u!114 &3237923082737598756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2235686634626492567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8990d82ef1ca5e4092df29b9e88481c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  animator: {fileID: 1978937642749280711}
+  attackTypes:
+  - RockThrow
+  - EarthQuake
+  attackManager: {fileID: 7375811039085815516}
 --- !u!114 &4242732548477989959
 MonoBehaviour:
   m_ObjectHideFlags: 0
