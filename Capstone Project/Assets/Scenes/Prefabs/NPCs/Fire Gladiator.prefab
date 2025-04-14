@@ -177,7 +177,7 @@ Rigidbody:
   m_GameObject: {fileID: 1703532392994725273}
   serializedVersion: 4
   m_Mass: 100
-  m_Drag: 0
+  m_Drag: 10
   m_AngularDrag: 1
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -232,9 +232,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCamera: {fileID: 0}
   targetCamera: {fileID: 0}
+  enemyCamera: {fileID: 0}
   boss: {fileID: 7369920424675081373}
   player: {fileID: 0}
   switchDistance: 19
+  focusOnBoss: 0
 --- !u!114 &-5049270567912674591
 MonoBehaviour:
   m_ObjectHideFlags: 0
