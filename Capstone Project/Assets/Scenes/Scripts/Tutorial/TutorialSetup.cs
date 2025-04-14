@@ -48,6 +48,10 @@ public class TutorialSetup : MonoBehaviour
     private bool runDialogueShown = false;
     private bool attributeMenuShown = false;
     private bool hasResetTutorial = false; // Flag to track if reset has been triggered
+    private bool didLeftClick = false;
+    private bool didRightClick = false;
+    private bool didPressE = false;
+    private bool didPressSpace = false;
 
     void Update()
     {
@@ -88,12 +92,33 @@ public class TutorialSetup : MonoBehaviour
             attackInstructionsShown = true;
         }
 
-        if (Input.GetMouseButtonDown(0) && (tutorialcounter < 9)) { tutorialcounter++; }
-        if (Input.GetMouseButtonDown(1) && (tutorialcounter < 9)) { tutorialcounter++; }
-        if (Input.GetKeyDown(KeyCode.E) && (tutorialcounter < 9)) { tutorialcounter++; }
-        if (Input.GetKeyUp(KeyCode.Space) && (tutorialcounter < 9)) { tutorialcounter++; }
+        // Check and track each input only once
+        if (!didLeftClick && Input.GetMouseButtonDown(0))
+        {
+            didLeftClick = true;
+            tutorialcounter++;
+        }
 
-        if (tutorialcounter >= 8 && tutorialcounter < 10)
+        if (!didRightClick && Input.GetMouseButtonDown(1))
+        {
+            didRightClick = true;
+            tutorialcounter++;
+        }
+
+        if (!didPressE && Input.GetKeyDown(KeyCode.E))
+        {
+            didPressE = true;
+            tutorialcounter++;
+        }
+
+        if (!didPressSpace && Input.GetKeyUp(KeyCode.Space))
+        {
+            didPressSpace = true;
+            tutorialcounter++;
+        }
+
+        // Once all 4 are done (tutorialcounter should now be 8)
+        if (didLeftClick && didRightClick && didPressE && didPressSpace && tutorialcounter >= 7 && tutorialcounter < 10)
         {
             attackInstructions.SetActive(false);
             tutorialcounter = 10;
