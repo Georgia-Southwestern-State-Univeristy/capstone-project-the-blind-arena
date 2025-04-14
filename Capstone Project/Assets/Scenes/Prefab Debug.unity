@@ -1852,7 +1852,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 763552383391210748, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       propertyPath: attacks.Array.data[2].colliderSize.z
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 763552383391210748, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       propertyPath: attacks.Array.data[2].spriteRotation.x
@@ -1869,6 +1869,10 @@ PrefabInstance:
     - target: {fileID: 5112869091303994359, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6871928204999936856, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 1420587756
       objectReference: {fileID: 0}
     - target: {fileID: 7826421661143136822, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       propertyPath: m_Name

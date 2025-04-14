@@ -549,6 +549,7 @@ MonoBehaviour:
   stamina: 100
   healthBarSlider: {fileID: 4687745841240717153}
   staminaBarSlider: {fileID: 3966651007617308723}
+  MAX_HEALTH: 300
   MAX_STAMINA: 100
   triggerSequenceOnDeath: 0
   objectToReveal: {fileID: 0}
@@ -728,6 +729,8 @@ MonoBehaviour:
     lockDuration: 0.8
     staminaUse: 12
     cooldown: 0.8
+    originalCooldown: 0
+    originalStaminaUse: 0
     detachFromPlayer: 1
     lockVelocity: 1
     isPhysical: 0
@@ -739,6 +742,7 @@ MonoBehaviour:
     spriteRotation: {x: 25, y: 0, z: 0}
     startingOffset: {x: 0.6, y: 0, z: 0}
     attackSprite: {fileID: -1982924380, guid: 4148c79904d0106419d4752298b7a78e, type: 3}
+    attackAnimator: {fileID: 0}
     attackSound: {fileID: 0}
   - name: EarthQuake
     damage: 40
@@ -750,6 +754,8 @@ MonoBehaviour:
     lockDuration: 1.2
     staminaUse: 40
     cooldown: 1.5
+    originalCooldown: 0
+    originalStaminaUse: 0
     detachFromPlayer: 1
     lockVelocity: 1
     isPhysical: 0
@@ -761,6 +767,7 @@ MonoBehaviour:
     spriteRotation: {x: 90, y: 0, z: 0}
     startingOffset: {x: 0, y: -0.45, z: 0}
     attackSprite: {fileID: -588469400, guid: caa25d87f2e59a146bb02724521fa691, type: 3}
+    attackAnimator: {fileID: 0}
     attackSound: {fileID: 0}
   - name: EarthWall
     damage: 10
@@ -772,17 +779,20 @@ MonoBehaviour:
     lockDuration: 0.8
     staminaUse: 12
     cooldown: 0.8
+    originalCooldown: 0
+    originalStaminaUse: 0
     detachFromPlayer: 1
     lockVelocity: 1
     isPhysical: 1
     isWall: 1
     colliderShape: 0
-    colliderSize: {x: 2, y: 2, z: 2}
+    colliderSize: {x: 1.5, y: 3.5, z: 0.5}
     colliderRotation: {x: 0, y: 0, z: 0}
     spriteSize: {x: 1, y: 1, z: 1}
-    spriteRotation: {x: 25, y: 0, z: 0}
+    spriteRotation: {x: 45, y: 0, z: 0}
     startingOffset: {x: 0.6, y: 0, z: 0}
-    attackSprite: {fileID: -1982924380, guid: 4148c79904d0106419d4752298b7a78e, type: 3}
+    attackSprite: {fileID: 1900867896, guid: 0b8ed890e9e012349bb77e3f7a32954c, type: 3}
+    attackAnimator: {fileID: 0}
     attackSound: {fileID: 0}
 --- !u!114 &3830712414040057594
 MonoBehaviour:
@@ -824,7 +834,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1142313552
+  GlobalObjectIdHash: 3558765400
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
