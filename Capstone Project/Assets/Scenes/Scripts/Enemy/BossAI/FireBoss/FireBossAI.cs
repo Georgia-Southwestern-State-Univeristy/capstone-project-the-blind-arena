@@ -314,6 +314,9 @@ public class FireBossAI : MonoBehaviour
             yield return new WaitForSeconds(0.2f);
 
             Vector3 dashDirection = (target.position - transform.position).normalized;
+            Vector3 dir = dashDirection;
+            dir.y = 0;
+            dashDirection = dir;
             dashDirection *= ((Math.Abs(dashDirection.z) * .6f) + 1);
             float elapsedTime = 0f;
             FlipSprite(dashDirection.x);

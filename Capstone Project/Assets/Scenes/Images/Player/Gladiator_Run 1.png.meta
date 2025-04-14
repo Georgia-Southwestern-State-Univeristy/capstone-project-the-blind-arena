@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b48fbd282ed6b824dbd3a71cdf460edc
+guid: 241d9efa14571c543807a0f6f51fff35
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -110,7 +110,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Gladiator_Run_0
+      name: Gladiator_Run 1_0
       rect:
         serializedVersion: 2
         x: 0
@@ -125,14 +125,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dc1d8a23c532f8f4f85097e4a5222435
-      internalID: -788358532
+      spriteID: 229592977bd22c94c91e0f39d03560c7
+      internalID: 814575292
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gladiator_Run_1
+      name: Gladiator_Run 1_1
       rect:
         serializedVersion: 2
         x: 128
@@ -147,14 +147,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3c0c933be7834764ea92c553cf778f53
-      internalID: 1061755155
+      spriteID: f6ccfaa5d09629146b7a86a758744a8c
+      internalID: -1704815131
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gladiator_Run_2
+      name: Gladiator_Run 1_2
       rect:
         serializedVersion: 2
         x: 256
@@ -169,14 +169,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d8bbb31cec557e3448c716b677c53757
-      internalID: -1410228028
+      spriteID: 16cfde13d133f444ca90ab75da5dcf96
+      internalID: 1235994561
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gladiator_Run_3
+      name: Gladiator_Run 1_3
       rect:
         serializedVersion: 2
         x: 384
@@ -191,14 +191,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 753e0ca07fe174146bde34ec39521964
-      internalID: -956338047
+      spriteID: 5920183611cd11540acaa13d22472d65
+      internalID: -751829758
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gladiator_Run_4
+      name: Gladiator_Run 1_4
       rect:
         serializedVersion: 2
         x: 512
@@ -213,8 +213,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0130891fcbfbe9d4cbe26d2aa3897f38
-      internalID: 816187130
+      spriteID: 2053798508261c64799d54eea5fdd7e9
+      internalID: 1001366363
       vertices: []
       indices: 
       edges: []
@@ -223,7 +223,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: e4f73aa893275824e989a2b23faa2800
+    spriteID: ec1f4589981e4ad4b982504be88b2991
     internalID: 0
     vertices: []
     indices: 
@@ -233,11 +233,11 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Gladiator_Run_0: -788358532
-      Gladiator_Run_1: 1061755155
-      Gladiator_Run_2: -1410228028
-      Gladiator_Run_3: -956338047
-      Gladiator_Run_4: 816187130
+      Gladiator_Run 1_0: 814575292
+      Gladiator_Run 1_1: -1704815131
+      Gladiator_Run 1_2: 1235994561
+      Gladiator_Run 1_3: -751829758
+      Gladiator_Run 1_4: 1001366363
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -731,6 +731,7 @@ MonoBehaviour:
     cooldown: 0.8
     originalCooldown: 0
     originalStaminaUse: 0
+    currentCooldown: 0
     detachFromPlayer: 1
     lockVelocity: 1
     isPhysical: 0
@@ -756,6 +757,7 @@ MonoBehaviour:
     cooldown: 1.5
     originalCooldown: 0
     originalStaminaUse: 0
+    currentCooldown: 0
     detachFromPlayer: 1
     lockVelocity: 1
     isPhysical: 0
@@ -773,24 +775,25 @@ MonoBehaviour:
     damage: 10
     knockbackStrength: 0
     speed: 0
-    duration: 10
-    delay: 0.6
+    duration: 7
+    delay: 0.8
     gravityScale: 0
-    lockDuration: 0.8
-    staminaUse: 12
-    cooldown: 0.8
+    lockDuration: 1
+    staminaUse: 40
+    cooldown: 4
     originalCooldown: 0
     originalStaminaUse: 0
+    currentCooldown: 0
     detachFromPlayer: 1
     lockVelocity: 1
     isPhysical: 1
     isWall: 1
     colliderShape: 0
-    colliderSize: {x: 1.5, y: 3.5, z: 0.5}
+    colliderSize: {x: 1.5, y: 3.2, z: 1.5}
     colliderRotation: {x: 0, y: 0, z: 0}
     spriteSize: {x: 1, y: 1, z: 1}
     spriteRotation: {x: 45, y: 0, z: 0}
-    startingOffset: {x: 0.6, y: 0, z: 0}
+    startingOffset: {x: 0.9, y: 0.5, z: 0}
     attackSprite: {fileID: 1900867896, guid: 0b8ed890e9e012349bb77e3f7a32954c, type: 3}
     attackAnimator: {fileID: 0}
     attackSound: {fileID: 0}
@@ -834,7 +837,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3558765400
+  GlobalObjectIdHash: 1420587756
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
