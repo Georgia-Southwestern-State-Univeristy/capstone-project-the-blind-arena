@@ -6202,7 +6202,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionDistance: 1
-  interactionKey: 101
+  interactionKey: 113
   promptHeightOffset: 2
   GreetingDialogue: {fileID: 184654801}
   LeaveDialogue: {fileID: 1645352147}
@@ -7508,7 +7508,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Press E for shop
+  m_text: Press Q for shop
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -10568,7 +10568,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionDistance: 1
-  interactionKey: 101
+  interactionKey: 113
   promptHeightOffset: 2
   GreetingDialogue: {fileID: 770862863}
   LeaveDialogue: {fileID: 1827496578}
@@ -12177,6 +12177,7 @@ MonoBehaviour:
   SkillShopMenu: {fileID: 2036413055}
   xbuttonshop: {fileID: 2105851897}
   xbuttonskill: {fileID: 1778432135}
+  playerAttack: {fileID: 1715120190}
 --- !u!114 &1715120177 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1458904164212163424, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
@@ -12240,6 +12241,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 168013719982219207, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
   m_PrefabInstance: {fileID: 6623403841116976208}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1715120190 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7338263006075871222, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+  m_PrefabInstance: {fileID: 6623403841116976208}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1715120172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37d2b1bf51ebfc74eba1dbee64df8bd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1733921126 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2906078004850483194, guid: b88c70b1171cad44f825987b7bbeefbb, type: 3}
@@ -15890,6 +15902,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6286568240466296124, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7338263006075871222, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      propertyPath: attackChecker
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7825658612900211682, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}

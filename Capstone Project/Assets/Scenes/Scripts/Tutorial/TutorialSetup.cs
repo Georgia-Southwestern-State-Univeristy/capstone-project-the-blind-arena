@@ -54,8 +54,18 @@ public class TutorialSetup : MonoBehaviour
     private bool didPressSpace = false;
     private bool startedAttributeTutorial = false;
 
+    public SinglePlayerAttack playerAttack;
+
+    void Start()
+    {
+        if (playerAttack == null)
+            playerAttack = FindFirstObjectByType<SinglePlayerAttack>();
+            playerAttack.attackChecker = false;
+    }
+
     void Update()
     {
+
         Debug.Log("Tutorial Counter: " + tutorialcounter);
         TutorialMovement();
         TutorialAttackInstructions();
@@ -72,6 +82,7 @@ public class TutorialSetup : MonoBehaviour
         if (tutorialcounter == 0)
         {
             moveInstructions.SetActive(true);
+            playerAttack.attackChecker = false;
         }
 
         if (Input.GetKeyDown(KeyCode.W) && (tutorialcounter < 4)) { tutorialcounter++; }
@@ -91,6 +102,7 @@ public class TutorialSetup : MonoBehaviour
         {
             attackInstructions.SetActive(true);
             attackInstructionsShown = true;
+            playerAttack.attackChecker = true;
         }
 
 
@@ -126,6 +138,7 @@ public class TutorialSetup : MonoBehaviour
         if (didLeftClick && didRightClick && didPressE && didPressSpace && tutorialcounter >= 8 && !startedAttributeTutorial)
         {
             attackInstructions.SetActive(false);
+            playerAttack.attackChecker = false;
             tutorialcounter = 10;
             startedAttributeTutorial = true; // make sure it doesn't run again
             StartCoroutine(TutorialAttributeExplainationDialogue());
@@ -137,6 +150,7 @@ public class TutorialSetup : MonoBehaviour
             attributResetButton.GetComponent<UnityEngine.UI.Button>().interactable = false;
             attributBuyButton.GetComponent<UnityEngine.UI.Button>().interactable = false;
             attributeMenu.SetActive(true);
+            playerAttack.attackChecker = false;
             xbuttonupgrade.SetActive(false);
             yield return new WaitForSeconds(0.5f);
             attributePointExplainationDialogue.SetActive(true);
@@ -162,6 +176,7 @@ public class TutorialSetup : MonoBehaviour
         {
             preparationDialogue.SetActive(true);
             preparationDialogueShown = true;
+            playerAttack.attackChecker = true;
             StartCoroutine(ActivateEnemyAIDelayed());
         }
     }

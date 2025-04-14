@@ -14,9 +14,13 @@ public class RestAreaTutorialSetup : MonoBehaviour
 
     private int tutorialCounter;
 
+    public SinglePlayerAttack playerAttack;
+
     void Start()
     {
         tutorialCounter = PlayerPrefs.GetInt("RestAreaTutorial", 0); // Load progress
+
+        playerAttack.attackChecker = false;
 
         if (tutorialCounter == 0)
         {
@@ -67,6 +71,7 @@ public class RestAreaTutorialSetup : MonoBehaviour
             SkillShopMenu.SetActive(false);
             xbuttonskill.SetActive(true);
             tutorialCounter++;
+            playerAttack.attackChecker = true;
             PlayerPrefs.SetInt("RestAreaTutorial", tutorialCounter);
             PlayerPrefs.Save();
         }
