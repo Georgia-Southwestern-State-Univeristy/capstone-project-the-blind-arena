@@ -52,6 +52,7 @@ public class TutorialSetup : MonoBehaviour
     private bool didRightClick = false;
     private bool didPressE = false;
     private bool didPressSpace = false;
+    private bool startedAttributeTutorial = false;
 
     void Update()
     {
@@ -92,44 +93,47 @@ public class TutorialSetup : MonoBehaviour
             attackInstructionsShown = true;
         }
 
-        // Check and track each input only once
-        if (!didLeftClick && Input.GetMouseButtonDown(0))
-        {
-            didLeftClick = true;
-            tutorialcounter++;
-        }
 
-        if (!didRightClick && Input.GetMouseButtonDown(1))
-        {
-            didRightClick = true;
-            tutorialcounter++;
-        }
+        if (tutorialcounter >= 4 && tutorialcounter < 10)
+            {
+            // Check and track each input only once
+            if (!didLeftClick && Input.GetMouseButtonDown(0))
+            {
+                didLeftClick = true;
+                tutorialcounter++;
+            }
 
-        if (!didPressE && Input.GetKeyDown(KeyCode.E))
-        {
-            didPressE = true;
-            tutorialcounter++;
-        }
+            if (!didRightClick && Input.GetMouseButtonDown(1))
+            {
+                didRightClick = true;
+                tutorialcounter++;
+            }
 
-        if (!didPressSpace && Input.GetKeyUp(KeyCode.Space))
-        {
-            didPressSpace = true;
-            tutorialcounter++;
+            if (!didPressE && Input.GetKeyDown(KeyCode.E))
+            {
+                didPressE = true;
+                tutorialcounter++;
+            }
+
+            if (!didPressSpace && Input.GetKeyUp(KeyCode.Space))
+            {
+                didPressSpace = true;
+                tutorialcounter++;
+            }
         }
 
         // Once all 4 are done (tutorialcounter should now be 8)
-        if (didLeftClick && didRightClick && didPressE && didPressSpace && tutorialcounter >= 7 && tutorialcounter < 10)
+        if (didLeftClick && didRightClick && didPressE && didPressSpace && tutorialcounter >= 8 && !startedAttributeTutorial)
         {
             attackInstructions.SetActive(false);
             tutorialcounter = 10;
+            startedAttributeTutorial = true; // make sure it doesn't run again
             StartCoroutine(TutorialAttributeExplainationDialogue());
         }
     }
 
     private IEnumerator TutorialAttributeExplainationDialogue()
     {
-        if (tutorialcounter == 10 && !attributeMenuShown)
-        {
             attributResetButton.GetComponent<UnityEngine.UI.Button>().interactable = false;
             attributBuyButton.GetComponent<UnityEngine.UI.Button>().interactable = false;
             attributeMenu.SetActive(true);
@@ -150,7 +154,7 @@ public class TutorialSetup : MonoBehaviour
             attributBuyButton.GetComponent<UnityEngine.UI.Button>().interactable = true;
             tutorialcounter++;
         }
-    }
+
 
     private void TutorialPreparationDialogue()
     {
