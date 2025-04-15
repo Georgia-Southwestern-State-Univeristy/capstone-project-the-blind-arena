@@ -9,7 +9,7 @@ public class NetworkManagerUI : MonoBehaviour
     [SerializeField] private Button clientButton;
     [SerializeField] private Button mainMenuButton; // Reference to main menu button
     [SerializeField] private Button startBossButton; // Start boss fight button
-    [SerializeField] private GameObject boss; // Reference to boss GameObject
+    [SerializeField] private GameObject bossPrefab; // Reference to boss GameObject
 
     private void Awake()
     {
@@ -50,23 +50,30 @@ public class NetworkManagerUI : MonoBehaviour
 
         startBossButton.onClick.AddListener(() =>
         {
-            if (NetworkManager.Singleton.IsServer) // Ensure only the host activates the boss
+            if (NetworkManager.Singleton.IsServer)
             {
-                boss.SetActive(true); // Activate the boss
-                BossActivationClientRpc(); // Notify clients
+                SpawnBossServerRpc(); // Only host/server can do this
             }
         });
 
-        boss.SetActive(false); // Ensure boss is disabled at the start
+
     }
 
-    [ClientRpc]
-    private void BossActivationClientRpc()
+    [ServerRpc(RequireOwnership = false)]
+    private void SpawnBossServerRpc()
     {
-        if (!NetworkManager.Singleton.IsServer) // Clients only
+        Debug.Log("SpawnBossServerRpc called on server.");
+
+        GameObject bossInstance = Instantiate(bossPrefab, new Vector3(0, 1, 0), Quaternion.identity);
+        var netObj = bossInstance.GetComponent<NetworkObject>();
+        if (netObj != null)
         {
-            boss.SetActive(true);
+            Debug.Log("NetworkObject found, spawning...");
+            netObj.Spawn();
+        }
+        else
+        {
+            Debug.LogError("No NetworkObject found on bossPrefab!");
         }
     }
 }
-
