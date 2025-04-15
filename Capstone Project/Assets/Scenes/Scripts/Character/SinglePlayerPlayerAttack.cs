@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class SinglePlayerAttack : MonoBehaviour
 {
@@ -13,7 +15,14 @@ public class SinglePlayerAttack : MonoBehaviour
 
     void Start()
     {
-        attackChecker = true;
+        if (SceneManager.GetActiveScene().buildIndex == 2) //prevents player from using attacks in scene 2
+        {
+            attackChecker = false;
+        }
+        else
+        {
+            attackChecker = true; //keep this even if you want the player to attack in scene 2
+        }
 
         if (attackManager == null)
             attackManager = GetComponent<PlayerAttackManager>();
@@ -24,8 +33,12 @@ public class SinglePlayerAttack : MonoBehaviour
 
     void Update()
     {
+        if (!attackChecker || EventSystem.current.IsPointerOverGameObject())
+            return;
+
         if (attackChecker == true)
         {
+
             if (attackTypes.Length > 0 && Input.GetMouseButtonDown(0)) // Left Click
                 attackManager.TriggerAttack(attackTypes[0]);
 
