@@ -261,7 +261,7 @@ public class ProjectileAttack : MonoBehaviour
 
             Destroy(gameObject);
         }
-        else if (delayDamage && initalLifespan - lifespan < 1.6)
+        else if (delayDamage && initalLifespan - lifespan < 1)
         {
             collider.enabled = false;
         }

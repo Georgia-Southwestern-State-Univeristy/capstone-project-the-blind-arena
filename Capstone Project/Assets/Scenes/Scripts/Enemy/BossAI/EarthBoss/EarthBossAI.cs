@@ -19,6 +19,7 @@ public class EarthBossAI : MonoBehaviour
 
     private EnemyHealth enemyHealth;
     private float initialSpeed;
+    private BossCameraSwitcher boardSwitcher;
     private bool startPhaseOne = false;
     private bool startPhaseTwo = false;
     private bool startPhaseThree = false;
@@ -42,6 +43,7 @@ public class EarthBossAI : MonoBehaviour
         animator = GetComponent<Animator>();
         Rigidbody rb = GetComponent<Rigidbody>();
         initialSpeed = speed;
+        boardSwitcher = GetComponent<BossCameraSwitcher>();
 
         if (!enemyHealth) Debug.LogError("EnemyHealth component not found!");
     }
@@ -64,7 +66,10 @@ public class EarthBossAI : MonoBehaviour
                 StopAllCoroutines();
                 interruptMovement = false;
                 attackLock = false;
+                proLock = false;
                 targetLock = false;
+                isLeaping = false;
+                startSetup = false;
                 StartCoroutine(PhaseFour());
             }
             if (Vector3.Distance(transform.position, target.position) > minimumDistance && !interruptMovement && isSetup)
@@ -90,6 +95,7 @@ public class EarthBossAI : MonoBehaviour
                 startPhaseThree = true;
                 StopAllCoroutines();
                 interruptMovement = false;
+                proLock = false;
                 attackLock = false;
                 targetLock = false;
                 isLeaping = false;
@@ -113,6 +119,7 @@ public class EarthBossAI : MonoBehaviour
                 startPhaseTwo = true;
                 StopAllCoroutines();
                 interruptMovement = false;
+                proLock = false;
                 attackLock = false;
                 targetLock = false;
                 speed += 1;
@@ -136,6 +143,7 @@ public class EarthBossAI : MonoBehaviour
                 startPhaseOne = true;
                 interruptMovement = false;
                 attackLock = false;
+                proLock = false;
                 StartCoroutine(PhaseOne());
             }
             if (Vector3.Distance(transform.position, target.position) > minimumDistance && !interruptMovement)
@@ -205,7 +213,7 @@ public class EarthBossAI : MonoBehaviour
             if (!attackLock)
             {
                 attackLock = true;
-                if (Vector3.Distance(transform.position, target.position) <= minimumDistance)
+                if (Vector3.Distance(transform.position, target.position) <= minimumDistance + 0.1f)
                 {
                     StartCoroutine(PerformMeleeAttack());
                     yield return new WaitForSeconds(1.5f);
@@ -215,7 +223,7 @@ public class EarthBossAI : MonoBehaviour
             }
             yield return new WaitForSeconds(0.1f);
         }
-        yield return null;
+        yield return new WaitForSeconds(0.1f);
     }
 
     private IEnumerator PhaseTwo()
@@ -230,9 +238,9 @@ public class EarthBossAI : MonoBehaviour
                 StartCoroutine(PerformLeapAttack());
                 yield return new WaitForSeconds(leapCooldown);
                 interruptMovement = false;
-                for (int i = 0; i < 11; i++)
+                for (int i = 0; i < 30; i++)
                 {
-                    if (Vector3.Distance(transform.position, target.position) <= minimumDistance)
+                    if (Vector3.Distance(transform.position, target.position) <= minimumDistance + 0.1f)
                     {
                         StartCoroutine(PerformMeleeAttack());
                         yield return new WaitForSeconds(1.1f);
@@ -240,14 +248,14 @@ public class EarthBossAI : MonoBehaviour
                     }
                     else
                     {
-                        yield return new WaitForSeconds(1.1f);
+                        yield return new WaitForSeconds(0.1f);
                     }
                 }
                 attackLock = false;
             }
             yield return new WaitForSeconds(0.1f);
         }
-        yield return null;
+        yield return new WaitForSeconds(0.1f);
     }
 
     private IEnumerator PhaseThree()
@@ -274,9 +282,9 @@ public class EarthBossAI : MonoBehaviour
                     interruptMovement = false; 
                     break;
                 case 1:
-                    for (int i = 0; i < 8; i++)
+                    for (int i = 0; i < 20; i++)
                     {
-                        if (Vector3.Distance(transform.position, target.position) <= minimumDistance)
+                        if (Vector3.Distance(transform.position, target.position) <= minimumDistance + 0.1f)
                         {
                             StartCoroutine(PerformMeleeAttack());
                             yield return new WaitForSeconds(1.1f);
@@ -284,7 +292,7 @@ public class EarthBossAI : MonoBehaviour
                         }
                         else
                         {
-                            yield return new WaitForSeconds(1.1f);
+                            yield return new WaitForSeconds(0.1f);
                         }
                     }
                     break;
@@ -297,7 +305,7 @@ public class EarthBossAI : MonoBehaviour
             }
             attackLock = false;
         }
-        yield return null;
+        yield return new WaitForSeconds(0.1f);
     }
 
     private IEnumerator PhaseFour()
@@ -322,9 +330,9 @@ public class EarthBossAI : MonoBehaviour
                         interruptMovement = false;
                         break;
                     case 1:
-                        for (int i = 0; i < 8; i++)
+                        for (int i = 0; i < 20; i++)
                         {
-                            if (Vector3.Distance(transform.position, target.position) <= minimumDistance)
+                            if (Vector3.Distance(transform.position, target.position) <= minimumDistance + 0.1f)
                             {
                                 StartCoroutine(PerformMeleeAttack());
                                 yield return new WaitForSeconds(1.1f);
@@ -376,6 +384,9 @@ public class EarthBossAI : MonoBehaviour
                 yield return new WaitForSeconds(0.66f);
 
                 Vector3 leapDirection = (target.position - transform.position).normalized;
+                Vector3 dir = leapDirection;
+                dir.y = 0;
+                leapDirection = dir;
                 leapDirection *= ((Math.Abs(leapDirection.z) * .6f) + 1);
                 float elapsedTime = 0f;
                 FlipSprite(leapDirection.x);
@@ -389,7 +400,7 @@ public class EarthBossAI : MonoBehaviour
                     transform.position += leapDirection * 15 * Time.deltaTime;
                     FlipSprite(leapDirection.x);
                     elapsedTime += Time.deltaTime;
-                    yield return null;
+                    yield return new WaitForSeconds(0.001f);
                 }
                 position.y = HEIGHT;
                 transform.position = position;
@@ -398,6 +409,7 @@ public class EarthBossAI : MonoBehaviour
                 isLeaping = false;
                 proLock = false;
             }
+            yield return new WaitForSeconds(0.1f);
         }
     }
 
@@ -434,6 +446,7 @@ public class EarthBossAI : MonoBehaviour
                 isStomping = false;
                 proLock = false;
             }
+            yield return new WaitForSeconds(0.1f);
         }
     }
 
@@ -444,6 +457,7 @@ public class EarthBossAI : MonoBehaviour
         {
             MoveTowardsWapoint();
             yield return new WaitForSeconds(0.01f);
+            boardSwitcher.focusOnBoss = true;
         }
 
         // Pull player and trap them
@@ -453,7 +467,10 @@ public class EarthBossAI : MonoBehaviour
     private IEnumerator PullPlayerAndTrap()
     {
         StopCoroutine(SetupArena());
+        
         interruptMovement = true;
+        PlayerController playerController = FindFirstObjectByType<PlayerController>();
+        playerController.LockMovement(2.5f);
         animator.SetTrigger("Raise");
         yield return new WaitForSeconds(0.8f);
         target.position = transform.position + new Vector3 (0, 0, -5);
@@ -461,6 +478,7 @@ public class EarthBossAI : MonoBehaviour
         Instantiate(attackPrefabs[3], returnWaypoint.position + new Vector3(0, -1f, 0), new Quaternion(0, 0, 0, 0));
 
         yield return new WaitForSeconds(0.8f);
+        boardSwitcher.focusOnBoss = false;
         interruptMovement = false;
         isSetup=true;
     }

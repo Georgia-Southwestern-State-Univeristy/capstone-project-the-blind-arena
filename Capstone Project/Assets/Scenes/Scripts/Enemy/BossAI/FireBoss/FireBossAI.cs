@@ -186,30 +186,34 @@ public class FireBossAI : MonoBehaviour
                 Debug.Log(random);
             }
             attackLock = true;
-            for (int i = 0; i < 10; i++)
-            {
                 switch (random)
                 {
                     //Move close and Dash Attack
                     case 0:
+                    for (int i = 0; i < 40; i++)
+                    {
                         isDashing = true;
                         p3 = false;
                         if (Vector3.Distance(transform.position, target.position) <= minimumDistance)
                         {
                             StartCoroutine(DashAttack(1));
                         }
+                        yield return new WaitForSeconds(0.25f);
+                    }
                         break;
                     //Move and Projectile Attack
                     case 1:
+                    for (int i = 0; i < 10; i++)
+                    {
                         isDashing = false;
                         p3 = true;
                         if (!proLock)
                         {
-                            StartCoroutine(ShootProjectile(0,1, 1));
+                            StartCoroutine(ShootProjectile(0, 1, 1));
                         }
+                        yield return new WaitForSeconds(1);
+                    }
                         break;
-                }
-                yield return new WaitForSeconds(1f);
             }
             attackLock = false;
         }
@@ -309,9 +313,11 @@ public class FireBossAI : MonoBehaviour
     {
         if (!dashLock)
         {
+            animator.SetTrigger("Dash");
+            Debug.Log("Start Dash");
             dashLock = true;
             interruptMovement = true;
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.25f);
 
             Vector3 dashDirection = (target.position - transform.position).normalized;
             Vector3 dir = dashDirection;
@@ -354,12 +360,13 @@ public class FireBossAI : MonoBehaviour
             {
                 if (attackPrefabs.Length > type)
                 {
+                    animator.SetTrigger("Punch");
                     interruptMovement = true;
                     yield return new WaitForSeconds(0.2f);
                     GameObject projectile = Instantiate(attackPrefabs[type], transform.position, Quaternion.identity);
                     ProjectileAttack attack = projectile.GetComponent<ProjectileAttack>();
                     attack.target = target;
-                    FlipSprite(target.position.x);
+                    FlipSprite((target.position - transform.position).normalized.x);
                     yield return new WaitForSeconds(0.1f);
                     interruptMovement = false;
                 }
@@ -380,6 +387,7 @@ public class FireBossAI : MonoBehaviour
         {
             for (int i = 0; i < amount; i++)
             {
+                animator.SetTrigger("Point");
                 interruptMovement = true;
                 yield return new WaitForSeconds(0.2f);
                 Vector3 directionToTarget = (target.position - transform.position).normalized;
@@ -412,6 +420,7 @@ public class FireBossAI : MonoBehaviour
         {
             for (int i = 0; i < amount; i++)
             {
+                animator.SetTrigger("Clap");
                 interruptMovement = true;
                 yield return new WaitForSeconds(0.2f);
                 Vector3 directionToTarget = (target.position - transform.position).normalized;
