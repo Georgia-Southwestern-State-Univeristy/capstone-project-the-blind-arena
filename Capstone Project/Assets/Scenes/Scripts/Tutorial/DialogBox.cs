@@ -11,6 +11,8 @@ public class DialogBox : MonoBehaviour
 
     private int index;
 
+    public System.Action OnDialogFinished;
+
     private void Start()
     {
         textComponent.text = string.Empty;
@@ -60,7 +62,9 @@ public class DialogBox : MonoBehaviour
         else
         {
             gameObject.SetActive(false);
+
+            if (OnDialogFinished != null)
+                OnDialogFinished.Invoke(); // Trigger the event
         }
     }
-
 }
