@@ -23,12 +23,13 @@ public class PlayerAttackManager : MonoBehaviour
 
         public float currentCooldown; // <- Per-attack cooldown tracker
 
-        public bool detachFromPlayer, lockVelocity, isPhysical, isWall;
+        public bool detachFromPlayer, lockVelocity, isPhysical, isWall, isTangible;
         public ColliderType colliderShape;
         public Vector3 colliderSize = Vector3.one, colliderRotation = Vector3.zero, spriteSize = Vector3.one, spriteRotation = Vector3.zero, startingOffset = Vector3.zero;
         public Sprite attackSprite;
         public AnimatorController attackAnimator;
         public AudioClip attackSound;
+        private GameObject[] targets;
     }
 
     public enum ColliderType { Box, Sphere, Capsule }
