@@ -9,6 +9,7 @@ TagManager:
   - FireBoss
   - Boss
   - Projectile
+  - EnemyTracker
   layers:
   - Default
   - TransparentFX

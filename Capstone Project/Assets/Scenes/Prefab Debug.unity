@@ -235,7 +235,7 @@ GameObject:
   - component: {fileID: 639452576}
   m_Layer: 5
   m_Name: Enemy Indicators
-  m_TagString: Untagged
+  m_TagString: EnemyTracker
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1680,7 +1680,7 @@ GameObject:
   - component: {fileID: 2081064427}
   m_Layer: 5
   m_Name: Off Screen Indicator Panel
-  m_TagString: Untagged
+  m_TagString: EnemyTracker
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

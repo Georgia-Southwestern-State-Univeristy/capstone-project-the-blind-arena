@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -33,23 +34,44 @@ public class SinglePlayerAttack : MonoBehaviour
 
     void Update()
     {
-        if (!attackChecker || EventSystem.current.IsPointerOverGameObject())
+        if (!attackChecker)
             return;
 
-        if (attackChecker == true)
-        {
+        if (IsPointerOverUIExcluding("EnemyTracker"))
+            return;
 
-            if (attackTypes.Length > 0 && Input.GetMouseButtonDown(0)) // Left Click
-                attackManager.TriggerAttack(attackTypes[0]);
+        if (attackTypes.Length > 0 && Input.GetMouseButtonDown(0))
+            attackManager.TriggerAttack(attackTypes[0]);
 
-            if (attackTypes.Length > 1 && Input.GetMouseButtonDown(1)) // Right Click
-                attackManager.TriggerAttack(attackTypes[1]);
+        if (attackTypes.Length > 1 && Input.GetMouseButtonDown(1))
+            attackManager.TriggerAttack(attackTypes[1]);
 
-            if (attackTypes.Length > 2 && Input.GetKeyDown(KeyCode.E)) // E key
-                attackManager.TriggerAttack(attackTypes[2]);
+        if (attackTypes.Length > 2 && Input.GetKeyDown(KeyCode.E))
+            attackManager.TriggerAttack(attackTypes[2]);
 
-            if (attackTypes.Length > 3 && Input.GetKeyDown(KeyCode.Q)) // Q key
-                attackManager.TriggerAttack(attackTypes[3]);
-        }
+        if (attackTypes.Length > 3 && Input.GetKeyDown(KeyCode.Q))
+            attackManager.TriggerAttack(attackTypes[3]);
     }
+
+    private bool IsPointerOverUIExcluding(string tagToIgnore)
+    {
+        PointerEventData pointerData = new PointerEventData(EventSystem.current)
+        {
+            position = Input.mousePosition
+        };
+
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(pointerData, results);
+
+        foreach (RaycastResult result in results)
+        {
+            if (!result.gameObject.CompareTag("EnemyTracker"))
+            {
+                return true; // Over a UI element that's NOT the enemy tracker
+            }
+        }
+
+        return false; // Only over ignored element or nothing at all
+    }
+
 }
