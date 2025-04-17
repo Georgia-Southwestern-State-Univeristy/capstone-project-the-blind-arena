@@ -54,18 +54,8 @@ public class TutorialSetup : MonoBehaviour
     private bool didPressSpace = false;
     private bool startedAttributeTutorial = false;
 
-    public SinglePlayerAttack playerAttack;
-
-    void Start()
-    {
-        if (playerAttack == null)
-            playerAttack = FindFirstObjectByType<SinglePlayerAttack>();
-            playerAttack.attackChecker = false;
-    }
-
     void Update()
     {
-
         Debug.Log("Tutorial Counter: " + tutorialcounter);
         TutorialMovement();
         TutorialAttackInstructions();
@@ -82,7 +72,6 @@ public class TutorialSetup : MonoBehaviour
         if (tutorialcounter == 0)
         {
             moveInstructions.SetActive(true);
-            playerAttack.attackChecker = false;
         }
 
         if (Input.GetKeyDown(KeyCode.W) && (tutorialcounter < 4)) { tutorialcounter++; }
@@ -102,7 +91,6 @@ public class TutorialSetup : MonoBehaviour
         {
             attackInstructions.SetActive(true);
             attackInstructionsShown = true;
-            playerAttack.attackChecker = true;
         }
 
 
@@ -138,7 +126,6 @@ public class TutorialSetup : MonoBehaviour
         if (didLeftClick && didRightClick && didPressE && didPressSpace && tutorialcounter >= 8 && !startedAttributeTutorial)
         {
             attackInstructions.SetActive(false);
-            playerAttack.attackChecker = false;
             tutorialcounter = 10;
             startedAttributeTutorial = true; // make sure it doesn't run again
             StartCoroutine(TutorialAttributeExplainationDialogue());
@@ -150,24 +137,16 @@ public class TutorialSetup : MonoBehaviour
             attributResetButton.GetComponent<UnityEngine.UI.Button>().interactable = false;
             attributBuyButton.GetComponent<UnityEngine.UI.Button>().interactable = false;
             attributeMenu.SetActive(true);
-            playerAttack.attackChecker = false;
             xbuttonupgrade.SetActive(false);
-
-        // Show first dialog
-        attributePointExplainationDialogue.SetActive(true);
-        yield return StartCoroutine(ShowDialogAndWait(attributePointExplainationDialogue));
-        attributePointExplainationDialogue.SetActive(false);
-
-        // Show second dialog
-        fieldPointIncreaseandDecreaseDialogue.SetActive(true);
-        yield return StartCoroutine(ShowDialogAndWait(fieldPointIncreaseandDecreaseDialogue));
-        fieldPointIncreaseandDecreaseDialogue.SetActive(false);
-
-        // Show third dialog
-        buttonExplainationDialogue.SetActive(true);
-        yield return StartCoroutine(ShowDialogAndWait(buttonExplainationDialogue));
-        buttonExplainationDialogue.SetActive(false);
-       
+            yield return new WaitForSeconds(0.5f);
+            attributePointExplainationDialogue.SetActive(true);
+            yield return new WaitForSeconds(5f);
+            attributePointExplainationDialogue.SetActive(false);
+            fieldPointIncreaseandDecreaseDialogue.SetActive(true);
+            yield return new WaitForSeconds(7f);
+            buttonExplainationDialogue.SetActive(true);
+            yield return new WaitForSeconds(5f);
+            buttonExplainationDialogue.SetActive(false);
             attributeMenu.SetActive(false);
             xbuttonupgrade.SetActive(true);
             attributeMenuShown = true;
@@ -183,7 +162,6 @@ public class TutorialSetup : MonoBehaviour
         {
             preparationDialogue.SetActive(true);
             preparationDialogueShown = true;
-            playerAttack.attackChecker = true;
             StartCoroutine(ActivateEnemyAIDelayed());
         }
     }
@@ -245,18 +223,6 @@ public class TutorialSetup : MonoBehaviour
             Debug.Log("RestAreaTutorial progress has been reset.");
             hasResetTutorial = true; // Set flag to true so it only runs once
         }
-    }
-
-    private IEnumerator ShowDialogAndWait(GameObject dialogObject)
-    {
-        bool isFinished = false;
-
-        DialogBox dialogBox = dialogObject.GetComponent<DialogBox>();
-        dialogBox.OnDialogFinished = () => { isFinished = true; };
-
-        dialogObject.SetActive(true);
-
-        yield return new WaitUntil(() => isFinished);
     }
 
     public void LoadNextSceneAndIncrementDeathCounter()
