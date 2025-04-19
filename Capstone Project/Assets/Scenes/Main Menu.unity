@@ -285,7 +285,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 2
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -2332,6 +2332,8 @@ MonoBehaviour:
     fadeInSpeed: 0.5
     visibleTime: 3
     fadeOutSpeed: 0.5
+  nextSceneOffset: 1
+  sceneTransitionDelay: 1
 --- !u!114 &394099638
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6346,6 +6348,8 @@ MonoBehaviour:
     fadeInSpeed: 0.5
     visibleTime: 100000000
     fadeOutSpeed: 0.5
+  nextSceneOffset: 1
+  sceneTransitionDelay: 1
 --- !u!114 &1231406513
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6502,6 +6506,8 @@ MonoBehaviour:
     fadeInSpeed: 0.5
     visibleTime: 3
     fadeOutSpeed: 0.5
+  nextSceneOffset: 1
+  sceneTransitionDelay: 1
 --- !u!114 &1259537213
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7363,6 +7369,8 @@ MonoBehaviour:
     fadeInSpeed: 0.5
     visibleTime: 100000000
     fadeOutSpeed: 0.5
+  nextSceneOffset: 1
+  sceneTransitionDelay: 1
 --- !u!114 &1384060184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8609,7 +8617,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 2
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -9642,7 +9650,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 72}
   m_SizeDelta: {x: 1173.189, y: 94.4655}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1889079159
@@ -10812,6 +10820,8 @@ MonoBehaviour:
     fadeInSpeed: 0.5
     visibleTime: 3
     fadeOutSpeed: 0.5
+  nextSceneOffset: 1
+  sceneTransitionDelay: 1
 --- !u!114 &2046584550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11951,6 +11961,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 126280917018235014, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 639238936972286179, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
       propertyPath: m_Name
       value: Options Menu
@@ -12039,9 +12053,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2417836149554174053, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2640923729679653699, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
       propertyPath: m_SortingOrder
       value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 4959812198582786283, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5035020703392800153, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6660194953761442193, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
       propertyPath: m_AnchorMax.y
