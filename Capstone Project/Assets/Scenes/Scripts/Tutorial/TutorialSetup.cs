@@ -54,6 +54,9 @@ public class TutorialSetup : MonoBehaviour
     private bool didPressSpace = false;
     private bool startedAttributeTutorial = false;
 
+    [SerializeField] private AudioClip bossMusicClip;
+    private AudioSource audioSource;
+
     public SinglePlayerAttack playerAttack;
 
     void Start()
@@ -61,6 +64,9 @@ public class TutorialSetup : MonoBehaviour
         if (playerAttack == null)
             playerAttack = FindFirstObjectByType<SinglePlayerAttack>();
             playerAttack.attackChecker = false;
+
+        audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.loop = true;
     }
 
     void Update()
@@ -147,7 +153,10 @@ public class TutorialSetup : MonoBehaviour
 
     private IEnumerator TutorialAttributeExplainationDialogue()
     {
-            attributResetButton.GetComponent<UnityEngine.UI.Button>().interactable = false;
+        bool wasAlreadyPaused = AudioListener.pause;
+        AudioListener.pause = true;
+
+        attributResetButton.GetComponent<UnityEngine.UI.Button>().interactable = false;
             attributBuyButton.GetComponent<UnityEngine.UI.Button>().interactable = false;
             attributeMenu.SetActive(true);
             playerAttack.attackChecker = false;
@@ -174,7 +183,13 @@ public class TutorialSetup : MonoBehaviour
             attributResetButton.GetComponent<UnityEngine.UI.Button>().interactable = true;
             attributBuyButton.GetComponent<UnityEngine.UI.Button>().interactable = true;
             tutorialcounter++;
+
+        if (!wasAlreadyPaused)
+        {
+            AudioListener.pause = false;
         }
+
+    }
 
 
     private void TutorialPreparationDialogue()
@@ -184,6 +199,13 @@ public class TutorialSetup : MonoBehaviour
             preparationDialogue.SetActive(true);
             preparationDialogueShown = true;
             playerAttack.attackChecker = true;
+
+            if (bossMusicClip != null && audioSource != null)
+            {
+                audioSource.clip = bossMusicClip;
+                audioSource.Play();
+            }
+
             StartCoroutine(ActivateEnemyAIDelayed());
         }
     }
@@ -194,7 +216,7 @@ public class TutorialSetup : MonoBehaviour
         {
             tutorialBossActivated = true;
             runDialogue.SetActive(true);
-            //if still not work enemyAifire goes right here
+
             StartCoroutine(ActivateEnemySwarmDelayed());
         }
     }

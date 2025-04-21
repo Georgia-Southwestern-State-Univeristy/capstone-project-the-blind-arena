@@ -23,6 +23,7 @@ public class EnemyHealth : MonoBehaviour
     private bool flashLock;
     [SerializeField] private float flashDuration = 0.1f;
     [SerializeField] private Color flashColor = Color.red;
+    [SerializeField] private AudioSource flashSound;
     public double deathcounter;
 
     void Start()
@@ -78,6 +79,12 @@ public class EnemyHealth : MonoBehaviour
     {
         if (!flashLock) {
             flashLock=true;
+
+            if (flashSound != null)
+            {
+                flashSound.Play(); // Play the sound at the start of the flash
+            }
+
             for (int i = 0; i < 2; i++)
             {
                 // Store original color

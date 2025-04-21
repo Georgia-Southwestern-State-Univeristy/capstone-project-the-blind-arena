@@ -36,6 +36,10 @@ public class PlayerController : MonoBehaviour
     private bool enemyAI4Activated = false;
     private bool enemyAI5Activated = false;
 
+    [SerializeField] private AudioSource walkingAudioSource; // Drag the AudioSource in the Inspector
+
+    private bool wasMovingLastFrame = false;
+
     public Camera playerCamera; // Assign this in the Inspector or instantiate dynamically
 
     void Start()
@@ -113,6 +117,25 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("isDashing", isDashing);
 
         HandleDashInput();
+
+        bool isMoving = moveDir.x != 0 || moveDir.z != 0;
+
+        if (isMoving && !wasMovingLastFrame)
+        {
+            if (walkingAudioSource != null && !walkingAudioSource.isPlaying)
+            {
+                walkingAudioSource.Play();
+            }
+        }
+        else if (!isMoving && wasMovingLastFrame)
+        {
+            if (walkingAudioSource != null && walkingAudioSource.isPlaying)
+            {
+                walkingAudioSource.Stop();
+            }
+        }
+
+        wasMovingLastFrame = isMoving;
     }
 
     private void FixedUpdate()
