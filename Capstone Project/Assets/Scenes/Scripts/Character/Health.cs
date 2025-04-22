@@ -40,6 +40,10 @@ public class Health : MonoBehaviour
     public float takeDamageModifier = 0f;
     public int damageCollected = 0;
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource damageAudioSource;
+    [SerializeField] private AudioClip hurtClip;
+
     void Start()
     {
         MAX_HEALTH = health;
@@ -106,6 +110,12 @@ public class Health : MonoBehaviour
         if (spriteRenderer != null && amount > 0)
         {
             StartCoroutine(FlashSprite());
+
+            if (damageAudioSource != null && hurtClip != null && !damageAudioSource.isPlaying)
+            {
+                damageAudioSource.clip = hurtClip;
+                damageAudioSource.Play();
+            }
         }
 
         if (health <= 0)

@@ -9,6 +9,9 @@ public class DialogBox : MonoBehaviour
     public string[] lines;
     public float textSpeed;
 
+    public AudioClip typingSound; // Add this
+    private AudioSource audioSource; // Add this
+
     private int index;
 
     public System.Action OnDialogFinished;
@@ -16,6 +19,12 @@ public class DialogBox : MonoBehaviour
     private void Start()
     {
         textComponent.text = string.Empty;
+
+        audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.clip = typingSound;
+        audioSource.loop = true;
+        audioSource.playOnAwake = false;
+
         StartDialogue();
     }
 
@@ -31,6 +40,7 @@ public class DialogBox : MonoBehaviour
             {
                 StopAllCoroutines();
                 textComponent.text = lines[index];
+                audioSource.Stop(); // Stop sound if line is instantly completed
             }
         }
     }
@@ -43,12 +53,20 @@ public class DialogBox : MonoBehaviour
 
     IEnumerator TypeLine()
     {
+        textComponent.text = "";
+
+        if (typingSound != null && audioSource != null)
+            audioSource.Play();
+
         foreach (char c in lines[index].ToCharArray())
         {
             textComponent.text += c;
             yield return new WaitForSeconds(textSpeed);
         }
-    }
+
+        if (audioSource.isPlaying)
+            audioSource.Stop();
+}
 
     void NextLine()
     {
@@ -61,6 +79,9 @@ public class DialogBox : MonoBehaviour
 
         else
         {
+            if (audioSource.isPlaying)
+                audioSource.Stop();
+
             gameObject.SetActive(false);
 
             if (OnDialogFinished != null)
