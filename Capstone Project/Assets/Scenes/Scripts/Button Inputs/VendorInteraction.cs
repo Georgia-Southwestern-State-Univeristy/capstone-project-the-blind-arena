@@ -20,6 +20,7 @@ public class VendorInteraction : MonoBehaviour
     [SerializeField] private RectTransform buttonPrompt; // UI element showing "Press E to interact"
     [SerializeField] private GameObject vendorMenu; // The vendor's menu to show/hide
     [SerializeField] private Canvas canvas; // Reference to the UI canvas
+    [SerializeField] private Button leaveButton; // UI button to trigger leave dialogue
 
     private Transform playerTransform;
     private bool isInRange;
@@ -32,8 +33,6 @@ public class VendorInteraction : MonoBehaviour
 
     private void Start()
     {
-        
-
         // Find the player in the scene
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         mainCamera = Camera.main;
@@ -61,12 +60,16 @@ public class VendorInteraction : MonoBehaviour
         // Hide the button prompt initially
         if (buttonPrompt != null)
             buttonPrompt.gameObject.SetActive(false);
+
+        // Ensure button is connected to the method
+        if (leaveButton != null)
+        {
+            leaveButton.onClick.AddListener(OnLeaveButtonClicked);
+        }
     }
 
     private void Update()
     {
-
-
         if (playerTransform == null || mainCamera == null) return;
 
         // Check distance to player
@@ -141,7 +144,6 @@ public class VendorInteraction : MonoBehaviour
         if (menuVisibility != null)
         {
             menuVisibility.SetVisibility(isMenuVisible);
-            LeaveDialogue.SetActive(true);
         }
     }
 
@@ -155,6 +157,9 @@ public class VendorInteraction : MonoBehaviour
         {
             menuVisibility.SetVisibility(false);
         }
+
+        LeaveDialogue.SetActive(false); // Hide leave dialogue when menu is closed
+        LeavingDialogueShown = false;
     }
 
     // Optional: Visualize the interaction range in the editor
@@ -177,14 +182,14 @@ public class VendorInteraction : MonoBehaviour
             ToggleMenu();
             GreetingDialogue.SetActive(false);
         }
-
-        else if (isInRange && Input.anyKeyDown && isMenuVisible)
-        {
-            GreetingDialogueShown = false;
-            LeavingDialogueShown = true;
-            LeaveDialogue.SetActive(true);
-        }
-
     }
 
+    public void OnLeaveButtonClicked()
+    {
+        if (isInRange && isMenuVisible && !LeavingDialogueShown)
+        {
+            LeaveDialogue.SetActive(true);
+            LeavingDialogueShown = true;
+        }
+    }
 }
