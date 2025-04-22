@@ -1,24 +1,21 @@
 using System;
 using System.Collections;
-using Unity.Burst.Intrinsics;
 using UnityEngine;
 
 public class EarthBossAI : MonoBehaviour
 {
-    public float speed;
     public Transform target;
     public Transform returnWaypoint;
+    public Animator animator;
+    public float speed;
     public float minimumDistance = 2f;
     public float attackDelay = 2f;
     public float leapCooldown = 5f;
     public float spikeCooldown = 3f;
     public float pullCooldown = 8f;
-    public Animator animator;
     public GameObject[] attackPrefabs;
-    public Transform spikeSpawnPoint;
 
     private EnemyHealth enemyHealth;
-    private float initialSpeed;
     private BossCameraSwitcher boardSwitcher;
     private bool startPhaseOne = false;
     private bool startPhaseTwo = false;
@@ -28,11 +25,9 @@ public class EarthBossAI : MonoBehaviour
     private bool isSetup = false;
     private bool isLeaping = false;
     private bool isStomping = false;
-    private bool isFocused = false;
     private bool interruptMovement;
-    private bool attackLock, leapLock, genLock, proLock, stopLeap;
+    private bool attackLock, proLock, stopLeap;
     private bool targetLock = false;
-    private bool p1, p2, p3;
     private const float HEIGHT = 0.6f;
     private System.Random rnd = new System.Random();
     private int random;
@@ -42,7 +37,6 @@ public class EarthBossAI : MonoBehaviour
         enemyHealth = GetComponent<EnemyHealth>();
         animator = GetComponent<Animator>();
         Rigidbody rb = GetComponent<Rigidbody>();
-        initialSpeed = speed;
         boardSwitcher = GetComponent<BossCameraSwitcher>();
 
         if (!enemyHealth) Debug.LogError("EnemyHealth component not found!");
@@ -160,8 +154,7 @@ public class EarthBossAI : MonoBehaviour
 
     private IEnumerator CheckForTarget()
     {
-        System.Random rand = new System.Random();
-        int newTarg = rand.Next(0, 3);
+        int newTarg = rnd.Next(0, 3);
         switch (newTarg)
         {
             case 0:

@@ -56,7 +56,7 @@ MonoBehaviour:
   damage: 3
   spriteDirection: 1
   elementType: 2
-  moveType: 4
+  moveType: 5
   isEffect: 1
   delayDamage: 0
   rotates: 0

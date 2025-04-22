@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class FireBossAI : MonoBehaviour
 {
+    public Transform target;
+    public Transform returnWaypoint;
+    public Animator animator;
     public float speed;
     public float dashLength = 15f;
     public float dashDuration = 1f;
     public float dashCooldown = 3f;
-    public Transform target;
-    public Transform returnWaypoint;
     public float minimumDistance = 5f;
     public float attackDelay = 2f;
     public float projectileAttackRate = 1.5f;
     public float retreatSpeed = 10f;
-    public Animator animator;
     public GameObject[] attackPrefabs;
 
     private EnemyHealth enemyHealth;
@@ -121,8 +121,7 @@ public class FireBossAI : MonoBehaviour
 
     private IEnumerator CheckForTarget()
     {
-        System.Random rand = new System.Random();
-        int newTarg = rand.Next(0,3);
+        int newTarg = rnd.Next(0,3);
         switch (newTarg)
         {
             case 0:
@@ -130,8 +129,6 @@ public class FireBossAI : MonoBehaviour
             case 1:
                 break;
             case 2:
-                break;
-            case 3:
                 break;
         }
         target = FindFirstObjectByType<PlayerController>().transform;
