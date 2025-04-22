@@ -10,7 +10,7 @@ public class ProjectileAttack : MonoBehaviour
 
     private enum Facing { Up, Down, Right, Left };
     private enum Element { Earth, Wind, Fire, Water, Lightning };
-    private enum Movement { Aimed, Homing, AimedHoming, Wandering, Stationary };
+    private enum Movement { Aimed, Homing, AimedHoming, Retracting, Wandering, Stationary };
 
     [SerializeField] private GameObject sprite;
     [SerializeField] private GameObject effectPrefab;
@@ -30,7 +30,7 @@ public class ProjectileAttack : MonoBehaviour
 
     private float initalLifespan, initalSpeed, fixedHeight, mCount=0, tCount=0;
     private Vector3 targetTransform, movementVector;
-    private bool inTrigger, skipStart=false, attackLock=false, damageLock=false;
+    private bool inTrigger, skipStart=false, attackLock=false, damageLock=false, slowDown=false, speedUp=false;
 
     public void Init(Transform targ, Vector3 vector)
     {
@@ -98,13 +98,14 @@ public class ProjectileAttack : MonoBehaviour
                 }
                 break;
             case Movement.AimedHoming:
-                if (initalLifespan-lifespan > 0.5 && initalLifespan-lifespan < 3)
+                if (initalLifespan-lifespan > 0.4 && initalLifespan-lifespan < 3)
                 {
-                    if (speed >= 0)
+                    if (!slowDown)
                     {
-                        speed = speed * 0.9f;
-                        movementVector = movementVector * (speed / initalSpeed);
+                        slowDown = true;
+                        StartCoroutine(ApplySlowdown());
                     }
+                    movementVector = movementVector * (speed / initalSpeed);
                 }
                 else if (initalLifespan-lifespan>3 && mCount==0)
                 {
@@ -113,6 +114,27 @@ public class ProjectileAttack : MonoBehaviour
                     movementVector = (targetTransform - transform.position).normalized;
                     movementVector *= ((Math.Abs(movementVector.z) * .6f) + 1) * speed;
                     mCount++;
+                }
+                break;
+            case Movement.Retracting:
+                if (initalLifespan - lifespan > .5 && initalLifespan - lifespan < 3)
+                {
+                    if (!slowDown)
+                    {
+                        slowDown = true;
+                        StartCoroutine(ApplySlowdown());
+                    }
+                    movementVector = movementVector * (speed / initalSpeed);
+                }
+                else
+                {
+                    if (!speedUp)
+                    {
+                        speedUp = true;
+                        StartCoroutine(ApplySpeedUp());
+                        movementVector = -movementVector;
+                    }
+                    movementVector = movementVector * (speed / initalSpeed);
                 }
                 break;
             case Movement.Wandering:
@@ -172,6 +194,30 @@ public class ProjectileAttack : MonoBehaviour
         vector.y = 0;
         vector.x = 45;
         projectile.transform.eulerAngles = vector;
+    }
+
+    private IEnumerator ApplySlowdown()
+    {
+        while (initalLifespan-lifespan <= 3)
+        {
+            speed = speed*.9f;
+            yield return new WaitForSeconds(0.4f);
+        }
+        yield return new WaitForSeconds(0.1f);
+    }
+
+    private IEnumerator ApplySpeedUp()
+    {
+        while (speed < initalSpeed)
+        {
+            if (speed > 0.1f)
+            {
+                speed = 0.1f;
+            }
+            speed = speed * 1.1f;
+            yield return new WaitForSeconds(0.4f);
+        }
+        yield return new WaitForSeconds(0.1f);
     }
 
     private void ApplySpecialEffect(Element ele, GameObject player, bool hit)
