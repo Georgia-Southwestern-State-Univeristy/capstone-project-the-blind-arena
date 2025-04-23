@@ -2632,6 +2632,7 @@ MonoBehaviour:
   flashDuration: 0.1
   flashColor: {r: 1, g: 0, b: 0, a: 1}
   flashSound: {fileID: 0}
+  victorySound: {fileID: 0}
   deathcounter: 0
 --- !u!114 &200971356
 MonoBehaviour:
@@ -5246,6 +5247,7 @@ MonoBehaviour:
   flashDuration: 0.1
   flashColor: {r: 1, g: 0, b: 0, a: 1}
   flashSound: {fileID: 0}
+  victorySound: {fileID: 0}
   deathcounter: 0
 --- !u!114 &372156515
 MonoBehaviour:
@@ -6726,6 +6728,7 @@ MonoBehaviour:
   flashDuration: 0.1
   flashColor: {r: 1, g: 0, b: 0, a: 1}
   flashSound: {fileID: 0}
+  victorySound: {fileID: 0}
   deathcounter: 0
 --- !u!114 &453758847
 MonoBehaviour:
@@ -7267,6 +7270,7 @@ MonoBehaviour:
   flashDuration: 0.1
   flashColor: {r: 1, g: 0, b: 0, a: 1}
   flashSound: {fileID: 0}
+  victorySound: {fileID: 0}
   deathcounter: 0
 --- !u!114 &458872861
 MonoBehaviour:
@@ -7965,6 +7969,7 @@ MonoBehaviour:
   flashDuration: 0.1
   flashColor: {r: 1, g: 0, b: 0, a: 1}
   flashSound: {fileID: 0}
+  victorySound: {fileID: 0}
   deathcounter: 0
 --- !u!114 &508819881
 MonoBehaviour:
@@ -8247,6 +8252,7 @@ MonoBehaviour:
   flashDuration: 0.1
   flashColor: {r: 1, g: 0, b: 0, a: 1}
   flashSound: {fileID: 0}
+  victorySound: {fileID: 0}
   deathcounter: 0
 --- !u!114 &509978537
 MonoBehaviour:
@@ -13585,6 +13591,7 @@ MonoBehaviour:
   flashDuration: 0.1
   flashColor: {r: 1, g: 0, b: 0, a: 1}
   flashSound: {fileID: 0}
+  victorySound: {fileID: 0}
   deathcounter: 0
 --- !u!114 &938276045
 MonoBehaviour:
@@ -14996,8 +15003,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 9e0e4988a49220145b28c3fa0f55efdd, type: 3}
+  m_Resource: {fileID: 8300000, guid: 9e0e4988a49220145b28c3fa0f55efdd, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -15390,6 +15397,7 @@ MonoBehaviour:
   flashDuration: 0.1
   flashColor: {r: 1, g: 0, b: 0, a: 1}
   flashSound: {fileID: 0}
+  victorySound: {fileID: 0}
   deathcounter: 0
 --- !u!114 &1028169505
 MonoBehaviour:
@@ -15550,8 +15558,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 9e0e4988a49220145b28c3fa0f55efdd, type: 3}
+  m_Resource: {fileID: 8300000, guid: 9e0e4988a49220145b28c3fa0f55efdd, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -16618,6 +16626,7 @@ MonoBehaviour:
   flashDuration: 0.1
   flashColor: {r: 1, g: 0, b: 0, a: 1}
   flashSound: {fileID: 0}
+  victorySound: {fileID: 0}
   deathcounter: 0
 --- !u!114 &1108428842
 MonoBehaviour:
@@ -16905,6 +16914,7 @@ MonoBehaviour:
   flashDuration: 0.1
   flashColor: {r: 1, g: 0, b: 0, a: 1}
   flashSound: {fileID: 0}
+  victorySound: {fileID: 0}
   deathcounter: 0
 --- !u!114 &1110892933
 MonoBehaviour:
@@ -20118,8 +20128,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 9e0e4988a49220145b28c3fa0f55efdd, type: 3}
+  m_Resource: {fileID: 8300000, guid: 9e0e4988a49220145b28c3fa0f55efdd, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -21588,6 +21598,7 @@ MonoBehaviour:
   flashDuration: 0.1
   flashColor: {r: 1, g: 0, b: 0, a: 1}
   flashSound: {fileID: 0}
+  victorySound: {fileID: 0}
   deathcounter: 0
 --- !u!114 &1438243807
 MonoBehaviour:
@@ -21985,8 +21996,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 9e0e4988a49220145b28c3fa0f55efdd, type: 3}
+  m_Resource: {fileID: 8300000, guid: 9e0e4988a49220145b28c3fa0f55efdd, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -22393,6 +22404,7 @@ MonoBehaviour:
   flashDuration: 0.1
   flashColor: {r: 1, g: 0, b: 0, a: 1}
   flashSound: {fileID: 0}
+  victorySound: {fileID: 0}
   deathcounter: 0
 --- !u!114 &1513093894
 MonoBehaviour:
@@ -23162,8 +23174,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 9e0e4988a49220145b28c3fa0f55efdd, type: 3}
+  m_Resource: {fileID: 8300000, guid: 9e0e4988a49220145b28c3fa0f55efdd, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -23666,6 +23678,7 @@ MonoBehaviour:
   flashDuration: 0.1
   flashColor: {r: 1, g: 0, b: 0, a: 1}
   flashSound: {fileID: 0}
+  victorySound: {fileID: 0}
   deathcounter: 0
 --- !u!114 &1583553434
 MonoBehaviour:
@@ -24435,8 +24448,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 9e0e4988a49220145b28c3fa0f55efdd, type: 3}
+  m_Resource: {fileID: 8300000, guid: 9e0e4988a49220145b28c3fa0f55efdd, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -25390,6 +25403,7 @@ MonoBehaviour:
   flashDuration: 0.1
   flashColor: {r: 1, g: 0, b: 0, a: 1}
   flashSound: {fileID: 0}
+  victorySound: {fileID: 0}
   deathcounter: 0
 --- !u!114 &1742736771
 MonoBehaviour:
@@ -26657,6 +26671,7 @@ MonoBehaviour:
   flashDuration: 0.1
   flashColor: {r: 1, g: 0, b: 0, a: 1}
   flashSound: {fileID: 0}
+  victorySound: {fileID: 0}
   deathcounter: 0
 --- !u!114 &1832187591
 MonoBehaviour:
@@ -27120,6 +27135,7 @@ MonoBehaviour:
   flashDuration: 0.1
   flashColor: {r: 1, g: 0, b: 0, a: 1}
   flashSound: {fileID: 0}
+  victorySound: {fileID: 0}
   deathcounter: 0
 --- !u!114 &1849115664
 MonoBehaviour:
@@ -28605,6 +28621,7 @@ MonoBehaviour:
   flashDuration: 0.1
   flashColor: {r: 1, g: 0, b: 0, a: 1}
   flashSound: {fileID: 0}
+  victorySound: {fileID: 0}
   deathcounter: 0
 --- !u!114 &1914809458
 MonoBehaviour:
@@ -29815,6 +29832,7 @@ MonoBehaviour:
   flashDuration: 0.1
   flashColor: {r: 1, g: 0, b: 0, a: 1}
   flashSound: {fileID: 0}
+  victorySound: {fileID: 0}
   deathcounter: 0
 --- !u!114 &1964871512
 MonoBehaviour:
@@ -30963,6 +30981,7 @@ MonoBehaviour:
   flashDuration: 0.1
   flashColor: {r: 1, g: 0, b: 0, a: 1}
   flashSound: {fileID: 0}
+  victorySound: {fileID: 0}
   deathcounter: 0
 --- !u!114 &2066430297
 MonoBehaviour:
@@ -31774,6 +31793,7 @@ MonoBehaviour:
   flashDuration: 0.1
   flashColor: {r: 1, g: 0, b: 0, a: 1}
   flashSound: {fileID: 7204237666189276348}
+  victorySound: {fileID: 0}
   deathcounter: 0
 --- !u!212 &1083216293132928131
 SpriteRenderer:

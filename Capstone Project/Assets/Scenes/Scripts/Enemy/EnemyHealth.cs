@@ -24,6 +24,7 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField] private float flashDuration = 0.1f;
     [SerializeField] private Color flashColor = Color.red;
     [SerializeField] private AudioSource flashSound;
+    [SerializeField] private AudioSource victorySound;
     public double deathcounter;
 
     void Start()
@@ -121,6 +122,18 @@ public class EnemyHealth : MonoBehaviour
 
         if (gameObject.CompareTag("Boss"))
         {
+            foreach (AudioSource source in FindObjectsOfType<AudioSource>())
+            {
+                if (source != victorySound)
+                {
+                    source.Stop();
+                }
+
+
+
+            victorySound.Play(); // Play the sound at the start of the flash
+
+            }
             Destroy(gameObject);
             GameData.deathcounter++;
             SceneController.Instance.LoadScene(2);
