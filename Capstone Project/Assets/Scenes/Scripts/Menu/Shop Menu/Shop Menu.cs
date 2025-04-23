@@ -29,6 +29,13 @@ public class ShopManager : MonoBehaviour
     public Health playerHealth;
     public PlayerAttackManager playerAttackManager;
 
+    [SerializeField] private AudioSource itemAudioSource;
+    [SerializeField] private AudioClip potionAudio;
+    [SerializeField] private AudioClip bootsAudio;
+    [SerializeField] private AudioClip damageIncreaseAudio;
+    [SerializeField] private AudioClip shieldsAudio;
+    [SerializeField] private AudioClip swordAudio;
+
     private int[] selectedIndexes;
     private static Dictionary<Sprite, int> purchasedItems = new Dictionary<Sprite, int>(); // Track item counts
 
@@ -286,6 +293,8 @@ public class ShopManager : MonoBehaviour
             // the Health script has a method to restore health
             playerHealth.Heal(50); 
             Debug.Log("Health restored by 50!");
+            itemAudioSource.clip = potionAudio;
+            itemAudioSource.Play();
         }
 
         if (itemSprite.name == "Shop_item_icons-removebg-preview_1") // Check for specific sprite (item)
@@ -293,30 +302,40 @@ public class ShopManager : MonoBehaviour
             playerHealth.stamina = playerHealth.MAX_STAMINA;
             playerHealth.UpdateStaminaBar(); // Update stamina bar UI
             Debug.Log("Stamina fully restored!");
+            itemAudioSource.clip = potionAudio;
+            itemAudioSource.Play();
         }
 
         if (itemSprite.name == "Shop_item_icons-removebg-preview_2") // Check for specific sprite (item)
         {
             // Apply speed boost
             playerController.AdjustSpeed(5f, 3f); // Increase speed by 5 for 3 seconds
+            itemAudioSource.clip = bootsAudio;
+            itemAudioSource.Play();
         }
 
         if (itemSprite.name == "Shop_item_icons-removebg-preview_3") // Check for specific sprite (item)
         {
-            // Apply speed boost
+            // Apply damage boost
             playerAttackManager.AdjustDamage(5f, 5f); // Increase damage dealt by 10 for 3 seconds
+            itemAudioSource.clip = damageIncreaseAudio;
+            itemAudioSource.Play();
         }
 
         if (itemSprite.name == "Shop_item_icons-removebg-preview_6") // Check for specific sprite (item)
         {
-            // Apply speed boost
+            // Apply damage reduction boost
             playerHealth.AdjustTakeDamage(5f, 5f); // Decrease damage taken by 5 for 5 seconds
+            itemAudioSource.clip = shieldsAudio;
+            itemAudioSource.Play();
         }
 
         if (itemSprite.name == "Shop_item_icons-removebg-preview_7") // Check for specific sprite (item)
         {
             playerHealth.Heal(playerHealth.damageCollected);
             playerHealth.damageCollected = 0; // Reset damageCollected after healing
+            itemAudioSource.clip = swordAudio;
+            itemAudioSource.Play();
         }
     }
 

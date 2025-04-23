@@ -40,6 +40,8 @@ public class Health : MonoBehaviour
     public float takeDamageModifier = 0f;
     public int damageCollected = 0;
 
+    private bool isDead = false; // Add this to prevent multiple death triggers
+
     [Header("Audio")]
     [SerializeField] private AudioSource damageAudioSource;
     [SerializeField] private AudioClip hurtClip;
@@ -254,6 +256,7 @@ public class Health : MonoBehaviour
         // Check if we're in scene index 1
         if (SceneManager.GetActiveScene().buildIndex == 1)
         {
+            GameData.deathcounter = 1;
             // If we're in scene 1, load scene 2
             SceneController.Instance.LoadScene(2);
         }

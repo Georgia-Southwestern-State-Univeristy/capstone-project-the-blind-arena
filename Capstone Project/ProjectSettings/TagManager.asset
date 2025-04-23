@@ -10,6 +10,7 @@ TagManager:
   - Boss
   - Projectile
   - EnemyTracker
+  - FirstTutorialAI
   layers:
   - Default
   - TransparentFX

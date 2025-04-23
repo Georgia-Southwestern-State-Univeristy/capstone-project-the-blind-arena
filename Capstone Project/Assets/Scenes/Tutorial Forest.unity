@@ -11771,7 +11771,7 @@ PrefabInstance:
     - target: {fileID: 7338263006075871222, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       propertyPath: 'attackAudios.Array.data[1]'
       value: 
-      objectReference: {fileID: 8300000, guid: aa38a0d241dab9e45a3d099d68d6c4d5, type: 3}
+      objectReference: {fileID: 8300000, guid: 48796fdf03767924abc0c5b1641c6c69, type: 3}
     - target: {fileID: 7338263006075871222, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       propertyPath: 'attackAudios.Array.data[2]'
       value: 
@@ -32533,7 +32533,7 @@ GameObject:
   - component: {fileID: 8860366477653967713}
   m_Layer: 0
   m_Name: Enemy Ai
-  m_TagString: Untagged
+  m_TagString: FirstTutorialAI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

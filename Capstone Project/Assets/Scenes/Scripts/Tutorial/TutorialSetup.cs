@@ -21,26 +21,26 @@ public class TutorialSetup : MonoBehaviour
 
     public int tutorialcounter = 0;
 
-    [SerializeField] private GameObject tutorialBoss;
-    [SerializeField] private GameObject tutorialBossSwarm1;
-    [SerializeField] private GameObject tutorialBossSwarm2;
-    [SerializeField] private GameObject tutorialBossSwarm3;
-    [SerializeField] private GameObject tutorialBossSwarm4;
-    [SerializeField] private GameObject tutorialBossSwarm5;
-    [SerializeField] private GameObject tutorialBossSwarm6;
-    [SerializeField] private GameObject tutorialBossSwarm7;
-    [SerializeField] private GameObject tutorialBossSwarm8;
-    [SerializeField] private GameObject tutorialBossSwarm9;
-    [SerializeField] private GameObject tutorialBossSwarm10;
-    [SerializeField] private GameObject tutorialBossSwarm11;
-    [SerializeField] private GameObject tutorialBossSwarm12;
-    [SerializeField] private GameObject tutorialBossSwarm13;
-    [SerializeField] private GameObject tutorialBossSwarm14;
-    [SerializeField] private GameObject tutorialBossSwarm15;
-    [SerializeField] private GameObject tutorialBossSwarm16;
-    [SerializeField] private GameObject tutorialBossSwarm17;
-    [SerializeField] private GameObject tutorialBossSwarm18;
-    [SerializeField] private GameObject tutorialBossSwarm19;
+    [SerializeField] public GameObject tutorialBoss;
+    [SerializeField] public GameObject tutorialBossSwarm1;
+    [SerializeField] public GameObject tutorialBossSwarm2;
+    [SerializeField] public GameObject tutorialBossSwarm3;
+    [SerializeField] public GameObject tutorialBossSwarm4;
+    [SerializeField] public GameObject tutorialBossSwarm5;
+    [SerializeField] public GameObject tutorialBossSwarm6;
+    [SerializeField] public GameObject tutorialBossSwarm7;
+    [SerializeField] public GameObject tutorialBossSwarm8;
+    [SerializeField] public GameObject tutorialBossSwarm9;
+    [SerializeField] public GameObject tutorialBossSwarm10;
+    [SerializeField] public GameObject tutorialBossSwarm11;
+    [SerializeField] public GameObject tutorialBossSwarm12;
+    [SerializeField] public GameObject tutorialBossSwarm13;
+    [SerializeField] public GameObject tutorialBossSwarm14;
+    [SerializeField] public GameObject tutorialBossSwarm15;
+    [SerializeField] public GameObject tutorialBossSwarm16;
+    [SerializeField] public GameObject tutorialBossSwarm17;
+    [SerializeField] public GameObject tutorialBossSwarm18;
+    [SerializeField] public GameObject tutorialBossSwarm19;
 
     private bool tutorialBossActivated = false;
     private bool attackInstructionsShown = false;
@@ -61,6 +61,8 @@ public class TutorialSetup : MonoBehaviour
 
     void Start()
     {
+        GameData.deathcounter = 0;
+        Debug.Log("Deathcounter on start: " + GameData.deathcounter);
         if (playerAttack == null)
             playerAttack = FindFirstObjectByType<SinglePlayerAttack>();
             playerAttack.attackChecker = false;
