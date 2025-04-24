@@ -6,12 +6,12 @@ using UnityEngine.SceneManagement;
 
 public class Health : MonoBehaviour
 {
-    [SerializeField] public int health = 300;
+    [SerializeField] public float health = 300f;
     [SerializeField] public float stamina = 100f;
     [SerializeField] private Slider healthBarSlider; // Health bar UI
     [SerializeField] private Slider staminaBarSlider; // Stamina bar UI
 
-    public int MAX_HEALTH = 300;
+    public float MAX_HEALTH = 300f;
     public float MAX_STAMINA = 100f;
     private int staminaRegenRate = 9; // Stamina regenerates by 1 per 0.3 seconds
     private float staminaRegenDelay = 2f; // Delay before stamina starts regenerating

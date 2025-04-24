@@ -87,22 +87,29 @@ public class AttributeMenu : MonoBehaviour
             confirmedAttributes[i] = 0; // Reset confirmed values
         }
 
-        // Reset health and MAX_HEALTH to 300
-        if (playerHealth != null)
+        // Reset player stats from PlayerStatsManager default values
+        if (PlayerStatsManager.Instance != null)
         {
-            playerHealth.health = 300; // Reset to original health value
-            playerHealth.MAX_HEALTH = 300; // Reset to original max health value
-        }
+            PlayerStatsManager.Instance.ResetToDefaults();
 
-        if (playerController != null)
-        {
-            playerController.speed = playerController.originalSpeed; // Reset speed to original value
-        }
+            if (playerHealth != null)
+            {
+                playerHealth.stamina = PlayerStatsManager.Instance.stamina;
+                playerHealth.MAX_STAMINA = PlayerStatsManager.Instance.maxStamina;
+            }
 
-        if (playerAttackManager != null)
-        {
-            playerAttackManager.damageModifier = 0; // Reset speed to original value
-            playerAttackManager.ResetCooldowns(); // Reset cooldowns
+            if (playerController != null)
+            {
+                playerController.speed = PlayerStatsManager.Instance.speed;
+            }
+
+            if (playerAttackManager != null)
+            {
+                playerAttackManager.damageModifier = PlayerStatsManager.Instance.damageModifier;
+                playerAttackManager.ResetCooldowns(); // Reset cooldowns
+            }
+
+            availablePoints = PlayerStatsManager.Instance.availablePoints;
         }
 
         UpdatePointsDisplay();
@@ -154,6 +161,39 @@ public class AttributeMenu : MonoBehaviour
             }
 
             confirmedAttributes[i] = attributes[i];
+        }
+
+        PlayerStatsManager stats = PlayerStatsManager.Instance;
+        stats.availablePoints = availablePoints;
+        Array.Copy(confirmedAttributes, stats.confirmedAttributes, confirmedAttributes.Length);
+
+        if (playerHealth != null)
+        {
+            stats.health = playerHealth.health;
+            stats.maxHealth = playerHealth.MAX_HEALTH;
+            stats.stamina = playerHealth.stamina;
+            stats.maxStamina = playerHealth.MAX_STAMINA;
+        }
+
+        if (playerController != null)
+        {
+            stats.speed = playerController.speed;
+        }
+
+        if (playerAttackManager != null)
+        {
+            stats.damageModifier = playerAttackManager.damageModifier;
+
+            // Save current cooldowns and stamina usage
+            int attackCount = playerAttackManager.attacks.Length;
+            stats.attackCooldowns = new float[attackCount];
+            stats.attackStaminaUses = new float[attackCount];
+
+            for (int i = 0; i < attackCount; i++)
+            {
+                stats.attackCooldowns[i] = playerAttackManager.attacks[i].cooldown;
+                stats.attackStaminaUses[i] = playerAttackManager.attacks[i].staminaUse;
+            }
         }
     }
 

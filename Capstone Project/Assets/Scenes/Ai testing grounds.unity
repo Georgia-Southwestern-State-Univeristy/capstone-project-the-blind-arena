@@ -442,11 +442,6 @@ PrefabInstance:
       addedObject: {fileID: 226092519}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9c74290e8e39d3488b975df179a64dd, type: 3}
---- !u!1 &99444262 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4152816878500907604, guid: 94c1d716c593b34428136bc73695cc26, type: 3}
-  m_PrefabInstance: {fileID: 1631964225}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &102405720
 GameObject:
   m_ObjectHideFlags: 0
@@ -5522,11 +5517,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 94c1d716c593b34428136bc73695cc26, type: 3}
---- !u!1 &1725596265 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7970103160979718905, guid: b88c70b1171cad44f825987b7bbeefbb, type: 3}
-  m_PrefabInstance: {fileID: 1057819130}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1752580505
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6686,6 +6676,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -1340804984754319440, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1543111013}
+    - target: {fileID: -1340804984754319440, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      propertyPath: playerHealth
+      value: 
+      objectReference: {fileID: 3026038168033827036}
+    - target: {fileID: -1340804984754319440, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      propertyPath: playerController
+      value: 
+      objectReference: {fileID: 3026038168033827037}
+    - target: {fileID: -1340804984754319440, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      propertyPath: playerAttackManager
+      value: 
+      objectReference: {fileID: 3026038168033827038}
     - target: {fileID: 168013719982219207, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -6809,11 +6815,11 @@ PrefabInstance:
     - target: {fileID: 4355459727560426660, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       propertyPath: attributeUI
       value: 
-      objectReference: {fileID: 99444262}
+      objectReference: {fileID: 0}
     - target: {fileID: 4355459727560426660, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       propertyPath: inventoryUI
       value: 
-      objectReference: {fileID: 1725596265}
+      objectReference: {fileID: 0}
     - target: {fileID: 4355459727560426660, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       propertyPath: pauseMenuUI
       value: 
