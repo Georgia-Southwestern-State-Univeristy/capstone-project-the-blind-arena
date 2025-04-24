@@ -52,7 +52,26 @@ public class AttributeMenu : MonoBehaviour
 
         resetButton.onClick.AddListener(ResetAttributes);
         buyButton.onClick.AddListener(LockAttributes);
+
+        // Load saved attribute values from PlayerStatsManager
+        if (PlayerStatsManager.Instance != null)
+        {
+            confirmedAttributes = new int[PlayerStatsManager.Instance.confirmedAttributes.Length];
+            PlayerStatsManager.Instance.confirmedAttributes.CopyTo(confirmedAttributes, 0);
+
+            // Sync UI attributes with confirmed ones
+            for (int i = 0; i < attributes.Length; i++)
+            {
+                attributes[i] = confirmedAttributes[i];
+            }
+
+            availablePoints = PlayerStatsManager.Instance.availablePoints;
+
+            UpdatePointsDisplay();
+            UpdateAttributeTexts();
+        }
     }
+
 
     void IncrementAttribute(int index)
     {
