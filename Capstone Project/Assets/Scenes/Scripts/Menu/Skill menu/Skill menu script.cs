@@ -14,6 +14,12 @@ public class HighlightImageOnClick : MonoBehaviour
     // Lock images to hide when buying
     public List<Image> lockImages;
 
+    //List of attack modifications
+    public List<float> attackModifiers;
+    public PlayerAttackManager playerAttackManager;
+    public PlayerController playerController;
+    public Health health;
+
     // Highlight color for the outline
     public Color highlightColor = Color.yellow;
 
@@ -117,6 +123,130 @@ public class HighlightImageOnClick : MonoBehaviour
             // Hide the lock image for the selected image
             var lockImage = lockImages[currentIndex];
             lockImage.gameObject.SetActive(false);
+
+            // Apply attack modifier
+            if (currentIndex == 1 && points > 0 && playerAttackManager != null)
+            {
+                foreach (var attack in playerAttackManager.attacks)
+                {
+                    if (attack.name == "RockThrow")
+                    {
+                        attack.damage += 2;
+                    }
+                }
+            }
+
+            if (currentIndex == 2 && points > 0 && playerAttackManager != null)
+            {
+                // Decrease the cooldown by 0.05 per point
+                float cooldownReduction = points * 0.05f; // Subtract 0.1 for each point spent
+                foreach (var attack in playerAttackManager.attacks)
+                {
+                    // Apply cooldown reduction for the specific attack
+                    if (attack.name == "RockThrow") // assuming 4 is the ID for the attack you want to modify
+                    {
+                        attack.cooldown = Mathf.Max(attack.cooldown - cooldownReduction, 0f); 
+                    }
+                }
+            }
+
+            if (currentIndex == 3 && points > 0 && playerAttackManager != null)
+            {
+                foreach (var attack in playerAttackManager.attacks)
+                {
+                    if (attack.name == "RockThrow")
+                    {
+                         //change this for unique abilities changes
+                    }
+                }
+            }
+
+            if (currentIndex == 5 && points > 0 && playerAttackManager != null)
+            {
+                foreach (var attack in playerAttackManager.attacks)
+                {
+                    if (attack.name == "EarthWall") 
+                    {
+                        attack.duration += 2;
+                    }
+                }
+            }
+
+            if (currentIndex == 6 && points > 0 && playerAttackManager != null)
+            {
+                foreach (var attack in playerAttackManager.attacks)
+                {
+                    float cooldownReduction = points * 0.05f; // Subtract 0.1 for each point spent
+                    // Apply cooldown reduction for the specific attack
+                    if (attack.name == "EarthWall") //
+                    {
+                        attack.cooldown = Mathf.Max(attack.cooldown - cooldownReduction, 0f);
+                    }
+                }
+            }
+
+            if (currentIndex == 7 && points > 0 && playerAttackManager != null)
+            {
+
+                foreach (var attack in playerAttackManager.attacks)
+                {
+                    if (attack.name == "EarthWall") 
+                    {
+                         //change this for unique abilities changes
+                    }
+                }
+            }
+
+            if (currentIndex == 9 && points > 0 && playerController != null)
+            {
+                 
+            }
+
+
+            if (currentIndex == 10 && points > 0 && playerController != null)
+            {
+
+            }
+
+            if (currentIndex == 11 && points > 0 && playerController != null)
+            {
+
+            }
+
+            if (currentIndex == 13 && points > 0 && playerAttackManager != null)
+            {
+                foreach (var attack in playerAttackManager.attacks)
+                {
+                    if (attack.name == "EarthQuake")
+                    {
+                        attack.damage += 5;
+                    }
+                }
+            }
+
+            if (currentIndex == 14 && points > 0 && playerAttackManager != null)
+            {
+                foreach (var attack in playerAttackManager.attacks)
+                {
+                    // Apply cooldown reduction for the specific attack
+                    if (attack.name == "EarthQuake") // assuming 4 is the ID for the attack you want to modify
+                    {
+                        attack.duration += 2;
+                    }
+                }
+            }
+
+            if (currentIndex == 15 && points > 0 && playerAttackManager != null)
+            {
+
+                foreach (var attack in playerAttackManager.attacks)
+                {
+                    if (attack.name == "EarthQuake")
+                    {
+                        //change this for unique abilities changes
+                    }
+                }
+            }
 
             // Update the points display
             UpdatePointsDisplay();

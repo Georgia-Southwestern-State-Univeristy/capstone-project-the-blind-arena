@@ -7688,6 +7688,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2672223870078440716, guid: 8286a95207c11e747b9130190a0642d8, type: 3}
+      propertyPath: m_text
+      value: 'Earthquake
+
+
+        Unleash a ground-shattering quake, damaging all
+        enemies in an area and disrupting their balance.
+
+
+        Increase duration
+        by 5%'
+      objectReference: {fileID: 0}
+    - target: {fileID: 3885974608438570444, guid: 8286a95207c11e747b9130190a0642d8, type: 3}
+      propertyPath: playerAttackManager
+      value: 
+      objectReference: {fileID: 1715120179}
     - target: {fileID: 5441913590598541189, guid: 8286a95207c11e747b9130190a0642d8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 2
@@ -7743,6 +7759,18 @@ PrefabInstance:
     - target: {fileID: 5473951888801694468, guid: 8286a95207c11e747b9130190a0642d8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: UnityEngine.AudioSource, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 6153337118247447481, guid: 8286a95207c11e747b9130190a0642d8, type: 3}
+      propertyPath: m_text
+      value: 'Rock Wall
+
+
+        Summon a sturdy wall of stone from the ground to
+        block enemies or protect yourself.
+
+
+        Upgrade duration increase by
+        10%'
       objectReference: {fileID: 0}
     - target: {fileID: 6301596756765507559, guid: 8286a95207c11e747b9130190a0642d8, type: 3}
       propertyPath: m_Name
@@ -10822,6 +10850,8 @@ MonoBehaviour:
   maxStamina: 100
   speed: 5
   damageModifier: 0
+  attackCooldowns: []
+  attackStaminaUses: []
 --- !u!1 &1488034986 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7970103160979718905, guid: b88c70b1171cad44f825987b7bbeefbb, type: 3}

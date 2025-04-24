@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public float speed;
     [SerializeField] private float dashSpeedMultiplier = 2f; // Multiplier for dash speed
     [SerializeField] private float gravityScale = 20f;
-    [SerializeField] private float dashStaminaCost; // Stamina cost per frame while dashing
+    [SerializeField] public float dashStaminaCost; // Stamina cost per frame while dashing
     public Animator animator;
     private float fixedHeight = 0.55f;
     private bool isDashing = false;
