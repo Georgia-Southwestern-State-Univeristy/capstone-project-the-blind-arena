@@ -47,26 +47,54 @@ public class SinglePlayerAttack : MonoBehaviour
 
         if (attackTypes.Length > 0 && Input.GetMouseButtonDown(0))
         {
-            attackManager.TriggerAttack(attackTypes[0]);
-            PlayAttackSound(0);
+            if (attackManager.CanUseAttack(attackTypes[0]))
+            {
+                attackManager.TriggerAttack(attackTypes[0]);
+
+                if (attackManager.playattacksound == true)
+                {
+                    PlayAttackSound(0);
+                }
+            }
         }
 
         if (attackTypes.Length > 1 && Input.GetMouseButtonDown(1))
         {
-            attackManager.TriggerAttack(attackTypes[1]);
-            PlayAttackSound(1);
+            if (attackManager.CanUseAttack(attackTypes[1]))
+            {
+                attackManager.TriggerAttack(attackTypes[1]);
+
+                if (attackManager.playattacksound == true)
+                {
+                    PlayAttackSound(1);
+                }
+            }
         }
 
         if (attackTypes.Length > 2 && Input.GetKeyDown(KeyCode.E))
         {
-            attackManager.TriggerAttack(attackTypes[2]);
-            PlayAttackSound(2);
+            if (attackManager.CanUseAttack(attackTypes[2]))
+            {
+                attackManager.TriggerAttack(attackTypes[2]);
+
+                if (attackManager.playattacksound == true)
+                {
+                    PlayAttackSound(2);
+                }
+            }
         }
 
         if (attackTypes.Length > 3 && Input.GetKeyDown(KeyCode.Q))
         {
-            attackManager.TriggerAttack(attackTypes[3]);
-            PlayAttackSound(3);
+            if (attackManager.CanUseAttack(attackTypes[3]))
+            {
+                attackManager.TriggerAttack(attackTypes[3]);
+
+                if (attackManager.playattacksound == true)
+                {
+                    PlayAttackSound(3);
+                }
+            }
         }
     }
 
