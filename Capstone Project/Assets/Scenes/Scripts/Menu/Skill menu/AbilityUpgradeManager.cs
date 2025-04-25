@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class AbilityUpgradeManager : MonoBehaviour
@@ -19,6 +20,13 @@ public class AbilityUpgradeManager : MonoBehaviour
     }
 
     public List<AttackUpgrade> upgrades = new List<AttackUpgrade>();
+
+    private List<AttackUpgrade> originalUpgrades = new List<AttackUpgrade>();
+
+    private void Start()
+    {
+        SaveOriginalUpgrades(); // Store baseline values when the game starts
+    }
 
     private void Awake()
     {
@@ -78,4 +86,61 @@ public class AbilityUpgradeManager : MonoBehaviour
             upgrade.spriteSizeMultiplier *= spriteMultiplier;
         }
     }
+
+    public void SaveOriginalUpgrades()
+    {
+        originalUpgrades.Clear();
+        foreach (var upgrade in upgrades)
+        {
+            var copy = new AttackUpgrade
+            {
+                attackName = upgrade.attackName,
+                addedDamage = upgrade.addedDamage,
+                reducedCooldown = upgrade.reducedCooldown,
+                addedDuration = upgrade.addedDuration,
+                colliderSizeMultiplier = upgrade.colliderSizeMultiplier,
+                spriteSizeMultiplier = upgrade.spriteSizeMultiplier
+            };
+            originalUpgrades.Add(copy);
+        }
+    }
+
+    public void ResetUpgradesToOriginal()
+    {
+        upgrades.Clear();
+        foreach (var upgrade in originalUpgrades)
+        {
+            var copy = new AttackUpgrade
+            {
+                attackName = upgrade.attackName,
+                addedDamage = upgrade.addedDamage,
+                reducedCooldown = upgrade.reducedCooldown,
+                addedDuration = upgrade.addedDuration,
+                colliderSizeMultiplier = upgrade.colliderSizeMultiplier,
+                spriteSizeMultiplier = upgrade.spriteSizeMultiplier
+            };
+            upgrades.Add(copy);
+        }
+
+        Debug.Log("Ability upgrades reset to original state.");
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.buildIndex == 2)
+        {
+            ResetUpgradesToOriginal(); // Only reset on scene index 2
+        }
+    }
+
 }
