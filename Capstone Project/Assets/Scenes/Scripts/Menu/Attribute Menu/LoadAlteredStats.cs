@@ -44,6 +44,26 @@ public class LoadAlteredStats : MonoBehaviour
         // Optionally apply attribute points too
         var confirmed = stats.confirmedAttributes;
         // Use confirmed[i] to update abilities/UI/etc.
+
+
+        if (playerAttackManager != null)
+        {
+            foreach (var attack in playerAttackManager.attacks)
+            {
+                var upgrade = AbilityUpgradeManager.Instance.GetUpgrade(attack.name);
+                if (upgrade != null)
+                {
+                    attack.damage += upgrade.addedDamage;
+                    attack.cooldown = Mathf.Max(attack.cooldown - upgrade.reducedCooldown, 0f);
+                    attack.duration += upgrade.addedDuration;
+                    attack.colliderSize *= upgrade.colliderSizeMultiplier;
+                    attack.spriteSize *= upgrade.spriteSizeMultiplier;
+
+                }
+            }
+        }
+
+
     }
 
 }

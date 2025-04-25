@@ -1787,6 +1787,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 81.88, y: -30.284, z: 0}
+--- !u!1 &362378147
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 362378148}
+  - component: {fileID: 362378149}
+  m_Layer: 0
+  m_Name: AbilityUpgradeManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &362378148
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 362378147}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 676.7673, y: 269.87723, z: -18.31872}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &362378149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 362378147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a295c91da6672a418f5a610fdfa5377, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upgrades: []
 --- !u!1001 &367178769
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7608,6 +7653,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 629703928076205059, guid: 8286a95207c11e747b9130190a0642d8, type: 3}
+      propertyPath: m_text
+      value: 'Rock Throw
+
+
+        Launch a hefty rock at an enemy, dealing damage
+        on impact. Great for ranged attacks.
+
+
+        Increase projectile size'
+      objectReference: {fileID: 0}
     - target: {fileID: 1439975280850616103, guid: 8286a95207c11e747b9130190a0642d8, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -7700,6 +7756,18 @@ PrefabInstance:
         Increase duration
         by 5%'
       objectReference: {fileID: 0}
+    - target: {fileID: 3298562519481251113, guid: 8286a95207c11e747b9130190a0642d8, type: 3}
+      propertyPath: m_text
+      value: 'Earthquake
+
+
+        Unleash a ground-shattering quake, damaging all
+        enemies in an area and disrupting their balance.
+
+
+        Increase area
+        size'
+      objectReference: {fileID: 0}
     - target: {fileID: 3885974608438570444, guid: 8286a95207c11e747b9130190a0642d8, type: 3}
       propertyPath: playerAttackManager
       value: 
@@ -7779,6 +7847,17 @@ PrefabInstance:
     - target: {fileID: 6301596756765507559, guid: 8286a95207c11e747b9130190a0642d8, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8373761708615256554, guid: 8286a95207c11e747b9130190a0642d8, type: 3}
+      propertyPath: m_text
+      value: 'Rock Wall
+
+
+        Summon a sturdy wall of stone from the ground to
+        block enemies or protect yourself.
+
+
+        Increase wall size'
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -18004,3 +18083,4 @@ SceneRoots:
   - {fileID: 7715247517594138769}
   - {fileID: 826202871}
   - {fileID: 1471411198}
+  - {fileID: 362378148}

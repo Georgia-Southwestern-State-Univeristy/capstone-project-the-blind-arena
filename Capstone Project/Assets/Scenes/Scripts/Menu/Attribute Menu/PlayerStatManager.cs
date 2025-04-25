@@ -6,7 +6,8 @@ public class PlayerStatsManager : MonoBehaviour
 
     // Stats you can tweak
     public int[] confirmedAttributes = new int[6];
-    public int availablePoints = 2;
+    public int availablePoints = 2;      // Attribute points
+    public int skillPoints = 5;          // Skill points
 
     public float health = 300;
     public float maxHealth = 300;
@@ -26,6 +27,9 @@ public class PlayerStatsManager : MonoBehaviour
     private float originalDamageModifier;
     private int originalAvailablePoints;
     private int[] originalAttributes = new int[6];
+
+    public bool bonusesApplied = false;
+
 
     private void Awake()
     {
@@ -84,6 +88,13 @@ public class PlayerStatsManager : MonoBehaviour
         }
 
         Debug.Log("Player stats reset to default values.");
+    }
+
+    public void AddVictoryPoints(int attributeAmount = 1, int skillAmount = 1)
+    {
+        availablePoints += attributeAmount;
+        skillPoints += skillAmount;
+        Debug.Log($"Victory points added! Attributes: +{attributeAmount}, Skills: +{skillAmount}");
     }
 
 }

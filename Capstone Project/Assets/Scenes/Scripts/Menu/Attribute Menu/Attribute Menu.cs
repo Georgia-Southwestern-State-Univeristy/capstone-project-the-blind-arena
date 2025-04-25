@@ -6,7 +6,7 @@ using System;
 public class AttributeMenu : MonoBehaviour
 {
     // Number of available points
-    public int availablePoints = 10;
+    public int availablePoints = 2;
 
     // TextMeshProUGUI for displaying available points
     public TextMeshProUGUI pointsText;
@@ -138,6 +138,10 @@ public class AttributeMenu : MonoBehaviour
 
     void LockAttributes()
     {
+        if (PlayerStatsManager.Instance.bonusesApplied) return;
+        PlayerStatsManager.Instance.bonusesApplied = true;
+
+
         // Confirm current values as baseline
         for (int i = 0; i < attributes.Length; i++)
         {

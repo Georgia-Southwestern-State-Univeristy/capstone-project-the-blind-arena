@@ -126,6 +126,7 @@ public class EnemyHealth : MonoBehaviour
             {
                 if (source != victorySound)
                 {
+                    
                     source.Stop();
                 }
 
@@ -133,7 +134,10 @@ public class EnemyHealth : MonoBehaviour
 
             victorySound.Play(); // Play the sound at the start of the flash
 
+            
+
             }
+            PlayerStatsManager.Instance?.AddVictoryPoints(1, 1);
             Destroy(gameObject);
             GameData.deathcounter++;
             SceneController.Instance.LoadScene(2);

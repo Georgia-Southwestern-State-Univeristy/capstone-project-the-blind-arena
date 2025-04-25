@@ -27,7 +27,7 @@ public class HighlightImageOnClick : MonoBehaviour
     public float outlineThickness = 2f;
 
     // Player points
-    public int points = 10;
+    public int points = 5;
 
     // TextMeshProUGUI for displaying points
     public TextMeshProUGUI pointsText;
@@ -131,7 +131,8 @@ public class HighlightImageOnClick : MonoBehaviour
                 {
                     if (attack.name == "RockThrow")
                     {
-                        attack.damage += 2;
+                        AbilityUpgradeManager.Instance.ApplyOrUpdateUpgrade("RockThrow", damage: 2);
+
                     }
                 }
             }
@@ -139,13 +140,15 @@ public class HighlightImageOnClick : MonoBehaviour
             if (currentIndex == 2 && points > 0 && playerAttackManager != null)
             {
                 // Decrease the cooldown by 0.05 per point
-                float cooldownReduction = points * 0.05f; // Subtract 0.1 for each point spent
+                
                 foreach (var attack in playerAttackManager.attacks)
                 {
                     // Apply cooldown reduction for the specific attack
                     if (attack.name == "RockThrow") // assuming 4 is the ID for the attack you want to modify
                     {
-                        attack.cooldown = Mathf.Max(attack.cooldown - cooldownReduction, 0f); 
+                        float cooldownReduction = points * 0.05f;
+                        AbilityUpgradeManager.Instance.ApplyOrUpdateUpgrade("RockThrow", cooldown: cooldownReduction);
+
                     }
                 }
             }
@@ -156,7 +159,9 @@ public class HighlightImageOnClick : MonoBehaviour
                 {
                     if (attack.name == "RockThrow")
                     {
-                         //change this for unique abilities changes
+                        // Increase size of collider and sprite
+                        AbilityUpgradeManager.Instance.ApplyOrUpdateSizeUpgrade("RockThrow", 1.5f, 1.5f);
+
                     }
                 }
             }
@@ -167,7 +172,7 @@ public class HighlightImageOnClick : MonoBehaviour
                 {
                     if (attack.name == "EarthWall") 
                     {
-                        attack.duration += 2;
+                        AbilityUpgradeManager.Instance.ApplyOrUpdateUpgrade("EarthWall", duration: 2);
                     }
                 }
             }
@@ -180,7 +185,9 @@ public class HighlightImageOnClick : MonoBehaviour
                     // Apply cooldown reduction for the specific attack
                     if (attack.name == "EarthWall") //
                     {
-                        attack.cooldown = Mathf.Max(attack.cooldown - cooldownReduction, 0f);
+                        
+                        AbilityUpgradeManager.Instance.ApplyOrUpdateUpgrade("EarthWall", cooldown: cooldownReduction);
+
                     }
                 }
             }
@@ -192,7 +199,10 @@ public class HighlightImageOnClick : MonoBehaviour
                 {
                     if (attack.name == "EarthWall") 
                     {
-                         //change this for unique abilities changes
+                        // Increase size of collider and sprite
+                        AbilityUpgradeManager.Instance.ApplyOrUpdateSizeUpgrade("EarthWall", 1.5f, 1.5f);
+
+
                     }
                 }
             }
@@ -219,7 +229,8 @@ public class HighlightImageOnClick : MonoBehaviour
                 {
                     if (attack.name == "EarthQuake")
                     {
-                        attack.damage += 5;
+                        AbilityUpgradeManager.Instance.ApplyOrUpdateUpgrade("EarthQuake", damage: 2);
+
                     }
                 }
             }
@@ -231,7 +242,8 @@ public class HighlightImageOnClick : MonoBehaviour
                     // Apply cooldown reduction for the specific attack
                     if (attack.name == "EarthQuake") // assuming 4 is the ID for the attack you want to modify
                     {
-                        attack.duration += 2;
+                        AbilityUpgradeManager.Instance.ApplyOrUpdateUpgrade("EarthQuake", duration: 2);
+
                     }
                 }
             }
@@ -243,7 +255,9 @@ public class HighlightImageOnClick : MonoBehaviour
                 {
                     if (attack.name == "EarthQuake")
                     {
-                        //change this for unique abilities changes
+                        // Increase size of collider and sprite
+                        AbilityUpgradeManager.Instance.ApplyOrUpdateSizeUpgrade("EarthQuake", 1.5f, 1.5f);
+
                     }
                 }
             }
