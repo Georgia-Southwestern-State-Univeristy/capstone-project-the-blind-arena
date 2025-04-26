@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class SoundSettings : MonoBehaviour
 {
@@ -29,6 +30,18 @@ public class SoundSettings : MonoBehaviour
         soundSlider.onValueChanged.AddListener(UpdateSoundVolume);
 
         settingsSaved = false;
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        LoadSettings(); // Reload saved settings when a scene is loaded
+    }
+
+    void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     void UpdateMusicVolume(float value)
