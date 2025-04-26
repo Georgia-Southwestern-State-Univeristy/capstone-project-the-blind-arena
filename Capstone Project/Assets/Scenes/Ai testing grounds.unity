@@ -1564,13 +1564,37 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4675713707112488129}
     - target: {fileID: 2950982791177150447, guid: 200026046e6469047b9ced9efa6a4430, type: 3}
+      propertyPath: bootsAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: 76f8636d669a8654f98e51babf88433f, type: 3}
+    - target: {fileID: 2950982791177150447, guid: 200026046e6469047b9ced9efa6a4430, type: 3}
+      propertyPath: swordAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: e3c0fdffcc1b5324da886497435752b6, type: 3}
+    - target: {fileID: 2950982791177150447, guid: 200026046e6469047b9ced9efa6a4430, type: 3}
+      propertyPath: potionAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: cffe653c362bc46409281534e1359ada, type: 3}
+    - target: {fileID: 2950982791177150447, guid: 200026046e6469047b9ced9efa6a4430, type: 3}
       propertyPath: playerHealth
       value: 
       objectReference: {fileID: 3026038168033827036}
     - target: {fileID: 2950982791177150447, guid: 200026046e6469047b9ced9efa6a4430, type: 3}
+      propertyPath: shieldsAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: 5f04149fef77bf84aa4d168d0a7f23fc, type: 3}
+    - target: {fileID: 2950982791177150447, guid: 200026046e6469047b9ced9efa6a4430, type: 3}
+      propertyPath: itemAudioSource
+      value: 
+      objectReference: {fileID: 1949487327}
+    - target: {fileID: 2950982791177150447, guid: 200026046e6469047b9ced9efa6a4430, type: 3}
       propertyPath: playerController
       value: 
       objectReference: {fileID: 3026038168033827037}
+    - target: {fileID: 2950982791177150447, guid: 200026046e6469047b9ced9efa6a4430, type: 3}
+      propertyPath: damageIncreaseAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: 248a505bddd87d54fbff231969d52f88, type: 3}
     - target: {fileID: 2950982791177150447, guid: 200026046e6469047b9ced9efa6a4430, type: 3}
       propertyPath: playerAttackManager
       value: 
@@ -2699,9 +2723,12 @@ PrefabInstance:
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 7472568926562640041, guid: 16385eab51d2eb141b7afed262498595, type: 3}
       insertIndex: 5
-      addedObject: {fileID: 472860082}
+      addedObject: {fileID: 1949487326}
     - targetCorrespondingSourceObject: {fileID: 7472568926562640041, guid: 16385eab51d2eb141b7afed262498595, type: 3}
       insertIndex: 6
+      addedObject: {fileID: 472860082}
+    - targetCorrespondingSourceObject: {fileID: 7472568926562640041, guid: 16385eab51d2eb141b7afed262498595, type: 3}
+      insertIndex: 7
       addedObject: {fileID: 1158959911}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 16385eab51d2eb141b7afed262498595, type: 3}
@@ -6387,6 +6414,139 @@ Transform:
   - {fileID: 525766139}
   m_Father: {fileID: 402060050}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1949487325
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1949487326}
+  - component: {fileID: 1949487327}
+  m_Layer: 5
+  m_Name: ItemUsageSounds
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1949487326
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1949487325}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 18.31872}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 318511812}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -381.0744, y: -142.5068}
+  m_SizeDelta: {x: 50, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!82 &1949487327
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1949487325}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 3
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &2057438803
 GameObject:
   m_ObjectHideFlags: 0
