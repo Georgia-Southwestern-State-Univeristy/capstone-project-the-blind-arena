@@ -2224,6 +2224,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 273083169422477144, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 970050690396004669, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -2837,6 +2841,8 @@ MonoBehaviour:
     fadeInSpeed: 0.5
     visibleTime: 3
     fadeOutSpeed: 0.5
+  nextSceneOffset: 1
+  sceneTransitionDelay: 1
 --- !u!114 &1023137591
 MonoBehaviour:
   m_ObjectHideFlags: 0

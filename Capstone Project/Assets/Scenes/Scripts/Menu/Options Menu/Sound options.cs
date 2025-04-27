@@ -22,17 +22,25 @@ public class SoundSettings : MonoBehaviour
 
     void Start()
     {
+        // Apply saved settings immediately
         LoadSettings();
 
-        saveButton.onClick.AddListener(ApplySettings);
+        // Hook up UI events (only if options menu opens later)
+        if (saveButton != null)
+            saveButton.onClick.AddListener(ApplySettings);
 
-        musicSlider.onValueChanged.AddListener(UpdateMusicVolume);
-        soundSlider.onValueChanged.AddListener(UpdateSoundVolume);
+        if (musicSlider != null)
+            musicSlider.onValueChanged.AddListener(UpdateMusicVolume);
+
+        if (soundSlider != null)
+            soundSlider.onValueChanged.AddListener(UpdateSoundVolume);
 
         settingsSaved = false;
 
+        // Ensure settings are reapplied if a new scene loads
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
+
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
