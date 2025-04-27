@@ -69,6 +69,10 @@ public class TutorialSetup : MonoBehaviour
 
         audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.loop = true;
+
+        float savedSoundVolume = PlayerPrefs.GetFloat("SoundVolume", 0.5f);
+        audioSource.volume = savedSoundVolume;
+
     }
 
     void Update()
@@ -81,7 +85,10 @@ public class TutorialSetup : MonoBehaviour
         TutorialPreparationDialogue();
         TutorialBossActivation();
 
-
+        if (audioSource != null)
+        {
+            audioSource.volume = PlayerPrefs.GetFloat("SoundVolume", 0.5f);
+        }
 
     }
 

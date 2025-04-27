@@ -25,8 +25,13 @@ public class DialogBox : MonoBehaviour
         audioSource.loop = true;
         audioSource.playOnAwake = false;
 
+        // Set initial volume from saved settings
+        float savedSoundVolume = PlayerPrefs.GetFloat("SoundVolume", 0.5f);
+        audioSource.volume = savedSoundVolume;
+
         StartDialogue();
     }
+
 
     private void Update()
     {
@@ -42,6 +47,11 @@ public class DialogBox : MonoBehaviour
                 textComponent.text = lines[index];
                 audioSource.Stop(); // Stop sound if line is instantly completed
             }
+        }
+
+        if (audioSource != null)
+        {
+            audioSource.volume = PlayerPrefs.GetFloat("SoundVolume", 0.5f);
         }
     }
 
