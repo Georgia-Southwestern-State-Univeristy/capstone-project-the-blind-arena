@@ -23,25 +23,8 @@ public class TutorialSetup : MonoBehaviour
     public int tutorialcounter = 0;
 
     [SerializeField] public GameObject tutorialBoss;
-    [SerializeField] public GameObject tutorialBossSwarm1;
-    [SerializeField] public GameObject tutorialBossSwarm2;
-    [SerializeField] public GameObject tutorialBossSwarm3;
-    [SerializeField] public GameObject tutorialBossSwarm4;
-    [SerializeField] public GameObject tutorialBossSwarm5;
-    [SerializeField] public GameObject tutorialBossSwarm6;
-    [SerializeField] public GameObject tutorialBossSwarm7;
-    [SerializeField] public GameObject tutorialBossSwarm8;
-    [SerializeField] public GameObject tutorialBossSwarm9;
-    [SerializeField] public GameObject tutorialBossSwarm10;
-    [SerializeField] public GameObject tutorialBossSwarm11;
-    [SerializeField] public GameObject tutorialBossSwarm12;
-    [SerializeField] public GameObject tutorialBossSwarm13;
-    [SerializeField] public GameObject tutorialBossSwarm14;
-    [SerializeField] public GameObject tutorialBossSwarm15;
-    [SerializeField] public GameObject tutorialBossSwarm16;
-    [SerializeField] public GameObject tutorialBossSwarm17;
-    [SerializeField] public GameObject tutorialBossSwarm18;
-    [SerializeField] public GameObject tutorialBossSwarm19;
+    [SerializeField] private GameObject[] tutorialBossSwarms; // <-- new array field
+    [SerializeField] private float spawnDelayBetweenEnemies = 0.5f; // <-- time between spawns, adjustable in Inspector
 
     private bool tutorialBossActivated = false;
     private bool attackInstructionsShown = false;
@@ -219,7 +202,6 @@ public class TutorialSetup : MonoBehaviour
         }
     }
 
-
     private void TutorialPreparationDialogue()
     {
         if (tutorialcounter == 11 && !preparationDialogueShown)
@@ -243,6 +225,7 @@ public class TutorialSetup : MonoBehaviour
         if (GameData.deathcounter == 1 && !tutorialBossActivated)
         {
             tutorialBossActivated = true;
+            preparationDialogue.SetActive(false);
             runDialogue.SetActive(true);
 
             StartCoroutine(ActivateEnemySwarmDelayed());
@@ -258,32 +241,18 @@ public class TutorialSetup : MonoBehaviour
 
     private IEnumerator ActivateEnemySwarmDelayed()
     {
-            yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1.5f);
 
         if (Input.anyKeyDown && tutorialcounter < 8)
         {
             runDialogue.SetActive(false);
         }
 
-        tutorialBossSwarm1.SetActive(true);
-        tutorialBossSwarm2.SetActive(true);
-        tutorialBossSwarm3.SetActive(true);
-        tutorialBossSwarm4.SetActive(true);
-        tutorialBossSwarm5.SetActive(true);
-        tutorialBossSwarm6.SetActive(true);
-        tutorialBossSwarm7.SetActive(true);
-        tutorialBossSwarm8.SetActive(true);
-        tutorialBossSwarm9.SetActive(true);
-        tutorialBossSwarm10.SetActive(true);
-        tutorialBossSwarm11.SetActive(true);
-        tutorialBossSwarm12.SetActive(true);
-        tutorialBossSwarm13.SetActive(true);
-        tutorialBossSwarm14.SetActive(true);
-        tutorialBossSwarm15.SetActive(true);
-        tutorialBossSwarm16.SetActive(true);
-        tutorialBossSwarm17.SetActive(true);
-        tutorialBossSwarm18.SetActive(true);
-        tutorialBossSwarm19.SetActive(true);
+        for (int i = 0; i < tutorialBossSwarms.Length; i++)
+        {
+            tutorialBossSwarms[i].SetActive(true);
+            yield return new WaitForSeconds(spawnDelayBetweenEnemies); // wait between each spawn
+        }
     }
 
     public void ResetRestAreaTutorial()

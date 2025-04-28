@@ -25462,6 +25462,27 @@ MonoBehaviour:
   attributBuyButton: {fileID: 1936451776}
   tutorialcounter: 0
   tutorialBoss: {fileID: 7922312881509618573}
+  tutorialBossSwarms:
+  - {fileID: 1583553426}
+  - {fileID: 372156507}
+  - {fileID: 1832187583}
+  - {fileID: 1028169497}
+  - {fileID: 938276037}
+  - {fileID: 1438243799}
+  - {fileID: 2066430289}
+  - {fileID: 1849115656}
+  - {fileID: 1110892925}
+  - {fileID: 1742736763}
+  - {fileID: 200971348}
+  - {fileID: 509978529}
+  - {fileID: 453758839}
+  - {fileID: 1914809450}
+  - {fileID: 458872853}
+  - {fileID: 1513093886}
+  - {fileID: 1964871504}
+  - {fileID: 508819873}
+  - {fileID: 1108428834}
+  spawnDelayBetweenEnemies: 0.5
   tutorialBossSwarm1: {fileID: 1583553426}
   tutorialBossSwarm2: {fileID: 372156507}
   tutorialBossSwarm3: {fileID: 1832187583}
