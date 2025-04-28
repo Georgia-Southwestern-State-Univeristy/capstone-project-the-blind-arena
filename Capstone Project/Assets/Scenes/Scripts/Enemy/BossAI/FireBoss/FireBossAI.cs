@@ -32,6 +32,8 @@ public class FireBossAI : MonoBehaviour
     private System.Random rnd = new System.Random();
     private int random;
 
+    [SerializeField] private AudioSource walkingAudioSource;
+
     private void Start()
     {
         enemyHealth = GetComponent<EnemyHealth>();
@@ -69,6 +71,11 @@ public class FireBossAI : MonoBehaviour
             else
             {
                 animator.SetFloat("speed", 0);
+
+                if (walkingAudioSource.isPlaying)
+                {
+                    walkingAudioSource.Stop();
+                }
             }
             return;
         }
@@ -94,6 +101,11 @@ public class FireBossAI : MonoBehaviour
             {
                 genLock = true;
                 animator.SetFloat("speed", 0);
+
+                if (walkingAudioSource.isPlaying)
+                {
+                    walkingAudioSource.Stop();
+                }
             }
             return;
         }
@@ -114,6 +126,11 @@ public class FireBossAI : MonoBehaviour
             else
             {
                 animator.SetFloat("speed", 0);
+
+                if (walkingAudioSource.isPlaying)
+                {
+                    walkingAudioSource.Stop();
+                }
             }
             return;
         }
@@ -159,6 +176,11 @@ public class FireBossAI : MonoBehaviour
         transform.position = position;
 
         transform.position += direction * Time.deltaTime;
+
+        if (!walkingAudioSource.isPlaying)
+        {
+            walkingAudioSource.Play();
+        }
     }
 
     private void MoveTowardsWapoint()
