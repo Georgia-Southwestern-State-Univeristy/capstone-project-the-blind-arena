@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Unity.VisualScripting;
 
 public class TutorialSetup : MonoBehaviour
 {
@@ -53,6 +54,7 @@ public class TutorialSetup : MonoBehaviour
     private bool didPressE = false;
     private bool didPressSpace = false;
     private bool startedAttributeTutorial = false;
+    private bool resumeWalkingSounds = false;
 
     [SerializeField] private AudioClip bossMusicClip;
     private AudioSource audioSource;
@@ -162,8 +164,17 @@ public class TutorialSetup : MonoBehaviour
 
     private IEnumerator TutorialAttributeExplainationDialogue()
     {
-        bool wasAlreadyPaused = AudioListener.pause;
-        AudioListener.pause = true;
+
+        // Disable another GameObject's AudioSource at the start
+        GameObject anotherObject = GameObject.Find("WalkingOnLeaves");
+        if (anotherObject != null)
+        {
+            AudioSource otherAudio = anotherObject.GetComponent<AudioSource>();
+            if (otherAudio != null)
+            {
+                otherAudio.enabled = false;
+            }
+        }
 
         attributResetButton.GetComponent<UnityEngine.UI.Button>().interactable = false;
             attributBuyButton.GetComponent<UnityEngine.UI.Button>().interactable = false;
@@ -192,12 +203,20 @@ public class TutorialSetup : MonoBehaviour
             attributResetButton.GetComponent<UnityEngine.UI.Button>().interactable = true;
             attributBuyButton.GetComponent<UnityEngine.UI.Button>().interactable = true;
             tutorialcounter++;
+        resumeWalkingSounds = true;
 
-        if (!wasAlreadyPaused)
+        if (resumeWalkingSounds == true)
         {
-            AudioListener.pause = false;
+            GameObject anotherObject2 = GameObject.Find("WalkingOnLeaves");
+            if (anotherObject2 != null)
+            {
+                AudioSource otherAudio = anotherObject.GetComponent<AudioSource>();
+                if (otherAudio != null)
+                {
+                    otherAudio.enabled = true;
+                }
+            }
         }
-
     }
 
 

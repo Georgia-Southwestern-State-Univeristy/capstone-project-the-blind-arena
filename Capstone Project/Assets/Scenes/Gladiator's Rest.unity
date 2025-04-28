@@ -11288,7 +11288,7 @@ MonoBehaviour:
   - 'Here is the Item Shop. You can purchase Items in exchange for added time. '
   - To know how much time, well...You just have to buy it and find out.
   textSpeed: 0.1
-  typingSound: {fileID: 0}
+  typingSound: {fileID: 8300000, guid: 9e0e4988a49220145b28c3fa0f55efdd, type: 3}
 --- !u!114 &1493475647 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5736108731777623739, guid: b88c70b1171cad44f825987b7bbeefbb, type: 3}
