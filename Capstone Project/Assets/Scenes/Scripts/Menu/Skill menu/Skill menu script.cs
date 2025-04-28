@@ -14,6 +14,12 @@ public class HighlightImageOnClick : MonoBehaviour
     // Lock images to hide when buying
     public List<Image> lockImages;
 
+    //List of attack modifications
+    public List<float> attackModifiers;
+    public PlayerAttackManager playerAttackManager;
+    public PlayerController playerController;
+    public Health health;
+
     // Highlight color for the outline
     public Color highlightColor = Color.yellow;
 
@@ -21,7 +27,7 @@ public class HighlightImageOnClick : MonoBehaviour
     public float outlineThickness = 2f;
 
     // Player points
-    public int points = 10;
+    public int points = 5;
 
     // TextMeshProUGUI for displaying points
     public TextMeshProUGUI pointsText;
@@ -117,6 +123,144 @@ public class HighlightImageOnClick : MonoBehaviour
             // Hide the lock image for the selected image
             var lockImage = lockImages[currentIndex];
             lockImage.gameObject.SetActive(false);
+
+            // Apply attack modifier
+            if (currentIndex == 1 && points > 0 && playerAttackManager != null)
+            {
+                foreach (var attack in playerAttackManager.attacks)
+                {
+                    if (attack.name == "RockThrow")
+                    {
+                        AbilityUpgradeManager.Instance.ApplyOrUpdateUpgrade("RockThrow", damage: 2);
+
+                    }
+                }
+            }
+
+            if (currentIndex == 2 && points > 0 && playerAttackManager != null)
+            {
+                // Decrease the cooldown by 0.05 per point
+                
+                foreach (var attack in playerAttackManager.attacks)
+                {
+                    // Apply cooldown reduction for the specific attack
+                    if (attack.name == "RockThrow") // assuming 4 is the ID for the attack you want to modify
+                    {
+                        float cooldownReduction = points * 0.05f;
+                        AbilityUpgradeManager.Instance.ApplyOrUpdateUpgrade("RockThrow", cooldown: cooldownReduction);
+
+                    }
+                }
+            }
+
+            if (currentIndex == 3 && points > 0 && playerAttackManager != null)
+            {
+                foreach (var attack in playerAttackManager.attacks)
+                {
+                    if (attack.name == "RockThrow")
+                    {
+                        // Increase size of collider and sprite
+                        AbilityUpgradeManager.Instance.ApplyOrUpdateSizeUpgrade("RockThrow", 1.5f, 1.5f);
+
+                    }
+                }
+            }
+
+            if (currentIndex == 5 && points > 0 && playerAttackManager != null)
+            {
+                foreach (var attack in playerAttackManager.attacks)
+                {
+                    if (attack.name == "EarthWall") 
+                    {
+                        AbilityUpgradeManager.Instance.ApplyOrUpdateUpgrade("EarthWall", duration: 2);
+                    }
+                }
+            }
+
+            if (currentIndex == 6 && points > 0 && playerAttackManager != null)
+            {
+                foreach (var attack in playerAttackManager.attacks)
+                {
+                    float cooldownReduction = points * 0.05f; // Subtract 0.1 for each point spent
+                    // Apply cooldown reduction for the specific attack
+                    if (attack.name == "EarthWall") //
+                    {
+                        
+                        AbilityUpgradeManager.Instance.ApplyOrUpdateUpgrade("EarthWall", cooldown: cooldownReduction);
+
+                    }
+                }
+            }
+
+            if (currentIndex == 7 && points > 0 && playerAttackManager != null)
+            {
+
+                foreach (var attack in playerAttackManager.attacks)
+                {
+                    if (attack.name == "EarthWall") 
+                    {
+                        // Increase size of collider and sprite
+                        AbilityUpgradeManager.Instance.ApplyOrUpdateSizeUpgrade("EarthWall", 1.5f, 1.5f);
+
+
+                    }
+                }
+            }
+
+            if (currentIndex == 9 && points > 0 && playerController != null)
+            {
+                 
+            }
+
+
+            if (currentIndex == 10 && points > 0 && playerController != null)
+            {
+
+            }
+
+            if (currentIndex == 11 && points > 0 && playerController != null)
+            {
+
+            }
+
+            if (currentIndex == 13 && points > 0 && playerAttackManager != null)
+            {
+                foreach (var attack in playerAttackManager.attacks)
+                {
+                    if (attack.name == "EarthQuake")
+                    {
+                        AbilityUpgradeManager.Instance.ApplyOrUpdateUpgrade("EarthQuake", damage: 2);
+
+                    }
+                }
+            }
+
+            if (currentIndex == 14 && points > 0 && playerAttackManager != null)
+            {
+                foreach (var attack in playerAttackManager.attacks)
+                {
+                    // Apply cooldown reduction for the specific attack
+                    if (attack.name == "EarthQuake") // assuming 4 is the ID for the attack you want to modify
+                    {
+                        AbilityUpgradeManager.Instance.ApplyOrUpdateUpgrade("EarthQuake", duration: 2);
+
+                    }
+                }
+            }
+
+            if (currentIndex == 15 && points > 0 && playerAttackManager != null)
+            {
+
+                foreach (var attack in playerAttackManager.attacks)
+                {
+                    if (attack.name == "EarthQuake")
+                    {
+                        // Increase size of collider and sprite
+                        AbilityUpgradeManager.Instance.ApplyOrUpdateSizeUpgrade("EarthQuake", 1.5f, 1.5f);
+
+                    }
+                }
+            }
 
             // Update the points display
             UpdatePointsDisplay();

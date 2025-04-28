@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class RestAreaTutorialSetup : MonoBehaviour
 {
@@ -12,6 +13,9 @@ public class RestAreaTutorialSetup : MonoBehaviour
     [SerializeField] private GameObject xbuttonshop;
     [SerializeField] private GameObject xbuttonskill;
 
+
+    [SerializeField] private Button[] lockButton;  // Serialized field for button
+    [SerializeField] private GameObject lockObject;  // Serialized field for GameObject to control button lock
     private int tutorialCounter;
 
     public SinglePlayerAttack playerAttack;
@@ -19,8 +23,6 @@ public class RestAreaTutorialSetup : MonoBehaviour
     void Start()
     {
         tutorialCounter = PlayerPrefs.GetInt("RestAreaTutorial", 0); // Load progress
-
-
 
         if (tutorialCounter == 0)
         {
@@ -31,6 +33,10 @@ public class RestAreaTutorialSetup : MonoBehaviour
     private IEnumerator RestAreaTutorialDialogue()
     {
         RestAreaDialogue.SetActive(true);
+        lockButton[0].interactable = false;
+        lockButton[1].interactable = false;
+        lockButton[2].interactable = false;
+        lockButton[3].interactable = false;
         yield return StartCoroutine(ShowDialogAndWait(RestAreaDialogue));
         RestAreaDialogue.SetActive(false);
         tutorialCounter++;

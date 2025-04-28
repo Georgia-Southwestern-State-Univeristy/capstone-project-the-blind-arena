@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Unity.VisualScripting;
 
 public class TutorialSetup : MonoBehaviour
 {
@@ -21,26 +22,9 @@ public class TutorialSetup : MonoBehaviour
 
     public int tutorialcounter = 0;
 
-    [SerializeField] private GameObject tutorialBoss;
-    [SerializeField] private GameObject tutorialBossSwarm1;
-    [SerializeField] private GameObject tutorialBossSwarm2;
-    [SerializeField] private GameObject tutorialBossSwarm3;
-    [SerializeField] private GameObject tutorialBossSwarm4;
-    [SerializeField] private GameObject tutorialBossSwarm5;
-    [SerializeField] private GameObject tutorialBossSwarm6;
-    [SerializeField] private GameObject tutorialBossSwarm7;
-    [SerializeField] private GameObject tutorialBossSwarm8;
-    [SerializeField] private GameObject tutorialBossSwarm9;
-    [SerializeField] private GameObject tutorialBossSwarm10;
-    [SerializeField] private GameObject tutorialBossSwarm11;
-    [SerializeField] private GameObject tutorialBossSwarm12;
-    [SerializeField] private GameObject tutorialBossSwarm13;
-    [SerializeField] private GameObject tutorialBossSwarm14;
-    [SerializeField] private GameObject tutorialBossSwarm15;
-    [SerializeField] private GameObject tutorialBossSwarm16;
-    [SerializeField] private GameObject tutorialBossSwarm17;
-    [SerializeField] private GameObject tutorialBossSwarm18;
-    [SerializeField] private GameObject tutorialBossSwarm19;
+    [SerializeField] public GameObject tutorialBoss;
+    [SerializeField] private GameObject[] tutorialBossSwarms; // <-- new array field
+    [SerializeField] private float spawnDelayBetweenEnemies = 0.5f; // <-- time between spawns, adjustable in Inspector
 
     private bool tutorialBossActivated = false;
     private bool attackInstructionsShown = false;
@@ -53,14 +37,27 @@ public class TutorialSetup : MonoBehaviour
     private bool didPressE = false;
     private bool didPressSpace = false;
     private bool startedAttributeTutorial = false;
+    private bool resumeWalkingSounds = false;
+
+    [SerializeField] private AudioClip bossMusicClip;
+    private AudioSource audioSource;
 
     public SinglePlayerAttack playerAttack;
 
     void Start()
     {
+        GameData.deathcounter = 0;
+        Debug.Log("Deathcounter on start: " + GameData.deathcounter);
         if (playerAttack == null)
             playerAttack = FindFirstObjectByType<SinglePlayerAttack>();
             playerAttack.attackChecker = false;
+
+        audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.loop = true;
+
+        float savedSoundVolume = PlayerPrefs.GetFloat("SoundVolume", 0.5f);
+        audioSource.volume = savedSoundVolume;
+
     }
 
     void Update()
@@ -73,7 +70,10 @@ public class TutorialSetup : MonoBehaviour
         TutorialPreparationDialogue();
         TutorialBossActivation();
 
-
+        if (audioSource != null)
+        {
+            audioSource.volume = PlayerPrefs.GetFloat("SoundVolume", 0.5f);
+        }
 
     }
 
@@ -147,7 +147,19 @@ public class TutorialSetup : MonoBehaviour
 
     private IEnumerator TutorialAttributeExplainationDialogue()
     {
-            attributResetButton.GetComponent<UnityEngine.UI.Button>().interactable = false;
+
+        // Disable another GameObject's AudioSource at the start
+        GameObject anotherObject = GameObject.Find("WalkingOnLeaves");
+        if (anotherObject != null)
+        {
+            AudioSource otherAudio = anotherObject.GetComponent<AudioSource>();
+            if (otherAudio != null)
+            {
+                otherAudio.enabled = false;
+            }
+        }
+
+        attributResetButton.GetComponent<UnityEngine.UI.Button>().interactable = false;
             attributBuyButton.GetComponent<UnityEngine.UI.Button>().interactable = false;
             attributeMenu.SetActive(true);
             playerAttack.attackChecker = false;
@@ -174,8 +186,21 @@ public class TutorialSetup : MonoBehaviour
             attributResetButton.GetComponent<UnityEngine.UI.Button>().interactable = true;
             attributBuyButton.GetComponent<UnityEngine.UI.Button>().interactable = true;
             tutorialcounter++;
-        }
+        resumeWalkingSounds = true;
 
+        if (resumeWalkingSounds == true)
+        {
+            GameObject anotherObject2 = GameObject.Find("WalkingOnLeaves");
+            if (anotherObject2 != null)
+            {
+                AudioSource otherAudio = anotherObject.GetComponent<AudioSource>();
+                if (otherAudio != null)
+                {
+                    otherAudio.enabled = true;
+                }
+            }
+        }
+    }
 
     private void TutorialPreparationDialogue()
     {
@@ -184,6 +209,13 @@ public class TutorialSetup : MonoBehaviour
             preparationDialogue.SetActive(true);
             preparationDialogueShown = true;
             playerAttack.attackChecker = true;
+
+            if (bossMusicClip != null && audioSource != null)
+            {
+                audioSource.clip = bossMusicClip;
+                audioSource.Play();
+            }
+
             StartCoroutine(ActivateEnemyAIDelayed());
         }
     }
@@ -193,8 +225,9 @@ public class TutorialSetup : MonoBehaviour
         if (GameData.deathcounter == 1 && !tutorialBossActivated)
         {
             tutorialBossActivated = true;
+            preparationDialogue.SetActive(false);
             runDialogue.SetActive(true);
-            //if still not work enemyAifire goes right here
+
             StartCoroutine(ActivateEnemySwarmDelayed());
         }
     }
@@ -208,32 +241,18 @@ public class TutorialSetup : MonoBehaviour
 
     private IEnumerator ActivateEnemySwarmDelayed()
     {
-            yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1.5f);
 
         if (Input.anyKeyDown && tutorialcounter < 8)
         {
             runDialogue.SetActive(false);
         }
 
-        tutorialBossSwarm1.SetActive(true);
-        tutorialBossSwarm2.SetActive(true);
-        tutorialBossSwarm3.SetActive(true);
-        tutorialBossSwarm4.SetActive(true);
-        tutorialBossSwarm5.SetActive(true);
-        tutorialBossSwarm6.SetActive(true);
-        tutorialBossSwarm7.SetActive(true);
-        tutorialBossSwarm8.SetActive(true);
-        tutorialBossSwarm9.SetActive(true);
-        tutorialBossSwarm10.SetActive(true);
-        tutorialBossSwarm11.SetActive(true);
-        tutorialBossSwarm12.SetActive(true);
-        tutorialBossSwarm13.SetActive(true);
-        tutorialBossSwarm14.SetActive(true);
-        tutorialBossSwarm15.SetActive(true);
-        tutorialBossSwarm16.SetActive(true);
-        tutorialBossSwarm17.SetActive(true);
-        tutorialBossSwarm18.SetActive(true);
-        tutorialBossSwarm19.SetActive(true);
+        for (int i = 0; i < tutorialBossSwarms.Length; i++)
+        {
+            tutorialBossSwarms[i].SetActive(true);
+            yield return new WaitForSeconds(spawnDelayBetweenEnemies); // wait between each spawn
+        }
     }
 
     public void ResetRestAreaTutorial()

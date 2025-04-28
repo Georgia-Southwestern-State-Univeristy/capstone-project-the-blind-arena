@@ -11,6 +11,7 @@ public class PlayerAttackManager : MonoBehaviour
     public Animator animator;
 
     public float damageModifier = 0f;
+    public bool playattacksound = true;
 
     [System.Serializable]
     public class AttackAttributes
@@ -28,7 +29,6 @@ public class PlayerAttackManager : MonoBehaviour
         public Vector3 colliderSize = Vector3.one, colliderRotation = Vector3.zero, spriteSize = Vector3.one, spriteRotation = Vector3.zero, startingOffset = Vector3.zero;
         public Sprite attackSprite;
         public AnimatorController attackAnimator;
-        public AudioClip attackSound;
         private GameObject[] targets;
     }
 
@@ -49,12 +49,15 @@ public class PlayerAttackManager : MonoBehaviour
 
     private void Update()
     {
+        playattacksound = true;
+
         // Update individual cooldowns per attack
         foreach (var attack in attacks)
         {
             if (attack.currentCooldown > 0f)
             {
                 attack.currentCooldown -= Time.deltaTime;
+                playattacksound = false;
             }
         }
     }
@@ -98,7 +101,6 @@ public class PlayerAttackManager : MonoBehaviour
         yield return new WaitForSeconds(attack.delay);
 
         DeductStamina(attack.staminaUse);
-        PlaySound(attack.attackSound);
         GameObject attackObject = CreateAttackObject(attack);
 
         if (attack.detachFromPlayer)
@@ -108,6 +110,26 @@ public class PlayerAttackManager : MonoBehaviour
 
         if (attackObject)
             Destroy(attackObject);
+    }
+
+    private AttackAttributes GetAttackAttributesByType(string attackType)
+    {
+        foreach (var attack in attacks)
+        {
+            if (attack.name == attackType)
+            {
+                return attack;
+            }
+        }
+
+        Debug.LogWarning($"Attack with type '{attackType}' not found.");
+        return null;
+    }
+
+    public bool CanUseAttack(string attackType)
+    {
+        var attack = GetAttackAttributesByType(attackType);
+        return HasEnoughStamina(attack);
     }
 
     private void FlipPlayerBasedOnMousePosition()

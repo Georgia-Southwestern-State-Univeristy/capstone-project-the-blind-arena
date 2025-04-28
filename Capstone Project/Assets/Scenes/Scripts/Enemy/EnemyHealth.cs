@@ -23,6 +23,8 @@ public class EnemyHealth : MonoBehaviour
     private bool flashLock;
     [SerializeField] private float flashDuration = 0.1f;
     [SerializeField] private Color flashColor = Color.red;
+    [SerializeField] private AudioSource flashSound;
+    [SerializeField] private AudioSource victorySound;
     public double deathcounter;
 
     void Start()
@@ -78,6 +80,12 @@ public class EnemyHealth : MonoBehaviour
     {
         if (!flashLock) {
             flashLock=true;
+
+            if (flashSound != null)
+            {
+                flashSound.Play(); // Play the sound at the start of the flash
+            }
+
             for (int i = 0; i < 2; i++)
             {
                 // Store original color
@@ -114,6 +122,22 @@ public class EnemyHealth : MonoBehaviour
 
         if (gameObject.CompareTag("Boss"))
         {
+            foreach (AudioSource source in FindObjectsOfType<AudioSource>())
+            {
+                if (source != victorySound)
+                {
+                    
+                    source.Stop();
+                }
+
+
+
+            victorySound.Play(); // Play the sound at the start of the flash
+
+            
+
+            }
+            PlayerStatsManager.Instance?.AddVictoryPoints(1, 1);
             Destroy(gameObject);
             GameData.deathcounter++;
             SceneController.Instance.LoadScene(2);

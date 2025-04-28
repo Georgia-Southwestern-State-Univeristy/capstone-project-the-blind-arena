@@ -159,4 +159,20 @@ public class GameTimer : MonoBehaviour
         SceneController.Instance.LoadScene(0);
     }
 
+    public void ResetTimer()
+    {
+        elapsedTime = 0f;
+        counter = 0f;
+        counterTimer = 0f;
+        purchaseTimerCounter = 0f;
+
+        // Reset static persistent variables
+        persistentElapsedTime = 0f;
+        persistentCounter = 0f;
+        persistentPurchaseTimerCounter = 0f;
+
+        UpdateTimerUI();
+        UpdateCounterUI();
+    }
+
 }

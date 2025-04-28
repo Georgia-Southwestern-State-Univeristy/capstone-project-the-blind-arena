@@ -7,184 +7,137 @@ public class VendorInteraction : MonoBehaviour
 {
     [Header("Settings")]
     [SerializeField] private float interactionDistance = 3f;
-    [SerializeField] private KeyCode interactionKey = KeyCode.E;
-    [SerializeField] private float promptHeightOffset = 2f; // Height above vendor
-    [SerializeField] private GameObject GreetingDialogue;
-    [SerializeField] private GameObject LeaveDialogue;
+    [SerializeField] private KeyCode interactionKey = KeyCode.Q;
+    [SerializeField] private float promptHeightOffset = 2f;
 
-    [Header("Prompt Position Fine-tuning")]
-    [SerializeField] private float horizontalOffset = 0f; // Positive = right, Negative = left
-    [SerializeField] private float verticalOffset = 0f; // Fine-tune vertical position
+    [Header("UI References")]
+    [SerializeField] private RectTransform buttonPrompt;
+    [SerializeField] private GameObject vendorMenu;
+    [SerializeField] private Canvas canvas;
+    [SerializeField] private Button leaveButton;
+    [SerializeField] private GameObject greetingDialogue;
+    [SerializeField] private GameObject leaveDialogue;
 
-    [Header("References")]
-    [SerializeField] private RectTransform buttonPrompt; // UI element showing "Press E to interact"
-    [SerializeField] private GameObject vendorMenu; // The vendor's menu to show/hide
-    [SerializeField] private Canvas canvas; // Reference to the UI canvas
+    [Header("Prompt Offsets")]
+    [SerializeField] private float horizontalOffset = 0f;
+    [SerializeField] private float verticalOffset = 0f;
 
     private Transform playerTransform;
-    private bool isInRange;
-    private VisibilityObjects menuVisibility;
     private Camera mainCamera;
-    private bool isMenuVisible = false; // Track menu state explicitly
-    public double interactioncounter;
-    private bool GreetingDialogueShown = false;
-    private bool LeavingDialogueShown = false;
+    private bool isInRange;
+    private bool isMenuVisible;
+    private bool greetingShown;
+    private bool leavingShown;
 
     private void Start()
     {
-        
-
-        // Find the player in the scene
-        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        playerTransform = GameObject.FindGameObjectWithTag("Player")?.transform;
         mainCamera = Camera.main;
 
-        // If canvas reference is missing, try to find it
         if (canvas == null && buttonPrompt != null)
-        {
             canvas = buttonPrompt.GetComponentInParent<Canvas>();
-        }
 
-        // Get the VisibilityObjects component from the menu
-        if (vendorMenu != null)
-        {
-            menuVisibility = vendorMenu.GetComponent<VisibilityObjects>();
-            if (menuVisibility == null)
-            {
-                menuVisibility = vendorMenu.AddComponent<VisibilityObjects>();
-            }
-            // Ensure menu starts hidden
-            menuVisibility.SetVisibility(false);
-            isMenuVisible = false;
-            vendorMenu.SetActive(false);
-        }
+        vendorMenu?.SetActive(false);
+        buttonPrompt?.gameObject.SetActive(false);
 
-        // Hide the button prompt initially
-        if (buttonPrompt != null)
-            buttonPrompt.gameObject.SetActive(false);
+        if (leaveButton != null)
+            leaveButton.onClick.AddListener(OnLeaveButtonClicked);
     }
 
     private void Update()
     {
-
-
         if (playerTransform == null || mainCamera == null) return;
 
-        // Check distance to player
-        float distanceToPlayer = Vector3.Distance(transform.position, playerTransform.position);
+        float distance = Vector3.Distance(transform.position, playerTransform.position);
         bool wasInRange = isInRange;
-        isInRange = distanceToPlayer <= interactionDistance;
+        isInRange = distance <= interactionDistance;
 
-        // Show/hide button prompt based on distance
         if (isInRange != wasInRange)
         {
-            if (buttonPrompt != null)
-                buttonPrompt.gameObject.SetActive(isInRange);
-
-            // If player walks away, hide the menu
+            buttonPrompt?.gameObject.SetActive(isInRange);
             if (!isInRange && isMenuVisible)
+                HideMenu();
+        }
+
+        if (isInRange && buttonPrompt != null)
+            UpdatePromptPosition();
+
+        if (isInRange && Input.GetKeyDown(interactionKey))
+        {
+            if (!isMenuVisible && !greetingShown)
+            {
+                greetingShown = true;
+                greetingDialogue?.SetActive(true);
+                StartCoroutine(OpenMenuAfterDelay(3.5f));
+            }
+            else if (isMenuVisible)
             {
                 HideMenu();
             }
         }
+    }
 
-        // Update prompt position if visible
-        if (isInRange && buttonPrompt != null && canvas != null)
-        {
-            UpdatePromptPosition();
-        }
-
-        // Handle interaction
-        if (isInRange && Input.GetKeyDown(interactionKey))
-        {
-            GreetingDialogue.SetActive(true);
-            GreetingDialogueShown = true;
-            StartCoroutine(InteractionMeeting());
-        }
+    private IEnumerator OpenMenuAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        ToggleMenu(true);
+        greetingDialogue?.SetActive(false);
     }
 
     private void UpdatePromptPosition()
     {
-        // Calculate position above vendor
-        Vector3 worldPosition = transform.position + Vector3.up * promptHeightOffset;
+        Vector3 worldPos = transform.position + Vector3.up * promptHeightOffset;
+        Vector3 screenPos = mainCamera.WorldToScreenPoint(worldPos);
 
-        // Convert world position to screen position
-        Vector3 screenPosition = mainCamera.WorldToScreenPoint(worldPosition);
-
-        // Check if behind camera
-        if (screenPosition.z < 0)
+        if (screenPos.z < 0)
         {
-            buttonPrompt.gameObject.SetActive(false);
+            buttonPrompt?.gameObject.SetActive(false);
             return;
         }
 
-        // Convert screen position to overlay position
         Vector2 screenSize = new Vector2(Screen.width, Screen.height);
-        Vector2 anchoredPosition = new Vector2(
-            (screenPosition.x / screenSize.x) * screenSize.x - (screenSize.x * 0.5f),
-            (screenPosition.y / screenSize.y) * screenSize.y - (screenSize.y * 0.5f)
+        Vector2 anchoredPos = new Vector2(
+            (screenPos.x / screenSize.x) * screenSize.x - (screenSize.x * 0.5f),
+            (screenPos.y / screenSize.y) * screenSize.y - (screenSize.y * 0.5f)
         );
 
-        // Apply the offset
-        anchoredPosition += new Vector2(horizontalOffset, verticalOffset);
-
-        // Update UI position
-        buttonPrompt.anchoredPosition = anchoredPosition;
+        anchoredPos += new Vector2(horizontalOffset, verticalOffset);
+        buttonPrompt.anchoredPosition = anchoredPos;
         buttonPrompt.gameObject.SetActive(true);
     }
 
-    private void ToggleMenu()
+    private void ToggleMenu(bool show)
     {
-        if (vendorMenu == null) return;
-
-        isMenuVisible = !isMenuVisible;
-        vendorMenu.SetActive(isMenuVisible);
-        if (menuVisibility != null)
-        {
-            menuVisibility.SetVisibility(isMenuVisible);
-            LeaveDialogue.SetActive(true);
-        }
+        isMenuVisible = show;
+        vendorMenu?.SetActive(show);
+        Time.timeScale = show ? 0 : 1;
     }
 
     public void HideMenu()
     {
-        if (vendorMenu == null) return;
+        ToggleMenu(false);
+        greetingDialogue?.SetActive(false);
+        leaveDialogue?.SetActive(false);
+        greetingShown = false;
+        leavingShown = true;
+        leaveDialogue.SetActive(true);
+    }
 
-        isMenuVisible = false;
-        vendorMenu.SetActive(false);
-        if (menuVisibility != null)
+    public void OnLeaveButtonClicked()
+    {
+        if (isInRange && isMenuVisible && !leavingShown)
         {
-            menuVisibility.SetVisibility(false);
+            leaveDialogue?.SetActive(true);
+            leavingShown = true;
         }
     }
 
-    // Optional: Visualize the interaction range in the editor
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, interactionDistance);
-
-        // Visualize prompt position
         Gizmos.color = Color.blue;
         Gizmos.DrawLine(transform.position, transform.position + Vector3.up * promptHeightOffset);
         Gizmos.DrawWireSphere(transform.position + Vector3.up * promptHeightOffset, 0.1f);
     }
-
-    public IEnumerator InteractionMeeting()
-    {
-        if (isInRange && !isMenuVisible)
-        {
-            yield return new WaitForSeconds(3.5f);
-            ToggleMenu();
-            GreetingDialogue.SetActive(false);
-        }
-
-        else if (isInRange && Input.anyKeyDown && isMenuVisible)
-        {
-            GreetingDialogueShown = false;
-            LeavingDialogueShown = true;
-            LeaveDialogue.SetActive(true);
-        }
-
-    }
-
 }

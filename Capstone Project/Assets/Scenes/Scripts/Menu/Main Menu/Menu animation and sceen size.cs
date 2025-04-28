@@ -32,7 +32,6 @@ public class LaptopMenuManager : MonoBehaviour
             initialBackgroundPosition = background.position;
         }
 
-        startGameButton.onClick.AddListener(() => LoadScene("GameScene"));
         settingsButton.onClick.AddListener(() => OpenSettings());
         quitButton.onClick.AddListener(() => QuitGame());
 
@@ -95,10 +94,7 @@ public class LaptopMenuManager : MonoBehaviour
         trigger.triggers.Add(entryExit);
     }
 
-    private void LoadScene(string sceneName)
-    {
-        SceneManager.LoadScene(sceneName);
-    }
+
 
     private void OpenSettings()
     {

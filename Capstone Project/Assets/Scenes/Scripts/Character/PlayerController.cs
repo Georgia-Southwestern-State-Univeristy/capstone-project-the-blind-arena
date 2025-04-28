@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public float speed;
     [SerializeField] private float dashSpeedMultiplier = 2f; // Multiplier for dash speed
     [SerializeField] private float gravityScale = 20f;
-    [SerializeField] private float dashStaminaCost; // Stamina cost per frame while dashing
+    [SerializeField] public float dashStaminaCost; // Stamina cost per frame while dashing
     public Animator animator;
     private float fixedHeight = 0.55f;
     private bool isDashing = false;
@@ -35,6 +35,11 @@ public class PlayerController : MonoBehaviour
     private bool enemyAI3Activated = false;
     private bool enemyAI4Activated = false;
     private bool enemyAI5Activated = false;
+
+    [SerializeField] private AudioSource walkingAudioSource;
+    [SerializeField] private AudioSource rockSlidingAudioSource;// Drag the AudioSource in the Inspector
+
+    private bool wasMovingLastFrame = false;
 
     public Camera playerCamera; // Assign this in the Inspector or instantiate dynamically
 
@@ -113,6 +118,25 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("isDashing", isDashing);
 
         HandleDashInput();
+
+        bool isMoving = moveDir.x != 0 || moveDir.z != 0;
+
+        if (isMoving && !wasMovingLastFrame)
+        {
+            if (walkingAudioSource != null && !walkingAudioSource.isPlaying)
+            {
+                walkingAudioSource.Play();
+            }
+        }
+        else if (!isMoving && wasMovingLastFrame)
+        {
+            if (walkingAudioSource != null && walkingAudioSource.isPlaying)
+            {
+                walkingAudioSource.Stop();
+            }
+        }
+
+        wasMovingLastFrame = isMoving;
     }
 
     private void FixedUpdate()
@@ -200,6 +224,8 @@ public class PlayerController : MonoBehaviour
             {
                 isDashing = true;
                 speed *= dashSpeedMultiplier;
+                walkingAudioSource.Stop();
+                rockSlidingAudioSource.Play();
             }
 
             healthScript.UseStamina(dashStaminaCost);
@@ -208,6 +234,8 @@ public class PlayerController : MonoBehaviour
         {
             isDashing = false;
             speed = originalSpeed;
+            rockSlidingAudioSource.Stop();
+            walkingAudioSource.Play();
         }
     }
 

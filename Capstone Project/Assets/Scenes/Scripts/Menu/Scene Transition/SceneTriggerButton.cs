@@ -20,6 +20,7 @@ public class MenuButton : MonoBehaviour
 
     private void LoadMenuScene()
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene(0);
     }
 }
