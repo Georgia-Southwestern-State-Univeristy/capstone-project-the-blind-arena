@@ -53,21 +53,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f190907f97e58d146a80faeac6a15b44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 6
   target: {fileID: 0}
   returnWaypoint: {fileID: 0}
+  animator: {fileID: 0}
+  speed: 6
   minimumDistance: 2
   attackDelay: 2
   leapCooldown: 2
   spikeCooldown: 3
   pullCooldown: 8
-  animator: {fileID: 0}
   attackPrefabs:
   - {fileID: 4673437915077449825, guid: a7372dbebe90c5e42abeb8af83423a5c, type: 3}
   - {fileID: 6748520024740912604, guid: fd4eb9e6937245d47b7b538b16826d02, type: 3}
   - {fileID: 2597631295975792917, guid: 5dffe8c7f8097e54a89c6ced08c1467e, type: 3}
   - {fileID: 7625895924679611045, guid: 5677ee2952e25804e8eca615b9848593, type: 3}
-  spikeSpawnPoint: {fileID: 0}
 --- !u!114 &5171328325129933643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -89,6 +88,8 @@ MonoBehaviour:
   delayBeforeSwitch: 3
   flashDuration: 0.1
   flashColor: {r: 1, g: 0, b: 0, a: 1}
+  flashSound: {fileID: 0}
+  victorySound: {fileID: 0}
   deathcounter: 0
 --- !u!212 &7962441501138274156
 SpriteRenderer:
@@ -209,7 +210,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
