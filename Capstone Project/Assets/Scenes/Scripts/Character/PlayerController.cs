@@ -36,7 +36,8 @@ public class PlayerController : MonoBehaviour
     private bool enemyAI4Activated = false;
     private bool enemyAI5Activated = false;
 
-    [SerializeField] private AudioSource walkingAudioSource; // Drag the AudioSource in the Inspector
+    [SerializeField] private AudioSource walkingAudioSource;
+    [SerializeField] private AudioSource rockSlidingAudioSource;// Drag the AudioSource in the Inspector
 
     private bool wasMovingLastFrame = false;
 
@@ -223,6 +224,8 @@ public class PlayerController : MonoBehaviour
             {
                 isDashing = true;
                 speed *= dashSpeedMultiplier;
+                walkingAudioSource.Stop();
+                rockSlidingAudioSource.Play();
             }
 
             healthScript.UseStamina(dashStaminaCost);
@@ -231,6 +234,8 @@ public class PlayerController : MonoBehaviour
         {
             isDashing = false;
             speed = originalSpeed;
+            rockSlidingAudioSource.Stop();
+            walkingAudioSource.Play();
         }
     }
 
