@@ -8238,7 +8238,7 @@ SkinnedMeshRenderer:
   m_AABB:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
-  m_DirtyAABB: 1
+  m_DirtyAABB: 0
 --- !u!1 &509978529
 GameObject:
   m_ObjectHideFlags: 0
@@ -15164,8 +15164,10 @@ MonoBehaviour:
   lines:
   - The number at the top shows how many available attribute points you have to implement
     into your desired field.
-  textSpeed: 0.1
+  textSpeed: 0.05
   typingSound: {fileID: 8300000, guid: 9e0e4988a49220145b28c3fa0f55efdd, type: 3}
+  clickThroughExceptions:
+  - {fileID: 1012235940}
 --- !u!82 &1012235949
 AudioSource:
   m_ObjectHideFlags: 0
@@ -15714,8 +15716,10 @@ MonoBehaviour:
   - Mouse right click is to use an AOE attack.
   - Press the "E" key to use a wall.
   - Hold the Space key to use a dash.
-  textSpeed: 0.1
+  textSpeed: 0.01
   typingSound: {fileID: 8300000, guid: 9e0e4988a49220145b28c3fa0f55efdd, type: 3}
+  clickThroughExceptions:
+  - {fileID: 1039083951}
 --- !u!224 &1039083956 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7939199724507357864, guid: 145a26cfa8398b740982b1591a6f86ac, type: 3}
@@ -19134,8 +19138,9 @@ MonoBehaviour:
   textComponent: {fileID: 123750047}
   lines:
   - To move press the w, a, s, and d keys.
-  textSpeed: 0.1
+  textSpeed: 0.01
   typingSound: {fileID: 8300000, guid: 9e0e4988a49220145b28c3fa0f55efdd, type: 3}
+  clickThroughExceptions: []
 --- !u!224 &1261975288 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7939199724507357864, guid: 145a26cfa8398b740982b1591a6f86ac, type: 3}
@@ -20327,8 +20332,9 @@ MonoBehaviour:
   lines:
   - Lastly are the two buttons below. These are used to confirm the adjustment of
     points or to reset the values and start over.
-  textSpeed: 0.1
+  textSpeed: 0.05
   typingSound: {fileID: 8300000, guid: 9e0e4988a49220145b28c3fa0f55efdd, type: 3}
+  clickThroughExceptions: []
 --- !u!82 &1357942031
 AudioSource:
   m_ObjectHideFlags: 0
@@ -22252,8 +22258,9 @@ MonoBehaviour:
     player''s desired build. '
   - Be careful, once you put a point into the field you can't retrieve it unless
     you reset all values.
-  textSpeed: 0.1
+  textSpeed: 0.05
   typingSound: {fileID: 8300000, guid: 9e0e4988a49220145b28c3fa0f55efdd, type: 3}
+  clickThroughExceptions: []
 --- !u!82 &1488460505
 AudioSource:
   m_ObjectHideFlags: 0
@@ -23558,8 +23565,9 @@ MonoBehaviour:
   lines:
   - Perfect! Now lets but what you just learn to the test! After all you're going
     to need it to escape your pursuers.
-  textSpeed: 0.1
+  textSpeed: 0.01
   typingSound: {fileID: 8300000, guid: 9e0e4988a49220145b28c3fa0f55efdd, type: 3}
+  clickThroughExceptions: []
 --- !u!224 &1562462013 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7939199724507357864, guid: 145a26cfa8398b740982b1591a6f86ac, type: 3}
@@ -24892,8 +24900,9 @@ MonoBehaviour:
   textComponent: {fileID: 682143182}
   lines:
   - RUN!
-  textSpeed: 0.1
+  textSpeed: 0.01
   typingSound: {fileID: 8300000, guid: 9e0e4988a49220145b28c3fa0f55efdd, type: 3}
+  clickThroughExceptions: []
 --- !u!224 &1656716291 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7939199724507357864, guid: 145a26cfa8398b740982b1591a6f86ac, type: 3}
@@ -25483,25 +25492,6 @@ MonoBehaviour:
   - {fileID: 508819873}
   - {fileID: 1108428834}
   spawnDelayBetweenEnemies: 0.5
-  tutorialBossSwarm1: {fileID: 1583553426}
-  tutorialBossSwarm2: {fileID: 372156507}
-  tutorialBossSwarm3: {fileID: 1832187583}
-  tutorialBossSwarm4: {fileID: 1028169497}
-  tutorialBossSwarm5: {fileID: 938276037}
-  tutorialBossSwarm6: {fileID: 1438243799}
-  tutorialBossSwarm7: {fileID: 2066430289}
-  tutorialBossSwarm8: {fileID: 1849115656}
-  tutorialBossSwarm9: {fileID: 1110892925}
-  tutorialBossSwarm10: {fileID: 1742736763}
-  tutorialBossSwarm11: {fileID: 200971348}
-  tutorialBossSwarm12: {fileID: 509978529}
-  tutorialBossSwarm13: {fileID: 453758839}
-  tutorialBossSwarm14: {fileID: 1914809450}
-  tutorialBossSwarm15: {fileID: 458872853}
-  tutorialBossSwarm16: {fileID: 1513093886}
-  tutorialBossSwarm17: {fileID: 1964871504}
-  tutorialBossSwarm18: {fileID: 508819873}
-  tutorialBossSwarm19: {fileID: 1108428834}
   bossMusicClip: {fileID: 8300000, guid: 82f8b027b63a62a45b663922c4fbda5b, type: 3}
   playerAttack: {fileID: 0}
 --- !u!82 &1723816144

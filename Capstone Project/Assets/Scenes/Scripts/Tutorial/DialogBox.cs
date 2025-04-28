@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 using TMPro;
+using UnityEngine.EventSystems;
 
 public class DialogBox : MonoBehaviour
 {
@@ -15,6 +17,9 @@ public class DialogBox : MonoBehaviour
     private int index;
 
     public System.Action OnDialogFinished;
+
+    [Header("Raycast Exceptions")]
+    [SerializeField] private List<GameObject> clickThroughExceptions;
 
     private void Start()
     {
@@ -35,17 +40,40 @@ public class DialogBox : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetMouseButtonDown(0))
+        if (SceneManager.GetActiveScene().buildIndex == 1)
         {
-            if(textComponent.text == lines[index])
+            if (Input.GetMouseButtonDown(0))
             {
-                NextLine();
+                if (IsPointerOverUIElement(gameObject))
+                {
+                    if (textComponent.text == lines[index])
+                    {
+                        NextLine();
+                    }
+                    else
+                    {
+                        StopAllCoroutines();
+                        textComponent.text = lines[index];
+                        audioSource.Stop(); // Stop sound if line is instantly completed
+                    }
+                }
             }
-            else
+        }
+        else
+        {
+            // In other scenes, work like normal (click anywhere)
+            if (Input.GetMouseButtonDown(0))
             {
-                StopAllCoroutines();
-                textComponent.text = lines[index];
-                audioSource.Stop(); // Stop sound if line is instantly completed
+                if (textComponent.text == lines[index])
+                {
+                    NextLine();
+                }
+                else
+                {
+                    StopAllCoroutines();
+                    textComponent.text = lines[index];
+                    audioSource.Stop();
+                }
             }
         }
 
@@ -97,5 +125,22 @@ public class DialogBox : MonoBehaviour
             if (OnDialogFinished != null)
                 OnDialogFinished.Invoke(); // Trigger the event
         }
+    }
+    private bool IsPointerOverUIElement(GameObject uiElement)
+    {
+        PointerEventData pointerData = new PointerEventData(EventSystem.current);
+        pointerData.position = Input.mousePosition;
+
+        List<RaycastResult> raycastResults = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(pointerData, raycastResults);
+
+        foreach (var result in raycastResults)
+        {
+            if (result.gameObject == uiElement || result.gameObject.transform.IsChildOf(uiElement.transform))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
