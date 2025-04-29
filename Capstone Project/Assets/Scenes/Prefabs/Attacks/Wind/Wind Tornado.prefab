@@ -158,10 +158,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprite: {fileID: 6561681511558203344}
-  effectPrefab: {fileID: 0}
+  effectPrefab: {fileID: 2021083215685244220, guid: e48bd73cf6afdfd4db23f3c331812ee2, type: 3}
   collider: {fileID: 0}
   target: {fileID: 0}
-  speed: 4
+  speed: 6
   lifespan: 30
   damage: 20
   spriteDirection: 1
@@ -171,7 +171,7 @@ MonoBehaviour:
   delayDamage: 0
   rotates: 0
   leavesTrail: 1
-  breaksOnContact: 1
+  breaksOnContact: 0
 --- !u!54 &2630337387093943067
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -463,15 +463,21 @@ public class EarthBossAI : MonoBehaviour
         
         interruptMovement = true;
         PlayerController playerController = FindFirstObjectByType<PlayerController>();
-        playerController.LockMovement(2.5f);
+        playerController.LockMovement(10f);
         animator.SetTrigger("Raise");
         yield return new WaitForSeconds(0.8f);
-        target.position = transform.position + new Vector3 (0, 0, -5);
+        for (int i = 0; i < 2; i++)
+        {
+            target.position = transform.position + new Vector3(0, 0, -5);
+            yield return new WaitForSeconds(0.01f);
+        }
 
         Instantiate(attackPrefabs[3], returnWaypoint.position + new Vector3(0, -1f, 0), new Quaternion(0, 0, 0, 0));
 
-        yield return new WaitForSeconds(0.8f);
+        yield return new WaitForSeconds(1f);
         boardSwitcher.focusOnBoss = false;
+        playerController.UnlockMovement();
+        yield return new WaitForSeconds(2f);
         interruptMovement = false;
         isSetup=true;
     }

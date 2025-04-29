@@ -198,7 +198,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void UnlockMovement()
+    public void UnlockMovement()
     {
         isMovementLocked = false;
     }

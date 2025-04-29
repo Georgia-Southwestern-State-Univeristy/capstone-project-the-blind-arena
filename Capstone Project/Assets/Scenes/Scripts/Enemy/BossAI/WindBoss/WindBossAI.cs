@@ -6,6 +6,8 @@ public class WindBossAI : MonoBehaviour
 {
     public Transform target;
     public Transform returnWaypoint;
+    public Transform topWaypoint;
+    public Transform bottomWaypoint;
     public Animator animator;
     public float speed = 6.5f;
     public float minimumDistance = 7f;
@@ -21,6 +23,7 @@ public class WindBossAI : MonoBehaviour
 
     private EnemyHealth enemyHealth;
     private BossCameraSwitcher boardSwitcher;
+    private Transform targetWaypoint;
     private bool startPhaseOne = false;
     private bool startPhaseTwo = false;
     private bool startPhaseThree = false;
@@ -28,7 +31,7 @@ public class WindBossAI : MonoBehaviour
     private bool startSetup = false;
     private bool isRetreating = false;
     private bool interruptMovement;
-    private bool attackLock, proLock, stopRetreat;
+    private bool attackLock, proLock, stopRetreat, isSetup;
     private bool targetLock = false;
     private float moveCounter = 0f;
     private const float HEIGHT = 0.6f;
@@ -41,6 +44,7 @@ public class WindBossAI : MonoBehaviour
         animator = GetComponent<Animator>();
         Rigidbody rb = GetComponent<Rigidbody>();
         boardSwitcher = GetComponent<BossCameraSwitcher>();
+        targetWaypoint = topWaypoint;
 
         if (!enemyHealth) Debug.LogError("EnemyHealth component not found!");
     }
@@ -53,25 +57,89 @@ public class WindBossAI : MonoBehaviour
             StartCoroutine(CheckForTarget());
         }
         // Enable Final Phase at 25% health
-
-        // Enable Tornadoes at 50% health
-
-        // Enable homing at 75% health
-        if (enemyHealth.currentHealth <= enemyHealth.maxHealth * 0.75f)
+        if (enemyHealth.currentHealth <= enemyHealth.maxHealth * 0.25f)
+        {
+            if (!startPhaseFour)
+            {
+                startPhaseFour = true;
+                StopAllCoroutines();
+                interruptMovement = false;
+                attackLock = false;
+                proLock = false;
+                isRetreating = false;
+                targetLock = false;
+                startSetup = false;
+                StartCoroutine(PhaseFour());
+            }
+            if (Vector3.Distance(transform.position, target.position) < retreatDistance && !interruptMovement && !isRetreating && isSetup)
+            {
+                StartCoroutine(SwapArenaSides());
+            }
+            else if (Vector3.Distance(transform.position, targetWaypoint.position) > 1 && !interruptMovement && !isRetreating && isSetup)
+            {
+                MoveTowardsWaypoint();
+            }
+            else if (!startSetup)
+            {
+                startSetup = true;
+                StartCoroutine(SetupArena());
+            }
+            else
+            {
+                animator.SetFloat("speed", 0);
+            }
+            return;
+        }
+        else
+        // Enable Tornadoes + Retreat attack at 50% health
+        if (enemyHealth.currentHealth <= enemyHealth.maxHealth * 0.50f)
+        {
+            if (!startPhaseThree)
+            {
+                startPhaseThree = true;
+                StopAllCoroutines();
+                interruptMovement = false;
+                attackLock = false;
+                proLock = false;
+                isRetreating = false;
+                targetLock = false;
+                StartCoroutine(PhaseThree());
+            }
+            if (Vector3.Distance(transform.position, target.position) > minimumDistance && !interruptMovement && !isRetreating)
+            {
+                MoveTowardsPlayer();
+            }
+            else if (Vector3.Distance(transform.position, target.position) < retreatDistance && !interruptMovement && !isRetreating)
+            {
+                StartCoroutine(RetreatFromPlayer());
+            }
+            else
+            {
+                animator.SetFloat("speed", 0);
+            }
+            return;
+        }
+        // Enable homing + Burst Attack at 75% health
+        else if (enemyHealth.currentHealth <= enemyHealth.maxHealth * 0.75f)
         {
             if (!startPhaseTwo)
             {
                 startPhaseTwo = true;
                 StopAllCoroutines();
                 interruptMovement = false;
-                proLock = false;
                 attackLock = false;
+                proLock = false;
+                isRetreating = false;
                 targetLock = false;
                 StartCoroutine(PhaseTwo());
             }
-            if (Vector3.Distance(transform.position, target.position) > minimumDistance && !interruptMovement)
+            if (Vector3.Distance(transform.position, target.position) > minimumDistance && !interruptMovement && !isRetreating)
             {
                 MoveTowardsPlayer();
+            }
+            else if (Vector3.Distance(transform.position, target.position) < retreatDistance && !interruptMovement && !isRetreating)
+            {
+                StartCoroutine(RetreatFromPlayer());
             }
             else
             {
@@ -81,12 +149,15 @@ public class WindBossAI : MonoBehaviour
         }
         else 
         {
+            // Projectile Attacks + Arcs
             if (!startPhaseOne)
             {
                 startPhaseOne = true;
                 interruptMovement = false;
                 attackLock = false;
                 proLock = false;
+                isRetreating = false;
+                targetLock = false;
                 StartCoroutine(PhaseOne());
             }
             if (Vector3.Distance(transform.position, target.position) > minimumDistance && !interruptMovement && !isRetreating)
@@ -139,6 +210,20 @@ public class WindBossAI : MonoBehaviour
         transform.position += direction * Time.deltaTime;
     }
 
+    private void MoveTowardsWaypoint()
+    {
+        Vector3 direction = (targetWaypoint.position - transform.position).normalized;
+        direction *= ((Math.Abs(direction.z) * .6f) + 1) * speed;
+        animator.SetFloat("speed", Mathf.Abs(transform.position.magnitude - direction.magnitude));
+        FlipSprite(direction.x);
+
+        Vector3 position = transform.position;
+        position.y = HEIGHT;
+        transform.position = position;
+
+        transform.position += direction * Time.deltaTime;
+    }
+
     private IEnumerator RetreatFromPlayer()
     {
         if (!isRetreating)
@@ -163,7 +248,12 @@ public class WindBossAI : MonoBehaviour
             dashDirection *= ((Math.Abs(dashDirection.z) * .6f) + 1);
             float elapsedTime = 0f;
             FlipSprite(dashDirection.x);
-            if (startPhaseTwo)
+            if (startPhaseTwo && !startPhaseThree)
+            {
+                StartCoroutine(ProjectileArc(2, 360, 9, 1, projectileAttackRate, 1));
+                yield return new WaitForSeconds(projectileAttackRate+1.5f);
+            }
+            if (startPhaseThree)
             {
                 StartCoroutine(RetreatAttack());
             }
@@ -175,8 +265,49 @@ public class WindBossAI : MonoBehaviour
                 elapsedTime += Time.deltaTime;
                 yield return null;
             }
-            StopCoroutine(RetreatAttack());
-            yield return new WaitForSeconds(1);
+            if (startPhaseThree)
+            {
+                StopCoroutine(RetreatAttack());
+            }
+            yield return new WaitForSeconds(2);
+            interruptMovement = false;
+            isRetreating = false;
+        }
+    }
+
+    private IEnumerator SwapArenaSides()
+    {
+        if (!isRetreating)
+        {
+            if (targetWaypoint == topWaypoint)
+            {
+                targetWaypoint = bottomWaypoint;
+            }
+            else
+            {
+                targetWaypoint=topWaypoint;
+            }
+            Debug.Log("Start Retreat");
+            isRetreating = true;
+            interruptMovement = true;
+            yield return new WaitForSeconds(0.5f);
+            Vector3 dashDirection = (targetWaypoint.position - transform.position).normalized;
+            Vector3 dir = dashDirection;
+            dir.y = 0;
+            dashDirection = dir;
+            dashDirection *= ((Math.Abs(dashDirection.z) * 1f) + 1);
+            float elapsedTime = 0f;
+            FlipSprite(dashDirection.x);
+            StartCoroutine(ProjectileArc(2, 360, 9, 1, projectileAttackRate, 1));
+            while (elapsedTime < 1f)
+            {
+                transform.position += dashDirection * 20 * Time.deltaTime;
+                FlipSprite(dashDirection.x);
+                animator.SetFloat("speed", Mathf.Abs(transform.position.magnitude - dashDirection.magnitude));
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+            yield return new WaitForSeconds(2);
             interruptMovement = false;
             isRetreating = false;
         }
@@ -187,6 +318,8 @@ public class WindBossAI : MonoBehaviour
         Debug.Log("Phase One");
         while (startPhaseOne)
         {
+            while (isRetreating)
+                yield return new WaitForSeconds(1f);
             if (!attackLock)
             {
                 random = rnd.Next(0, 3);
@@ -194,19 +327,19 @@ public class WindBossAI : MonoBehaviour
             }
             attackLock = true;
             yield return new WaitForSeconds(1f);
-            if (random == 0)
+            if (random == 0) // Single Bullets
             {
                 if (!proLock)
                 {
-                    StartCoroutine(ShootProjectile(0, 6, 0.5f));
+                    StartCoroutine(ShootProjectile(2, 3, projectileAttackRate, 0));
                 }
-                yield return new WaitForSeconds(8f);
             }
             else
             {
+                // Bullet Arc
                 if (!proLock)
                 {
-                    StartCoroutine(ProjectileArc(40, 3, 0, 1));
+                    StartCoroutine(ProjectileArc(5, 40, 3, 1, projectileAttackRate, 1));
                 }
             }
         }
@@ -215,7 +348,118 @@ public class WindBossAI : MonoBehaviour
 
     private IEnumerator PhaseTwo()
     {
+        while (startPhaseTwo)
+        {
+            while (isRetreating)
+                yield return new WaitForSeconds(1f);
+            if (!attackLock)
+            {
+                random = rnd.Next(0, 3);
+                Debug.Log(random);
+            }
+            attackLock = true;
+            yield return new WaitForSeconds(1f);
+            switch (random)
+            {
+                case 0: // Bullet Stream
+                    if (!proLock)
+                    {
+                        StartCoroutine(ShootProjectile(0, 1, .5f, 0));
+                    }
+                    break;
+                case 1: // Homing Attack
+                    if (!proLock)
+                    {
+                        StartCoroutine(ProjectileArc(4, 60, 3, 1, projectileAttackRate, 2));
+                    }
+                    break;
+                case 2: // Bullet Ring
+                    if (!proLock)
+                    {
+                        StartCoroutine(ProjectileArc(3, 360, 9, 1, projectileAttackRate, 1));
+                    }
+                    break;
+            }
+        }
+        yield return new WaitForSeconds(0.01f);
+    }
 
+    private IEnumerator PhaseThree()
+    {
+        int counter=0;
+        while (startPhaseThree)
+        {
+            while (isRetreating)
+                yield return new WaitForSeconds(1f);
+            if (!attackLock)
+            {
+                if (counter > 7)
+                    counter = 0;
+                if (counter == 0) // Summon Tornadoes
+                {
+                    StartCoroutine(ProjectileArc(6, 180, 3, 1, 0, 2));
+                    yield return new WaitForSeconds(2f);
+                }
+                random = rnd.Next(0, 4);
+                Debug.Log(random);
+            }
+            attackLock = true;
+            yield return new WaitForSeconds(1f);
+            switch (random)
+            {
+                case 0: // Bullet Stream
+                    if (!proLock)
+                    {
+                        StartCoroutine(ProjectileArc(2, 90, 3, 2, projectileAttackRate/3, 0));
+                        counter++;
+                    }
+                    break;
+                case 1: // Homing Attack
+                    if (!proLock)
+                    {
+                        StartCoroutine(ProjectileArc(4, 120, 3, 1, projectileAttackRate, 2));
+                        counter++;
+                    }
+                    break;
+                case 2: // Bullet Ring
+                    if (!proLock)
+                    {
+                        StartCoroutine(ProjectileArc(3, 360, 9, 1, projectileAttackRate/3, 1));
+                        counter++;
+                    }
+                    break;
+                case 3: // Slicer Arc
+                    if (!proLock)
+                    {
+                        StartCoroutine(ProjectileArc(5, 120, 5, 1, projectileAttackRate, 2));
+                        counter++;
+                    }
+                    break;
+            }
+        }
+        yield return new WaitForSeconds(0.01f);
+    }
+
+    private IEnumerator PhaseFour()
+    {
+        while (startPhaseFour)
+        {
+            while (isRetreating)
+                yield return new WaitForSeconds(1f);
+            if (isSetup)
+            {
+                    if (!proLock)
+                    {
+                    StartCoroutine(WindExtras());
+                    }
+                    if (Vector3.Distance(transform.position, targetWaypoint.position) < 1 && !attackLock)
+                    {
+                        StartCoroutine(FastShot(1, 1, 0));
+                    }
+                    yield return new WaitForSeconds(1.2f);
+            }
+            yield return new WaitForSeconds(1f);
+        }
         yield return new WaitForSeconds(0.01f);
     }
 
@@ -223,34 +467,48 @@ public class WindBossAI : MonoBehaviour
     {
         for (int i = 0; i < 5; i++)
         {
-            GameObject projectile = Instantiate(attackPrefabs[4], transform.position, Quaternion.identity);
+            GameObject projectile = Instantiate(attackPrefabs[5], transform.position, Quaternion.identity);
             yield return new WaitForSeconds(.6f/5);
         }
     }
 
-    private IEnumerator ShootProjectile(int type, int amount, float wait)
+    private IEnumerator ShootProjectile(int type, int amount, float wait, int anim)
     {
         proLock = true;
         for (int i = 0; i < amount; i++)
         {
             if (attackPrefabs.Length > type)
             {
-                animator.SetTrigger("Gun");
                 interruptMovement = true;
-                yield return new WaitForSeconds(0.2f);
+                switch (anim)
+                {
+                    case 0:
+                        animator.SetTrigger("Gun");
+                        yield return new WaitForSeconds(.66f);
+                        break;
+                    case 1:
+                        animator.SetTrigger("Burst");
+                        yield return new WaitForSeconds(.58f);
+                        break;
+                    case 2:
+                        animator.SetTrigger("Sweep");
+                        yield return new WaitForSeconds(.42f);
+                        break;
+                }
                 GameObject projectile = Instantiate(attackPrefabs[type], transform.position, Quaternion.identity);
                 ProjectileAttack attack = projectile.GetComponent<ProjectileAttack>();
                 attack.target = target;
                 FlipSprite((target.position - transform.position).normalized.x);
-                yield return new WaitForSeconds(0.1f);
+                yield return new WaitForSeconds(.5f);
                 interruptMovement = false;
             }
-            yield return new WaitForSeconds(projectileAttackRate / wait);
+            yield return new WaitForSeconds(wait);
         }
+        attackLock = false;
         proLock = false;
     }
 
-    private IEnumerator ProjectileArc(int arc, int count, int type, int amount)
+    private IEnumerator ProjectileArc(int type, int arc, int count, int amount, float wait, int anim)
     {
         proLock = true;
         int arcAngle = arc, projectileCount = count;
@@ -259,9 +517,22 @@ public class WindBossAI : MonoBehaviour
 
         for (int i = 0; i < amount; i++)
         {
-            animator.SetTrigger("Burst");
             interruptMovement = true;
-            yield return new WaitForSeconds(0.2f);
+            switch (anim)
+            {
+                case 0:
+                    animator.SetTrigger("Gun");
+                    yield return new WaitForSeconds(.66f);
+                    break;
+                case 1:
+                    animator.SetTrigger("Burst");
+                    yield return new WaitForSeconds(.58f);
+                    break;
+                case 2:
+                    animator.SetTrigger("Sweep");
+                    yield return new WaitForSeconds(.42f);
+                    break;
+            }
             Vector3 directionToTarget = (target.position - transform.position).normalized;
             FlipSprite(directionToTarget.x);
             for (int j = 0; j < projectileCount; j++)
@@ -273,41 +544,126 @@ public class WindBossAI : MonoBehaviour
                 ProjectileAttack attack = projectile.GetComponent<ProjectileAttack>();
                 attack.Init(target.transform, spreadDirection);
             }
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(.5f);
             interruptMovement = false;
-            yield return new WaitForSeconds(projectileAttackRate);
+            yield return new WaitForSeconds(wait);
         }
+        attackLock = false;
         proLock = false;
     }
 
-    private IEnumerator HomingArc(int arc, int count, int type, int amount)
+    private IEnumerator WindExtras()
     {
         proLock = true;
-        int arcAngle = arc, projectileCount = count;
-        float startAngle = -arcAngle / 2f;
-        float angleStep = arcAngle / (projectileCount - 1);
+        while (true) {
+            random = rnd.Next(0, 2);
+            int random2 = rnd.Next(0, 5);
+            switch (random)
+            {
+                case 0:
+                    for (int i = 0; i<random2+1; i++)
+                    {
+                        Instantiate(attackPrefabs[2], returnWaypoint.position + new Vector3(-15, -1f, 0 + i*3), new Quaternion(0, 0, 0, 0));
+                        Instantiate(attackPrefabs[2], returnWaypoint.position + new Vector3(15, -1f, 0 + i*3), new Quaternion(0, 0, 0, 0));
+                        yield return new WaitForSeconds(0.5f);
+                    }
+                    break;
+                case 1:
+                    for (int i = 0; i < random2 + 1; i++)
+                    {
+                        Instantiate(attackPrefabs[2], returnWaypoint.position + new Vector3(-15, -1f, 0 + i * 3), new Quaternion(0, 0, 0, 0));
+                        Instantiate(attackPrefabs[2], returnWaypoint.position + new Vector3(15, -1f, 0 - i * 3), new Quaternion(0, 0, 0, 0));
+                        yield return new WaitForSeconds(0.5f);
+                    }
+                    break;
+            }
+            yield return new WaitForSeconds(5f);
+        }
+    }
 
+    private IEnumerator FastShot(int type, int amount, float wait)
+    {
+        attackLock =true;
         for (int i = 0; i < amount; i++)
         {
-            animator.SetTrigger("Sweep");
-            interruptMovement = true;
-            yield return new WaitForSeconds(0.2f);
-            Vector3 directionToTarget = (target.position - transform.position).normalized;
-            FlipSprite(directionToTarget.x);
-            for (int j = 0; j < projectileCount; j++)
+            if (attackPrefabs.Length > type)
             {
-                float angle = startAngle + (angleStep * j);
-                Vector3 spreadDirection = Quaternion.Euler(0, angle, 0) * directionToTarget;
-
+                interruptMovement = true;
+                animator.SetTrigger("Fast");
+                yield return new WaitForSeconds(.42f);
+                if (isRetreating)
+                {
+                    i = amount;
+                    break;
+                }
                 GameObject projectile = Instantiate(attackPrefabs[type], transform.position, Quaternion.identity);
                 ProjectileAttack attack = projectile.GetComponent<ProjectileAttack>();
-                attack.Init(target.transform, spreadDirection);
+                attack.target = target;
+                FlipSprite((target.position - transform.position).normalized.x);
+                yield return new WaitForSeconds(.25f);
+                if (isRetreating)
+                {
+                    i = amount;
+                    break;
+                }
+                GameObject projectile1 = Instantiate(attackPrefabs[type], transform.position, Quaternion.identity);
+                ProjectileAttack attack1 = projectile.GetComponent<ProjectileAttack>();
+                attack.target = target;
+                FlipSprite((target.position - transform.position).normalized.x);
+                yield return new WaitForSeconds(.25f);
+                if (isRetreating)
+                {
+                    i = amount;
+                    break;
+                }
+                GameObject projectile2 = Instantiate(attackPrefabs[type], transform.position, Quaternion.identity);
+                ProjectileAttack attack2 = projectile.GetComponent<ProjectileAttack>();
+                attack.target = target;
+                FlipSprite((target.position - transform.position).normalized.x);
+                yield return new WaitForSeconds(.5f);
+                interruptMovement = false;
             }
-            yield return new WaitForSeconds(0.1f);
-            interruptMovement = false;
-            yield return new WaitForSeconds(projectileAttackRate);
+            yield return new WaitForSeconds(wait);
         }
-        proLock = false;
+        attackLock = false;
+    }
+
+    public IEnumerator SetupArena()
+    {
+        // Lock Players' movement and focus on Boss
+        boardSwitcher.focusOnBoss = true;
+        PlayerController[] playerController = FindObjectsOfType<PlayerController>();
+        foreach (PlayerController player in playerController)
+            player.LockMovement(10f);
+        ProjectileCleaner.DestroyAllProjectiles();
+
+        // Move to waypoint
+        while (Vector3.Distance(transform.position, targetWaypoint.position) > 0.5f)
+        {
+            MoveTowardsWaypoint();
+            yield return new WaitForSeconds(0.001f);
+        }
+
+        // Summon Wind Walls
+        interruptMovement = true;
+        animator.SetTrigger("Raise");
+        yield return new WaitForSeconds(1);
+        for (int i = 0; i < 2; i++)
+        {
+            target.position = transform.position + new Vector3(0, 0, -15);
+            yield return new WaitForSeconds(0.01f);
+        }
+        Instantiate(attackPrefabs[7], returnWaypoint.position + new Vector3(-15, -1f, 0), new Quaternion(0, 0, 0, 0));
+        Instantiate(attackPrefabs[8], returnWaypoint.position + new Vector3(15, -1f, 0), new Quaternion(0, 180, 0, 0));
+
+        yield return new WaitForSeconds(1f);
+        boardSwitcher.focusOnBoss = false;
+        foreach (PlayerController player in playerController)
+            player.UnlockMovement();
+        yield return new WaitForSeconds(2f);
+        interruptMovement = false;
+        isSetup = true;
+        // StartCoroutine(PullPlayerAndTrap());
     }
 
     private void FlipSprite(float directionX)
@@ -366,49 +722,6 @@ public class WindBossAI : MonoBehaviour
     }
 
     /*
-    private void RetreatFromPlayer()
-    {
-        isRetreating = true;
-        Vector3 retreatDirection = (transform.position - target.position).normalized;
-        transform.position += retreatDirection * retreatSpeed * Time.deltaTime;
-        FlipSprite(retreatDirection.x);
-    }
-
-    private void PushPlayerAway()
-    {
-        PlayerController player = target.GetComponent<PlayerController>();
-        if (player != null)
-        {
-            Vector3 pushDirection = (target.position - transform.position).normalized;
-            pushDirection.y = 0; // Ensure no upward movement
-            Vector3 pushVelocity = pushDirection * pushForce;
-            player.ApplyExternalForce(pushVelocity, 0.5f);
-        }
-    }
-
-    private IEnumerator TornadoPhase()
-    {
-        while (isInTornadoPhase)
-        {
-            SpawnTornadosAroundPlayer();
-            yield return new WaitForSeconds(tornadoSpawnInterval);
-        }
-    }
-
-    private void SpawnTornadosAroundPlayer()
-    {
-        int tornadoCount = 3;
-        for (int i = 0; i < tornadoCount; i++)
-        {
-            float angle = i * (360f / tornadoCount);
-            Vector3 offset = Quaternion.Euler(0, angle, 0) * Vector3.forward * tornadoSpawnRadius;
-            Vector3 spawnPos = target.position + offset;
-            spawnPos.y = 0; // Keep tornados at ground level
-
-            Instantiate(tornadoPrefab, spawnPos, Quaternion.identity);
-        }
-    }
-
     private void StartFinalPhase()
     {
         if (bossWaypoint != null)

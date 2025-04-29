@@ -24,13 +24,14 @@ public class ProjectileAttack : MonoBehaviour
     [SerializeField] private Movement moveType;
     [SerializeField] private bool isEffect;
     [SerializeField] private bool delayDamage;
+    [SerializeField] private bool vacuums;
     [SerializeField] private bool rotates;
     [SerializeField] private bool leavesTrail;
     [SerializeField] private bool breaksOnContact;
 
-    private float initalLifespan, initalSpeed, fixedHeight, mCount=0, tCount=0;
-    private Vector3 targetTransform, movementVector;
-    private bool inTrigger, skipStart=false, attackLock=false, damageLock=false, slowDown=false, speedUp=false;
+    private float initalLifespan, initalSpeed, fixedHeight, mCount = 0;
+    private Vector3 targetTransform, movementVector, initialVector;
+    private bool inTrigger, skipStart=false, attackLock=false, damageLock=false, moveLock = false, slowDown =false, speedUp=false;
 
     public void Init(Transform targ, Vector3 vector)
     {
@@ -55,6 +56,7 @@ public class ProjectileAttack : MonoBehaviour
         {
 
         }
+        initialVector = movementVector;
         collider = GetComponent<Collider>();
         initalLifespan = lifespan;
         initalSpeed = speed;
@@ -105,7 +107,7 @@ public class ProjectileAttack : MonoBehaviour
                         slowDown = true;
                         StartCoroutine(ApplySlowdown());
                     }
-                    movementVector = movementVector * (speed / initalSpeed);
+                    movementVector = initialVector * (speed / initalSpeed);
                 }
                 else if (initalLifespan-lifespan>3 && mCount==0)
                 {
@@ -117,26 +119,25 @@ public class ProjectileAttack : MonoBehaviour
                 }
                 break;
             case Movement.Retracting:
-                if (initalLifespan - lifespan > .5 && initalLifespan - lifespan < 3)
+                if (initalLifespan - lifespan > 0.4 && initalLifespan - lifespan < 3)
                 {
                     if (!slowDown)
                     {
                         slowDown = true;
                         StartCoroutine(ApplySlowdown());
                     }
-                    movementVector = movementVector * (speed / initalSpeed);
+                    movementVector = initialVector * (speed / initalSpeed);
                 }
-                else
+                else if (initalLifespan - lifespan > 3 && mCount == 0)
                 {
                     if (!speedUp)
                     {
                         speedUp = true;
                         StartCoroutine(ApplySpeedUp());
-                        movementVector = -movementVector;
                     }
-                    movementVector = movementVector * (speed / initalSpeed);
+                    movementVector = -initialVector * (speed / initalSpeed);
                 }
-                break;
+                    break;
             case Movement.Wandering:
                 if (initalLifespan - lifespan > 1)
                 {
@@ -159,7 +160,16 @@ public class ProjectileAttack : MonoBehaviour
         }
         if (leavesTrail && effectPrefab!=null)
         {
-            StartCoroutine(PlaceEffectTiles(.15f));
+            if (moveType == Movement.Wandering)
+            {
+                StartCoroutine(PlaceEffectTiles(2f));
+            }
+            else
+                StartCoroutine(PlaceEffectTiles(.15f));
+        }
+        if (vacuums)
+        {
+            StartCoroutine(SuccPlayer());
         }
     }
 
@@ -198,10 +208,15 @@ public class ProjectileAttack : MonoBehaviour
 
     private IEnumerator ApplySlowdown()
     {
-        while (initalLifespan-lifespan <= 3)
+        while (initalLifespan-lifespan < 2)
         {
-            speed = speed*.9f;
-            yield return new WaitForSeconds(0.4f);
+            speed = speed*.6f;
+            yield return new WaitForSeconds(0.1f);
+        } 
+        while (initalLifespan - lifespan <= 3)
+        {
+            speed = speed * .3f;
+            yield return new WaitForSeconds(0.1f);
         }
         yield return new WaitForSeconds(0.1f);
     }
@@ -210,12 +225,12 @@ public class ProjectileAttack : MonoBehaviour
     {
         while (speed < initalSpeed)
         {
-            if (speed > 0.1f)
+            if (speed < 0.1f)
             {
                 speed = 0.1f;
             }
-            speed = speed * 1.1f;
-            yield return new WaitForSeconds(0.4f);
+            speed = speed * 2f;
+            yield return new WaitForSeconds(0.2f);
         }
         yield return new WaitForSeconds(0.1f);
     }
@@ -298,6 +313,24 @@ public class ProjectileAttack : MonoBehaviour
         }
     }
 
+    private IEnumerator SuccPlayer()
+    {
+        PlayerController[] playerController = FindObjectsOfType<PlayerController>();
+        while (lifespan>0)
+        {
+            foreach (PlayerController player in playerController){
+                if (Vector3.Distance(transform.position, player.transform.position) < 10)
+                {
+                    Vector3 pushDirection = (player.transform.position - transform.position).normalized;
+                    Vector3 pushVelocity = -pushDirection * 7;
+                    player.ApplyExternalForce(pushVelocity, 0.1f);
+                }
+                yield return new WaitForSeconds(.01f);
+            }
+        }
+        yield return new WaitForSeconds(1f);
+    }
+
     private void UpdateLifespan()
     {
         if (lifespan <= 0)
@@ -311,7 +344,10 @@ public class ProjectileAttack : MonoBehaviour
         {
             collider.enabled = false;
         }
-        else { collider.enabled = true; }
+        else
+        {
+            collider.enabled = true;
+        }
         lifespan -= Time.deltaTime;
     }
 
@@ -378,9 +414,9 @@ public class ProjectileAttack : MonoBehaviour
 
     private IEnumerator HandleProjectileWander(int magnitude)
     {
-        if (!attackLock && lifespan>3)
+        if (!moveLock && lifespan>3)
         {
-            attackLock = true;
+            moveLock = true;
             int pass=3;
             Debug.Log("Magnitude: " + magnitude);
             if (magnitude == 1 || magnitude==10)
@@ -440,7 +476,7 @@ public class ProjectileAttack : MonoBehaviour
                     }
                 }
             }
-            attackLock=false;
+            moveLock=false;
         }
     }
 
