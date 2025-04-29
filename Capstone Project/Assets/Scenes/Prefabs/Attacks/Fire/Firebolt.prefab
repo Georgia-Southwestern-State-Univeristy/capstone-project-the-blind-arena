@@ -49,6 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: 6574358655820503319}
   effectPrefab: {fileID: 2674293016379792414, guid: edd1b7cdf4823f44ca16aead2fa90269, type: 3}
+  collider: {fileID: 0}
   target: {fileID: 0}
   speed: 18
   lifespan: 20
@@ -57,6 +58,7 @@ MonoBehaviour:
   elementType: 2
   moveType: 0
   isEffect: 0
+  delayDamage: 0
   rotates: 1
   leavesTrail: 0
   breaksOnContact: 1

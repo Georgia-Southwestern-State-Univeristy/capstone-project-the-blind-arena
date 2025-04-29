@@ -2328,7 +2328,7 @@ PrefabInstance:
       objectReference: {fileID: 293619905}
     - target: {fileID: 1258967850763119028, guid: 3dc58e28b4845a84c9c3a9f305e06bdc, type: 3}
       propertyPath: attackSounds.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1258967850763119028, guid: 3dc58e28b4845a84c9c3a9f305e06bdc, type: 3}
       propertyPath: 'attackSounds.Array.data[0]'
@@ -2774,7 +2774,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 741179065}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
@@ -6088,6 +6088,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 937415015}
     m_Modifications:
     - target: {fileID: 3195235321991262973, guid: f92add3e4f9b66447ba020559c38b466, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3195235321991262973, guid: f92add3e4f9b66447ba020559c38b466, type: 3}
       propertyPath: returnWaypoint
       value: 
       objectReference: {fileID: 1220602294}
@@ -6106,11 +6110,11 @@ PrefabInstance:
     - target: {fileID: 3195235321991262973, guid: f92add3e4f9b66447ba020559c38b466, type: 3}
       propertyPath: 'attackSounds.Array.data[0]'
       value: 
-      objectReference: {fileID: 8300000, guid: 3dc81f32bbdbce34db062f4377b1ceb2, type: 3}
+      objectReference: {fileID: 8300000, guid: ff8b67e3b0e8f2b4bbd3cd5eb9cbf23c, type: 3}
     - target: {fileID: 3195235321991262973, guid: f92add3e4f9b66447ba020559c38b466, type: 3}
       propertyPath: 'attackSounds.Array.data[1]'
       value: 
-      objectReference: {fileID: 8300000, guid: 22b6fa8375d70c940ab5598b54f8548e, type: 3}
+      objectReference: {fileID: 8300000, guid: 9fccd5586a0895f4cb929ea78124baf8, type: 3}
     - target: {fileID: 3195235321991262973, guid: f92add3e4f9b66447ba020559c38b466, type: 3}
       propertyPath: 'attackSounds.Array.data[2]'
       value: 
@@ -6118,7 +6122,7 @@ PrefabInstance:
     - target: {fileID: 3195235321991262973, guid: f92add3e4f9b66447ba020559c38b466, type: 3}
       propertyPath: 'attackSounds.Array.data[3]'
       value: 
-      objectReference: {fileID: 8300000, guid: db31fffad9a17684ca4615fe8db28c65, type: 3}
+      objectReference: {fileID: 8300000, guid: 0424492966abfc740bfdc5d2bce3968b, type: 3}
     - target: {fileID: 5171328325129933643, guid: f92add3e4f9b66447ba020559c38b466, type: 3}
       propertyPath: flashSound
       value: 

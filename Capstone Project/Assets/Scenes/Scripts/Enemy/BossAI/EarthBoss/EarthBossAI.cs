@@ -439,8 +439,8 @@ public class EarthBossAI : MonoBehaviour
                 isLeaping = false;
                 proLock = false;
             }
+            PlayAttackSound(0); // Play leap sound (index 0)
             yield return new WaitForSeconds(0.1f);
-            PlayAttackSound(1); // Play leap sound (index 1)
         }
     }
 
@@ -462,7 +462,9 @@ public class EarthBossAI : MonoBehaviour
                 for (int i = 1; i <= 3; i++)
                 {
                     yield return new WaitForSeconds(0.2f);
-                    PlayAttackSound(0);
+
+                    PlayAttackSound(1);
+
                     for (int j = 0; j < (i * 4); j++)
                     {
                         Vector3 directionToTarget = (target.position - transform.position).normalized;
