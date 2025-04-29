@@ -34,6 +34,11 @@ public class FireBossAI : MonoBehaviour
 
     [SerializeField] private AudioSource walkingAudioSource;
 
+    [SerializeField] private AudioClip[] attackSounds;
+    [SerializeField] private AudioSource sfxAudioSource;
+
+    public EarthBossAI earthBoss;
+
     private void Start()
     {
         enemyHealth = GetComponent<EnemyHealth>();
@@ -370,6 +375,7 @@ public class FireBossAI : MonoBehaviour
         {
             GameObject projectile = Instantiate(attackPrefabs[4], transform.position, Quaternion.identity);
             yield return new WaitForSeconds(dashDuration/10);
+            earthBoss.PlayAttackSound(1);
         }
     }
 
@@ -385,6 +391,9 @@ public class FireBossAI : MonoBehaviour
                     animator.SetTrigger("Punch");
                     interruptMovement = true;
                     yield return new WaitForSeconds(0.2f);
+
+                    earthBoss.PlayAttackSound(0);
+
                     GameObject projectile = Instantiate(attackPrefabs[type], transform.position, Quaternion.identity);
                     ProjectileAttack attack = projectile.GetComponent<ProjectileAttack>();
                     attack.target = target;
@@ -412,6 +421,9 @@ public class FireBossAI : MonoBehaviour
                 animator.SetTrigger("Point");
                 interruptMovement = true;
                 yield return new WaitForSeconds(0.2f);
+
+                earthBoss.PlayAttackSound(0);
+
                 Vector3 directionToTarget = (target.position - transform.position).normalized;
                 FlipSprite(directionToTarget.x);
                 for (int j = 0; j < projectileCount; j++)
@@ -445,6 +457,9 @@ public class FireBossAI : MonoBehaviour
                 animator.SetTrigger("Clap");
                 interruptMovement = true;
                 yield return new WaitForSeconds(0.2f);
+
+                earthBoss.PlayAttackSound(0);
+
                 Vector3 directionToTarget = (target.position - transform.position).normalized;
                 FlipSprite(directionToTarget.x);
                 for (int j = 0; j < projectileCount; j++)

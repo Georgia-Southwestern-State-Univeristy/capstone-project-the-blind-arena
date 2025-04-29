@@ -571,7 +571,7 @@ public class EarthBossAI : MonoBehaviour
             playerHealth.Damage(20);
         }
     }
-    private void PlayAttackSound(int soundIndex)
+    public void PlayAttackSound(int soundIndex)
     {
         if (attackSounds != null && soundIndex >= 0 && soundIndex < attackSounds.Length)
         {
@@ -583,7 +583,7 @@ public class EarthBossAI : MonoBehaviour
         }
     }
 
-    private IEnumerator DelayedPlayAttackSound(int soundIndex, float delay)
+    public IEnumerator DelayedPlayAttackSound(int soundIndex, float delay)
     {
         yield return new WaitForSeconds(delay);
         PlayAttackSound(soundIndex);

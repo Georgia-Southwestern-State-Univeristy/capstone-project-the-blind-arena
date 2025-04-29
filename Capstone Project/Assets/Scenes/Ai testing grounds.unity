@@ -2311,13 +2311,33 @@ PrefabInstance:
       value: 3676628488
       objectReference: {fileID: 0}
     - target: {fileID: 1258967850763119028, guid: 3dc58e28b4845a84c9c3a9f305e06bdc, type: 3}
+      propertyPath: earthBoss
+      value: 
+      objectReference: {fileID: 1752580528}
+    - target: {fileID: 1258967850763119028, guid: 3dc58e28b4845a84c9c3a9f305e06bdc, type: 3}
       propertyPath: returnWaypoint
       value: 
       objectReference: {fileID: 1220602294}
     - target: {fileID: 1258967850763119028, guid: 3dc58e28b4845a84c9c3a9f305e06bdc, type: 3}
+      propertyPath: sfxAudioSource
+      value: 
+      objectReference: {fileID: 741179067}
+    - target: {fileID: 1258967850763119028, guid: 3dc58e28b4845a84c9c3a9f305e06bdc, type: 3}
       propertyPath: walkingAudioSource
       value: 
       objectReference: {fileID: 293619905}
+    - target: {fileID: 1258967850763119028, guid: 3dc58e28b4845a84c9c3a9f305e06bdc, type: 3}
+      propertyPath: attackSounds.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1258967850763119028, guid: 3dc58e28b4845a84c9c3a9f305e06bdc, type: 3}
+      propertyPath: 'attackSounds.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 3dc81f32bbdbce34db062f4377b1ceb2, type: 3}
+    - target: {fileID: 1258967850763119028, guid: 3dc58e28b4845a84c9c3a9f305e06bdc, type: 3}
+      propertyPath: 'attackSounds.Array.data[1]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 76f8636d669a8654f98e51babf88433f, type: 3}
     - target: {fileID: 1703532392994725273, guid: 3dc58e28b4845a84c9c3a9f305e06bdc, type: 3}
       propertyPath: m_Name
       value: Fire Gladiator
@@ -6298,6 +6318,17 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1752580528 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3195235321991262973, guid: f92add3e4f9b66447ba020559c38b466, type: 3}
+  m_PrefabInstance: {fileID: 1752580505}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1752580507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f190907f97e58d146a80faeac6a15b44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1789216285
 PrefabInstance:
   m_ObjectHideFlags: 0
