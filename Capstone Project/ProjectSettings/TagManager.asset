@@ -11,6 +11,7 @@ TagManager:
   - Projectile
   - EnemyTracker
   - FirstTutorialAI
+  - FinalBoss
   layers:
   - Default
   - TransparentFX
