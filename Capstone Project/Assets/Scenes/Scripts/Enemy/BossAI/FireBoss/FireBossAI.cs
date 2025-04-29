@@ -392,7 +392,7 @@ public class FireBossAI : MonoBehaviour
                     interruptMovement = true;
                     yield return new WaitForSeconds(0.2f);
 
-                    earthBoss.PlayAttackSound(0);
+                    earthBoss.PlayAttackSound(1);
 
                     GameObject projectile = Instantiate(attackPrefabs[type], transform.position, Quaternion.identity);
                     ProjectileAttack attack = projectile.GetComponent<ProjectileAttack>();
@@ -458,7 +458,7 @@ public class FireBossAI : MonoBehaviour
                 interruptMovement = true;
                 yield return new WaitForSeconds(0.2f);
 
-                earthBoss.PlayAttackSound(0);
+                
 
                 Vector3 directionToTarget = (target.position - transform.position).normalized;
                 FlipSprite(directionToTarget.x);
@@ -470,6 +470,7 @@ public class FireBossAI : MonoBehaviour
                     GameObject projectile = Instantiate(attackPrefabs[type], transform.position, Quaternion.identity);
                     ProjectileAttack attack = projectile.GetComponent<ProjectileAttack>();
                     attack.Init(target.transform, spreadDirection);
+                    earthBoss.PlayAttackSound(1);
                 }
                 yield return new WaitForSeconds(0.1f);
                 interruptMovement = false;
