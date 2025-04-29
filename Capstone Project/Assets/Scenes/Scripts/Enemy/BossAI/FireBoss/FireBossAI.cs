@@ -32,6 +32,13 @@ public class FireBossAI : MonoBehaviour
     private System.Random rnd = new System.Random();
     private int random;
 
+    [SerializeField] private AudioSource walkingAudioSource;
+
+    [SerializeField] private AudioClip[] attackSounds;
+    [SerializeField] private AudioSource sfxAudioSource;
+
+    public EarthBossAI earthBoss;
+
     private void Start()
     {
         enemyHealth = GetComponent<EnemyHealth>();
@@ -69,6 +76,11 @@ public class FireBossAI : MonoBehaviour
             else
             {
                 animator.SetFloat("speed", 0);
+
+                if (walkingAudioSource.isPlaying)
+                {
+                    walkingAudioSource.Stop();
+                }
             }
             return;
         }
@@ -94,6 +106,11 @@ public class FireBossAI : MonoBehaviour
             {
                 genLock = true;
                 animator.SetFloat("speed", 0);
+
+                if (walkingAudioSource.isPlaying)
+                {
+                    walkingAudioSource.Stop();
+                }
             }
             return;
         }
@@ -114,6 +131,11 @@ public class FireBossAI : MonoBehaviour
             else
             {
                 animator.SetFloat("speed", 0);
+
+                if (walkingAudioSource.isPlaying)
+                {
+                    walkingAudioSource.Stop();
+                }
             }
             return;
         }
@@ -156,6 +178,11 @@ public class FireBossAI : MonoBehaviour
         transform.position = position;
 
         transform.position += direction * Time.deltaTime;
+
+        if (!walkingAudioSource.isPlaying)
+        {
+            walkingAudioSource.Play();
+        }
     }
 
     private void MoveTowardsWapoint()
@@ -345,6 +372,7 @@ public class FireBossAI : MonoBehaviour
         {
             GameObject projectile = Instantiate(attackPrefabs[4], transform.position, Quaternion.identity);
             yield return new WaitForSeconds(dashDuration/10);
+            earthBoss.PlayAttackSound(1);
         }
     }
 
@@ -360,6 +388,9 @@ public class FireBossAI : MonoBehaviour
                     animator.SetTrigger("Punch");
                     interruptMovement = true;
                     yield return new WaitForSeconds(0.2f);
+
+                    earthBoss.PlayAttackSound(1);
+
                     GameObject projectile = Instantiate(attackPrefabs[type], transform.position, Quaternion.identity);
                     ProjectileAttack attack = projectile.GetComponent<ProjectileAttack>();
                     attack.target = target;
@@ -387,6 +418,9 @@ public class FireBossAI : MonoBehaviour
                 animator.SetTrigger("Point");
                 interruptMovement = true;
                 yield return new WaitForSeconds(0.2f);
+
+                earthBoss.PlayAttackSound(0);
+
                 Vector3 directionToTarget = (target.position - transform.position).normalized;
                 FlipSprite(directionToTarget.x);
                 for (int j = 0; j < projectileCount; j++)
@@ -420,6 +454,9 @@ public class FireBossAI : MonoBehaviour
                 animator.SetTrigger("Clap");
                 interruptMovement = true;
                 yield return new WaitForSeconds(0.2f);
+
+                
+
                 Vector3 directionToTarget = (target.position - transform.position).normalized;
                 FlipSprite(directionToTarget.x);
                 for (int j = 0; j < projectileCount; j++)
@@ -430,6 +467,7 @@ public class FireBossAI : MonoBehaviour
                     GameObject projectile = Instantiate(attackPrefabs[type], transform.position, Quaternion.identity);
                     ProjectileAttack attack = projectile.GetComponent<ProjectileAttack>();
                     attack.Init(target.transform, spreadDirection);
+                    earthBoss.PlayAttackSound(1);
                 }
                 yield return new WaitForSeconds(0.1f);
                 interruptMovement = false;

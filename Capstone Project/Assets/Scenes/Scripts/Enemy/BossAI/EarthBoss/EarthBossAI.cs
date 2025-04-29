@@ -32,6 +32,11 @@ public class EarthBossAI : MonoBehaviour
     private System.Random rnd = new System.Random();
     private int random;
 
+    [SerializeField] private AudioSource walkingAudioSource;
+
+    [SerializeField] private AudioClip[] attackSounds; // 0 = Melee, 1 = Leap, 2 = Stomp, 3 = Pull
+    [SerializeField] private AudioSource sfxAudioSource;
+
     private void Start()
     {
         enemyHealth = GetComponent<EnemyHealth>();
@@ -44,7 +49,6 @@ public class EarthBossAI : MonoBehaviour
 
     private void Update()
     {
-
         if (!targetLock)
         {
             targetLock = true;
@@ -78,6 +82,11 @@ public class EarthBossAI : MonoBehaviour
             else
             {
                 animator.SetFloat("speed", 0);
+
+                if (walkingAudioSource.isPlaying)
+                {
+                    walkingAudioSource.Stop();
+                }
             }
             return;
         }
@@ -102,6 +111,11 @@ public class EarthBossAI : MonoBehaviour
             else
             {
                 animator.SetFloat("speed", 0);
+
+                if (walkingAudioSource.isPlaying)
+                {
+                    walkingAudioSource.Stop();
+                }
             }
             return;
         }
@@ -126,6 +140,11 @@ public class EarthBossAI : MonoBehaviour
             else
             {
                 animator.SetFloat("speed", 0);
+
+                if (walkingAudioSource.isPlaying)
+                {
+                    walkingAudioSource.Stop();
+                }
             }
             return;
         }
@@ -147,6 +166,11 @@ public class EarthBossAI : MonoBehaviour
             else
             {
                 animator.SetFloat("speed", 0);
+
+                if (walkingAudioSource.isPlaying)
+                {
+                    walkingAudioSource.Stop();
+                }
             }
             return;
         }
@@ -183,6 +207,11 @@ public class EarthBossAI : MonoBehaviour
         transform.position = position;
 
         transform.position += direction * Time.deltaTime;
+
+        if (!walkingAudioSource.isPlaying)
+        {
+            walkingAudioSource.Play();
+        }
     }
 
     private void MoveTowardsWapoint()
@@ -357,6 +386,8 @@ public class EarthBossAI : MonoBehaviour
         animator.SetTrigger("Slam");
         yield return new WaitForSeconds(0.5f);
 
+        PlayAttackSound(0); // Play melee sound (index 0)
+
         if (attackPrefabs.Length > 0)
         {
             Instantiate(attackPrefabs[0], transform.position, Quaternion.identity);
@@ -373,7 +404,6 @@ public class EarthBossAI : MonoBehaviour
                 proLock = true;
                 interruptMovement = true;
                 animator.SetTrigger("Leap");
-                
                 yield return new WaitForSeconds(0.66f);
 
                 Vector3 leapDirection = (target.position - transform.position).normalized;
@@ -402,6 +432,7 @@ public class EarthBossAI : MonoBehaviour
                 isLeaping = false;
                 proLock = false;
             }
+            PlayAttackSound(0); // Play leap sound (index 0)
             yield return new WaitForSeconds(0.1f);
         }
     }
@@ -424,6 +455,9 @@ public class EarthBossAI : MonoBehaviour
                 for (int i = 1; i <= 3; i++)
                 {
                     yield return new WaitForSeconds(0.2f);
+
+                    PlayAttackSound(1);
+
                     for (int j = 0; j < (i * 4); j++)
                     {
                         Vector3 directionToTarget = (target.position - transform.position).normalized;
@@ -432,8 +466,9 @@ public class EarthBossAI : MonoBehaviour
                         Vector3 spreadDirection = Quaternion.Euler(0, angle, 0) * directionToTarget;
 
                         Instantiate(attackPrefabs[2], (target.position + (spreadDirection * i)), Quaternion.identity);
-                    }
+                    } 
                     yield return new WaitForSeconds(0.2f);
+                    StartCoroutine(DelayedPlayAttackSound(2, 0.4f));
                 }
                 interruptMovement = false;
                 isStomping = false;
@@ -473,6 +508,7 @@ public class EarthBossAI : MonoBehaviour
         }
 
         Instantiate(attackPrefabs[3], returnWaypoint.position + new Vector3(0, -1f, 0), new Quaternion(0, 0, 0, 0));
+        PlayAttackSound(3); // Play build arena sound (index 3)
 
         yield return new WaitForSeconds(1f);
         boardSwitcher.focusOnBoss = false;
@@ -535,5 +571,22 @@ public class EarthBossAI : MonoBehaviour
         {
             playerHealth.Damage(20);
         }
+    }
+    public void PlayAttackSound(int soundIndex)
+    {
+        if (attackSounds != null && soundIndex >= 0 && soundIndex < attackSounds.Length)
+        {
+            sfxAudioSource.PlayOneShot(attackSounds[soundIndex]);
+        }
+        else
+        {
+            Debug.LogWarning($"Attack sound at index {soundIndex} is not assigned!");
+        }
+    }
+
+    public IEnumerator DelayedPlayAttackSound(int soundIndex, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        PlayAttackSound(soundIndex);
     }
 }
