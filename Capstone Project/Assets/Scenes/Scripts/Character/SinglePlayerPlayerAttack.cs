@@ -102,9 +102,10 @@ public class SinglePlayerAttack : MonoBehaviour
     {
         if (attackAudioSource != null && attackAudios.Length > index && attackAudios[index] != null)
         {
-            attackAudioSource.PlayOneShot(attackAudios[index]);
+            attackAudioSource.PlayOneShot(attackAudios[index], attackAudioSource.volume * 0.5f); // Lower volume by 50%
         }
     }
+
 
     private bool IsPointerOverUIExcluding(string tagToIgnore)
     {

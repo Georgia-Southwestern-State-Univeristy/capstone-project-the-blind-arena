@@ -525,12 +525,13 @@ public class FireBossAI : MonoBehaviour
     {
         if (attackSounds != null && soundIndex >= 0 && soundIndex < attackSounds.Length)
         {
-            sfxAudioSource.PlayOneShot(attackSounds[soundIndex]);
+            sfxAudioSource.PlayOneShot(attackSounds[soundIndex], sfxAudioSource.volume * 0.3f); // Reduce volume by 50%
         }
         else
         {
             Debug.LogWarning($"Attack sound at index {soundIndex} is not assigned!");
         }
     }
+
 
 }
