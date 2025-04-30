@@ -178,22 +178,12 @@ public class WindBossAI : MonoBehaviour
 
     private IEnumerator CheckForTarget()
     {
-        System.Random rand = new System.Random();
-        int newTarg = rand.Next(0, 3);
-        switch (newTarg)
-        {
-            case 0:
-                break;
-            case 1:
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-        }
-        target = FindFirstObjectByType<PlayerController>().transform;
+        PlayerController[] playerControllers = FindObjectsOfType<PlayerController>();
+        int newTarg = rnd.Next(0, playerControllers.Length);
+        Debug.Log("Target Check: " + newTarg);
+        target = playerControllers[newTarg].transform;
         yield return new WaitForSeconds(10f);
-        targetLock=false;
+        targetLock = false;
     }
 
     private void MoveTowardsPlayer()
@@ -651,9 +641,10 @@ public class WindBossAI : MonoBehaviour
         interruptMovement = true;
         animator.SetTrigger("Raise");
         yield return new WaitForSeconds(1);
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < 3; i++)
         {
-            target.position = transform.position + new Vector3(0, 0, -15);
+            foreach (PlayerController player in playerController)
+                player.transform.position = transform.position + new Vector3(0, 0, -15);
             yield return new WaitForSeconds(0.01f);
         }
         Instantiate(attackPrefabs[7], returnWaypoint.position + new Vector3(-15, -1f, 0), new Quaternion(0, 0, 0, 0));

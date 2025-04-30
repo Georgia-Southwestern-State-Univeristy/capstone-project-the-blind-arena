@@ -180,19 +180,10 @@ public class EarthBossAI : MonoBehaviour
 
     private IEnumerator CheckForTarget()
     {
-        int newTarg = rnd.Next(0, 3);
-        switch (newTarg)
-        {
-            case 0:
-                break;
-            case 1:
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-        }
-        target = FindFirstObjectByType<PlayerController>().transform;
+        PlayerController[] playerControllers = FindObjectsOfType<PlayerController>();
+        int newTarg = rnd.Next(0, playerControllers.Length);
+        Debug.Log("Target Check: "+ newTarg);
+        target = playerControllers[newTarg].transform;
         yield return new WaitForSeconds(10f);
         targetLock = false;
     }
@@ -482,6 +473,8 @@ public class EarthBossAI : MonoBehaviour
 
     public IEnumerator SetupArena()
     {
+        boardSwitcher.focusOnBoss = true;
+        speed += 1;
         PlayerController[] playerController = FindObjectsOfType<PlayerController>();
         SinglePlayerAttack[] singlePlayerAttacks = FindObjectsOfType<SinglePlayerAttack>();
         foreach (PlayerController player in playerController)
@@ -494,7 +487,6 @@ public class EarthBossAI : MonoBehaviour
         {
             MoveTowardsWapoint();
             yield return new WaitForSeconds(0.01f);
-            boardSwitcher.focusOnBoss = true;
         }
 
         // Pull player and trap them
@@ -510,9 +502,11 @@ public class EarthBossAI : MonoBehaviour
         interruptMovement = true;
         animator.SetTrigger("Raise");
         yield return new WaitForSeconds(0.8f);
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < 3; i++)
         {
-            target.position = playerWaypoint.position;
+
+            foreach (PlayerController player in playerController)
+                player.transform.position = playerWaypoint.position;
             yield return new WaitForSeconds(0.01f);
         }
 
@@ -524,6 +518,7 @@ public class EarthBossAI : MonoBehaviour
         foreach (PlayerController player in playerController)
             player.UnlockMovement();
         yield return new WaitForSeconds(2f);
+        speed -= 1;
         interruptMovement = false;
         isSetup=true;
         foreach (SinglePlayerAttack singlePlayerAttack in singlePlayerAttacks)

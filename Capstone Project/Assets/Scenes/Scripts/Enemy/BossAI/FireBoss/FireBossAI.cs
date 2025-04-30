@@ -141,17 +141,10 @@ public class FireBossAI : MonoBehaviour
 
     private IEnumerator CheckForTarget()
     {
-        int newTarg = rnd.Next(0,3);
-        switch (newTarg)
-        {
-            case 0:
-                break;
-            case 1:
-                break;
-            case 2:
-                break;
-        }
-        target = FindFirstObjectByType<PlayerController>().transform;
+        PlayerController[] playerControllers = FindObjectsOfType<PlayerController>();
+        int newTarg = rnd.Next(0, playerControllers.Length);
+        Debug.Log("Target Check: " + newTarg);
+        target = playerControllers[newTarg].transform;
         yield return new WaitForSeconds(10f);
         targetLock = false;
     }
