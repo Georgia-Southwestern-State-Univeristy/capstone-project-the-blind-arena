@@ -10831,6 +10831,8 @@ MonoBehaviour:
   - {fileID: 2487194063873665533}
   - {fileID: 2012108685}
   - {fileID: 2036413061}
+  - {fileID: 7042082108434523291}
+  - {fileID: 9078241475338373405}
 --- !u!4 &1339674502
 Transform:
   m_ObjectHideFlags: 0
@@ -11371,6 +11373,8 @@ MonoBehaviour:
   - {fileID: 2487194063873665533}
   - {fileID: 2012108685}
   - {fileID: 2036413061}
+  - {fileID: 7042082108434523291}
+  - {fileID: 9078241475338373405}
 --- !u!4 &1374147276
 Transform:
   m_ObjectHideFlags: 0
@@ -26897,7 +26901,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 273083169422477144, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
       propertyPath: soundSources.Array.size
-      value: 14
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 273083169422477144, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
       propertyPath: 'musicSources.Array.data[0]'
@@ -26966,11 +26970,11 @@ PrefabInstance:
     - target: {fileID: 273083169422477144, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
       propertyPath: 'soundSources.Array.data[14]'
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 7042082108434523291}
     - target: {fileID: 273083169422477144, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
       propertyPath: 'soundSources.Array.data[15]'
       value: 
-      objectReference: {fileID: 2036413061}
+      objectReference: {fileID: 9078241475338373405}
     - target: {fileID: 273083169422477144, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
       propertyPath: 'soundSources.Array.data[16]'
       value: 
