@@ -248,25 +248,25 @@ public class PlayerController : MonoBehaviour
 
         private IEnumerator ActivateEnemyAI2Delayed()
     {
-        yield return new WaitForSeconds(3.5f); // Waits 3.5 seconds
+        yield return new WaitForSeconds(1.5f); // Waits 3.5 seconds
         enemyAI2.SetActive(true);
     }
 
     private IEnumerator ActivateEnemyAI3Delayed()
     {
-        yield return new WaitForSeconds(3.5f);
+        yield return new WaitForSeconds(1.5f);
         enemyAI3.SetActive(true);
     }
 
     private IEnumerator ActivateEnemyAI4Delayed()
     {
-        yield return new WaitForSeconds(3.5f);
+        yield return new WaitForSeconds(1.5f);
         enemyAI4.SetActive(true);
     }
 
     private IEnumerator ActivateEnemyAI5Delayed()
     {
-        yield return new WaitForSeconds(3.5f);
+        yield return new WaitForSeconds(1.5f);
         enemyAI5.SetActive(true);
     }
 

@@ -27,6 +27,12 @@ public class SaveManager : MonoBehaviour
         hasSaved = false;
         gameFinished = false;
         savedScene = 1; // Start with Scene 1
+
+        if (savedScene == 1) 
+        {
+            hasSaved = true;
+        }
+        
     }
 
     public void SaveGame(int sceneNumber)
