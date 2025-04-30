@@ -6,6 +6,8 @@ public class EarthBossAI : MonoBehaviour
 {
     public Transform target;
     public Transform returnWaypoint;
+    public Transform targetWaypoint;
+    public Transform playerWaypoint;
     public Animator animator;
     public float speed;
     public float minimumDistance = 2f;
@@ -510,11 +512,11 @@ public class EarthBossAI : MonoBehaviour
         yield return new WaitForSeconds(0.8f);
         for (int i = 0; i < 2; i++)
         {
-            target.position = transform.position + new Vector3(0, 0, -5);
+            target.position = playerWaypoint.position;
             yield return new WaitForSeconds(0.01f);
         }
 
-        Instantiate(attackPrefabs[3], returnWaypoint.position + new Vector3(0, -1f, 0), new Quaternion(0, 0, 0, 0));
+        Instantiate(attackPrefabs[3], targetWaypoint.position + new Vector3(0, -1f, 0), new Quaternion(0, 0, 0, 0));
         PlayAttackSound(3); // Play build arena sound (index 3)
 
         yield return new WaitForSeconds(1f);
