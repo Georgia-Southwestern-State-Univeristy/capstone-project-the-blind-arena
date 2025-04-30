@@ -2772,7 +2772,7 @@ GameObject:
   m_Component:
   - component: {fileID: 693543470}
   m_Layer: 0
-  m_Name: Waypoint 8 for player pull for wind boss
+  m_Name: 'Waypoint 8 '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2787,7 +2787,7 @@ Transform:
   m_GameObject: {fileID: 693543469}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.48, y: 0, z: -18.3}
+  m_LocalPosition: {x: 0, y: 0, z: 23}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2803,7 +2803,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 35311841652457394, guid: 4650cb58ecea3d1449acf4ba02e76068, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 35311841652457394, guid: 4650cb58ecea3d1449acf4ba02e76068, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2851,7 +2851,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1811904352789723111, guid: 4650cb58ecea3d1449acf4ba02e76068, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 17.67767
+      value: 18.17767
       objectReference: {fileID: 0}
     - target: {fileID: 1811904352789723111, guid: 4650cb58ecea3d1449acf4ba02e76068, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2865,6 +2865,10 @@ PrefabInstance:
       propertyPath: Targets.Array.data[1].Object
       value: 
       objectReference: {fileID: 1752580506}
+    - target: {fileID: 3061248971210032175, guid: 4650cb58ecea3d1449acf4ba02e76068, type: 3}
+      propertyPath: Targets.Array.data[2].Object
+      value: 
+      objectReference: {fileID: 1304925708}
     - target: {fileID: 3061248971210032175, guid: 4650cb58ecea3d1449acf4ba02e76068, type: 3}
       propertyPath: Targets.Array.data[3].Object
       value: 
@@ -2909,6 +2913,10 @@ PrefabInstance:
       propertyPath: Targets.Array.data[0].Object
       value: 
       objectReference: {fileID: 1752580506}
+    - target: {fileID: 6611392231829476690, guid: 4650cb58ecea3d1449acf4ba02e76068, type: 3}
+      propertyPath: Targets.Array.data[1].Object
+      value: 
+      objectReference: {fileID: 1304925708}
     - target: {fileID: 6611392231829476690, guid: 4650cb58ecea3d1449acf4ba02e76068, type: 3}
       propertyPath: Targets.Array.data[2].Object
       value: 
@@ -3799,7 +3807,7 @@ GameObject:
   m_Component:
   - component: {fileID: 937860856}
   m_Layer: 0
-  m_Name: Waypoint 9 for boss position for wind boss
+  m_Name: Waypoint 9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3814,7 +3822,7 @@ Transform:
   m_GameObject: {fileID: 937860855}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.48, y: 0, z: 20.7}
+  m_LocalPosition: {x: 0, y: 0, z: -20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5168,6 +5176,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1978756574}
   - {fileID: 1139748627}
   - {fileID: 1589912384}
   - {fileID: 1124029886}
@@ -5250,6 +5259,18 @@ PrefabInstance:
       propertyPath: needDistanceText
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3670643142368742008, guid: 0eb77205e716e5e4087ccd35ed343932, type: 3}
+      propertyPath: topWaypoint
+      value: 
+      objectReference: {fileID: 693543470}
+    - target: {fileID: 3670643142368742008, guid: 0eb77205e716e5e4087ccd35ed343932, type: 3}
+      propertyPath: bottomWaypoint
+      value: 
+      objectReference: {fileID: 937860856}
+    - target: {fileID: 3670643142368742008, guid: 0eb77205e716e5e4087ccd35ed343932, type: 3}
+      propertyPath: returnWaypoint
+      value: 
+      objectReference: {fileID: 1978756574}
     - target: {fileID: 4906087373876981867, guid: 0eb77205e716e5e4087ccd35ed343932, type: 3}
       propertyPath: maxHealth
       value: 200
@@ -7912,6 +7933,37 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &1978756573
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1978756574}
+  m_Layer: 0
+  m_Name: Waypoint 0
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1978756574
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1978756573}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1220602294}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2004846109
 GameObject:
   m_ObjectHideFlags: 0
