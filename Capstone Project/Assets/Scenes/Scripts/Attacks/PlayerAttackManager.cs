@@ -192,6 +192,10 @@ public class PlayerAttackManager : MonoBehaviour
         else
             colliderObject.layer = LayerMask.NameToLayer("AttackObjects");
 
+        if (attack.isTangible)
+        {
+            attackObject.AddComponent<DestroyOnWallContact>();
+        }
         Destroy(attackObject, attack.duration);
         return attackObject;
     }

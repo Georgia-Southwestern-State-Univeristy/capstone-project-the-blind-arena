@@ -740,9 +740,9 @@ MonoBehaviour:
     lockVelocity: 1
     isPhysical: 0
     isWall: 0
-    isTangible: 0
-    colliderShape: 0
-    colliderSize: {x: 2, y: 1, z: 1}
+    isTangible: 1
+    colliderShape: 1
+    colliderSize: {x: 0.7, y: 0.7, z: 0.7}
     colliderRotation: {x: -25, y: 0, z: 0}
     spriteSize: {x: 1, y: 1, z: 1}
     spriteRotation: {x: 25, y: 0, z: 0}
@@ -829,6 +829,7 @@ MonoBehaviour:
   enemyAI4: {fileID: 0}
   enemyAI5: {fileID: 0}
   walkingAudioSource: {fileID: 0}
+  rockSlidingAudioSource: {fileID: 0}
   playerCamera: {fileID: 0}
 --- !u!114 &6871928204999936856
 MonoBehaviour:
@@ -964,6 +965,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerHealth: {fileID: 0}
   player: {fileID: 0}
+  playerController: {fileID: 0}
+  playerAttackManager: {fileID: 0}
 --- !u!1 &8670387772060670411
 GameObject:
   m_ObjectHideFlags: 0

@@ -168,10 +168,13 @@ MonoBehaviour:
   elementType: 1
   moveType: 4
   isEffect: 0
-  delayDamage: 0
+  delayDamage: 1
+  vacuums: 0
   rotates: 0
   leavesTrail: 1
   breaksOnContact: 0
+  attackAudioSource: {fileID: 0}
+  attackSound: {fileID: 0}
 --- !u!54 &2630337387093943067
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -214,7 +217,7 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
