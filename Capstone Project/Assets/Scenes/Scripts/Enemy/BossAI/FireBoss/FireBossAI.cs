@@ -37,8 +37,6 @@ public class FireBossAI : MonoBehaviour
     [SerializeField] private AudioClip[] attackSounds;
     [SerializeField] private AudioSource sfxAudioSource;
 
-    public EarthBossAI earthBoss;
-
     private void Start()
     {
         enemyHealth = GetComponent<EnemyHealth>();
@@ -372,7 +370,7 @@ public class FireBossAI : MonoBehaviour
         {
             GameObject projectile = Instantiate(attackPrefabs[4], transform.position, Quaternion.identity);
             yield return new WaitForSeconds(dashDuration/10);
-            earthBoss.PlayAttackSound(1);
+            PlayAttackSound(1);
         }
     }
 
@@ -389,7 +387,7 @@ public class FireBossAI : MonoBehaviour
                     interruptMovement = true;
                     yield return new WaitForSeconds(0.2f);
 
-                    earthBoss.PlayAttackSound(1);
+                    PlayAttackSound(1);
 
                     GameObject projectile = Instantiate(attackPrefabs[type], transform.position, Quaternion.identity);
                     ProjectileAttack attack = projectile.GetComponent<ProjectileAttack>();
@@ -419,7 +417,7 @@ public class FireBossAI : MonoBehaviour
                 interruptMovement = true;
                 yield return new WaitForSeconds(0.2f);
 
-                earthBoss.PlayAttackSound(0);
+                PlayAttackSound(1);
 
                 Vector3 directionToTarget = (target.position - transform.position).normalized;
                 FlipSprite(directionToTarget.x);
@@ -467,7 +465,7 @@ public class FireBossAI : MonoBehaviour
                     GameObject projectile = Instantiate(attackPrefabs[type], transform.position, Quaternion.identity);
                     ProjectileAttack attack = projectile.GetComponent<ProjectileAttack>();
                     attack.Init(target.transform, spreadDirection);
-                    earthBoss.PlayAttackSound(1);
+                    PlayAttackSound(1);
                 }
                 yield return new WaitForSeconds(0.1f);
                 interruptMovement = false;
@@ -529,4 +527,17 @@ public class FireBossAI : MonoBehaviour
             playerHealth.Damage(20);
         }
     }
+
+    public void PlayAttackSound(int soundIndex)
+    {
+        if (attackSounds != null && soundIndex >= 0 && soundIndex < attackSounds.Length)
+        {
+            sfxAudioSource.PlayOneShot(attackSounds[soundIndex]);
+        }
+        else
+        {
+            Debug.LogWarning($"Attack sound at index {soundIndex} is not assigned!");
+        }
+    }
+
 }

@@ -33,6 +33,8 @@ public class ProjectileAttack : MonoBehaviour
     private Vector3 targetTransform, movementVector, initialVector;
     private bool inTrigger, skipStart=false, attackLock=false, damageLock=false, moveLock = false, slowDown =false, speedUp=false;
 
+    [SerializeField] private AudioSource attackAudioSource;
+    [SerializeField] private AudioClip attackSound;
     public void Init(Transform targ, Vector3 vector)
     {
         skipStart =true;
@@ -112,7 +114,8 @@ public class ProjectileAttack : MonoBehaviour
                 else if (initalLifespan-lifespan>3 && mCount==0)
                 {
                     speed = initalSpeed;
-                    targetTransform=target.position;
+                    PlayAttackSound(1);
+                    targetTransform =target.position;
                     movementVector = (targetTransform - transform.position).normalized;
                     movementVector *= ((Math.Abs(movementVector.z) * .6f) + 1) * speed;
                     mCount++;
@@ -544,5 +547,17 @@ public class ProjectileAttack : MonoBehaviour
             }
         }
     }
-    
+
+    public void PlayAttackSound(int soundIndex)
+    {
+        if (attackSound != null)
+        {
+            attackAudioSource.PlayOneShot(attackSound);
+        }
+        else
+        {
+            Debug.LogWarning($"Attack sound at index {soundIndex} is not assigned!");
+        }
+    }
+
 }

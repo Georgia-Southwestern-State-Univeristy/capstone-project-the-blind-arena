@@ -60,9 +60,12 @@ MonoBehaviour:
   moveType: 2
   isEffect: 0
   delayDamage: 0
+  vacuums: 0
   rotates: 1
   leavesTrail: 0
   breaksOnContact: 1
+  attackAudioSource: {fileID: -4004153130492617240}
+  attackSound: {fileID: 8300000, guid: 0b770adf626370149a94b68057da1c39, type: 3}
 --- !u!54 &673173951379776968
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -124,7 +127,7 @@ AudioSource:
   m_audioClip: {fileID: 8300000, guid: 0b770adf626370149a94b68057da1c39, type: 3}
   m_Resource: {fileID: 8300000, guid: 0b770adf626370149a94b68057da1c39, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.59085846
+  m_Volume: 0
   m_Pitch: 1
   Loop: 0
   Mute: 0
