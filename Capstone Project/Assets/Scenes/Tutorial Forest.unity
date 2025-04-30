@@ -2691,6 +2691,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3
   target: {fileID: 1723816129}
+  enemyController: {fileID: 200971357}
+  animator: {fileID: 200971350}
   minimumDistance: 5
   projectile: {fileID: 5662583701333269215, guid: 7b75d5ca7144be545b088c0170246310, type: 3}
   timeBetweenShots: 1.5
@@ -5306,6 +5308,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3
   target: {fileID: 1723816129}
+  enemyController: {fileID: 372156516}
+  animator: {fileID: 372156509}
   minimumDistance: 5
   projectile: {fileID: 5662583701333269215, guid: 7b75d5ca7144be545b088c0170246310, type: 3}
   timeBetweenShots: 1.5
@@ -5399,7 +5403,7 @@ SkinnedMeshRenderer:
   m_AABB:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
-  m_DirtyAABB: 1
+  m_DirtyAABB: 0
 --- !u!4 &385455772 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1209818058963364331, guid: b73f89d98f7d94445ae817ce72ac1dcf, type: 3}
@@ -6787,6 +6791,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3
   target: {fileID: 1723816129}
+  enemyController: {fileID: 453758848}
+  animator: {fileID: 453758841}
   minimumDistance: 5
   projectile: {fileID: 5662583701333269215, guid: 7b75d5ca7144be545b088c0170246310, type: 3}
   timeBetweenShots: 1.5
@@ -6880,7 +6886,7 @@ SkinnedMeshRenderer:
   m_AABB:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
-  m_DirtyAABB: 1
+  m_DirtyAABB: 0
 --- !u!1001 &455195064
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7446,6 +7452,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3
   target: {fileID: 1723816129}
+  enemyController: {fileID: 458872862}
+  animator: {fileID: 458872855}
   minimumDistance: 5
   projectile: {fileID: 5662583701333269215, guid: 7b75d5ca7144be545b088c0170246310, type: 3}
   timeBetweenShots: 1.5
@@ -7539,7 +7547,7 @@ SkinnedMeshRenderer:
   m_AABB:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
-  m_DirtyAABB: 1
+  m_DirtyAABB: 0
 --- !u!1 &463643104
 GameObject:
   m_ObjectHideFlags: 0
@@ -8145,6 +8153,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3
   target: {fileID: 1723816129}
+  enemyController: {fileID: 508819882}
+  animator: {fileID: 508819875}
   minimumDistance: 5
   projectile: {fileID: 5662583701333269215, guid: 7b75d5ca7144be545b088c0170246310, type: 3}
   timeBetweenShots: 1.5
@@ -8428,6 +8438,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3
   target: {fileID: 1723816129}
+  enemyController: {fileID: 509978538}
+  animator: {fileID: 509978531}
   minimumDistance: 5
   projectile: {fileID: 5662583701333269215, guid: 7b75d5ca7144be545b088c0170246310, type: 3}
   timeBetweenShots: 1.5
@@ -8521,7 +8533,7 @@ SkinnedMeshRenderer:
   m_AABB:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
-  m_DirtyAABB: 1
+  m_DirtyAABB: 0
 --- !u!1 &512655663 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4437399226347119808, guid: 145a26cfa8398b740982b1591a6f86ac, type: 3}
@@ -14036,6 +14048,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3
   target: {fileID: 1723816129}
+  enemyController: {fileID: 938276046}
+  animator: {fileID: 938276039}
   minimumDistance: 5
   projectile: {fileID: 5662583701333269215, guid: 7b75d5ca7144be545b088c0170246310, type: 3}
   timeBetweenShots: 1.5
@@ -14129,7 +14143,7 @@ SkinnedMeshRenderer:
   m_AABB:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
-  m_DirtyAABB: 1
+  m_DirtyAABB: 0
 --- !u!1001 &938703643
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15843,6 +15857,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3
   target: {fileID: 1723816129}
+  enemyController: {fileID: 1028169506}
+  animator: {fileID: 1028169499}
   minimumDistance: 5
   projectile: {fileID: 5662583701333269215, guid: 7b75d5ca7144be545b088c0170246310, type: 3}
   timeBetweenShots: 1.5
@@ -15936,7 +15952,7 @@ SkinnedMeshRenderer:
   m_AABB:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
-  m_DirtyAABB: 1
+  m_DirtyAABB: 0
 --- !u!4 &1036819751 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7306295591227787606, guid: efd2a7015512e0c449b39d4080a2faba, type: 3}
@@ -17074,6 +17090,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3
   target: {fileID: 1723816129}
+  enemyController: {fileID: 1108428843}
+  animator: {fileID: 1108428836}
   minimumDistance: 5
   projectile: {fileID: 5662583701333269215, guid: 7b75d5ca7144be545b088c0170246310, type: 3}
   timeBetweenShots: 1.5
@@ -17167,7 +17185,7 @@ SkinnedMeshRenderer:
   m_AABB:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
-  m_DirtyAABB: 1
+  m_DirtyAABB: 0
 --- !u!4 &1110838711 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7306295591227787606, guid: efd2a7015512e0c449b39d4080a2faba, type: 3}
@@ -17362,6 +17380,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3
   target: {fileID: 1723816129}
+  enemyController: {fileID: 1110892934}
+  animator: {fileID: 1110892927}
   minimumDistance: 5
   projectile: {fileID: 5662583701333269215, guid: 7b75d5ca7144be545b088c0170246310, type: 3}
   timeBetweenShots: 1.5
@@ -17455,7 +17475,7 @@ SkinnedMeshRenderer:
   m_AABB:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
-  m_DirtyAABB: 1
+  m_DirtyAABB: 0
 --- !u!1001 &1111780455
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22279,6 +22299,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3
   target: {fileID: 1723816129}
+  enemyController: {fileID: 1438243808}
+  animator: {fileID: 1438243801}
   minimumDistance: 5
   projectile: {fileID: 5662583701333269215, guid: 7b75d5ca7144be545b088c0170246310, type: 3}
   timeBetweenShots: 1.5
@@ -22372,7 +22394,7 @@ SkinnedMeshRenderer:
   m_AABB:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
-  m_DirtyAABB: 1
+  m_DirtyAABB: 0
 --- !u!4 &1438493361 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1209818058963364331, guid: b73f89d98f7d94445ae817ce72ac1dcf, type: 3}
@@ -23460,6 +23482,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3
   target: {fileID: 1723816129}
+  enemyController: {fileID: 1513093895}
+  animator: {fileID: 1513093888}
   minimumDistance: 5
   projectile: {fileID: 5662583701333269215, guid: 7b75d5ca7144be545b088c0170246310, type: 3}
   timeBetweenShots: 1.5
@@ -23553,7 +23577,7 @@ SkinnedMeshRenderer:
   m_AABB:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
-  m_DirtyAABB: 1
+  m_DirtyAABB: 0
 --- !u!4 &1524035437 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6516398681875321347, guid: 5603d1910f8327e4099064ffd2a0b8c9, type: 3}
@@ -24904,6 +24928,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3
   target: {fileID: 1723816129}
+  enemyController: {fileID: 1583553435}
+  animator: {fileID: 1583553428}
   minimumDistance: 5
   projectile: {fileID: 5662583701333269215, guid: 7b75d5ca7144be545b088c0170246310, type: 3}
   timeBetweenShots: 1.5
@@ -26773,6 +26799,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3
   target: {fileID: 1723816129}
+  enemyController: {fileID: 1742736772}
+  animator: {fileID: 1742736765}
   minimumDistance: 5
   projectile: {fileID: 5662583701333269215, guid: 7b75d5ca7144be545b088c0170246310, type: 3}
   timeBetweenShots: 1.5
@@ -26866,7 +26894,7 @@ SkinnedMeshRenderer:
   m_AABB:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
-  m_DirtyAABB: 1
+  m_DirtyAABB: 0
 --- !u!1001 &1745201985
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28046,6 +28074,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3
   target: {fileID: 1723816129}
+  enemyController: {fileID: 1832187592}
+  animator: {fileID: 1832187585}
   minimumDistance: 5
   projectile: {fileID: 5662583701333269215, guid: 7b75d5ca7144be545b088c0170246310, type: 3}
   timeBetweenShots: 1.5
@@ -28139,7 +28169,7 @@ SkinnedMeshRenderer:
   m_AABB:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
-  m_DirtyAABB: 1
+  m_DirtyAABB: 0
 --- !u!1001 &1832779938
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28515,6 +28545,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3
   target: {fileID: 1723816129}
+  enemyController: {fileID: 1849115665}
+  animator: {fileID: 1849115658}
   minimumDistance: 5
   projectile: {fileID: 5662583701333269215, guid: 7b75d5ca7144be545b088c0170246310, type: 3}
   timeBetweenShots: 1.5
@@ -28608,7 +28640,7 @@ SkinnedMeshRenderer:
   m_AABB:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
-  m_DirtyAABB: 1
+  m_DirtyAABB: 0
 --- !u!4 &1851427942 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6488913087728360529, guid: 20f36478ad87236478676cd92fc7e97f, type: 3}
@@ -30001,6 +30033,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3
   target: {fileID: 1723816129}
+  enemyController: {fileID: 1914809459}
+  animator: {fileID: 1914809452}
   minimumDistance: 5
   projectile: {fileID: 5662583701333269215, guid: 7b75d5ca7144be545b088c0170246310, type: 3}
   timeBetweenShots: 1.5
@@ -30094,7 +30128,7 @@ SkinnedMeshRenderer:
   m_AABB:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
-  m_DirtyAABB: 1
+  m_DirtyAABB: 0
 --- !u!1 &1920803356
 GameObject:
   m_ObjectHideFlags: 0
@@ -31212,6 +31246,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3
   target: {fileID: 1723816129}
+  enemyController: {fileID: 1964871513}
+  animator: {fileID: 1964871506}
   minimumDistance: 5
   projectile: {fileID: 5662583701333269215, guid: 7b75d5ca7144be545b088c0170246310, type: 3}
   timeBetweenShots: 1.5
@@ -31305,7 +31341,7 @@ SkinnedMeshRenderer:
   m_AABB:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
-  m_DirtyAABB: 1
+  m_DirtyAABB: 0
 --- !u!4 &1968147643 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7471366334826817605, guid: 63b92245c596e0f48bff75348eff61c2, type: 3}
@@ -32361,6 +32397,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3
   target: {fileID: 1723816129}
+  enemyController: {fileID: 2066430298}
+  animator: {fileID: 2066430291}
   minimumDistance: 5
   projectile: {fileID: 5662583701333269215, guid: 7b75d5ca7144be545b088c0170246310, type: 3}
   timeBetweenShots: 1.5
@@ -32454,7 +32492,7 @@ SkinnedMeshRenderer:
   m_AABB:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
-  m_DirtyAABB: 1
+  m_DirtyAABB: 0
 --- !u!1001 &2067836852
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -34213,6 +34251,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3
   target: {fileID: 1723816129}
+  enemyController: {fileID: 180537093129940744}
+  animator: {fileID: 4004997834592262224}
   minimumDistance: 5
   projectile: {fileID: 5662583701333269215, guid: 7b75d5ca7144be545b088c0170246310, type: 3}
   timeBetweenShots: 1.5
