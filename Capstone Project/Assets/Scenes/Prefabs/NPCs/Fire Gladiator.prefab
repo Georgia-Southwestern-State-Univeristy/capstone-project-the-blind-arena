@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 6109862189084026584}
   m_Layer: 0
   m_Name: Fire Gladiator
-  m_TagString: Boss
+  m_TagString: FinalBoss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -70,6 +70,9 @@ MonoBehaviour:
   - {fileID: 4881650114523384713, guid: 4d375230b5a95fd4487b461a0b8315f6, type: 3}
   - {fileID: 5228844727807897528, guid: 7d9415e6484698e459e1113835d6ef7f, type: 3}
   - {fileID: 2674293016379792414, guid: edd1b7cdf4823f44ca16aead2fa90269, type: 3}
+  walkingAudioSource: {fileID: 0}
+  attackSounds: []
+  sfxAudioSource: {fileID: 0}
 --- !u!114 &6303637312343689562
 MonoBehaviour:
   m_ObjectHideFlags: 0

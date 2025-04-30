@@ -563,16 +563,16 @@ public class WindBossAI : MonoBehaviour
                 case 0:
                     for (int i = 0; i<random2+1; i++)
                     {
-                        Instantiate(attackPrefabs[2], returnWaypoint.position + new Vector3(-15, -1f, 0 + i*3), new Quaternion(0, 0, 0, 0));
-                        Instantiate(attackPrefabs[2], returnWaypoint.position + new Vector3(15, -1f, 0 + i*3), new Quaternion(0, 0, 0, 0));
+                        Instantiate(attackPrefabs[2], returnWaypoint.position + new Vector3(-17, -1f, 0 + i*3), new Quaternion(0, 0, 0, 0));
+                        Instantiate(attackPrefabs[2], returnWaypoint.position + new Vector3(17, -1f, 0 + i*3), new Quaternion(0, 0, 0, 0));
                         yield return new WaitForSeconds(0.5f);
                     }
                     break;
                 case 1:
                     for (int i = 0; i < random2 + 1; i++)
                     {
-                        Instantiate(attackPrefabs[2], returnWaypoint.position + new Vector3(-15, -1f, 0 + i * 3), new Quaternion(0, 0, 0, 0));
-                        Instantiate(attackPrefabs[2], returnWaypoint.position + new Vector3(15, -1f, 0 - i * 3), new Quaternion(0, 0, 0, 0));
+                        Instantiate(attackPrefabs[2], returnWaypoint.position + new Vector3(-17, -1f, 0 + i * 3), new Quaternion(0, 0, 0, 0));
+                        Instantiate(attackPrefabs[2], returnWaypoint.position + new Vector3(17, -1f, 0 - i * 3), new Quaternion(0, 0, 0, 0));
                         yield return new WaitForSeconds(0.5f);
                     }
                     break;
