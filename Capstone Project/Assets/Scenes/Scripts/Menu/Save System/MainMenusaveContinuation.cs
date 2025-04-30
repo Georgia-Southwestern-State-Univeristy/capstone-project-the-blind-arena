@@ -22,7 +22,7 @@ public class MainMenu : MonoBehaviour
 
     private void UpdateContinueButton()
     {
-        continueButton.interactable = SaveManager.Instance.hasSaved;
+        continueButton.interactable = SaveManager.Instance.hasSaved && !SaveManager.Instance.gameFinished;
     }
 }
 

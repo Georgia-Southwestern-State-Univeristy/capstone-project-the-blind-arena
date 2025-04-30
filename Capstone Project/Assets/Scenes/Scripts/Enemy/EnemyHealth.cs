@@ -175,6 +175,7 @@ public class EnemyHealth : MonoBehaviour
             // Handle enemy deaths
             if (triggerSequenceOnDeath && objectToReveal != null && secondObjectToReveal != null)
             {
+                SaveManager.Instance.FinishGame();
                 ObjectSequenceManager.Instance.StartObjectSequence(objectToReveal, secondObjectToReveal, delayBeforeSwitch);
             }
             else
