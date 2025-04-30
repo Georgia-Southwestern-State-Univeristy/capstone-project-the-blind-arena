@@ -480,6 +480,13 @@ public class EarthBossAI : MonoBehaviour
 
     public IEnumerator SetupArena()
     {
+        PlayerController[] playerController = FindObjectsOfType<PlayerController>();
+        SinglePlayerAttack[] singlePlayerAttacks = FindObjectsOfType<SinglePlayerAttack>();
+        foreach (PlayerController player in playerController)
+            player.LockMovement(10f);
+        foreach (SinglePlayerAttack singlePlayerAttack in singlePlayerAttacks)
+            singlePlayerAttack.attackChecker = false;
+
         // Move to waypoint
         while (Vector3.Distance(transform.position, returnWaypoint.position) > 0.5f)
         {
@@ -494,11 +501,11 @@ public class EarthBossAI : MonoBehaviour
 
     private IEnumerator PullPlayerAndTrap()
     {
+        PlayerController[] playerController = FindObjectsOfType<PlayerController>();
+        SinglePlayerAttack[] singlePlayerAttacks = FindObjectsOfType<SinglePlayerAttack>();
         StopCoroutine(SetupArena());
         
         interruptMovement = true;
-        PlayerController playerController = FindFirstObjectByType<PlayerController>();
-        playerController.LockMovement(10f);
         animator.SetTrigger("Raise");
         yield return new WaitForSeconds(0.8f);
         for (int i = 0; i < 2; i++)
@@ -512,10 +519,13 @@ public class EarthBossAI : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
         boardSwitcher.focusOnBoss = false;
-        playerController.UnlockMovement();
+        foreach (PlayerController player in playerController)
+            player.UnlockMovement();
         yield return new WaitForSeconds(2f);
         interruptMovement = false;
         isSetup=true;
+        foreach (SinglePlayerAttack singlePlayerAttack in singlePlayerAttacks)
+            singlePlayerAttack.attackChecker = true;
     }
 
     private void FlipSprite(float directionX)

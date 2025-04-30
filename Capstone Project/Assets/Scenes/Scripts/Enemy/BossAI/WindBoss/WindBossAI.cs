@@ -633,8 +633,11 @@ public class WindBossAI : MonoBehaviour
         // Lock Players' movement and focus on Boss
         boardSwitcher.focusOnBoss = true;
         PlayerController[] playerController = FindObjectsOfType<PlayerController>();
+        SinglePlayerAttack[] singlePlayerAttacks = FindObjectsOfType<SinglePlayerAttack>();
         foreach (PlayerController player in playerController)
             player.LockMovement(10f);
+        foreach (SinglePlayerAttack singlePlayerAttack in singlePlayerAttacks)
+            singlePlayerAttack.attackChecker = false;
         ProjectileCleaner.DestroyAllProjectiles();
 
         // Move to waypoint
@@ -663,6 +666,8 @@ public class WindBossAI : MonoBehaviour
         yield return new WaitForSeconds(2f);
         interruptMovement = false;
         isSetup = true;
+        foreach (SinglePlayerAttack singlePlayerAttack in singlePlayerAttacks)
+            singlePlayerAttack.attackChecker = true;
         // StartCoroutine(PullPlayerAndTrap());
     }
 
