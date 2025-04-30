@@ -2438,6 +2438,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 750941593}
     - target: {fileID: 6303637312343689562, guid: 3dc58e28b4845a84c9c3a9f305e06bdc, type: 3}
+      propertyPath: maxHealth
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 6303637312343689562, guid: 3dc58e28b4845a84c9c3a9f305e06bdc, type: 3}
       propertyPath: flashSound
       value: 
       objectReference: {fileID: 1213734537}
@@ -2803,7 +2807,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 35311841652457394, guid: 4650cb58ecea3d1449acf4ba02e76068, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 35311841652457394, guid: 4650cb58ecea3d1449acf4ba02e76068, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2851,7 +2855,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1811904352789723111, guid: 4650cb58ecea3d1449acf4ba02e76068, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 18.17767
+      value: 17.67767
       objectReference: {fileID: 0}
     - target: {fileID: 1811904352789723111, guid: 4650cb58ecea3d1449acf4ba02e76068, type: 3}
       propertyPath: m_LocalPosition.z
@@ -5273,7 +5277,7 @@ PrefabInstance:
       objectReference: {fileID: 1978756574}
     - target: {fileID: 4906087373876981867, guid: 0eb77205e716e5e4087ccd35ed343932, type: 3}
       propertyPath: maxHealth
-      value: 200
+      value: 230
       objectReference: {fileID: 0}
     - target: {fileID: 4906087373876981867, guid: 0eb77205e716e5e4087ccd35ed343932, type: 3}
       propertyPath: flashSound
@@ -6611,6 +6615,10 @@ PrefabInstance:
       propertyPath: 'attackSounds.Array.data[3]'
       value: 
       objectReference: {fileID: 8300000, guid: 0424492966abfc740bfdc5d2bce3968b, type: 3}
+    - target: {fileID: 5171328325129933643, guid: f92add3e4f9b66447ba020559c38b466, type: 3}
+      propertyPath: maxHealth
+      value: 300
+      objectReference: {fileID: 0}
     - target: {fileID: 5171328325129933643, guid: f92add3e4f9b66447ba020559c38b466, type: 3}
       propertyPath: flashSound
       value: 
