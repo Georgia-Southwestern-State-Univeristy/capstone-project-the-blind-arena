@@ -39,8 +39,7 @@ public class TutorialSetup : MonoBehaviour
     private bool startedAttributeTutorial = false;
     private bool resumeWalkingSounds = false;
 
-    [SerializeField] private AudioClip bossMusicClip;
-    private AudioSource audioSource;
+
 
     public SinglePlayerAttack playerAttack;
 
@@ -52,11 +51,7 @@ public class TutorialSetup : MonoBehaviour
             playerAttack = FindFirstObjectByType<SinglePlayerAttack>();
             playerAttack.attackChecker = false;
 
-        audioSource = gameObject.AddComponent<AudioSource>();
-        audioSource.loop = true;
 
-        float savedSoundVolume = PlayerPrefs.GetFloat("SoundVolume", 0.5f);
-        audioSource.volume = savedSoundVolume;
 
     }
 
@@ -70,10 +65,7 @@ public class TutorialSetup : MonoBehaviour
         TutorialPreparationDialogue();
         TutorialBossActivation();
 
-        if (audioSource != null)
-        {
-            audioSource.volume = PlayerPrefs.GetFloat("SoundVolume", 0.5f);
-        }
+        
 
     }
 
@@ -210,11 +202,7 @@ public class TutorialSetup : MonoBehaviour
             preparationDialogueShown = true;
             playerAttack.attackChecker = true;
 
-            if (bossMusicClip != null && audioSource != null)
-            {
-                audioSource.clip = bossMusicClip;
-                audioSource.Play();
-            }
+
 
             StartCoroutine(ActivateEnemyAIDelayed());
         }

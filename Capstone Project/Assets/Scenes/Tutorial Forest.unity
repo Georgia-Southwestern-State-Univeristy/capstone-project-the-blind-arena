@@ -7015,11 +7015,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 273083169422477144, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
       propertyPath: musicSources.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 273083169422477144, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
       propertyPath: soundSources.Array.size
-      value: 7
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 273083169422477144, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
       propertyPath: nonClipObjects.Array.size
@@ -7036,7 +7036,7 @@ PrefabInstance:
     - target: {fileID: 273083169422477144, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
       propertyPath: 'musicSources.Array.data[2]'
       value: 
-      objectReference: {fileID: 1651695838}
+      objectReference: {fileID: 8860366477653967713}
     - target: {fileID: 273083169422477144, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
       propertyPath: 'musicSources.Array.data[3]'
       value: 
@@ -7072,15 +7072,15 @@ PrefabInstance:
     - target: {fileID: 273083169422477144, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
       propertyPath: 'soundSources.Array.data[7]'
       value: 
-      objectReference: {fileID: 1723816144}
+      objectReference: {fileID: 3214913419867809567, guid: 7b75d5ca7144be545b088c0170246310, type: 3}
     - target: {fileID: 273083169422477144, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
       propertyPath: 'soundSources.Array.data[8]'
       value: 
-      objectReference: {fileID: 1039083960}
+      objectReference: {fileID: 1240463008}
     - target: {fileID: 273083169422477144, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
       propertyPath: 'soundSources.Array.data[9]'
       value: 
-      objectReference: {fileID: 1562462017}
+      objectReference: {fileID: 4447431011834500701, guid: edd1b7cdf4823f44ca16aead2fa90269, type: 3}
     - target: {fileID: 273083169422477144, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
       propertyPath: 'soundSources.Array.data[10]'
       value: 
@@ -12194,6 +12194,10 @@ PrefabInstance:
       propertyPath: attackAudio
       value: 
       objectReference: {fileID: 8300000, guid: 3dc81f32bbdbce34db062f4377b1ceb2, type: 3}
+    - target: {fileID: 7338263006075871222, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      propertyPath: attackChecker
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7338263006075871222, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       propertyPath: attackAudioSource
       value: 
@@ -18935,7 +18939,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1240463005}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 0962e9542e3d7b947bcd569f89eb3d69, type: 3}
@@ -19038,6 +19042,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   saveButton: {fileID: 107610133}
+--- !u!82 &1240463008 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 3405180181783443131, guid: e34d778dd20bdc4489427b929c807a47, type: 3}
+  m_PrefabInstance: {fileID: 107610132}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1240474527
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21179,6 +21188,7 @@ MonoBehaviour:
   - {fileID: 7204237666189276348}
   - {fileID: 7928292186251506381}
   - {fileID: 1723816144}
+  - {fileID: 1240463008}
 --- !u!4 &1375336364
 Transform:
   m_ObjectHideFlags: 0
@@ -24480,6 +24490,7 @@ MonoBehaviour:
   - {fileID: 7204237666189276348}
   - {fileID: 7928292186251506381}
   - {fileID: 1723816144}
+  - {fileID: 1240463008}
 --- !u!4 &1563874387
 Transform:
   m_ObjectHideFlags: 0
@@ -26400,7 +26411,6 @@ MonoBehaviour:
   - {fileID: 508819873}
   - {fileID: 1108428834}
   spawnDelayBetweenEnemies: 0.5
-  bossMusicClip: {fileID: 8300000, guid: 82f8b027b63a62a45b663922c4fbda5b, type: 3}
   playerAttack: {fileID: 0}
 --- !u!82 &1723816144
 AudioSource:
@@ -34401,7 +34411,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7922312881509618573}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 82f8b027b63a62a45b663922c4fbda5b, type: 3}
@@ -34409,7 +34419,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
