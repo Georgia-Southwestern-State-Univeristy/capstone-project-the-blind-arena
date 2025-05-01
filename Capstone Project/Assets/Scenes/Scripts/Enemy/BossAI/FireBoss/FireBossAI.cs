@@ -188,6 +188,11 @@ public class FireBossAI : MonoBehaviour
         transform.position = position;
 
         transform.position += direction * Time.deltaTime;
+
+        if (!walkingAudioSource.isPlaying)
+        {
+            walkingAudioSource.Play();
+        }
     }
 
     private IEnumerator PhaseOne()
@@ -525,13 +530,11 @@ public class FireBossAI : MonoBehaviour
     {
         if (attackSounds != null && soundIndex >= 0 && soundIndex < attackSounds.Length)
         {
-            sfxAudioSource.PlayOneShot(attackSounds[soundIndex], sfxAudioSource.volume * 0.3f); // Reduce volume by 50%
+            sfxAudioSource.PlayOneShot(attackSounds[soundIndex], sfxAudioSource.volume * 0.3f); // Reduce volume by 30%
         }
         else
         {
             Debug.LogWarning($"Attack sound at index {soundIndex} is not assigned!");
         }
     }
-
-
 }

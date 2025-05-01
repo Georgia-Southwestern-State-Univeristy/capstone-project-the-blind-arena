@@ -38,6 +38,11 @@ public class WindBossAI : MonoBehaviour
     private System.Random rnd = new System.Random();
     private int random;
 
+    [SerializeField] private AudioSource walkingAudioSource;
+
+    [SerializeField] private AudioClip[] attackSounds;
+    [SerializeField] private AudioSource sfxAudioSource;
+
     private void Start()
     {
         enemyHealth = GetComponent<EnemyHealth>();
@@ -87,6 +92,11 @@ public class WindBossAI : MonoBehaviour
             else
             {
                 animator.SetFloat("speed", 0);
+
+                if (walkingAudioSource.isPlaying)
+                {
+                    walkingAudioSource.Stop();
+                }
             }
             return;
         }
@@ -116,6 +126,11 @@ public class WindBossAI : MonoBehaviour
             else
             {
                 animator.SetFloat("speed", 0);
+
+                if (walkingAudioSource.isPlaying)
+                {
+                    walkingAudioSource.Stop();
+                }
             }
             return;
         }
@@ -144,6 +159,11 @@ public class WindBossAI : MonoBehaviour
             else
             {
                 animator.SetFloat("speed", 0);
+
+                if (walkingAudioSource.isPlaying)
+                {
+                    walkingAudioSource.Stop();
+                }
             }
             return;
         }
@@ -171,6 +191,11 @@ public class WindBossAI : MonoBehaviour
             else
             {
                 animator.SetFloat("speed", 0);
+
+                if (walkingAudioSource.isPlaying)
+                {
+                    walkingAudioSource.Stop();
+                }
             }
             return;
         }
@@ -198,6 +223,11 @@ public class WindBossAI : MonoBehaviour
         transform.position = position;
 
         transform.position += direction * Time.deltaTime;
+
+        if (!walkingAudioSource.isPlaying)
+        {
+            walkingAudioSource.Play();
+        }
     }
 
     private void MoveTowardsWaypoint()
@@ -212,6 +242,11 @@ public class WindBossAI : MonoBehaviour
         transform.position = position;
 
         transform.position += direction * Time.deltaTime;
+
+        if (!walkingAudioSource.isPlaying)
+        {
+            walkingAudioSource.Play();
+        }
     }
 
     private IEnumerator RetreatFromPlayer()
@@ -459,6 +494,7 @@ public class WindBossAI : MonoBehaviour
         {
             GameObject projectile = Instantiate(attackPrefabs[5], transform.position, Quaternion.identity);
             yield return new WaitForSeconds(.6f/5);
+            PlayAttackSound(6);
         }
     }
 
@@ -659,6 +695,7 @@ public class WindBossAI : MonoBehaviour
         isSetup = true;
         foreach (SinglePlayerAttack singlePlayerAttack in singlePlayerAttacks)
             singlePlayerAttack.attackChecker = true;
+        PlayAttackSound(0);
         // StartCoroutine(PullPlayerAndTrap());
     }
 
@@ -814,4 +851,17 @@ public class WindBossAI : MonoBehaviour
         transform.localScale = new Vector3(Mathf.Sign(directionX) * Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
     }
     */
+
+    public void PlayAttackSound(int soundIndex)
+    {
+        if (attackSounds != null && soundIndex >= 0 && soundIndex < attackSounds.Length)
+        {
+            sfxAudioSource.PlayOneShot(attackSounds[soundIndex], sfxAudioSource.volume * 0.3f); // Reduce volume by 30%
+        }
+        else
+        {
+            Debug.LogWarning($"Attack sound at index {soundIndex} is not assigned!");
+        }
+    }
+
 }
