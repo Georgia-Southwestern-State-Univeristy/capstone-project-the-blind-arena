@@ -10,7 +10,7 @@ public class ProjectileAttack : MonoBehaviour
 
     private enum Facing { Up, Down, Right, Left };
     private enum Element { Earth, Wind, Fire, Water, Lightning };
-    private enum Movement { Aimed, Homing, AimedHoming, Wandering, Stationary };
+    private enum Movement { Aimed, Homing, AimedHoming, Retracting, Wandering, Stationary };
 
     [SerializeField] private GameObject sprite;
     [SerializeField] private GameObject effectPrefab;
@@ -24,14 +24,17 @@ public class ProjectileAttack : MonoBehaviour
     [SerializeField] private Movement moveType;
     [SerializeField] private bool isEffect;
     [SerializeField] private bool delayDamage;
+    [SerializeField] private bool vacuums;
     [SerializeField] private bool rotates;
     [SerializeField] private bool leavesTrail;
     [SerializeField] private bool breaksOnContact;
 
-    private float initalLifespan, initalSpeed, fixedHeight, mCount=0, tCount=0;
-    private Vector3 targetTransform, movementVector;
-    private bool inTrigger, skipStart=false, attackLock=false, damageLock=false;
+    private float initalLifespan, initalSpeed, fixedHeight, mCount = 0;
+    private Vector3 targetTransform, movementVector, initialVector;
+    private bool inTrigger, skipStart=false, attackLock=false, damageLock=false, moveLock = false, slowDown =false, speedUp=false;
 
+    [SerializeField] private AudioSource attackAudioSource;
+    [SerializeField] private AudioClip attackSound;
     public void Init(Transform targ, Vector3 vector)
     {
         skipStart =true;
@@ -55,6 +58,7 @@ public class ProjectileAttack : MonoBehaviour
         {
 
         }
+        initialVector = movementVector;
         collider = GetComponent<Collider>();
         initalLifespan = lifespan;
         initalSpeed = speed;
@@ -98,23 +102,45 @@ public class ProjectileAttack : MonoBehaviour
                 }
                 break;
             case Movement.AimedHoming:
-                if (initalLifespan-lifespan > 0.5 && initalLifespan-lifespan < 3)
+                if (initalLifespan-lifespan > 0.4 && initalLifespan-lifespan < 3)
                 {
-                    if (speed >= 0)
+                    if (!slowDown)
                     {
-                        speed = speed * 0.9f;
-                        movementVector = movementVector * (speed / initalSpeed);
+                        slowDown = true;
+                        StartCoroutine(ApplySlowdown());
                     }
+                    movementVector = initialVector * (speed / initalSpeed);
                 }
                 else if (initalLifespan-lifespan>3 && mCount==0)
                 {
                     speed = initalSpeed;
-                    targetTransform=target.position;
+                    PlayAttackSound(1);
+                    targetTransform =target.position;
                     movementVector = (targetTransform - transform.position).normalized;
                     movementVector *= ((Math.Abs(movementVector.z) * .6f) + 1) * speed;
                     mCount++;
                 }
                 break;
+            case Movement.Retracting:
+                if (initalLifespan - lifespan > 0.4 && initalLifespan - lifespan < 3)
+                {
+                    if (!slowDown)
+                    {
+                        slowDown = true;
+                        StartCoroutine(ApplySlowdown());
+                    }
+                    movementVector = initialVector * (speed / initalSpeed);
+                }
+                else if (initalLifespan - lifespan > 3 && mCount == 0)
+                {
+                    if (!speedUp)
+                    {
+                        speedUp = true;
+                        StartCoroutine(ApplySpeedUp());
+                    }
+                    movementVector = -initialVector * (speed / initalSpeed);
+                }
+                    break;
             case Movement.Wandering:
                 if (initalLifespan - lifespan > 1)
                 {
@@ -137,7 +163,16 @@ public class ProjectileAttack : MonoBehaviour
         }
         if (leavesTrail && effectPrefab!=null)
         {
-            StartCoroutine(PlaceEffectTiles(.15f));
+            if (moveType == Movement.Wandering)
+            {
+                StartCoroutine(PlaceEffectTiles(2f));
+            }
+            else
+                StartCoroutine(PlaceEffectTiles(.15f));
+        }
+        if (vacuums)
+        {
+            StartCoroutine(SuccPlayer());
         }
     }
 
@@ -172,6 +207,35 @@ public class ProjectileAttack : MonoBehaviour
         vector.y = 0;
         vector.x = 45;
         projectile.transform.eulerAngles = vector;
+    }
+
+    private IEnumerator ApplySlowdown()
+    {
+        while (initalLifespan-lifespan < 2)
+        {
+            speed = speed*.6f;
+            yield return new WaitForSeconds(0.1f);
+        } 
+        while (initalLifespan - lifespan <= 3)
+        {
+            speed = speed * .3f;
+            yield return new WaitForSeconds(0.1f);
+        }
+        yield return new WaitForSeconds(0.1f);
+    }
+
+    private IEnumerator ApplySpeedUp()
+    {
+        while (speed < initalSpeed)
+        {
+            if (speed < 0.1f)
+            {
+                speed = 0.1f;
+            }
+            speed = speed * 2f;
+            yield return new WaitForSeconds(0.2f);
+        }
+        yield return new WaitForSeconds(0.1f);
     }
 
     private void ApplySpecialEffect(Element ele, GameObject player, bool hit)
@@ -252,6 +316,24 @@ public class ProjectileAttack : MonoBehaviour
         }
     }
 
+    private IEnumerator SuccPlayer()
+    {
+        PlayerController[] playerController = FindObjectsOfType<PlayerController>();
+        while (lifespan>0)
+        {
+            foreach (PlayerController player in playerController){
+                if (Vector3.Distance(transform.position, player.transform.position) < 10)
+                {
+                    Vector3 pushDirection = (player.transform.position - transform.position).normalized;
+                    Vector3 pushVelocity = -pushDirection * 7;
+                    player.ApplyExternalForce(pushVelocity, 0.1f);
+                }
+                yield return new WaitForSeconds(.01f);
+            }
+        }
+        yield return new WaitForSeconds(1f);
+    }
+
     private void UpdateLifespan()
     {
         if (lifespan <= 0)
@@ -261,11 +343,14 @@ public class ProjectileAttack : MonoBehaviour
 
             Destroy(gameObject);
         }
-        else if (delayDamage && initalLifespan - lifespan < 1.6)
+        else if (delayDamage && initalLifespan - lifespan < 1)
         {
             collider.enabled = false;
         }
-        else { collider.enabled = true; }
+        else
+        {
+            collider.enabled = true;
+        }
         lifespan -= Time.deltaTime;
     }
 
@@ -332,9 +417,9 @@ public class ProjectileAttack : MonoBehaviour
 
     private IEnumerator HandleProjectileWander(int magnitude)
     {
-        if (!attackLock && lifespan>3)
+        if (!moveLock && lifespan>3)
         {
-            attackLock = true;
+            moveLock = true;
             int pass=3;
             Debug.Log("Magnitude: " + magnitude);
             if (magnitude == 1 || magnitude==10)
@@ -394,7 +479,7 @@ public class ProjectileAttack : MonoBehaviour
                     }
                 }
             }
-            attackLock=false;
+            moveLock=false;
         }
     }
 
@@ -462,5 +547,17 @@ public class ProjectileAttack : MonoBehaviour
             }
         }
     }
-    
+
+    public void PlayAttackSound(int soundIndex)
+    {
+        if (attackSound != null)
+        {
+            attackAudioSource.PlayOneShot(attackSound);
+        }
+        else
+        {
+            Debug.LogWarning($"Attack sound at index {soundIndex} is not assigned!");
+        }
+    }
+
 }

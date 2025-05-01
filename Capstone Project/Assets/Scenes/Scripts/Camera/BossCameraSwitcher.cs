@@ -8,7 +8,7 @@ public class BossCameraSwitcher : MonoBehaviour
     public CinemachineCamera enemyCamera;
     public Transform boss;
     public Transform player;
-    public float switchDistance = 19f;
+    public float switchDistance = 20f;
     public bool focusOnBoss = false;
 
     private int activePriority = 10;

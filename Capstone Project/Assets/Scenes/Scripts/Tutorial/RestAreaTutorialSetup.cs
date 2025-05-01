@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class RestAreaTutorialSetup : MonoBehaviour
 {
@@ -12,7 +13,12 @@ public class RestAreaTutorialSetup : MonoBehaviour
     [SerializeField] private GameObject xbuttonshop;
     [SerializeField] private GameObject xbuttonskill;
 
+
+    [SerializeField] private Button[] lockButton;  // Serialized field for button
+    [SerializeField] private GameObject lockObject;  // Serialized field for GameObject to control button lock
     private int tutorialCounter;
+
+    public SinglePlayerAttack playerAttack;
 
     void Start()
     {
@@ -27,7 +33,11 @@ public class RestAreaTutorialSetup : MonoBehaviour
     private IEnumerator RestAreaTutorialDialogue()
     {
         RestAreaDialogue.SetActive(true);
-        yield return new WaitForSeconds(3f);
+        lockButton[0].interactable = false;
+        lockButton[1].interactable = false;
+        lockButton[2].interactable = false;
+        lockButton[3].interactable = false;
+        yield return StartCoroutine(ShowDialogAndWait(RestAreaDialogue));
         RestAreaDialogue.SetActive(false);
         tutorialCounter++;
         PlayerPrefs.SetInt("RestAreaTutorial", tutorialCounter); // Save progress
@@ -43,7 +53,7 @@ public class RestAreaTutorialSetup : MonoBehaviour
             xbuttonshop.SetActive(false);
             yield return new WaitForSeconds(0.5f);
             ShopMenuDialogue.SetActive(true);
-            yield return new WaitForSeconds(5f);
+            yield return StartCoroutine(ShowDialogAndWait(ShopMenuDialogue));
             ShopMenuDialogue.SetActive(false);
             ItemShopMenu.SetActive(false);
             xbuttonshop.SetActive(true);
@@ -62,13 +72,27 @@ public class RestAreaTutorialSetup : MonoBehaviour
             xbuttonskill.SetActive(false);
             yield return new WaitForSeconds(0.5f);
             SkillMenuDialogue.SetActive(true);
-            yield return new WaitForSeconds(5f);
+            yield return StartCoroutine(ShowDialogAndWait(SkillMenuDialogue));
             SkillMenuDialogue.SetActive(false);
             SkillShopMenu.SetActive(false);
             xbuttonskill.SetActive(true);
             tutorialCounter++;
+
             PlayerPrefs.SetInt("RestAreaTutorial", tutorialCounter);
             PlayerPrefs.Save();
         }
     }
+
+    private IEnumerator ShowDialogAndWait(GameObject dialogBox)
+    {
+        DialogBox dialog = dialogBox.GetComponent<DialogBox>();
+        if (dialog != null)
+        {
+            while (dialog.gameObject.activeSelf)
+            {
+                yield return null; // Wait until dialog is closed
+            }
+        }
+    }
+
 }

@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class FireBossAI : MonoBehaviour
 {
+    public Transform target;
+    public Transform returnWaypoint;
+    public Animator animator;
     public float speed;
     public float dashLength = 15f;
     public float dashDuration = 1f;
     public float dashCooldown = 3f;
-    public Transform target;
-    public Transform returnWaypoint;
     public float minimumDistance = 5f;
     public float attackDelay = 2f;
     public float projectileAttackRate = 1.5f;
     public float retreatSpeed = 10f;
-    public Animator animator;
     public GameObject[] attackPrefabs;
 
     private EnemyHealth enemyHealth;
@@ -31,6 +31,11 @@ public class FireBossAI : MonoBehaviour
     private const float HEIGHT = 0.6f;
     private System.Random rnd = new System.Random();
     private int random;
+
+    [SerializeField] private AudioSource walkingAudioSource;
+
+    [SerializeField] private AudioClip[] attackSounds;
+    [SerializeField] private AudioSource sfxAudioSource;
 
     private void Start()
     {
@@ -69,6 +74,11 @@ public class FireBossAI : MonoBehaviour
             else
             {
                 animator.SetFloat("speed", 0);
+
+                if (walkingAudioSource.isPlaying)
+                {
+                    walkingAudioSource.Stop();
+                }
             }
             return;
         }
@@ -94,6 +104,11 @@ public class FireBossAI : MonoBehaviour
             {
                 genLock = true;
                 animator.SetFloat("speed", 0);
+
+                if (walkingAudioSource.isPlaying)
+                {
+                    walkingAudioSource.Stop();
+                }
             }
             return;
         }
@@ -114,6 +129,11 @@ public class FireBossAI : MonoBehaviour
             else
             {
                 animator.SetFloat("speed", 0);
+
+                if (walkingAudioSource.isPlaying)
+                {
+                    walkingAudioSource.Stop();
+                }
             }
             return;
         }
@@ -121,20 +141,10 @@ public class FireBossAI : MonoBehaviour
 
     private IEnumerator CheckForTarget()
     {
-        System.Random rand = new System.Random();
-        int newTarg = rand.Next(0,3);
-        switch (newTarg)
-        {
-            case 0:
-                break;
-            case 1:
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-        }
-        target = FindFirstObjectByType<PlayerController>().transform;
+        PlayerController[] playerControllers = FindObjectsOfType<PlayerController>();
+        int newTarg = rnd.Next(0, playerControllers.Length);
+        Debug.Log("Target Check: " + newTarg);
+        target = playerControllers[newTarg].transform;
         yield return new WaitForSeconds(10f);
         targetLock = false;
     }
@@ -159,6 +169,11 @@ public class FireBossAI : MonoBehaviour
         transform.position = position;
 
         transform.position += direction * Time.deltaTime;
+
+        if (!walkingAudioSource.isPlaying)
+        {
+            walkingAudioSource.Play();
+        }
     }
 
     private void MoveTowardsWapoint()
@@ -173,6 +188,11 @@ public class FireBossAI : MonoBehaviour
         transform.position = position;
 
         transform.position += direction * Time.deltaTime;
+
+        if (!walkingAudioSource.isPlaying)
+        {
+            walkingAudioSource.Play();
+        }
     }
 
     private IEnumerator PhaseOne()
@@ -186,30 +206,34 @@ public class FireBossAI : MonoBehaviour
                 Debug.Log(random);
             }
             attackLock = true;
-            for (int i = 0; i < 10; i++)
-            {
                 switch (random)
                 {
                     //Move close and Dash Attack
                     case 0:
+                    for (int i = 0; i < 40; i++)
+                    {
                         isDashing = true;
                         p3 = false;
                         if (Vector3.Distance(transform.position, target.position) <= minimumDistance)
                         {
                             StartCoroutine(DashAttack(1));
                         }
+                        yield return new WaitForSeconds(0.25f);
+                    }
                         break;
                     //Move and Projectile Attack
                     case 1:
+                    for (int i = 0; i < 10; i++)
+                    {
                         isDashing = false;
                         p3 = true;
                         if (!proLock)
                         {
-                            StartCoroutine(ShootProjectile(0,1, 1));
+                            StartCoroutine(ShootProjectile(0, 1, 1));
                         }
+                        yield return new WaitForSeconds(1);
+                    }
                         break;
-                }
-                yield return new WaitForSeconds(1f);
             }
             attackLock = false;
         }
@@ -309,11 +333,16 @@ public class FireBossAI : MonoBehaviour
     {
         if (!dashLock)
         {
+            animator.SetTrigger("Dash");
+            Debug.Log("Start Dash");
             dashLock = true;
             interruptMovement = true;
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.25f);
 
             Vector3 dashDirection = (target.position - transform.position).normalized;
+            Vector3 dir = dashDirection;
+            dir.y = 0;
+            dashDirection = dir;
             dashDirection *= ((Math.Abs(dashDirection.z) * .6f) + 1);
             float elapsedTime = 0f;
             FlipSprite(dashDirection.x);
@@ -339,6 +368,7 @@ public class FireBossAI : MonoBehaviour
         {
             GameObject projectile = Instantiate(attackPrefabs[4], transform.position, Quaternion.identity);
             yield return new WaitForSeconds(dashDuration/10);
+            PlayAttackSound(1);
         }
     }
 
@@ -351,12 +381,16 @@ public class FireBossAI : MonoBehaviour
             {
                 if (attackPrefabs.Length > type)
                 {
+                    animator.SetTrigger("Punch");
                     interruptMovement = true;
                     yield return new WaitForSeconds(0.2f);
+
+                    PlayAttackSound(1);
+
                     GameObject projectile = Instantiate(attackPrefabs[type], transform.position, Quaternion.identity);
                     ProjectileAttack attack = projectile.GetComponent<ProjectileAttack>();
                     attack.target = target;
-                    FlipSprite(target.position.x);
+                    FlipSprite((target.position - transform.position).normalized.x);
                     yield return new WaitForSeconds(0.1f);
                     interruptMovement = false;
                 }
@@ -377,8 +411,12 @@ public class FireBossAI : MonoBehaviour
         {
             for (int i = 0; i < amount; i++)
             {
+                animator.SetTrigger("Point");
                 interruptMovement = true;
                 yield return new WaitForSeconds(0.2f);
+
+                PlayAttackSound(1);
+
                 Vector3 directionToTarget = (target.position - transform.position).normalized;
                 FlipSprite(directionToTarget.x);
                 for (int j = 0; j < projectileCount; j++)
@@ -409,8 +447,12 @@ public class FireBossAI : MonoBehaviour
         {
             for (int i = 0; i < amount; i++)
             {
+                animator.SetTrigger("Clap");
                 interruptMovement = true;
                 yield return new WaitForSeconds(0.2f);
+
+                
+
                 Vector3 directionToTarget = (target.position - transform.position).normalized;
                 FlipSprite(directionToTarget.x);
                 for (int j = 0; j < projectileCount; j++)
@@ -421,6 +463,7 @@ public class FireBossAI : MonoBehaviour
                     GameObject projectile = Instantiate(attackPrefabs[type], transform.position, Quaternion.identity);
                     ProjectileAttack attack = projectile.GetComponent<ProjectileAttack>();
                     attack.Init(target.transform, spreadDirection);
+                    PlayAttackSound(1);
                 }
                 yield return new WaitForSeconds(0.1f);
                 interruptMovement = false;
@@ -480,6 +523,18 @@ public class FireBossAI : MonoBehaviour
         if (playerHealth != null)
         {
             playerHealth.Damage(20);
+        }
+    }
+
+    public void PlayAttackSound(int soundIndex)
+    {
+        if (attackSounds != null && soundIndex >= 0 && soundIndex < attackSounds.Length)
+        {
+            sfxAudioSource.PlayOneShot(attackSounds[soundIndex], sfxAudioSource.volume * 0.3f); // Reduce volume by 30%
+        }
+        else
+        {
+            Debug.LogWarning($"Attack sound at index {soundIndex} is not assigned!");
         }
     }
 }

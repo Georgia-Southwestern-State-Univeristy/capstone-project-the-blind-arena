@@ -9,6 +9,9 @@ TagManager:
   - FireBoss
   - Boss
   - Projectile
+  - EnemyTracker
+  - FirstTutorialAI
+  - FinalBoss
   layers:
   - Default
   - TransparentFX

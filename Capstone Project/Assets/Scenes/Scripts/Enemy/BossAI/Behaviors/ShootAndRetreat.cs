@@ -7,12 +7,15 @@ public class ShootAndRetreat : MonoBehaviour
 {
     public float speed;
     public Transform target;
+    public EnemyController enemyController;
+    public Animator animator;
     public float minimumDistance;
 
 
     public GameObject projectile;
     public float timeBetweenShots;
     private float nextShotTime;
+    private const float HEIGHT = 0.6f;
 
     internal void StartShootAndRetreat()
     {
@@ -21,9 +24,11 @@ public class ShootAndRetreat : MonoBehaviour
 
     private void Update()
     {
+        animator = GetComponent<Animator>();
         if (Time.time > nextShotTime)
         {
-            Instantiate(projectile, transform.position, Quaternion.identity);
+            enemyController.IsMoving = false;
+            StartCoroutine(Shoot());
             nextShotTime = Time.time + timeBetweenShots;
         }
 
@@ -32,11 +37,23 @@ public class ShootAndRetreat : MonoBehaviour
 
         {
             transform.position = Vector3.MoveTowards(transform.position, target.position, -speed * Time.deltaTime);
+            Vector3 position = transform.position;
+            position.y = HEIGHT;
+            transform.position = position;
         }
         else
         {
-            //Attack code
+            animator.SetFloat("speed", 0);
         }
+    }
+
+    private IEnumerator Shoot() 
+    {
+        animator.SetTrigger("Punch");
+        yield return new WaitForSeconds(.43f);
+        Instantiate(projectile, transform.position, Quaternion.identity);
+        yield return new WaitForSeconds(.43f);
+        enemyController.IsMoving=true;
     }
 
 

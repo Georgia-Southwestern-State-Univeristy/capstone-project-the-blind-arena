@@ -6,12 +6,12 @@ using UnityEngine.SceneManagement;
 
 public class Health : MonoBehaviour
 {
-    [SerializeField] public int health = 300;
+    [SerializeField] public float health = 300f;
     [SerializeField] public float stamina = 100f;
     [SerializeField] private Slider healthBarSlider; // Health bar UI
     [SerializeField] private Slider staminaBarSlider; // Stamina bar UI
 
-    public int MAX_HEALTH = 300;
+    public float MAX_HEALTH = 300f;
     public float MAX_STAMINA = 100f;
     private int staminaRegenRate = 9; // Stamina regenerates by 1 per 0.3 seconds
     private float staminaRegenDelay = 2f; // Delay before stamina starts regenerating
@@ -39,6 +39,12 @@ public class Health : MonoBehaviour
 
     public float takeDamageModifier = 0f;
     public int damageCollected = 0;
+
+    private bool isDead = false; // Add this to prevent multiple death triggers
+
+    [Header("Audio")]
+    [SerializeField] private AudioSource damageAudioSource;
+    [SerializeField] private AudioClip hurtClip;
 
     void Start()
     {
@@ -106,6 +112,12 @@ public class Health : MonoBehaviour
         if (spriteRenderer != null && amount > 0)
         {
             StartCoroutine(FlashSprite());
+
+            if (damageAudioSource != null && hurtClip != null && !damageAudioSource.isPlaying)
+            {
+                damageAudioSource.clip = hurtClip;
+                damageAudioSource.Play();
+            }
         }
 
         if (health <= 0)
@@ -244,6 +256,7 @@ public class Health : MonoBehaviour
         // Check if we're in scene index 1
         if (SceneManager.GetActiveScene().buildIndex == 1)
         {
+            GameData.deathcounter = 1;
             // If we're in scene 1, load scene 2
             SceneController.Instance.LoadScene(2);
         }

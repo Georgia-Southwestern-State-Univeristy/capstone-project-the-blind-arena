@@ -510,6 +510,7 @@ GameObject:
   - component: {fileID: 5523918094042336040}
   - component: {fileID: 7338263006075871222}
   - component: {fileID: 5519277478738129793}
+  - component: {fileID: -1340804984754319440}
   m_Layer: 0
   m_Name: Player 1
   m_TagString: Player
@@ -549,6 +550,7 @@ MonoBehaviour:
   stamina: 100
   healthBarSlider: {fileID: 4687745841240717153}
   staminaBarSlider: {fileID: 3966651007617308723}
+  MAX_HEALTH: 300
   MAX_STAMINA: 100
   triggerSequenceOnDeath: 0
   objectToReveal: {fileID: 0}
@@ -558,6 +560,8 @@ MonoBehaviour:
   flashColor: {r: 1, g: 0, b: 0, a: 1}
   takeDamageModifier: 0
   damageCollected: 0
+  damageAudioSource: {fileID: 0}
+  hurtClip: {fileID: 0}
 --- !u!114 &4355459727560426660
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -689,7 +693,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 1090308808, guid: 0eb320836650c5f4ea0eb8a1b847cf00, type: 3}
+  m_Sprite: {fileID: -1779808482, guid: a8ae61155fb06524cad5175d20b3c802, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -717,6 +721,7 @@ MonoBehaviour:
   audioSource: {fileID: 0}
   animator: {fileID: 8374595490132852058}
   damageModifier: 0
+  playattacksound: 1
   attacks:
   - name: RockThrow
     damage: 10
@@ -728,18 +733,22 @@ MonoBehaviour:
     lockDuration: 0.8
     staminaUse: 12
     cooldown: 0.8
+    originalCooldown: 0
+    originalStaminaUse: 0
+    currentCooldown: 0
     detachFromPlayer: 1
     lockVelocity: 1
     isPhysical: 0
     isWall: 0
-    colliderShape: 0
-    colliderSize: {x: 2, y: 1, z: 1}
+    isTangible: 1
+    colliderShape: 1
+    colliderSize: {x: 0.7, y: 0.7, z: 0.7}
     colliderRotation: {x: -25, y: 0, z: 0}
     spriteSize: {x: 1, y: 1, z: 1}
     spriteRotation: {x: 25, y: 0, z: 0}
     startingOffset: {x: 0.6, y: 0, z: 0}
     attackSprite: {fileID: -1982924380, guid: 4148c79904d0106419d4752298b7a78e, type: 3}
-    attackSound: {fileID: 0}
+    attackAnimator: {fileID: 0}
   - name: EarthQuake
     damage: 40
     knockbackStrength: 0
@@ -750,10 +759,14 @@ MonoBehaviour:
     lockDuration: 1.2
     staminaUse: 40
     cooldown: 1.5
+    originalCooldown: 0
+    originalStaminaUse: 0
+    currentCooldown: 0
     detachFromPlayer: 1
     lockVelocity: 1
     isPhysical: 0
     isWall: 0
+    isTangible: 0
     colliderShape: 1
     colliderSize: {x: 10, y: 10, z: 10}
     colliderRotation: {x: -25, y: 0, z: 0}
@@ -761,29 +774,33 @@ MonoBehaviour:
     spriteRotation: {x: 90, y: 0, z: 0}
     startingOffset: {x: 0, y: -0.45, z: 0}
     attackSprite: {fileID: -588469400, guid: caa25d87f2e59a146bb02724521fa691, type: 3}
-    attackSound: {fileID: 0}
+    attackAnimator: {fileID: 0}
   - name: EarthWall
     damage: 10
     knockbackStrength: 0
     speed: 0
-    duration: 10
-    delay: 0.6
+    duration: 7
+    delay: 0.3
     gravityScale: 0
-    lockDuration: 0.8
-    staminaUse: 12
-    cooldown: 0.8
+    lockDuration: 1
+    staminaUse: 40
+    cooldown: 4
+    originalCooldown: 0
+    originalStaminaUse: 0
+    currentCooldown: 0
     detachFromPlayer: 1
     lockVelocity: 1
     isPhysical: 1
     isWall: 1
+    isTangible: 0
     colliderShape: 0
-    colliderSize: {x: 2, y: 2, z: 2}
+    colliderSize: {x: 1.5, y: 3.2, z: 1.5}
     colliderRotation: {x: 0, y: 0, z: 0}
     spriteSize: {x: 1, y: 1, z: 1}
-    spriteRotation: {x: 25, y: 0, z: 0}
-    startingOffset: {x: 0.6, y: 0, z: 0}
-    attackSprite: {fileID: -1982924380, guid: 4148c79904d0106419d4752298b7a78e, type: 3}
-    attackSound: {fileID: 0}
+    spriteRotation: {x: 45, y: 0, z: 0}
+    startingOffset: {x: 0.9, y: 0.5, z: 0}
+    attackSprite: {fileID: 1900867896, guid: 0b8ed890e9e012349bb77e3f7a32954c, type: 3}
+    attackAnimator: {fileID: 0}
 --- !u!114 &3830712414040057594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -811,6 +828,8 @@ MonoBehaviour:
   enemyAI3: {fileID: 0}
   enemyAI4: {fileID: 0}
   enemyAI5: {fileID: 0}
+  walkingAudioSource: {fileID: 0}
+  rockSlidingAudioSource: {fileID: 0}
   playerCamera: {fileID: 0}
 --- !u!114 &6871928204999936856
 MonoBehaviour:
@@ -824,7 +843,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1142313552
+  GlobalObjectIdHash: 3558765400
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -873,6 +892,9 @@ MonoBehaviour:
   - EarthQuake
   - EarthWall
   attackManager: {fileID: 763552383391210748}
+  attackChecker: 0
+  attackAudioSource: {fileID: 0}
+  attackAudios: []
 --- !u!137 &5519277478738129793
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 0
@@ -929,6 +951,22 @@ SkinnedMeshRenderer:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
   m_DirtyAABB: 0
+--- !u!114 &-1340804984754319440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7826421661143136822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0671fcc2c75f1246acba428552deabf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerHealth: {fileID: 0}
+  player: {fileID: 0}
+  playerController: {fileID: 0}
+  playerAttackManager: {fileID: 0}
 --- !u!1 &8670387772060670411
 GameObject:
   m_ObjectHideFlags: 0

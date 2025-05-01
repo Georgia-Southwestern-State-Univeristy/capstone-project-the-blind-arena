@@ -13,6 +13,7 @@ public class EnemyController : MonoBehaviour
     private bool isDashing = false;
     private bool isReturning = false;
     private bool isMoving = true;
+    private const float HEIGHT = 0.6f;
 
     private void Update()
     {
@@ -26,6 +27,10 @@ public class EnemyController : MonoBehaviour
         {
             MoveTowardsTarget();
         }
+        else
+        {
+            animator.SetFloat("speed", 0);
+        }
     }
 
     public void MoveTowardsTarget()
@@ -36,6 +41,9 @@ public class EnemyController : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
         animator.SetFloat("speed", Mathf.Abs(direction.magnitude));
         FlipSprite(direction.x);
+        Vector3 position = transform.position;
+        position.y = HEIGHT;
+        transform.position = position;
     }
 
     public IEnumerator DashAttack()

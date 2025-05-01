@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TimedFadingLooper : MonoBehaviour
 {
@@ -16,6 +17,12 @@ public class TimedFadingLooper : MonoBehaviour
 
     private CanvasGroup[] canvasGroups;  // CanvasGroups for all objects
     private float timer = 0f;            // Tracks time since start
+
+    private bool sceneLoaded = false; // Prevent multiple loads
+
+    public int nextSceneOffset = 1; // Change this to whatever scene index you want to load next
+
+    public float sceneTransitionDelay = 1f; // Delay after the last fade-out before loading next scene
 
     void Start()
     {
@@ -80,6 +87,19 @@ public class TimedFadingLooper : MonoBehaviour
                 // Completely Hidden
                 cg.alpha = 0;
                 settings.obj.SetActive(false);
+            }
+        }
+        // Check if last object has finished fading out and trigger scene load
+        if (!sceneLoaded && objects.Length > 0)
+        {
+            var last = objects[objects.Length - 1];
+            float lastFadeEnd = last.startTime + last.fadeInSpeed + last.visibleTime + last.fadeOutSpeed;
+
+            if (timer >= lastFadeEnd + sceneTransitionDelay)
+            {
+                sceneLoaded = true;
+                int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + nextSceneOffset;
+                SceneManager.LoadScene(nextSceneIndex);
             }
         }
     }

@@ -17,10 +17,11 @@ GameObject:
   - component: {fileID: 7861530944980173681}
   - component: {fileID: 2025609370040668179}
   - component: {fileID: -5049270567912674591}
+  - component: {fileID: -6256533978675930880}
   - component: {fileID: 6109862189084026584}
   m_Layer: 0
   m_Name: Fire Gladiator
-  m_TagString: Boss
+  m_TagString: FinalBoss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -52,23 +53,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7248c623f2802048b143d2d4b22c363, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  returnWaypoint: {fileID: 0}
+  animator: {fileID: 6935450552008229068}
   speed: 4
   dashLength: 15
   dashDuration: 0.5
   dashCooldown: 2
-  target: {fileID: 0}
-  returnWaypoint: {fileID: 0}
   minimumDistance: 5
   attackDelay: 2
   projectileAttackRate: 1.5
   retreatSpeed: 10
-  animator: {fileID: 6935450552008229068}
   attackPrefabs:
   - {fileID: 5662583701333269215, guid: 7b75d5ca7144be545b088c0170246310, type: 3}
   - {fileID: 5662583701333269215, guid: b033acb198512414ebc6a83e38c467e2, type: 3}
   - {fileID: 4881650114523384713, guid: 4d375230b5a95fd4487b461a0b8315f6, type: 3}
   - {fileID: 5228844727807897528, guid: 7d9415e6484698e459e1113835d6ef7f, type: 3}
   - {fileID: 2674293016379792414, guid: edd1b7cdf4823f44ca16aead2fa90269, type: 3}
+  walkingAudioSource: {fileID: 0}
+  attackSounds: []
+  sfxAudioSource: {fileID: 0}
 --- !u!114 &6303637312343689562
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90,6 +94,8 @@ MonoBehaviour:
   delayBeforeSwitch: 3
   flashDuration: 0.1
   flashColor: {r: 1, g: 0, b: 0, a: 1}
+  flashSound: {fileID: 0}
+  victorySound: {fileID: 0}
   deathcounter: 0
 --- !u!212 &2058097552861826109
 SpriteRenderer:
@@ -177,7 +183,7 @@ Rigidbody:
   m_GameObject: {fileID: 1703532392994725273}
   serializedVersion: 4
   m_Mass: 100
-  m_Drag: 0
+  m_Drag: 10
   m_AngularDrag: 1
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -210,7 +216,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -232,9 +238,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCamera: {fileID: 0}
   targetCamera: {fileID: 0}
+  enemyCamera: {fileID: 0}
   boss: {fileID: 7369920424675081373}
   player: {fileID: 0}
   switchDistance: 19
+  focusOnBoss: 0
 --- !u!114 &-5049270567912674591
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -252,6 +260,31 @@ MonoBehaviour:
   needArrowIndicator: 1
   needDistanceText: 0
   indicator: {fileID: 0}
+--- !u!114 &-6256533978675930880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1703532392994725273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 3676628488
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!137 &6109862189084026584
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 0

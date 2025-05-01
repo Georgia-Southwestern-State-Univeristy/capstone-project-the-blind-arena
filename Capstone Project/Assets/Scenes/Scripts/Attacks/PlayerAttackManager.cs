@@ -11,117 +11,129 @@ public class PlayerAttackManager : MonoBehaviour
     public Animator animator;
 
     public float damageModifier = 0f;
+    public bool playattacksound = true;
 
     [System.Serializable]
     public class AttackAttributes
     {
         public string name;
         public float damage, knockbackStrength, speed, duration, delay, gravityScale, lockDuration, staminaUse;
-        public float cooldown; // Cooldown duration in seconds
-        public float originalCooldown; // Store the original cooldown value
+        public float cooldown;
+        public float originalCooldown;
         public float originalStaminaUse;
-        public bool detachFromPlayer, lockVelocity, isPhysical, isWall;
+
+        public float currentCooldown; // <- Per-attack cooldown tracker
+
+        public bool detachFromPlayer, lockVelocity, isPhysical, isWall, isTangible;
         public ColliderType colliderShape;
         public Vector3 colliderSize = Vector3.one, colliderRotation = Vector3.zero, spriteSize = Vector3.one, spriteRotation = Vector3.zero, startingOffset = Vector3.zero;
         public Sprite attackSprite;
         public AnimatorController attackAnimator;
-        public AudioClip attackSound;
+        private GameObject[] targets;
     }
 
     public enum ColliderType { Box, Sphere, Capsule }
     public AttackAttributes[] attacks;
 
-    private bool isOnCooldown = false; // Tracks if the player is on cooldown
-    private float cooldownTimer = 0f; // Tracks the remaining cooldown time in seconds
-
     private void Start()
     {
         playerController = player.GetComponent<PlayerController>();
 
-        // Store the original cooldown values
         foreach (var attack in attacks)
         {
             attack.originalCooldown = attack.cooldown;
             attack.originalStaminaUse = attack.staminaUse;
+            attack.currentCooldown = 0f; // Initialize cooldown timers
         }
     }
 
     private void Update()
     {
-        // Update the cooldown timer (in seconds)
-        if (isOnCooldown)
+        playattacksound = true;
+
+        // Update individual cooldowns per attack
+        foreach (var attack in attacks)
         {
-            cooldownTimer -= Time.deltaTime; // Time.deltaTime is in seconds
-            if (cooldownTimer <= 0f)
+            if (attack.currentCooldown > 0f)
             {
-                isOnCooldown = false; // Cooldown ended
+                attack.currentCooldown -= Time.deltaTime;
+                playattacksound = false;
             }
         }
     }
 
     public void TriggerAttack(string attackName)
     {
-        // Check if the player is on cooldown
-        if (isOnCooldown)
+        var attack = System.Array.Find(attacks, a => a.name == attackName);
+        if (attack == null)
         {
-            Debug.Log("Attack is on cooldown!");
+            Debug.LogError($"Attack not defined: {attackName}");
             return;
         }
 
-        var attack = System.Array.Find(attacks, a => a.name == attackName);
-        if (attack != null)
+        if (attack.currentCooldown > 0f)
         {
-            StartCoroutine(PerformAttack(attack));
+            Debug.Log($"{attack.name} is on cooldown!");
+            return;
         }
-        else
-        {
-            Debug.LogError($"Attack not defined: {attackName}");
-        }
+
+        StartCoroutine(PerformAttack(attack));
     }
 
     private IEnumerator PerformAttack(AttackAttributes attack)
     {
-        // Check if the player has enough stamina to perform the attack
         if (!HasEnoughStamina(attack))
         {
             Debug.Log("Not enough stamina to perform the attack!");
             yield break;
         }
 
-        // Flip the player based on mouse position
         FlipPlayerBasedOnMousePosition();
 
-        // Start cooldown (in seconds)
-        isOnCooldown = true;
-        cooldownTimer = attack.cooldown; // Cooldown duration in seconds
+        // Set this attack's cooldown
+        attack.currentCooldown = attack.cooldown;
 
-        // Trigger the attack animation
         animator.SetTrigger(attack.name);
 
-        // Lock player movement if the attack requires it
-        if (attack.lockVelocity) playerController?.LockMovement(attack.lockDuration);
+        if (attack.lockVelocity)
+            playerController?.LockMovement(attack.lockDuration);
 
-        // Wait for the attack delay (in seconds)
         yield return new WaitForSeconds(attack.delay);
 
-        // Deduct stamina and proceed with the attack
         DeductStamina(attack.staminaUse);
-        PlaySound(attack.attackSound);
         GameObject attackObject = CreateAttackObject(attack);
 
-        // Launch the attack if it detaches from the player
-        if (attack.detachFromPlayer) LaunchAttack(attackObject, GetAttackDirection(), attack.speed);
+        if (attack.detachFromPlayer)
+            LaunchAttack(attackObject, GetAttackDirection(), attack.speed);
 
-        // Wait for the attack duration (in seconds)
         yield return new WaitForSeconds(attack.duration);
 
-        // Clean up the attack object
-        if (attackObject) Destroy(attackObject);
+        if (attackObject)
+            Destroy(attackObject);
+    }
+
+    private AttackAttributes GetAttackAttributesByType(string attackType)
+    {
+        foreach (var attack in attacks)
+        {
+            if (attack.name == attackType)
+            {
+                return attack;
+            }
+        }
+
+        Debug.LogWarning($"Attack with type '{attackType}' not found.");
+        return null;
+    }
+
+    public bool CanUseAttack(string attackType)
+    {
+        var attack = GetAttackAttributesByType(attackType);
+        return HasEnoughStamina(attack);
     }
 
     private void FlipPlayerBasedOnMousePosition()
     {
-        // Get the mouse position in world coordinates
         Vector3 mouseScreenPos = Input.mousePosition;
         Ray ray = Camera.main.ScreenPointToRay(mouseScreenPos);
         Plane groundPlane = new Plane(Vector3.up, player.transform.position);
@@ -129,16 +141,12 @@ public class PlayerAttackManager : MonoBehaviour
         if (groundPlane.Raycast(ray, out float distance))
         {
             Vector3 mouseWorldPos = ray.GetPoint(distance);
-
-            // Determine if the mouse is to the left or right of the player
             if (mouseWorldPos.x < player.transform.position.x)
             {
-                // Flip the player to face left
                 player.transform.localScale = new Vector3(-Mathf.Abs(player.transform.localScale.x), player.transform.localScale.y, player.transform.localScale.z);
             }
             else
             {
-                // Flip the player to face right
                 player.transform.localScale = new Vector3(Mathf.Abs(player.transform.localScale.x), player.transform.localScale.y, player.transform.localScale.z);
             }
         }
@@ -175,12 +183,19 @@ public class PlayerAttackManager : MonoBehaviour
 
         if (attack.isWall)
         {
-            attackObject.tag = ("Wall");
-            colliderObject.tag = ("Wall");
+            attackObject.tag = "Wall";
+            colliderObject.tag = "Wall";
         }
-        if (attack.isPhysical) SetupPhysicalObject(attackObject);
-        else colliderObject.layer = LayerMask.NameToLayer("AttackObjects");
 
+        if (attack.isPhysical)
+            SetupPhysicalObject(attackObject);
+        else
+            colliderObject.layer = LayerMask.NameToLayer("AttackObjects");
+
+        if (attack.isTangible)
+        {
+            attackObject.AddComponent<DestroyOnWallContact>();
+        }
         Destroy(attackObject, attack.duration);
         return attackObject;
     }
@@ -194,6 +209,7 @@ public class PlayerAttackManager : MonoBehaviour
             ColliderType.Capsule => obj.AddComponent<CapsuleCollider>(),
             _ => null
         };
+
         if (collider)
         {
             collider.isTrigger = !attack.isPhysical;
@@ -217,7 +233,12 @@ public class PlayerAttackManager : MonoBehaviour
 
     private void AddSprite(GameObject obj, AttackAttributes attack)
     {
-        if (!attack.attackSprite) { Debug.LogWarning($"No sprite assigned to attack: {attack.name}"); return; }
+        if (!attack.attackSprite)
+        {
+            Debug.LogWarning($"No sprite assigned to attack: {attack.name}");
+            return;
+        }
+
         SpriteRenderer spriteRenderer = obj.AddComponent<SpriteRenderer>();
         spriteRenderer.sprite = attack.attackSprite;
         obj.transform.localScale = attack.spriteSize;
@@ -226,7 +247,12 @@ public class PlayerAttackManager : MonoBehaviour
 
     private void AddAnimator(GameObject obj, AttackAttributes attack)
     {
-        if (!attack.attackAnimator) { Debug.LogWarning($"No animaator assigned to attack: {attack.name}"); return; }
+        if (!attack.attackAnimator)
+        {
+            Debug.LogWarning($"No animator assigned to attack: {attack.name}");
+            return;
+        }
+
         Animator animator = obj.AddComponent<Animator>();
         animator.runtimeAnimatorController = attack.attackAnimator;
     }
@@ -252,6 +278,7 @@ public class PlayerAttackManager : MonoBehaviour
             direction.y = 0;
             return direction;
         }
+
         return player.transform.forward;
     }
 
@@ -270,18 +297,18 @@ public class PlayerAttackManager : MonoBehaviour
 
     private IEnumerator AdjustDamageCoroutine(float damageChange, float duration)
     {
-        damageModifier += damageChange; // Increase damage
+        damageModifier += damageChange;
         yield return new WaitForSeconds(duration);
-        damageModifier -= damageChange; // Revert damage after duration
+        damageModifier -= damageChange;
     }
 
     public void ResetCooldowns()
     {
         foreach (var attack in attacks)
         {
-            attack.cooldown = attack.originalCooldown; // Restore to original cooldown
-            attack.staminaUse = attack.originalStaminaUse; // Restore to original stamina cost
+            attack.cooldown = attack.originalCooldown;
+            attack.staminaUse = attack.originalStaminaUse;
+            attack.currentCooldown = 0f; // Reset cooldown timer
         }
     }
-
 }
