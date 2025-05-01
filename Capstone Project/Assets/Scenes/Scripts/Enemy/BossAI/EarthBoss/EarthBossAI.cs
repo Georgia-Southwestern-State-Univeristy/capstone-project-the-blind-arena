@@ -219,6 +219,11 @@ public class EarthBossAI : MonoBehaviour
         transform.position = position;
 
         transform.position += direction * Time.deltaTime;
+
+        if (!walkingAudioSource.isPlaying)
+        {
+            walkingAudioSource.Play();
+        }
     }
 
     private IEnumerator PhaseOne()
