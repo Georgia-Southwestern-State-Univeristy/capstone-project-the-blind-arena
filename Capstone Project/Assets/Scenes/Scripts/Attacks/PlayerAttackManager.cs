@@ -1,5 +1,4 @@
 using System.Collections;
-using UnityEditor.Animations;
 using UnityEngine;
 
 public class PlayerAttackManager : MonoBehaviour
@@ -28,7 +27,7 @@ public class PlayerAttackManager : MonoBehaviour
         public ColliderType colliderShape;
         public Vector3 colliderSize = Vector3.one, colliderRotation = Vector3.zero, spriteSize = Vector3.one, spriteRotation = Vector3.zero, startingOffset = Vector3.zero;
         public Sprite attackSprite;
-        public AnimatorController attackAnimator;
+        public Animator attackAnimator;
         private GameObject[] targets;
     }
 
@@ -189,8 +188,8 @@ public class PlayerAttackManager : MonoBehaviour
 
         if (attack.isPhysical)
             SetupPhysicalObject(attackObject);
-        else
-            colliderObject.layer = LayerMask.NameToLayer("AttackObjects");
+        //else
+        //    colliderObject.layer = LayerMask.NameToLayer("AttackObjects");
 
         if (attack.isTangible)
         {
@@ -254,7 +253,7 @@ public class PlayerAttackManager : MonoBehaviour
         }
 
         Animator animator = obj.AddComponent<Animator>();
-        animator.runtimeAnimatorController = attack.attackAnimator;
+        attack.attackAnimator = animator;
     }
 
     private void SetupPhysicalObject(GameObject attackObject)
@@ -262,7 +261,7 @@ public class PlayerAttackManager : MonoBehaviour
         Rigidbody rb = attackObject.AddComponent<Rigidbody>();
         rb.isKinematic = true;
         rb.constraints = RigidbodyConstraints.FreezeAll;
-        attackObject.layer = LayerMask.NameToLayer("AttackObjects");
+        //attackObject.layer = LayerMask.NameToLayer("AttackObjects");
     }
 
     private Vector3 GetAttackDirection()

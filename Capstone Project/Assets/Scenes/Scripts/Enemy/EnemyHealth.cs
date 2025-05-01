@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.SceneManagement;
-using UnityEditor.SearchService;
 
 public class EnemyHealth : MonoBehaviour
 {
