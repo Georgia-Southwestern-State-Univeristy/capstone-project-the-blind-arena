@@ -237,6 +237,7 @@ public class PlayerController : MonoBehaviour
             if (!isDashing)
             {
                 isDashing = true;
+                originalSpeed = speed;
                 speed *= dashSpeedMultiplier;
                 walkingAudioSource.Stop();
                 rockSlidingAudioSource.Play();
