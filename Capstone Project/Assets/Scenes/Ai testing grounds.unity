@@ -9627,7 +9627,7 @@ PrefabInstance:
       objectReference: {fileID: 5093642067094995892}
     - target: {fileID: 7591824933140468563, guid: 9a9aa303a578df1428a74bf50483a499, type: 3}
       propertyPath: respawnPenalty
-      value: 0
+      value: 30
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

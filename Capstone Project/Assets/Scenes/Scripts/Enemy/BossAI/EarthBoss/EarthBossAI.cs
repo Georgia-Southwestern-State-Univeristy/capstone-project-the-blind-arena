@@ -57,6 +57,10 @@ public class EarthBossAI : MonoBehaviour
             StartCoroutine(CheckForTarget());
         }
 
+        if (target == null) return;
+
+        float distance = Vector3.Distance(transform.position, target.position);
+
         if (enemyHealth.currentHealth <= enemyHealth.maxHealth * 0.25f)
         {
             // Phase 4: Move to waypoint and start pull/trap sequence
@@ -161,7 +165,7 @@ public class EarthBossAI : MonoBehaviour
                 proLock = false;
                 StartCoroutine(PhaseOne());
             }
-            if (Vector3.Distance(transform.position, target.position) > minimumDistance && !interruptMovement)
+            if (target != null && target.gameObject != null && Vector3.Distance(transform.position, target.position) > minimumDistance && !interruptMovement)
             {
                 MoveTowardsPlayer();
             }
@@ -181,6 +185,16 @@ public class EarthBossAI : MonoBehaviour
     private IEnumerator CheckForTarget()
     {
         PlayerController[] playerControllers = FindObjectsOfType<PlayerController>();
+
+        if (playerControllers.Length == 0)
+        {
+            Debug.LogWarning("No players found. Skipping target selection.");
+            target = null;
+            yield return new WaitForSeconds(10f);
+            targetLock = false;
+            yield break; // Exit the coroutine early
+        }
+
         int newTarg = rnd.Next(0, playerControllers.Length);
         Debug.Log("Target Check: "+ newTarg);
         target = playerControllers[newTarg].transform;
@@ -233,6 +247,13 @@ public class EarthBossAI : MonoBehaviour
             if (!attackLock)
             {
                 attackLock = true;
+
+                if (!target || target.gameObject == null)
+                {
+                    Debug.Log("Target destroyed during PhaseOne, aborting behavior.");
+                    yield break; // Safely exit the coroutine
+                }
+
                 if (Vector3.Distance(transform.position, target.position) <= minimumDistance + 0.1f)
                 {
                     StartCoroutine(PerformMeleeAttack());

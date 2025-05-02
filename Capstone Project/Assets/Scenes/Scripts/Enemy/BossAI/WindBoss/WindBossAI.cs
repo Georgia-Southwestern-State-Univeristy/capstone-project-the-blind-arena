@@ -61,6 +61,11 @@ public class WindBossAI : MonoBehaviour
             targetLock = true;
             StartCoroutine(CheckForTarget());
         }
+
+        if (target == null) return;
+
+        float distance = Vector3.Distance(transform.position, target.position);
+
         // Enable Final Phase at 25% health
         if (enemyHealth.currentHealth <= enemyHealth.maxHealth * 0.25f)
         {
@@ -180,7 +185,7 @@ public class WindBossAI : MonoBehaviour
                 targetLock = false;
                 StartCoroutine(PhaseOne());
             }
-            if (Vector3.Distance(transform.position, target.position) > minimumDistance && !interruptMovement && !isRetreating)
+            if (target != null && target.gameObject != null && Vector3.Distance(transform.position, target.position) > minimumDistance && !interruptMovement)
             {
                 MoveTowardsPlayer();
             }
@@ -204,6 +209,16 @@ public class WindBossAI : MonoBehaviour
     private IEnumerator CheckForTarget()
     {
         PlayerController[] playerControllers = FindObjectsOfType<PlayerController>();
+
+        if (playerControllers.Length == 0)
+        {
+            Debug.LogWarning("No players found. Skipping target selection.");
+            target = null;
+            yield return new WaitForSeconds(10f);
+            targetLock = false;
+            yield break; // Exit the coroutine early
+        }
+
         int newTarg = rnd.Next(0, playerControllers.Length);
         Debug.Log("Target Check: " + newTarg);
         target = playerControllers[newTarg].transform;
@@ -351,6 +366,13 @@ public class WindBossAI : MonoBehaviour
                 Debug.Log(random);
             }
             attackLock = true;
+
+            if (!target || target.gameObject == null)
+            {
+                Debug.Log("Target destroyed during PhaseOne, aborting behavior.");
+                yield break; // Safely exit the coroutine
+            }
+
             yield return new WaitForSeconds(1f);
             if (random == 0) // Single Bullets
             {
@@ -524,7 +546,10 @@ public class WindBossAI : MonoBehaviour
                 GameObject projectile = Instantiate(attackPrefabs[type], transform.position, Quaternion.identity);
                 ProjectileAttack attack = projectile.GetComponent<ProjectileAttack>();
                 attack.target = target;
-                FlipSprite((target.position - transform.position).normalized.x);
+                if (target != null)
+                {
+                    FlipSprite((target.position - transform.position).normalized.x);
+                }
                 yield return new WaitForSeconds(.5f);
                 interruptMovement = false;
             }

@@ -95,7 +95,7 @@ public class ProjectileAttack : MonoBehaviour
                 break;
             // After half a second it will home in on the target, slows down over time
             case Movement.Homing:
-                if (initalLifespan - lifespan > 0.5 && lifespan >= 3)
+                if (initalLifespan - lifespan > 0.5 && lifespan >= 3 && target != null && !target.Equals(null))
                 {
                     targetTransform = target.position;
 
@@ -132,7 +132,10 @@ public class ProjectileAttack : MonoBehaviour
                 {
                     speed = initalSpeed;
                     PlayAttackSound(1);
-                    targetTransform =target.position;
+                    if (target != null && !target.Equals(null))
+                    {
+                        targetTransform = target.position;
+                    }
                     movementVector = (targetTransform - transform.position).normalized;
                     movementVector *= ((Math.Abs(movementVector.z) * .6f) + 1) * speed;
                     mCount++;
@@ -343,8 +346,9 @@ public class ProjectileAttack : MonoBehaviour
         PlayerController[] playerController = FindObjectsOfType<PlayerController>();
         while (lifespan>0)
         {
-            foreach (PlayerController player in playerController){
-                if (Vector3.Distance(transform.position, player.transform.position) < 10)
+            foreach(PlayerController player in playerController)
+{
+                if (player != null && !player.Equals(null) && Vector3.Distance(transform.position, player.transform.position) < 10)
                 {
                     Vector3 pushDirection = (player.transform.position - transform.position).normalized;
                     Vector3 pushVelocity = -pushDirection * 7;
