@@ -716,7 +716,7 @@ public class WindBossAI : MonoBehaviour
             foreach (PlayerController playerCon in playerController)
             {
                 player = playerCon.gameObject;
-                player.transform.position = transform.position + new Vector3(0, 0, -15);
+                player.transform.position = transform.position + new Vector3(0, 0, -20);
                 yield return new WaitForSeconds(0.1f);
             }
             Debug.Log("Attempt Player Move");
