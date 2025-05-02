@@ -475,7 +475,7 @@ public class WindBossAI : MonoBehaviour
             {
                     if (!proLock)
                     {
-                    StartCoroutine(WindExtras());
+                        StartCoroutine(WindExtras());
                     }
                     if (Vector3.Distance(transform.position, targetWaypoint.position) < 1 && !attackLock)
                     {
@@ -609,7 +609,7 @@ public class WindBossAI : MonoBehaviour
 
     private IEnumerator FastShot(int type, int amount, float wait)
     {
-        attackLock =true;
+        attackLock = true;
         for (int i = 0; i < amount; i++)
         {
             if (attackPrefabs.Length > type)
@@ -633,8 +633,8 @@ public class WindBossAI : MonoBehaviour
                     break;
                 }
                 GameObject projectile1 = Instantiate(attackPrefabs[type], transform.position, Quaternion.identity);
-                ProjectileAttack attack1 = projectile.GetComponent<ProjectileAttack>();
-                attack.target = target;
+                ProjectileAttack attack1 = projectile1.GetComponent<ProjectileAttack>();
+                attack1.target = target;
                 FlipSprite((target.position - transform.position).normalized.x);
                 yield return new WaitForSeconds(.25f);
                 if (isRetreating)
@@ -643,8 +643,8 @@ public class WindBossAI : MonoBehaviour
                     break;
                 }
                 GameObject projectile2 = Instantiate(attackPrefabs[type], transform.position, Quaternion.identity);
-                ProjectileAttack attack2 = projectile.GetComponent<ProjectileAttack>();
-                attack.target = target;
+                ProjectileAttack attack2 = projectile2.GetComponent<ProjectileAttack>();
+                attack2.target = target;
                 FlipSprite((target.position - transform.position).normalized.x);
                 yield return new WaitForSeconds(.5f);
                 interruptMovement = false;
