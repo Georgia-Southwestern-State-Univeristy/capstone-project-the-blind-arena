@@ -2073,6 +2073,15 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   gameTimer: {fileID: 0}
+  playerController: {fileID: 0}
+  playerHealth: {fileID: 0}
+  playerAttackManager: {fileID: 0}
+  itemAudioSource: {fileID: 0}
+  potionAudio: {fileID: 0}
+  bootsAudio: {fileID: 0}
+  damageIncreaseAudio: {fileID: 0}
+  shieldsAudio: {fileID: 0}
+  swordAudio: {fileID: 0}
   itemTimeValues:
   - itemSprite: {fileID: -405650991, guid: 22f49e94325a3724e84f3b0cfc0e99d7, type: 3}
     timeToAdd: 10
@@ -2121,10 +2130,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1366, y: 768}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -2864,6 +2873,7 @@ MonoBehaviour:
   optionsMenu: {fileID: 2460255089218025392}
   otherObjects: []
   optionsButton: {fileID: 8268366718975478636}
+  resumeObject: {fileID: 0}
 --- !u!222 &2820012882840325246
 CanvasRenderer:
   m_ObjectHideFlags: 0

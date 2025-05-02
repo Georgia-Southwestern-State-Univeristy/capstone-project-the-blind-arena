@@ -215,6 +215,8 @@ MonoBehaviour:
     fadeInSpeed: 0.5
     visibleTime: 3
     fadeOutSpeed: 0.5
+  nextSceneOffset: 1
+  sceneTransitionDelay: 1
 --- !u!1 &643361906498251120
 GameObject:
   m_ObjectHideFlags: 0
@@ -505,6 +507,8 @@ MonoBehaviour:
     fadeInSpeed: 0.5
     visibleTime: 3
     fadeOutSpeed: 0.5
+  nextSceneOffset: 1
+  sceneTransitionDelay: 1
 --- !u!1 &786252265150091069
 GameObject:
   m_ObjectHideFlags: 0
@@ -720,6 +724,8 @@ MonoBehaviour:
     fadeInSpeed: 0.5
     visibleTime: 3
     fadeOutSpeed: 0.5
+  nextSceneOffset: 1
+  sceneTransitionDelay: 1
 --- !u!1 &1001534302996555786
 GameObject:
   m_ObjectHideFlags: 0
@@ -935,6 +941,8 @@ MonoBehaviour:
     fadeInSpeed: 0.5
     visibleTime: 3
     fadeOutSpeed: 0.5
+  nextSceneOffset: 1
+  sceneTransitionDelay: 1
 --- !u!1 &1209172707781727622
 GameObject:
   m_ObjectHideFlags: 0
@@ -1370,6 +1378,8 @@ MonoBehaviour:
     fadeInSpeed: 0.5
     visibleTime: 3
     fadeOutSpeed: 0.5
+  nextSceneOffset: 1
+  sceneTransitionDelay: 1
 --- !u!1 &1682619059420646305
 GameObject:
   m_ObjectHideFlags: 0
@@ -1585,6 +1595,8 @@ MonoBehaviour:
     fadeInSpeed: 0.5
     visibleTime: 3
     fadeOutSpeed: 0.5
+  nextSceneOffset: 1
+  sceneTransitionDelay: 1
 --- !u!1 &2142893086425793259
 GameObject:
   m_ObjectHideFlags: 0
@@ -1800,6 +1812,8 @@ MonoBehaviour:
     fadeInSpeed: 0.5
     visibleTime: 3
     fadeOutSpeed: 0.5
+  nextSceneOffset: 1
+  sceneTransitionDelay: 1
 --- !u!1 &2237903725547983910
 GameObject:
   m_ObjectHideFlags: 0
@@ -2015,6 +2029,8 @@ MonoBehaviour:
     fadeInSpeed: 0.5
     visibleTime: 3
     fadeOutSpeed: 0.5
+  nextSceneOffset: 1
+  sceneTransitionDelay: 1
 --- !u!1 &2487932007505112109
 GameObject:
   m_ObjectHideFlags: 0
@@ -2230,6 +2246,8 @@ MonoBehaviour:
     fadeInSpeed: 0.5
     visibleTime: 3
     fadeOutSpeed: 0.5
+  nextSceneOffset: 1
+  sceneTransitionDelay: 1
 --- !u!1 &2692561797961884442
 GameObject:
   m_ObjectHideFlags: 0
@@ -2520,6 +2538,8 @@ MonoBehaviour:
     fadeInSpeed: 0.5
     visibleTime: 3
     fadeOutSpeed: 0.5
+  nextSceneOffset: 1
+  sceneTransitionDelay: 1
 --- !u!1 &3155613445245334582
 GameObject:
   m_ObjectHideFlags: 0
@@ -2735,6 +2755,8 @@ MonoBehaviour:
     fadeInSpeed: 0.5
     visibleTime: 3
     fadeOutSpeed: 0.5
+  nextSceneOffset: 1
+  sceneTransitionDelay: 1
 --- !u!1 &3177530039642300584
 GameObject:
   m_ObjectHideFlags: 0
@@ -2950,6 +2972,8 @@ MonoBehaviour:
     fadeInSpeed: 0.5
     visibleTime: 3
     fadeOutSpeed: 0.5
+  nextSceneOffset: 1
+  sceneTransitionDelay: 1
 --- !u!1 &4555247354985775877
 GameObject:
   m_ObjectHideFlags: 0
@@ -3240,6 +3264,8 @@ MonoBehaviour:
     fadeInSpeed: 0.5
     visibleTime: 3
     fadeOutSpeed: 0.5
+  nextSceneOffset: 1
+  sceneTransitionDelay: 1
 --- !u!1 &4926491068944230419
 GameObject:
   m_ObjectHideFlags: 0
@@ -3536,6 +3562,8 @@ MonoBehaviour:
     fadeInSpeed: 0.5
     visibleTime: 3
     fadeOutSpeed: 0.5
+  nextSceneOffset: 1
+  sceneTransitionDelay: 1
 --- !u!1 &5154136445721069292
 GameObject:
   m_ObjectHideFlags: 0
@@ -3610,10 +3638,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1366, y: 768}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -3853,6 +3881,8 @@ MonoBehaviour:
     fadeInSpeed: 0.5
     visibleTime: 3
     fadeOutSpeed: 0.5
+  nextSceneOffset: 1
+  sceneTransitionDelay: 1
 --- !u!1 &5612917375212620681
 GameObject:
   m_ObjectHideFlags: 0
@@ -4068,6 +4098,8 @@ MonoBehaviour:
     fadeInSpeed: 0.5
     visibleTime: 3
     fadeOutSpeed: 0.5
+  nextSceneOffset: 1
+  sceneTransitionDelay: 1
 --- !u!1 &6113006966091814997
 GameObject:
   m_ObjectHideFlags: 0
@@ -4283,6 +4315,8 @@ MonoBehaviour:
     fadeInSpeed: 0.5
     visibleTime: 3
     fadeOutSpeed: 0.5
+  nextSceneOffset: 1
+  sceneTransitionDelay: 1
 --- !u!1 &6513193162202921592
 GameObject:
   m_ObjectHideFlags: 0
@@ -4648,6 +4682,8 @@ MonoBehaviour:
     fadeInSpeed: 0.5
     visibleTime: 3
     fadeOutSpeed: 0.5
+  nextSceneOffset: 1
+  sceneTransitionDelay: 1
 --- !u!1 &6787488255726922442
 GameObject:
   m_ObjectHideFlags: 0
@@ -4863,6 +4899,8 @@ MonoBehaviour:
     fadeInSpeed: 0.5
     visibleTime: 3
     fadeOutSpeed: 0.5
+  nextSceneOffset: 1
+  sceneTransitionDelay: 1
 --- !u!1 &7058845519752324912
 GameObject:
   m_ObjectHideFlags: 0
@@ -5078,6 +5116,8 @@ MonoBehaviour:
     fadeInSpeed: 0.5
     visibleTime: 3
     fadeOutSpeed: 0.5
+  nextSceneOffset: 1
+  sceneTransitionDelay: 1
 --- !u!1 &7105572407066590275
 GameObject:
   m_ObjectHideFlags: 0
@@ -5293,6 +5333,8 @@ MonoBehaviour:
     fadeInSpeed: 0.5
     visibleTime: 3
     fadeOutSpeed: 0.5
+  nextSceneOffset: 1
+  sceneTransitionDelay: 1
 --- !u!1 &8031699378744533899
 GameObject:
   m_ObjectHideFlags: 0
@@ -5508,6 +5550,8 @@ MonoBehaviour:
     fadeInSpeed: 0.5
     visibleTime: 3
     fadeOutSpeed: 0.5
+  nextSceneOffset: 1
+  sceneTransitionDelay: 1
 --- !u!1 &8171063073453634776
 GameObject:
   m_ObjectHideFlags: 0
