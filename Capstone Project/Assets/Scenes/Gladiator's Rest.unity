@@ -24352,6 +24352,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4911290974390314232, guid: d2c635542ada48c41b871496515c7f15, type: 3}
+      propertyPath: AudioSource
+      value: 
+      objectReference: {fileID: 438830198}
+    - target: {fileID: 4911290974390314232, guid: d2c635542ada48c41b871496515c7f15, type: 3}
       propertyPath: shopManager
       value: 
       objectReference: {fileID: 2012108680}
