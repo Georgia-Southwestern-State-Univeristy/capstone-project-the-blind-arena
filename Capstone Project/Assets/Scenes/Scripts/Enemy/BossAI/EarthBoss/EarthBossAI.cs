@@ -503,12 +503,13 @@ public class EarthBossAI : MonoBehaviour
         speed += 1;
         PlayerController[] playerController = FindObjectsOfType<PlayerController>();
         SinglePlayerAttack[] singlePlayerAttacks = FindObjectsOfType<SinglePlayerAttack>();
-        
+
         //Lock player movement and abilities
-        foreach (PlayerController player in playerController)
-            player.LockMovement(10f);
+        foreach (PlayerController playerCon in playerController)
+            playerCon.LockMovement(10f);
         foreach (SinglePlayerAttack singlePlayerAttack in singlePlayerAttacks)
             singlePlayerAttack.attackChecker = false;
+        ProjectileCleaner.DestroyAllProjectiles();
 
         //Move to waypoint
         while (Vector3.Distance(transform.position, returnWaypoint.position) > 0.5f)
@@ -523,21 +524,26 @@ public class EarthBossAI : MonoBehaviour
 
     private IEnumerator PullPlayerAndTrap()
     {
+        StopCoroutine(SetupArena());
+
         PlayerController[] playerController = FindObjectsOfType<PlayerController>();
         SinglePlayerAttack[] singlePlayerAttacks = FindObjectsOfType<SinglePlayerAttack>();
-        StopCoroutine(SetupArena());
+        GameObject player;
         
         interruptMovement = true;
         animator.SetTrigger("Raise");
         yield return new WaitForSeconds(0.8f);
-        for (int i = 0; i < 3; i++)
-        {
 
-            foreach (PlayerController player in playerController)
+        for (int i = 0; i < 5; i++)
+        {
+            foreach (PlayerController playerCon in playerController)
             {
-                player.transform.position = playerWaypoint.position;
+                player = playerCon.gameObject;
+                player.transform.position = transform.position + new Vector3(0, 0, -15);
+                yield return new WaitForSeconds(0.1f);
             }
-            yield return new WaitForSeconds(0.01f);
+            Debug.Log("Attempt Player Move");
+            yield return new WaitForEndOfFrame();
         }
 
         Instantiate(attackPrefabs[3], targetWaypoint.position + new Vector3(0, -1f, 0), new Quaternion(0, 0, 0, 0));
@@ -545,8 +551,8 @@ public class EarthBossAI : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
         boardSwitcher.focusOnBoss = false;
-        foreach (PlayerController player in playerController)
-            player.UnlockMovement();
+        foreach (PlayerController playerCon in playerController)
+            playerCon.UnlockMovement();
         yield return new WaitForSeconds(2f);
         speed -= 1;
         interruptMovement = false;

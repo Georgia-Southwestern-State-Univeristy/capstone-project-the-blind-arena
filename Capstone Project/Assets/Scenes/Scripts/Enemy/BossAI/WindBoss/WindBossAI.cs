@@ -690,10 +690,11 @@ public class WindBossAI : MonoBehaviour
         boardSwitcher.focusOnBoss = true;
         PlayerController[] playerController = FindObjectsOfType<PlayerController>();
         SinglePlayerAttack[] singlePlayerAttacks = FindObjectsOfType<SinglePlayerAttack>();
+        GameObject player;
 
         //Lock player movement and abilities
-        foreach (PlayerController player in playerController)
-            player.LockMovement(10f);
+        foreach (PlayerController playerCon in playerController)
+            playerCon.LockMovement(10f);
         foreach (SinglePlayerAttack singlePlayerAttack in singlePlayerAttacks)
             singlePlayerAttack.attackChecker = false;
         ProjectileCleaner.DestroyAllProjectiles();
@@ -710,14 +711,16 @@ public class WindBossAI : MonoBehaviour
         animator.SetTrigger("Raise");
         yield return new WaitForSeconds(1);
 
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 5; i++)
         {
-            foreach (PlayerController player in playerController)
+            foreach (PlayerController playerCon in playerController)
             {
+                player = playerCon.gameObject;
                 player.transform.position = transform.position + new Vector3(0, 0, -15);
+                yield return new WaitForSeconds(0.1f);
             }
             Debug.Log("Attempt Player Move");
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForEndOfFrame();
         }
 
         Instantiate(attackPrefabs[7], returnWaypoint.position + new Vector3(-15, -1f, 0), new Quaternion(0, 0, 0, 0));
@@ -725,8 +728,8 @@ public class WindBossAI : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
         boardSwitcher.focusOnBoss = false;
-        foreach (PlayerController player in playerController)
-            player.UnlockMovement();
+        foreach (PlayerController playerCon in playerController)
+            playerCon.UnlockMovement();
         yield return new WaitForSeconds(2f);
         interruptMovement = false;
         isSetup = true;
