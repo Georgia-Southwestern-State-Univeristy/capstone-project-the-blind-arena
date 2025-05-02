@@ -78,6 +78,9 @@ MonoBehaviour:
   - {fileID: 4641720824704246411, guid: 96a7d462094368b4ba47a66dda4f2ba7, type: 3}
   - {fileID: 6295077865890311782, guid: 5cfb513a97d7e5247a88b166b223791c, type: 3}
   - {fileID: 6295077865890311782, guid: 5cfb513a97d7e5247a88b166b223791c, type: 3}
+  walkingAudioSource: {fileID: 0}
+  attackSounds: []
+  sfxAudioSource: {fileID: 0}
 --- !u!114 &4906087373876981867
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -246,7 +249,7 @@ MonoBehaviour:
   enemyCamera: {fileID: 0}
   boss: {fileID: 2226356914567485110}
   player: {fileID: 0}
-  switchDistance: 19
+  switchDistance: 20
   focusOnBoss: 0
 --- !u!114 &2401472405191146489
 MonoBehaviour:

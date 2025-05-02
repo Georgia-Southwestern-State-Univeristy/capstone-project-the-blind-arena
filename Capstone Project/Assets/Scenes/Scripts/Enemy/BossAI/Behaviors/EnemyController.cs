@@ -23,7 +23,7 @@ public class EnemyController : MonoBehaviour
         {
             ReturnToWaypoint();
         }
-        else if (!isDashing && Vector3.Distance(transform.position, target.position) > 1f)
+        else if (!isDashing && target != null && Vector3.Distance(transform.position, target.position) > 1f)
         {
             MoveTowardsTarget();
         }

@@ -128,6 +128,7 @@ MonoBehaviour:
   optionsMenu: {fileID: 430749630282816837}
   otherObjects: []
   optionsButton: {fileID: 5473951888801694468}
+  resumeObject: {fileID: 0}
 --- !u!222 &9026472126459108404
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -372,6 +373,7 @@ MonoBehaviour:
   optionsMenu: {fileID: 863265129640991084}
   otherObjects: []
   optionsButton: {fileID: 5473951888801694468}
+  resumeObject: {fileID: 0}
 --- !u!222 &3958148985755510043
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -540,6 +542,7 @@ MonoBehaviour:
   optionsMenu: {fileID: 1029928741883220728}
   otherObjects: []
   optionsButton: {fileID: 5473951888801694468}
+  resumeObject: {fileID: 0}
 --- !u!222 &4086299561089986479
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2159,6 +2162,7 @@ MonoBehaviour:
   optionsMenu: {fileID: 3222875830645788542}
   otherObjects: []
   optionsButton: {fileID: 5473951888801694468}
+  resumeObject: {fileID: 0}
 --- !u!222 &1574132927835057281
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2545,6 +2549,7 @@ MonoBehaviour:
   optionsMenu: {fileID: 3649558508754609208}
   otherObjects: []
   optionsButton: {fileID: 5473951888801694468}
+  resumeObject: {fileID: 0}
 --- !u!222 &8515930022647604564
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4515,6 +4520,7 @@ MonoBehaviour:
   optionsMenu: {fileID: 5445829079325351792}
   otherObjects: []
   optionsButton: {fileID: 5473951888801694468}
+  resumeObject: {fileID: 0}
 --- !u!222 &7210164568012141561
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5555,6 +5561,7 @@ MonoBehaviour:
   optionsMenu: {fileID: 6301596756765507559}
   otherObjects: []
   optionsButton: {fileID: 5441913590598541189}
+  resumeObject: {fileID: 0}
 --- !u!222 &1728748586519951704
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5777,6 +5784,7 @@ MonoBehaviour:
   optionsMenu: {fileID: 6251974171138808938}
   otherObjects: []
   optionsButton: {fileID: 5473951888801694468}
+  resumeObject: {fileID: 0}
 --- !u!222 &437995754965978197
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5924,6 +5932,10 @@ MonoBehaviour:
   - {fileID: 6921972606004472380}
   - {fileID: 3239347370641361491}
   - {fileID: 2898373246333869955}
+  attackModifiers: []
+  playerAttackManager: {fileID: 0}
+  playerController: {fileID: 0}
+  health: {fileID: 0}
   highlightColor: {r: 1, g: 0.015686274, b: 0.28837726, a: 1}
   outlineThickness: 2
   points: 5
@@ -5965,10 +5977,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1366, y: 768}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -6189,6 +6201,7 @@ MonoBehaviour:
   optionsMenu: {fileID: 6463111241795386429}
   otherObjects: []
   optionsButton: {fileID: 5473951888801694468}
+  resumeObject: {fileID: 0}
 --- !u!222 &5397017069638104761
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6280,6 +6293,7 @@ MonoBehaviour:
   optionsMenu: {fileID: 6726432988268345298}
   otherObjects: []
   optionsButton: {fileID: 5473951888801694468}
+  resumeObject: {fileID: 0}
 --- !u!222 &2039439838743639573
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6878,6 +6892,7 @@ MonoBehaviour:
   optionsMenu: {fileID: 7571933108957138476}
   otherObjects: []
   optionsButton: {fileID: 5473951888801694468}
+  resumeObject: {fileID: 0}
 --- !u!222 &8161627250576562423
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7044,6 +7059,7 @@ MonoBehaviour:
   optionsMenu: {fileID: 7787732198048733763}
   otherObjects: []
   optionsButton: {fileID: 5473951888801694468}
+  resumeObject: {fileID: 0}
 --- !u!222 &7003948540275921501
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7568,6 +7584,7 @@ MonoBehaviour:
   optionsMenu: {fileID: 8631307809100754737}
   otherObjects: []
   optionsButton: {fileID: 5473951888801694468}
+  resumeObject: {fileID: 0}
 --- !u!222 &6268718062486595959
 CanvasRenderer:
   m_ObjectHideFlags: 0

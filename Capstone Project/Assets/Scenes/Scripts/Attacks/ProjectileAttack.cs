@@ -14,7 +14,7 @@ public class ProjectileAttack : MonoBehaviour
 
     [SerializeField] private GameObject sprite;
     [SerializeField] private GameObject effectPrefab;
-    [SerializeField] private Collider collider;
+    [SerializeField] private Collider projectileCollider;
     [SerializeField] public Transform target;
     [SerializeField] private float speed;
     [SerializeField] private float lifespan;
@@ -35,6 +35,8 @@ public class ProjectileAttack : MonoBehaviour
 
     [SerializeField] private AudioSource attackAudioSource;
     [SerializeField] private AudioClip attackSound;
+
+    // Public Function to initalize custom values
     public void Init(Transform targ, Vector3 vector)
     {
         skipStart =true;
@@ -44,25 +46,37 @@ public class ProjectileAttack : MonoBehaviour
         movementVector *= ((Math.Abs(movementVector.z) * .6f) + 1) * speed;
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        // Skip static values if initialized from anothe script
         if (!skipStart)
         {
-            target = FindFirstObjectByType<PlayerController>().transform;
-            targetTransform = target.position;
-            movementVector = (targetTransform - transform.position).normalized;
-            movementVector *= ((Math.Abs(movementVector.z) * .6f) + 1) * speed;
+            PlayerController player = FindFirstObjectByType<PlayerController>();
+            if (player != null)
+            {
+                target = player.transform;
+                targetTransform = target.position;
+                movementVector = (targetTransform - transform.position).normalized;
+                movementVector *= ((Math.Abs(movementVector.z) * 0.6f) + 1) * speed;
+            }
+            else
+            {
+                Debug.LogWarning("No PlayerController found in the scene.");
+                Destroy(gameObject); // Optional: destroy the projectile if no target
+                return;
+            }
         }
+
         if (delayDamage)
         {
-
+            // Add delay logic here if needed
         }
+
         initialVector = movementVector;
-        collider = GetComponent<Collider>();
+        projectileCollider = GetComponent<Collider>();
         initalLifespan = lifespan;
         initalSpeed = speed;
-        if (isEffect) { fixedHeight = 0.5f; } else { fixedHeight = 0.6f; }
+        fixedHeight = isEffect ? 0.5f : 0.6f;
     }
 
     // Update is called once per frame
@@ -76,10 +90,12 @@ public class ProjectileAttack : MonoBehaviour
     {
         switch (mov)
         {
+            // Moves in a straight Line
             case Movement.Aimed:
                 break;
+            // After half a second it will home in on the target, slows down over time
             case Movement.Homing:
-                if (initalLifespan - lifespan > 0.5 && lifespan >= 3)
+                if (initalLifespan - lifespan > 0.5 && lifespan >= 3 && target != null && !target.Equals(null))
                 {
                     targetTransform = target.position;
 
@@ -101,6 +117,7 @@ public class ProjectileAttack : MonoBehaviour
                         
                 }
                 break;
+            // Moves in a straight line for a bit then slows to a stop. Waits and then shoots at the targets new position
             case Movement.AimedHoming:
                 if (initalLifespan-lifespan > 0.4 && initalLifespan-lifespan < 3)
                 {
@@ -115,12 +132,16 @@ public class ProjectileAttack : MonoBehaviour
                 {
                     speed = initalSpeed;
                     PlayAttackSound(1);
-                    targetTransform =target.position;
+                    if (target != null && !target.Equals(null))
+                    {
+                        targetTransform = target.position;
+                    }
                     movementVector = (targetTransform - transform.position).normalized;
                     movementVector *= ((Math.Abs(movementVector.z) * .6f) + 1) * speed;
                     mCount++;
                 }
                 break;
+            // Moves in a straight line for a bit then slows to a stop. Waits and then reverses its direction
             case Movement.Retracting:
                 if (initalLifespan - lifespan > 0.4 && initalLifespan - lifespan < 3)
                 {
@@ -141,6 +162,7 @@ public class ProjectileAttack : MonoBehaviour
                     movementVector = -initialVector * (speed / initalSpeed);
                 }
                     break;
+            // Wanders around randomly. See HandleProjectileWander
             case Movement.Wandering:
                 if (initalLifespan - lifespan > 1)
                 {
@@ -148,6 +170,7 @@ public class ProjectileAttack : MonoBehaviour
                     StartCoroutine(HandleProjectileWander((int)mCount));
                 }
                 break;
+            // No movement
             case Movement.Stationary:
                 movementVector = Vector3.zero;
                 break;
@@ -176,6 +199,7 @@ public class ProjectileAttack : MonoBehaviour
         }
     }
 
+    // Rotates Projectile in the movement Direction
     private void ApplyRotation(GameObject projectile, Facing direction, Vector3 vector, float rSpeed)
     {
         float spin=0;
@@ -242,7 +266,7 @@ public class ProjectileAttack : MonoBehaviour
     {
         switch (ele)
         {
-            //Earth Effects (Breaking Projectiles, etc.)
+            //Earth Effects 
             case Element.Earth:
                 if (isEffect)
                 {
@@ -250,7 +274,7 @@ public class ProjectileAttack : MonoBehaviour
                         StartCoroutine(DamageOverTime(player, damage));
                 }
                 break;
-            //Wind Effects (Knockbacks, etc.)
+            //Wind Effects (Knockback)
             case Element.Wind:
                 if (!isEffect)
                 {
@@ -271,7 +295,7 @@ public class ProjectileAttack : MonoBehaviour
                 }
                                 
                 break;
-            //Fire Attack (Fires Tiles, Damage Over Times, etc.)
+            //Fire Attack (Fires Tiles, Damage Over Time)
             case Element.Fire:
                 if (!isEffect && lifespan<=0) 
                 {
@@ -316,13 +340,15 @@ public class ProjectileAttack : MonoBehaviour
         }
     }
 
+    // Pulls the player to the projectile when close enough
     private IEnumerator SuccPlayer()
     {
         PlayerController[] playerController = FindObjectsOfType<PlayerController>();
         while (lifespan>0)
         {
-            foreach (PlayerController player in playerController){
-                if (Vector3.Distance(transform.position, player.transform.position) < 10)
+            foreach(PlayerController player in playerController)
+{
+                if (player != null && !player.Equals(null) && Vector3.Distance(transform.position, player.transform.position) < 10)
                 {
                     Vector3 pushDirection = (player.transform.position - transform.position).normalized;
                     Vector3 pushVelocity = -pushDirection * 7;
@@ -345,11 +371,11 @@ public class ProjectileAttack : MonoBehaviour
         }
         else if (delayDamage && initalLifespan - lifespan < 1)
         {
-            collider.enabled = false;
+            projectileCollider.enabled = false;
         }
         else
         {
-            collider.enabled = true;
+            projectileCollider.enabled = true;
         }
         lifespan -= Time.deltaTime;
     }
@@ -424,8 +450,9 @@ public class ProjectileAttack : MonoBehaviour
             Debug.Log("Magnitude: " + magnitude);
             if (magnitude == 1 || magnitude==10)
             {
-                while (pass > 0)
+                while (pass > 0) //Change Dircetion when less than Zero
                 {
+                    //Move towards target
                     targetTransform = target.position;
                     movementVector = (targetTransform - transform.position).normalized;
                     movementVector *= ((Math.Abs(movementVector.z) * .6f) + 1) * speed;
@@ -439,6 +466,7 @@ public class ProjectileAttack : MonoBehaviour
                 {
                     while (pass > 0)
                     {
+                        //Move Right
                         movementVector = (transform.right + movementVector.normalized).normalized;
                         movementVector *= ((Math.Abs(movementVector.z) * .6f) + 1) * speed;
                         pass--;
@@ -449,6 +477,7 @@ public class ProjectileAttack : MonoBehaviour
                 {
                     while (pass > 0)
                     {
+                        //Move Up
                         movementVector = (transform.forward + movementVector.normalized).normalized;
                         movementVector *= ((Math.Abs(movementVector.z) * .6f) + 1) * speed;
                         pass--;
@@ -462,6 +491,7 @@ public class ProjectileAttack : MonoBehaviour
                 {
                     while (pass > 0)
                     {
+                        //Move Left
                         movementVector = (-transform.right+movementVector.normalized).normalized;
                         movementVector *= ((Math.Abs(movementVector.z) * .6f) + 1) * speed;
                         pass--;
@@ -472,6 +502,7 @@ public class ProjectileAttack : MonoBehaviour
                 {
                     while (pass > 0)
                     {
+                        //Move Down
                         movementVector = (-transform.forward + movementVector.normalized).normalized;
                         movementVector *= ((Math.Abs(movementVector.z) * .6f) + 1) * speed;
                         pass--;
@@ -511,26 +542,40 @@ public class ProjectileAttack : MonoBehaviour
         {
             yield break;
         }
+
+        // Cache the components outside the loop to avoid calling GetComponent repeatedly
+        Health playerHealth = player.GetComponent<Health>();
+        Animator animator = player.GetComponent<Animator>();
+
+        // Check if the player or its components were destroyed early
+        if (playerHealth == null || animator == null)
+        {
+            yield break;
+        }
+
         if (elementType == Element.Earth)
         {
-            if (inTrigger && !damageLock && initalLifespan-lifespan<1)
+            if (inTrigger && !damageLock && initalLifespan - lifespan < 1)
             {
                 damageLock = true;
-                Health playerHealth = player.GetComponent<Health>();
-                playerHealth.Damage(damage);
-                Debug.Log("Player is standing in a damage zone!");
-                yield return new WaitForSeconds(0.2f);
+                if (playerHealth != null)
+                {
+                    playerHealth.Damage(damage);
+                    Debug.Log("Player is standing in a damage zone!");
+                    yield return new WaitForSeconds(0.2f);
+                }
             }
             else
             {
                 while (inTrigger)
                 {
-                    Animator animator = player.GetComponent<Animator>();
                     if (animator.GetFloat("Speed") > 0f)
                     {
-                        Health playerHealth = player.GetComponent<Health>();
-                        playerHealth.Damage(damage/10);
-                        Debug.Log("Player moved on dangerous terrain!");
+                        if (playerHealth != null)
+                        {
+                            playerHealth.Damage(damage / 10);
+                            Debug.Log("Player moved on dangerous terrain!");
+                        }
                     }
                     yield return new WaitForSeconds(1f);
                 }
@@ -540,9 +585,11 @@ public class ProjectileAttack : MonoBehaviour
         {
             while (inTrigger)
             {
-                Health playerHealth = player.GetComponent<Health>();
-                playerHealth.Damage(damage);
-                Debug.Log("Player is standing in a damage zone!");
+                if (playerHealth != null)
+                {
+                    playerHealth.Damage(damage);
+                    Debug.Log("Player is standing in a damage zone!");
+                }
                 yield return new WaitForSeconds(0.5f);
             }
         }

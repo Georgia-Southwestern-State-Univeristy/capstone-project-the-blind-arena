@@ -55,6 +55,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   returnWaypoint: {fileID: 0}
+  targetWaypoint: {fileID: 0}
+  playerWaypoint: {fileID: 0}
   animator: {fileID: 0}
   speed: 6
   minimumDistance: 2
@@ -67,6 +69,9 @@ MonoBehaviour:
   - {fileID: 6748520024740912604, guid: fd4eb9e6937245d47b7b538b16826d02, type: 3}
   - {fileID: 2597631295975792917, guid: 5dffe8c7f8097e54a89c6ced08c1467e, type: 3}
   - {fileID: 7625895924679611045, guid: 5677ee2952e25804e8eca615b9848593, type: 3}
+  walkingAudioSource: {fileID: 0}
+  attackSounds: []
+  sfxAudioSource: {fileID: 0}
 --- !u!114 &5171328325129933643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -235,7 +240,7 @@ MonoBehaviour:
   enemyCamera: {fileID: 0}
   boss: {fileID: 6667533099617888919}
   player: {fileID: 0}
-  switchDistance: 19
+  switchDistance: 20
   focusOnBoss: 0
 --- !u!114 &7181697329006439173
 MonoBehaviour:

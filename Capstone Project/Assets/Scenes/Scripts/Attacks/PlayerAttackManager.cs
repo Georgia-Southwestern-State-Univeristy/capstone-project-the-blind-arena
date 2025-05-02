@@ -1,5 +1,4 @@
 using System.Collections;
-using UnityEditor.Animations;
 using UnityEngine;
 
 public class PlayerAttackManager : MonoBehaviour
@@ -28,7 +27,7 @@ public class PlayerAttackManager : MonoBehaviour
         public ColliderType colliderShape;
         public Vector3 colliderSize = Vector3.one, colliderRotation = Vector3.zero, spriteSize = Vector3.one, spriteRotation = Vector3.zero, startingOffset = Vector3.zero;
         public Sprite attackSprite;
-        public AnimatorController attackAnimator;
+        public Animator attackAnimator;
         private GameObject[] targets;
     }
 
@@ -189,8 +188,6 @@ public class PlayerAttackManager : MonoBehaviour
 
         if (attack.isPhysical)
             SetupPhysicalObject(attackObject);
-        else
-            colliderObject.layer = LayerMask.NameToLayer("AttackObjects");
 
         if (attack.isTangible)
         {
@@ -254,7 +251,7 @@ public class PlayerAttackManager : MonoBehaviour
         }
 
         Animator animator = obj.AddComponent<Animator>();
-        animator.runtimeAnimatorController = attack.attackAnimator;
+        attack.attackAnimator = animator;
     }
 
     private void SetupPhysicalObject(GameObject attackObject)
@@ -262,7 +259,6 @@ public class PlayerAttackManager : MonoBehaviour
         Rigidbody rb = attackObject.AddComponent<Rigidbody>();
         rb.isKinematic = true;
         rb.constraints = RigidbodyConstraints.FreezeAll;
-        attackObject.layer = LayerMask.NameToLayer("AttackObjects");
     }
 
     private Vector3 GetAttackDirection()
@@ -284,7 +280,15 @@ public class PlayerAttackManager : MonoBehaviour
 
     private void LaunchAttack(GameObject attackObject, Vector3 direction, float speed)
     {
-        Rigidbody rb = attackObject.AddComponent<Rigidbody>();
+        Rigidbody rb;
+        if (attackObject.GetComponent<Rigidbody>() != null)
+        {
+            rb = attackObject.GetComponent<Rigidbody>();
+        }
+        else
+            rb = attackObject.AddComponent<Rigidbody>();
+        Debug.Log($"attackObject is {(attackObject == null ? "null" : "not null")}");
+        Debug.Log($"Rigidbody is {attackObject?.GetComponent<Rigidbody>()}");
         rb.useGravity = false;
         rb.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotation;
         rb.linearVelocity = direction * speed;

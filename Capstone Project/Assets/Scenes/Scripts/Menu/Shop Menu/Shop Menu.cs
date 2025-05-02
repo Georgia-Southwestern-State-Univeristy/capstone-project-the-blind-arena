@@ -37,6 +37,7 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private AudioClip swordAudio;
 
     private int[] selectedIndexes;
+    public event System.Action OnHotbarUpdated;
     private static Dictionary<Sprite, int> purchasedItems = new Dictionary<Sprite, int>(); // Track item counts
 
     // List of items with their unique time values
@@ -142,7 +143,7 @@ public class ShopManager : MonoBehaviour
         UpdateHotbar();
     }
 
-    void UpdateHotbar()
+    public void UpdateHotbar()
     {
         int i = 0;
         foreach (var item in purchasedItems)
@@ -160,6 +161,8 @@ public class ShopManager : MonoBehaviour
             hotbarSlots[i].color = new Color(1, 1, 1, 0);
             hotbarCounts[i].text = "";
         }
+
+        OnHotbarUpdated?.Invoke(); // Notify listeners
     }
 
     Sprite GetOldestItem()

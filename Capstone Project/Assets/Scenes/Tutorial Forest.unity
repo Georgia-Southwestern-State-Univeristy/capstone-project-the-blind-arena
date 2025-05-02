@@ -1383,6 +1383,10 @@ PrefabInstance:
       propertyPath: 'buttons.Array.data[1]'
       value: 
       objectReference: {fileID: 667479850}
+    - target: {fileID: 3046205979308225917, guid: e34d778dd20bdc4489427b929c807a47, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3114970259583200995, guid: e34d778dd20bdc4489427b929c807a47, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -1430,6 +1434,10 @@ PrefabInstance:
     - target: {fileID: 4189403392932071829, guid: e34d778dd20bdc4489427b929c807a47, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 4704261972783956656, guid: e34d778dd20bdc4489427b929c807a47, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4902651554597026693, guid: e34d778dd20bdc4489427b929c807a47, type: 3}
       propertyPath: m_Pivot.x
@@ -1629,6 +1637,17 @@ PrefabInstance:
 --- !u!114 &107610133 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9014251405683016036, guid: e34d778dd20bdc4489427b929c807a47, type: 3}
+  m_PrefabInstance: {fileID: 107610132}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &107610134 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6680441924940600490, guid: e34d778dd20bdc4489427b929c807a47, type: 3}
   m_PrefabInstance: {fileID: 107610132}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
@@ -14273,6 +14292,14 @@ PrefabInstance:
       propertyPath: objectForPlayerMovement
       value: 
       objectReference: {fileID: 541624280}
+    - target: {fileID: 3830712414040057594, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      propertyPath: tutorialMenus.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3830712414040057594, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      propertyPath: 'tutorialMenus.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2048980}
     - target: {fileID: 4355459727560426660, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       propertyPath: skillUI
       value: 
@@ -14289,6 +14316,14 @@ PrefabInstance:
       propertyPath: pauseMenuUI
       value: 
       objectReference: {fileID: 1240463005}
+    - target: {fileID: 4355459727560426660, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      propertyPath: closePauseUIButton
+      value: 
+      objectReference: {fileID: 107610134}
+    - target: {fileID: 4355459727560426660, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
+      propertyPath: closeAttributeUIButton
+      value: 
+      objectReference: {fileID: 1878958075}
     - target: {fileID: 4673221386155297866, guid: bcfba1d69edf1d64bb5e9277fd17db6b, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -16988,6 +17023,10 @@ PrefabInstance:
     - target: {fileID: 7970103160979718905, guid: b88c70b1171cad44f825987b7bbeefbb, type: 3}
       propertyPath: m_Name
       value: Inventory Menu
+      objectReference: {fileID: 0}
+    - target: {fileID: 7970103160979718905, guid: b88c70b1171cad44f825987b7bbeefbb, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -22025,10 +22064,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1366, y: 768}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -33991,6 +34030,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Attributes Menu
       objectReference: {fileID: 0}
+    - target: {fileID: 4152816878500907604, guid: 94c1d716c593b34428136bc73695cc26, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4822600023568514589, guid: 94c1d716c593b34428136bc73695cc26, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5843442348401841065, guid: 94c1d716c593b34428136bc73695cc26, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -34092,6 +34139,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 94c1d716c593b34428136bc73695cc26, type: 3}
+--- !u!114 &1878958075 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5843442348401841065, guid: 94c1d716c593b34428136bc73695cc26, type: 3}
+  m_PrefabInstance: {fileID: 1878958074}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2127319497}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1880026294
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1997,6 +1997,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   availablePoints: 5
   pointsText: {fileID: 3630819815034129492}
+  playerHealth: {fileID: 0}
+  playerController: {fileID: 0}
+  playerAttackManager: {fileID: 0}
   attributeTexts:
   - {fileID: 8508183724768507325}
   - {fileID: 8859290438829691607}
@@ -2055,10 +2058,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1366, y: 768}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -4704,6 +4707,7 @@ MonoBehaviour:
   optionsMenu: {fileID: 4152816878500907604}
   otherObjects: []
   optionsButton: {fileID: 5843442348401841065}
+  resumeObject: {fileID: 0}
 --- !u!222 &1608133050845619476
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -5,6 +5,7 @@ public class GameTimer : MonoBehaviour
 {
     public TextMeshProUGUI hoursText, minutesText, secondsText, millisecondsText;
     public TextMeshProUGUI counterText;
+    public TextMeshProUGUI counterText2;
     public GameObject enemy; // Reference to the enemy game object
 
     // Static variables to persist across scenes
@@ -82,6 +83,10 @@ public class GameTimer : MonoBehaviour
     void UpdateCounterUI()
     {
         counterText.text = counter.ToString();
+        if (counterText2 != null)
+        {
+            counterText2.text = counterText.text;
+        }
     }
 
     public void TogglePause()

@@ -3,24 +3,23 @@
 # The Blind Arena
 
 ## Project Description
-The Blind Arena is a fast-paced arena fighting game built in Unity. In this dark and immersive experience, you assume the role of a captured elementalist who is forced to fight for survival in a brutal arena. As you struggle to regain your freedom, you must harness your unique elemental abilities to overcome relentless adversaries and face off against formidable bosses representing the five primal elements: Earth, Wind, Fire, Water, and Lightning. Every boss presents unique challenges that test your mastery over your elemental powers, pushing you to refine your combat strategy and unlock the secrets of each element. The Blind Arena blends intense, strategic combat with a rich narrative that immerses you in a world where ancient legends collide with modern adversity. Developed by a dedicated team of IT students, we are currently in the 8th week of development.
+The Blind Arena is a fast-paced arena fighting game built in Unity. You assume the role of a captured elementalist who is forced to fight for survival in a brutal arena. As you struggle to regain your freedom, you must harness your unique elemental abilities to overcome relentless adversaries and face off against formidable bosses representing the five primal elements: Earth, Wind, Fire, Water, and Lightning. Every boss presents unique challenges that test your mastery over your elemental powers, pushing you to refine your combat strategy and unlock the secrets of each element. This game pushes your mechanical skills to the limit, and encourage you to master your knowledge over each of your skills.
 
 ## Project Scope
 
 ### Current Features:
-- Player character with elemental abilities (Earth, Wind, Fire, Water, Lightning).
+- Player character with Earth Manipulation Abilities
 - Combat system with strategic elemental interactions.
-- Boss fights representing the five primal elements.
-
-### Planned Features:
-- Expanded character progression and unlockable abilities.
-- Enhanced visual and audio effects for elemental powers.
+- Boss fights representing Earth, Wind, & Fire
+- Unlockable Upgrades
+- Usable Items in Combat
+- Multiplayer Demo
 
 ## Installation & Setup
 
 ### Prerequisites
 - Unity (Recommended version: 6000.0.33f1)
-- Git
+- Git/GitHub Desktop
 
 ### Clone the Repository
 ```sh
@@ -33,10 +32,12 @@ The Blind Arena is a fast-paced arena fighting game built in Unity. In this dark
 2. Click on **Open Project** and navigate to the cloned repository.
 3. Select the project and allow Unity to load dependencies.
 
-### Running the Game
+### Building the Game(In Unity)
 1. In the Project tab, enter the **Scenes** folder and drag the **Main Menu** scene into the hierarchy.
-2. Press **Play** in Unity Editor.
-3. (Optional) Build the game via **File > Build Settings** and select your preferred platform. The natively supports Windows OS.
+3. Build the game via **File > Build Settings** and select your preferred platform. The natively supports Windows OS.
+
+### Running the Game
+1. A build of the game will already be available "The Blind Arena.exe"
 
 ## Contributor Guidelines
 

@@ -22,7 +22,7 @@ public class BossCameraSwitcher : MonoBehaviour
         // Calculate the distance between the boss and the player.
         float distance = Vector3.Distance(boss.position, player.position);
 
-        //
+        // When active, switch to the EnemyCam
         if (focusOnBoss)
         {
             playerCamera.Priority = inactivePriority;
@@ -30,7 +30,7 @@ public class BossCameraSwitcher : MonoBehaviour
             enemyCamera.Priority = activePriority;
         }
 
-        // When the boss is close enough, switch to the TargetsCam.
+        // When the boss is close enough, switch to the TargetCam.
         else if (distance <= switchDistance)
         {
             playerCamera.Priority = inactivePriority;
