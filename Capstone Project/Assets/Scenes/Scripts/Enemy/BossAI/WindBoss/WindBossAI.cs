@@ -581,34 +581,39 @@ public class WindBossAI : MonoBehaviour
     private IEnumerator WindExtras()
     {
         proLock = true;
-        while (true) {
-            random = rnd.Next(0, 2);
-            int random2 = rnd.Next(0, 5);
-            switch (random)
+        int counter = 0;
+        while (true) 
+        {
+            int proPattern = rnd.Next(0, 2); // Projectile Pattern
+            int proAmount = rnd.Next(0, 5); // Projectile Amount
+            switch (proPattern)
             {
                 case 0:
-                    for (int i = 0; i<random2+1; i++)
+                    for (int i = 0; i< proAmount + 1 + counter; i++)
                     {
-                        Instantiate(attackPrefabs[2], returnWaypoint.position + new Vector3(-17, -1f, 0 + i*3), new Quaternion(0, 0, 0, 0));
-                        Instantiate(attackPrefabs[2], returnWaypoint.position + new Vector3(17, -1f, 0 + i*3), new Quaternion(0, 0, 0, 0));
+                        Instantiate(attackPrefabs[2], returnWaypoint.position + new Vector3(-17, -1f, 0 + i*1.5f), new Quaternion(0, 0, 0, 0));
+                        Instantiate(attackPrefabs[2], returnWaypoint.position + new Vector3(17, -1f, 0 + i * 1.5f), new Quaternion(0, 0, 0, 0));
                         yield return new WaitForSeconds(0.5f);
                     }
                     break;
                 case 1:
-                    for (int i = 0; i < random2 + 1; i++)
+                    for (int i = 0; i < proAmount + 1 + counter; i++)
                     {
-                        Instantiate(attackPrefabs[2], returnWaypoint.position + new Vector3(-17, -1f, 0 + i * 3), new Quaternion(0, 0, 0, 0));
-                        Instantiate(attackPrefabs[2], returnWaypoint.position + new Vector3(17, -1f, 0 - i * 3), new Quaternion(0, 0, 0, 0));
+                        Instantiate(attackPrefabs[2], returnWaypoint.position + new Vector3(-17, -1f, 0 + i * 1.5f), new Quaternion(0, 0, 0, 0));
+                        Instantiate(attackPrefabs[2], returnWaypoint.position + new Vector3(17, -1f, 0 - i * 1.5f), new Quaternion(0, 0, 0, 0));
                         yield return new WaitForSeconds(0.5f);
                     }
                     break;
             }
+            counter++;
             yield return new WaitForSeconds(5f);
         }
     }
 
     private IEnumerator FastShot(int type, int amount, float wait)
     {
+        GameObject projectile, projectile1, projectile2;
+        ProjectileAttack attack, attack1, attack2;
         attackLock = true;
         for (int i = 0; i < amount; i++)
         {
@@ -622,8 +627,8 @@ public class WindBossAI : MonoBehaviour
                     i = amount;
                     break;
                 }
-                GameObject projectile = Instantiate(attackPrefabs[type], transform.position, Quaternion.identity);
-                ProjectileAttack attack = projectile.GetComponent<ProjectileAttack>();
+                projectile = Instantiate(attackPrefabs[type], transform.position, Quaternion.identity);
+                attack = projectile.GetComponent<ProjectileAttack>();
                 attack.target = target;
                 FlipSprite((target.position - transform.position).normalized.x);
                 yield return new WaitForSeconds(.25f);
@@ -632,8 +637,8 @@ public class WindBossAI : MonoBehaviour
                     i = amount;
                     break;
                 }
-                GameObject projectile1 = Instantiate(attackPrefabs[type], transform.position, Quaternion.identity);
-                ProjectileAttack attack1 = projectile1.GetComponent<ProjectileAttack>();
+                projectile1 = Instantiate(attackPrefabs[type], transform.position, Quaternion.identity);
+                attack1 = projectile1.GetComponent<ProjectileAttack>();
                 attack1.target = target;
                 FlipSprite((target.position - transform.position).normalized.x);
                 yield return new WaitForSeconds(.25f);
@@ -642,8 +647,8 @@ public class WindBossAI : MonoBehaviour
                     i = amount;
                     break;
                 }
-                GameObject projectile2 = Instantiate(attackPrefabs[type], transform.position, Quaternion.identity);
-                ProjectileAttack attack2 = projectile2.GetComponent<ProjectileAttack>();
+                projectile2 = Instantiate(attackPrefabs[type], transform.position, Quaternion.identity);
+                attack2 = projectile2.GetComponent<ProjectileAttack>();
                 attack2.target = target;
                 FlipSprite((target.position - transform.position).normalized.x);
                 yield return new WaitForSeconds(.5f);
@@ -679,12 +684,15 @@ public class WindBossAI : MonoBehaviour
         interruptMovement = true;
         animator.SetTrigger("Raise");
         yield return new WaitForSeconds(1);
+
         for (int i = 0; i < 3; i++)
         {
             foreach (PlayerController player in playerController)
                 player.transform.position = transform.position + new Vector3(0, 0, -15);
+            Debug.Log("Attempt Player Move");
             yield return new WaitForSeconds(0.01f);
         }
+
         Instantiate(attackPrefabs[7], returnWaypoint.position + new Vector3(-15, -1f, 0), new Quaternion(0, 0, 0, 0));
         Instantiate(attackPrefabs[8], returnWaypoint.position + new Vector3(15, -1f, 0), new Quaternion(0, 180, 0, 0));
 
