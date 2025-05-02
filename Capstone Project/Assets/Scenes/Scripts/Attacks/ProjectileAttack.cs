@@ -523,26 +523,40 @@ public class ProjectileAttack : MonoBehaviour
         {
             yield break;
         }
+
+        // Cache the components outside the loop to avoid calling GetComponent repeatedly
+        Health playerHealth = player.GetComponent<Health>();
+        Animator animator = player.GetComponent<Animator>();
+
+        // Check if the player or its components were destroyed early
+        if (playerHealth == null || animator == null)
+        {
+            yield break;
+        }
+
         if (elementType == Element.Earth)
         {
-            if (inTrigger && !damageLock && initalLifespan-lifespan<1)
+            if (inTrigger && !damageLock && initalLifespan - lifespan < 1)
             {
                 damageLock = true;
-                Health playerHealth = player.GetComponent<Health>();
-                playerHealth.Damage(damage);
-                Debug.Log("Player is standing in a damage zone!");
-                yield return new WaitForSeconds(0.2f);
+                if (playerHealth != null)
+                {
+                    playerHealth.Damage(damage);
+                    Debug.Log("Player is standing in a damage zone!");
+                    yield return new WaitForSeconds(0.2f);
+                }
             }
             else
             {
                 while (inTrigger)
                 {
-                    Animator animator = player.GetComponent<Animator>();
                     if (animator.GetFloat("Speed") > 0f)
                     {
-                        Health playerHealth = player.GetComponent<Health>();
-                        playerHealth.Damage(damage/10);
-                        Debug.Log("Player moved on dangerous terrain!");
+                        if (playerHealth != null)
+                        {
+                            playerHealth.Damage(damage / 10);
+                            Debug.Log("Player moved on dangerous terrain!");
+                        }
                     }
                     yield return new WaitForSeconds(1f);
                 }
@@ -552,9 +566,11 @@ public class ProjectileAttack : MonoBehaviour
         {
             while (inTrigger)
             {
-                Health playerHealth = player.GetComponent<Health>();
-                playerHealth.Damage(damage);
-                Debug.Log("Player is standing in a damage zone!");
+                if (playerHealth != null)
+                {
+                    playerHealth.Damage(damage);
+                    Debug.Log("Player is standing in a damage zone!");
+                }
                 yield return new WaitForSeconds(0.5f);
             }
         }

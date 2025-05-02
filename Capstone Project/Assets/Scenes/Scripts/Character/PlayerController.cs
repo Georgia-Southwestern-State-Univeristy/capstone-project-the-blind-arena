@@ -77,32 +77,44 @@ public class PlayerController : MonoBehaviour
         
         if (deathcounter == 1)
         {
-            
-            enemyAI.SetActive(true);
+            if (enemyAI != null)
+            {
+                enemyAI.SetActive(true);
+            }
         }
 
         else if (GameData.deathcounter == 2 && !enemyAI2Activated)
         {
-            enemyAI2Activated = true; // Prevents repeated activation
-            StartCoroutine(ActivateEnemyAI2Delayed());
+            if (enemyAI2 != null)
+            {
+                enemyAI2Activated = true;
+                StartCoroutine(ActivateEnemyAI2Delayed());
+            }
         }
 
         else if (GameData.deathcounter == 3 && !enemyAI3Activated)
         {
-            enemyAI3Activated = true; 
-            StartCoroutine(ActivateEnemyAI3Delayed());
+
+                enemyAI3Activated = true;
+                StartCoroutine(ActivateEnemyAI3Delayed());
         }
 
         else if (GameData.deathcounter == 4 && !enemyAI4Activated)
         {
-            enemyAI4Activated = true; 
-            StartCoroutine(ActivateEnemyAI4Delayed());
+            if (enemyAI4 != null)
+            {
+                enemyAI4Activated = true;
+                StartCoroutine(ActivateEnemyAI4Delayed());
+            }
         }
 
         else if (GameData.deathcounter == 5 && !enemyAI5Activated)
         {
-            enemyAI5Activated = true; 
-            StartCoroutine(ActivateEnemyAI5Delayed());
+            if (enemyAI5 != null)
+            {
+                enemyAI5Activated = true;
+                StartCoroutine(ActivateEnemyAI5Delayed());
+            }
         }
 
 
@@ -242,33 +254,64 @@ public class PlayerController : MonoBehaviour
     private IEnumerator ActivateEnemyAIDelayed()
     {
         yield return new WaitForSeconds(2.5f);
-        enemyAI.SetActive(true);
-
+        if (enemyAI != null)
+        {
+            enemyAI.SetActive(true);
+        }
     }
 
-        private IEnumerator ActivateEnemyAI2Delayed()
+    private IEnumerator ActivateEnemyAI2Delayed()
     {
-        yield return new WaitForSeconds(1.5f); // Waits 3.5 seconds
-        enemyAI2.SetActive(true);
+        yield return new WaitForSeconds(1.5f);
+        if (enemyAI2 != null)
+        {
+            enemyAI2.SetActive(true);
+        }
+        else
+        {
+            Debug.LogWarning("enemyAI2 is not assigned.");
+        }
     }
 
     private IEnumerator ActivateEnemyAI3Delayed()
     {
         yield return new WaitForSeconds(1.5f);
-        enemyAI3.SetActive(true);
+        if (enemyAI3 != null)
+        {
+            enemyAI3.SetActive(true);
+        }
+        else
+        {
+            Debug.LogWarning("enemyAI3 is not assigned.");
+        }
     }
 
     private IEnumerator ActivateEnemyAI4Delayed()
     {
         yield return new WaitForSeconds(1.5f);
-        enemyAI4.SetActive(true);
+        if (enemyAI4 != null)
+        {
+            enemyAI4.SetActive(true);
+        }
+        else
+        {
+            Debug.LogWarning("enemyAI4 is not assigned.");
+        }
     }
 
     private IEnumerator ActivateEnemyAI5Delayed()
     {
         yield return new WaitForSeconds(1.5f);
-        enemyAI5.SetActive(true);
+        if (enemyAI5 != null)
+        {
+            enemyAI5.SetActive(true);
+        }
+        else
+        {
+            Debug.LogWarning("enemyAI5 is not assigned.");
+        }
     }
+
 
     public void AdjustSpeed(float speedChange, float duration)
     {
