@@ -7216,7 +7216,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   userInputField: {fileID: 765579200}
-  loadSceneButton: {fileID: 1478969318}
+  saveInputButton: {fileID: 1478969318}
 --- !u!1 &1243452315
 GameObject:
   m_ObjectHideFlags: 0
@@ -8624,7 +8624,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   userInputField: {fileID: 1130991035}
-  loadSceneButton: {fileID: 1922058658}
+  saveInputButton: {fileID: 1922058658}
 --- !u!1 &1403840779 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6975942284501398249, guid: 6d1ae5912521117409b439f597ea9cca, type: 3}
