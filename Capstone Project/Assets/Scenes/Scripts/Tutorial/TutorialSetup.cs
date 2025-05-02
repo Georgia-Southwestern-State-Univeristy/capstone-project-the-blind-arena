@@ -43,8 +43,6 @@ public class TutorialSetup : MonoBehaviour
 
     public SinglePlayerAttack playerAttack;
 
-    public SaveManager saveManager;
-
     void Start()
     {
         GameData.deathcounter = 0;
@@ -53,16 +51,8 @@ public class TutorialSetup : MonoBehaviour
             playerAttack = FindFirstObjectByType<SinglePlayerAttack>();
             playerAttack.attackChecker = false;
 
-        if (saveManager == null)
-        {
-            saveManager = FindFirstObjectByType<SaveManager>();
-        }
 
-        // Check if the scene index is 1
-        if (SceneManager.GetActiveScene().buildIndex == 1 && saveManager != null)
-        {
-            saveManager.newGameStarted = true;
-        }
+
     }
 
     void Update()

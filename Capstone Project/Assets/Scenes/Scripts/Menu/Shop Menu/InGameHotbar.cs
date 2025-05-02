@@ -7,8 +7,6 @@ public class InGameHotbar : MonoBehaviour
     public Image[] hotbarSlots; // Reference to in-game hotbar slots
     public TextMeshProUGUI[] hotbarCounts; // Reference to in-game hotbar count texts
     public ShopManager shopManager; // Reference to the ShopManager script
-    public SaveManager saveManager;
-    [SerializeField] private AudioSource AudioSource;
 
     // Keybindings for hotbar slots (adjust as needed)
     public KeyCode[] hotbarKeys = new KeyCode[]
@@ -33,11 +31,6 @@ public class InGameHotbar : MonoBehaviour
             shopManager = FindFirstObjectByType<ShopManager>();
         }
 
-        if (saveManager == null)
-        {
-            saveManager = FindFirstObjectByType<SaveManager>();
-        }
-
         shopManager.OnHotbarUpdated += SyncHotbar;
 
         // Initial sync of hotbar
@@ -58,24 +51,6 @@ public class InGameHotbar : MonoBehaviour
                 break; // Prevent using multiple items in the same frame
             }
         }
-
-        if (saveManager.newGameStarted == true)
-        {
-            AudioSource.gameObject.SetActive(false);
-            UseItemInSlot(0); // use the first slot
-            UseItemInSlot(0); // use the first slot
-            UseItemInSlot(0); // use the first slot
-            UseItemInSlot(0); // use the first slot
-            UseItemInSlot(0); // use the first slot
-            UseItemInSlot(0); // use the first slot
-            UseItemInSlot(0); // use the first slot
-            UseItemInSlot(0); // use the first slot
-            UseItemInSlot(0); // use the first slot
-            UseItemInSlot(0); // use the first slot
-            saveManager.newGameStarted = false;
-            AudioSource.gameObject.SetActive(true);
-        }
-
 
         // Sync hotbar to ensure it reflects the current state
         SyncHotbar();
