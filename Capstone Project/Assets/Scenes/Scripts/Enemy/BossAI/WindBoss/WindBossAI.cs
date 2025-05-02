@@ -713,9 +713,11 @@ public class WindBossAI : MonoBehaviour
         for (int i = 0; i < 3; i++)
         {
             foreach (PlayerController player in playerController)
+            {
                 player.transform.position = transform.position + new Vector3(0, 0, -15);
+            }
             Debug.Log("Attempt Player Move");
-            yield return new WaitForSeconds(0.01f);
+            yield return new WaitForSeconds(0.1f);
         }
 
         Instantiate(attackPrefabs[7], returnWaypoint.position + new Vector3(-15, -1f, 0), new Quaternion(0, 0, 0, 0));
