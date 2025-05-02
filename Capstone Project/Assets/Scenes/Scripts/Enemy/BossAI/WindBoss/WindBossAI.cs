@@ -584,7 +584,11 @@ public class WindBossAI : MonoBehaviour
                     yield return new WaitForSeconds(.42f);
                     break;
             }
-            Vector3 directionToTarget = (target.position - transform.position).normalized;
+            Vector3 directionToTarget;
+            if (target != null)
+                directionToTarget = (target.position - transform.position).normalized;
+            else
+                directionToTarget = new Vector3(0,0,0);
             FlipSprite(directionToTarget.x);
             for (int j = 0; j < projectileCount; j++)
             {
