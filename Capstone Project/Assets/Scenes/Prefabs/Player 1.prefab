@@ -768,7 +768,7 @@ MonoBehaviour:
     isWall: 0
     isTangible: 0
     colliderShape: 1
-    colliderSize: {x: 10, y: 10, z: 10}
+    colliderSize: {x: 9.5, y: 9.5, z: 9.5}
     colliderRotation: {x: -25, y: 0, z: 0}
     spriteSize: {x: 0.8, y: 1, z: 0}
     spriteRotation: {x: 90, y: 0, z: 0}
