@@ -4,18 +4,24 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     [Header("Menu Settings")]
-    public GameObject[] menus;    // An array of menus to toggle
-    public GameObject[] otherObjects;  // Objects to hide/show
-    public Button[] buttons;      // Buttons to trigger menu actions
+    public GameObject[] menus;           // Menus to toggle
+    public GameObject[] otherObjects;    // Objects to hide/show
+    public Button[] buttons;             // Buttons for toggling menus
 
-    [Header("Main Menu Sorting Settings")]
-    public Canvas[] mainMenuCanvases;  // Array of main menu canvases
-    public int[] sortingOrders;        // Corresponding sorting orders for each canvas
-    public Button[] changeOrderButtons;   // Buttons that trigger sorting order changes
+    [Header("Main Menu Sorting Settings (Optional)")]
+    public Canvas[] mainMenuCanvases;    // Canvases to reorder
+    public int[] sortingOrders;          // Sorting order values
+    public Button[] changeOrderButtons;  // Buttons to change sorting order
 
     void Start()
     {
-        // Setup buttons for toggling menus
+        SetupMenuButtons();
+        InitializeMenusAndObjects();
+        SetupSortingOrderButtons(); // Now optional
+    }
+
+    private void SetupMenuButtons()
+    {
         if (buttons != null && buttons.Length > 0)
         {
             foreach (Button btn in buttons)
@@ -26,128 +32,115 @@ public class UIManager : MonoBehaviour
                 }
                 else
                 {
-                    Debug.LogError("A button is not assigned in the Inspector.");
+                    Debug.LogError("A button in 'buttons' array is not assigned.");
                 }
             }
         }
         else
         {
-            Debug.LogError("Buttons array is not assigned or empty.");
+            Debug.LogWarning("No menu toggle buttons assigned.");
         }
+    }
 
-        // Ensure the initial state of the menus and other objects
+    private void InitializeMenusAndObjects()
+    {
         foreach (var menu in menus)
         {
             if (menu != null)
-            {
-                menu.SetActive(false); // Hide menus initially
-            }
+                menu.SetActive(false);
             else
-            {
-                Debug.LogError("One of the menus is not assigned in the Inspector.");
-            }
+                Debug.LogWarning("A menu GameObject is not assigned.");
         }
 
         foreach (var obj in otherObjects)
         {
             if (obj != null)
-            {
-                obj.SetActive(true); // Ensure other objects are visible initially
-            }
+                obj.SetActive(true);
         }
+    }
 
-        // Setup sorting order change buttons
-        if (changeOrderButtons != null && changeOrderButtons.Length > 0)
+    private void SetupSortingOrderButtons()
+    {
+        if (changeOrderButtons != null && changeOrderButtons.Length > 0 &&
+            mainMenuCanvases != null && sortingOrders != null &&
+            mainMenuCanvases.Length == sortingOrders.Length &&
+            changeOrderButtons.Length <= mainMenuCanvases.Length)
         {
             for (int i = 0; i < changeOrderButtons.Length; i++)
             {
                 if (changeOrderButtons[i] != null)
                 {
-                    int index = i;  // Capture the loop index to use in the listener
+                    int index = i;
                     changeOrderButtons[i].onClick.AddListener(() => ChangeMainMenuSortingOrder(index));
                 }
                 else
                 {
-                    Debug.LogError("One of the change order buttons is not assigned.");
+                    Debug.LogWarning($"Change order button at index {i} is not assigned.");
                 }
             }
         }
         else
         {
-            Debug.LogError("Change Order Buttons array is not assigned or empty.");
+            Debug.Log("Skipping sorting order setup (not used in this scene).");
         }
     }
 
-    // Toggle menu visibility when button is pressed
-    void ToggleMenu(Button pressedButton)
+    private void ToggleMenu(Button pressedButton)
     {
-        // Find the index of the button that was pressed
         int index = System.Array.IndexOf(buttons, pressedButton);
         if (index == -1)
         {
-            Debug.LogError("Button not found in the buttons array.");
+            Debug.LogError("Pressed button not found in 'buttons' array.");
             return;
         }
 
         if (index < menus.Length)
         {
-            GameObject menuToToggle = menus[index];
-            if (menuToToggle != null)
+            GameObject menu = menus[index];
+            if (menu != null)
             {
-                bool isMenuActive = menuToToggle.activeSelf;
-                menuToToggle.SetActive(!isMenuActive);
+                bool isActive = menu.activeSelf;
+                menu.SetActive(!isActive);
 
-                // Hide or show other objects based on the menu's visibility
                 foreach (var obj in otherObjects)
                 {
                     if (obj != null)
-                    {
-                        obj.SetActive(isMenuActive); // Show if menu is active, hide if not
-                    }
+                        obj.SetActive(isActive); // Hide when menu is shown
                 }
 
-                // Force the canvas to update immediately (ensures visibility updates)
                 Canvas.ForceUpdateCanvases();
             }
             else
             {
-                Debug.LogError("Menu not assigned for button index " + index);
+                Debug.LogWarning($"Menu at index {index} is not assigned.");
             }
         }
         else
         {
-            Debug.LogError("Button index exceeds number of available menus.");
+            Debug.LogError($"Index {index} out of bounds in 'menus' array.");
         }
     }
 
-    // Change the sorting order of the selected main menu canvas
-    void ChangeMainMenuSortingOrder(int index)
+    private void ChangeMainMenuSortingOrder(int index)
     {
-        if (mainMenuCanvases != null && mainMenuCanvases.Length > 0 && sortingOrders != null && sortingOrders.Length > 0)
+        if (index >= 0 && index < mainMenuCanvases.Length && index < sortingOrders.Length)
         {
-            if (index >= 0 && index < mainMenuCanvases.Length && index < sortingOrders.Length)
-            {
-                Canvas canvasToChange = mainMenuCanvases[index];
-                int newSortingOrder = sortingOrders[index];
+            Canvas canvas = mainMenuCanvases[index];
+            int newOrder = sortingOrders[index];
 
-                if (canvasToChange != null)
-                {
-                    canvasToChange.sortingOrder = newSortingOrder;
-                    Debug.Log("Main Menu Canvas " + index + " sorting order changed to: " + newSortingOrder);
-                }
-                else
-                {
-                    Debug.LogError("Canvas not assigned for index " + index);
-                }
+            if (canvas != null)
+            {
+                canvas.sortingOrder = newOrder;
+                Debug.Log($"Canvas {index} sorting order set to {newOrder}.");
             }
             else
             {
-                Debug.LogError("Index out of bounds for mainMenuCanvases or sortingOrders arrays.");
+                Debug.LogWarning($"Canvas at index {index} is not assigned.");
             }
         }
         else
         {
-            Debug.LogError("Main Menu Canvases or Sorting Orders array is not assigned or empty.");
+            Debug.LogWarning("Index out of range in mainMenuCanvases or sortingOrders.");
         }
     }
 }
