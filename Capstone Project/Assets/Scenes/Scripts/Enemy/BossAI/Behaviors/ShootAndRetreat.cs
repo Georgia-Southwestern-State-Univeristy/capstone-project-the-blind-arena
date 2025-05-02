@@ -24,7 +24,10 @@ public class ShootAndRetreat : MonoBehaviour
 
     private void Update()
     {
-        animator = GetComponent<Animator>();
+        if (animator == null)
+            animator = GetComponent<Animator>();
+
+        // Stop moving and shoot at intervals
         if (Time.time > nextShotTime)
         {
             enemyController.IsMoving = false;
@@ -32,10 +35,10 @@ public class ShootAndRetreat : MonoBehaviour
             nextShotTime = Time.time + timeBetweenShots;
         }
 
-
-        if (Vector3.Distance(transform.position, target.position) < minimumDistance)
-
+        // Safely check if the target exists and hasn't been destroyed
+        if (target != null && Vector3.Distance(transform.position, target.position) < minimumDistance)
         {
+            // Retreat from the target
             transform.position = Vector3.MoveTowards(transform.position, target.position, -speed * Time.deltaTime);
             Vector3 position = transform.position;
             position.y = HEIGHT;

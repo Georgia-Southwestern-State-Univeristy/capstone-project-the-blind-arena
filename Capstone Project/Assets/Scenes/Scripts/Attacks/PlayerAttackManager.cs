@@ -284,6 +284,8 @@ public class PlayerAttackManager : MonoBehaviour
     private void LaunchAttack(GameObject attackObject, Vector3 direction, float speed)
     {
         Rigidbody rb = attackObject.AddComponent<Rigidbody>();
+        Debug.Log($"attackObject is {(attackObject == null ? "null" : "not null")}");
+        Debug.Log($"Rigidbody is {attackObject?.GetComponent<Rigidbody>()}");
         rb.useGravity = false;
         rb.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotation;
         rb.linearVelocity = direction * speed;

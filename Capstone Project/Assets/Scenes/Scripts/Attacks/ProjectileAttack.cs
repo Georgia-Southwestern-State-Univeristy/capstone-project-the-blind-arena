@@ -49,20 +49,32 @@ public class ProjectileAttack : MonoBehaviour
     {
         if (!skipStart)
         {
-            target = FindFirstObjectByType<PlayerController>().transform;
-            targetTransform = target.position;
-            movementVector = (targetTransform - transform.position).normalized;
-            movementVector *= ((Math.Abs(movementVector.z) * .6f) + 1) * speed;
+            PlayerController player = FindFirstObjectByType<PlayerController>();
+            if (player != null)
+            {
+                target = player.transform;
+                targetTransform = target.position;
+                movementVector = (targetTransform - transform.position).normalized;
+                movementVector *= ((Math.Abs(movementVector.z) * 0.6f) + 1) * speed;
+            }
+            else
+            {
+                Debug.LogWarning("No PlayerController found in the scene.");
+                Destroy(gameObject); // Optional: destroy the projectile if no target
+                return;
+            }
         }
+
         if (delayDamage)
         {
-
+            // Add delay logic here if needed
         }
+
         initialVector = movementVector;
         collider = GetComponent<Collider>();
         initalLifespan = lifespan;
         initalSpeed = speed;
-        if (isEffect) { fixedHeight = 0.5f; } else { fixedHeight = 0.6f; }
+        fixedHeight = isEffect ? 0.5f : 0.6f;
     }
 
     // Update is called once per frame
