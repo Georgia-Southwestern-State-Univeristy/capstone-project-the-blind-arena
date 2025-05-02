@@ -656,24 +656,26 @@ public class WindBossAI : MonoBehaviour
 
     public IEnumerator SetupArena()
     {
-        // Lock Players' movement and focus on Boss
+        //Camera focus on Boss
         boardSwitcher.focusOnBoss = true;
         PlayerController[] playerController = FindObjectsOfType<PlayerController>();
         SinglePlayerAttack[] singlePlayerAttacks = FindObjectsOfType<SinglePlayerAttack>();
+
+        //Lock player movement and abilities
         foreach (PlayerController player in playerController)
             player.LockMovement(10f);
         foreach (SinglePlayerAttack singlePlayerAttack in singlePlayerAttacks)
             singlePlayerAttack.attackChecker = false;
         ProjectileCleaner.DestroyAllProjectiles();
 
-        // Move to waypoint
+        //Move to waypoint
         while (Vector3.Distance(transform.position, targetWaypoint.position) > 0.5f)
         {
             MoveTowardsWaypoint();
             yield return new WaitForSeconds(0.001f);
         }
 
-        // Summon Wind Walls
+        //Summon Wind Walls
         interruptMovement = true;
         animator.SetTrigger("Raise");
         yield return new WaitForSeconds(1);
@@ -722,13 +724,24 @@ public class WindBossAI : MonoBehaviour
 
     private void OnTriggerExit(Collider collision)
     {
-        stopRetreat = false;
+        if (collision.CompareTag("Wall"))
+        {
+            stopRetreat = false;
+        }
     }
+
+    private void OnTriggerStay(Collider collision)
+    {
+        if (collision.CompareTag("Wall"))
+            stopRetreat = true;
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
 
         if (collision.collider.CompareTag("Player"))
         {
+        if (collision.collider.CompareTag("Wall"))
             HandlePlayerCollision(collision.gameObject);
         }
         if (collision.collider.CompareTag("Wall"))
@@ -741,7 +754,14 @@ public class WindBossAI : MonoBehaviour
     private void OnCollisionExit(Collision collision)
     {
 
-        stopRetreat = false;
+        if (collision.collider.CompareTag("Wall"))
+            stopRetreat = false;
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.collider.CompareTag("Wall"))
+            stopRetreat = true;
     }
 
     private void HandlePlayerCollision(GameObject player)
@@ -753,104 +773,6 @@ public class WindBossAI : MonoBehaviour
             playerHealth.Damage(20);
         }
     }
-
-    /*
-    private void StartFinalPhase()
-    {
-        if (bossWaypoint != null)
-        {
-            transform.position = bossWaypoint.position;
-        }
-        isPlayerCentered = false;
-        originalPlayerPosition = centerPoint.position;
-
-        // Increase attack speed in final phase
-        currentProjectileRate = projectileAttackRate / finalPhaseAttackSpeedMultiplier;
-        StopCoroutine(ProjectileAttackLoop());
-        StartCoroutine(ProjectileAttackLoop());
-    }
-
-    private void HandleFinalPhase()
-    {
-        Vector3 playerPos = target.position;
-        Vector3 centerPos = centerPoint.position;
-        float distanceToCenter = Vector3.Distance(new Vector3(playerPos.x, 0, playerPos.z),
-                                                new Vector3(centerPos.x, 0, centerPos.z));
-
-        PlayerController playerController = target.GetComponent<PlayerController>();
-        if (playerController == null) return;
-
-        if (!isPlayerCentered)
-        {
-            // Strong pull towards center until player reaches it
-            if (distanceToCenter > centerReachThreshold)
-            {
-                Vector3 centerDirection = (centerPos - playerPos).normalized;
-                Vector3 pullForce = centerDirection * (centerPullForce * 2f); // Stronger initial pull
-                playerController.ApplyExternalForce(pullForce, 0.1f);
-
-                // Keep player at same height during pull
-                Vector3 currentPos = target.position;
-                currentPos.y = centerPos.y;
-                target.position = currentPos;
-            }
-            else
-            {
-                isPlayerCentered = true;
-                // Snap to exact center X position only
-                Vector3 centeredPos = target.position;
-                centeredPos.x = centerPos.x;
-                target.position = centeredPos;
-            }
-        }
-        else
-        {
-            // Once centered, only restrict X-axis movement within range
-            float allowedX = Mathf.Clamp(playerPos.x,
-                centerPos.x - finalPhaseMovementRange,
-                centerPos.x + finalPhaseMovementRange);
-
-            // Allow free movement on Z axis
-            Vector3 restrictedPosition = playerPos;
-            restrictedPosition.x = allowedX;
-            target.position = restrictedPosition;
-
-            // Light pull force to keep player near center
-            Vector3 centerDirection = (centerPos - playerPos).normalized;
-            Vector3 pullForce = centerDirection * (centerPullForce * 0.3f); // Lighter maintaining pull
-            playerController.ApplyExternalForce(pullForce, 0.1f);
-        }
-    }
-
-    private void SpawnProjectile()
-    {
-        if (attackPrefabs.Length > 0)
-        {
-            GameObject projectileObj = Instantiate(attackPrefabs[Random.Range(0, attackPrefabs.Length)],
-                transform.position, Quaternion.identity);
-
-            Projectile projectile = projectileObj.GetComponent<Projectile>();
-            if (projectile != null)
-            {
-                projectile.EnableWindProjectile(isHomingEnabled, homingProjectileSpeed, homingProjectileLifespan);
-            }
-        }
-    }
-
-    private IEnumerator ProjectileAttackLoop()
-    {
-        while (true)
-        {
-            SpawnProjectile();
-            yield return new WaitForSeconds(currentProjectileRate);
-        }
-    }
-
-    private void FlipSprite(float directionX)
-    {
-        transform.localScale = new Vector3(Mathf.Sign(directionX) * Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
-    }
-    */
 
     public void PlayAttackSound(int soundIndex)
     {

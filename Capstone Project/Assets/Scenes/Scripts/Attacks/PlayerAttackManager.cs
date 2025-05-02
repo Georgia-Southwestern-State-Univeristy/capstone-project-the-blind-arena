@@ -188,8 +188,6 @@ public class PlayerAttackManager : MonoBehaviour
 
         if (attack.isPhysical)
             SetupPhysicalObject(attackObject);
-        //else
-        //    colliderObject.layer = LayerMask.NameToLayer("AttackObjects");
 
         if (attack.isTangible)
         {
@@ -261,7 +259,6 @@ public class PlayerAttackManager : MonoBehaviour
         Rigidbody rb = attackObject.AddComponent<Rigidbody>();
         rb.isKinematic = true;
         rb.constraints = RigidbodyConstraints.FreezeAll;
-        //attackObject.layer = LayerMask.NameToLayer("AttackObjects");
     }
 
     private Vector3 GetAttackDirection()
@@ -283,7 +280,13 @@ public class PlayerAttackManager : MonoBehaviour
 
     private void LaunchAttack(GameObject attackObject, Vector3 direction, float speed)
     {
-        Rigidbody rb = attackObject.AddComponent<Rigidbody>();
+        Rigidbody rb;
+        if (attackObject.GetComponent<Rigidbody>() != null)
+        {
+            rb = attackObject.GetComponent<Rigidbody>();
+        }
+        else
+            rb = attackObject.AddComponent<Rigidbody>();
         Debug.Log($"attackObject is {(attackObject == null ? "null" : "not null")}");
         Debug.Log($"Rigidbody is {attackObject?.GetComponent<Rigidbody>()}");
         rb.useGravity = false;

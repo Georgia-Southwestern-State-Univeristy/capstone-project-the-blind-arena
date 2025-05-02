@@ -241,7 +241,7 @@ MonoBehaviour:
   enemyCamera: {fileID: 0}
   boss: {fileID: 7369920424675081373}
   player: {fileID: 0}
-  switchDistance: 19
+  switchDistance: 20
   focusOnBoss: 0
 --- !u!114 &-5049270567912674591
 MonoBehaviour:
