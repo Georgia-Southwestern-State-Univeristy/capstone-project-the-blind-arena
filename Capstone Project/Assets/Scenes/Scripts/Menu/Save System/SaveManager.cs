@@ -8,6 +8,7 @@ public class SaveManager : MonoBehaviour
     public int savedScene = 1; // Default to Scene 1
     public bool hasSaved = false;
     public bool gameFinished = false;
+    public bool newGameStarted = false;
 
     private void Awake()
     {
@@ -27,6 +28,7 @@ public class SaveManager : MonoBehaviour
         hasSaved = false;
         gameFinished = false;
         savedScene = 1; // Start with Scene 1
+        newGameStarted = true;
 
         if (savedScene == 1) 
         {
@@ -39,6 +41,7 @@ public class SaveManager : MonoBehaviour
     {
         savedScene = sceneNumber;
         hasSaved = true;
+
         gameFinished = false;
     }
 
