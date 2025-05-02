@@ -50,7 +50,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: 5234737859182667433}
   effectPrefab: {fileID: 2674293016379792414}
-  collider: {fileID: 0}
+  projectileCollider: {fileID: 0}
   target: {fileID: 0}
   speed: 0
   lifespan: 15

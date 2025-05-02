@@ -22,8 +22,7 @@ public class PlayerController : MonoBehaviour
     public double tutorialcounter = 0;
 
     [SerializeField] private GameObject objectForPlayerMovement;
-    [SerializeField] private GameObject tutorialMenu1;
-    [SerializeField] private GameObject tutorialMenu2;
+    [SerializeField] private GameObject[] tutorialMenus;
     [SerializeField] private GameObject enemyAI;
     [SerializeField] private GameObject enemyAI2;
     [SerializeField] private GameObject enemyAI3;
@@ -54,17 +53,20 @@ public class PlayerController : MonoBehaviour
         rb.useGravity = false;
 
         originalSpeed = speed;
+
     }
 
     void Update()
     {
-        if ((tutorialMenu1 != null && tutorialMenu1.activeSelf) ||
-       (tutorialMenu2 != null && tutorialMenu2.activeSelf))
+        foreach (GameObject menu in tutorialMenus)
         {
-            moveDir = Vector3.zero;
-            animator.SetFloat("Speed", 0);
-            animator.SetBool("isDashing", false);
-            return; // Prevents player input
+            if (menu != null && menu.activeSelf)
+            {
+                moveDir = Vector3.zero;
+                animator.SetFloat("Speed", 0);
+                animator.SetBool("isDashing", false);
+                return; // Prevents player input
+            }
         }
 
         if (isMovementLocked)
