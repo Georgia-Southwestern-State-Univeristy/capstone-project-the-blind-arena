@@ -482,19 +482,21 @@ public class EarthBossAI : MonoBehaviour
         speed += 1;
         PlayerController[] playerController = FindObjectsOfType<PlayerController>();
         SinglePlayerAttack[] singlePlayerAttacks = FindObjectsOfType<SinglePlayerAttack>();
+        
+        //Lock player movement and abilities
         foreach (PlayerController player in playerController)
             player.LockMovement(10f);
         foreach (SinglePlayerAttack singlePlayerAttack in singlePlayerAttacks)
             singlePlayerAttack.attackChecker = false;
 
-        // Move to waypoint
+        //Move to waypoint
         while (Vector3.Distance(transform.position, returnWaypoint.position) > 0.5f)
         {
             MoveTowardsWapoint();
             yield return new WaitForSeconds(0.01f);
         }
 
-        // Pull player and trap them
+        //Pull player and trap them
         StartCoroutine(PullPlayerAndTrap());
     }
 
@@ -511,7 +513,9 @@ public class EarthBossAI : MonoBehaviour
         {
 
             foreach (PlayerController player in playerController)
+            {
                 player.transform.position = playerWaypoint.position;
+            }
             yield return new WaitForSeconds(0.01f);
         }
 
