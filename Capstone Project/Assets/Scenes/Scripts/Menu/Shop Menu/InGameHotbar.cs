@@ -31,8 +31,13 @@ public class InGameHotbar : MonoBehaviour
             shopManager = FindFirstObjectByType<ShopManager>();
         }
 
+        shopManager.OnHotbarUpdated += SyncHotbar;
+
         // Initial sync of hotbar
         SyncHotbar();
+        shopManager.UpdateHotbar();
+        shopManager.gameObject.SetActive(true);
+        shopManager.gameObject.SetActive(false);
     }
 
     void Update()
