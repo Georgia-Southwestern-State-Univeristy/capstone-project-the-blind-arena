@@ -609,7 +609,7 @@ public class WindBossAI : MonoBehaviour
         int counter = 0;
         while (true) 
         {
-            int proPattern = rnd.Next(0, 2); // Projectile Pattern
+            int proPattern = rnd.Next(0, 3); // Projectile Pattern
             int proAmount = rnd.Next(0, 5); // Projectile Amount
             switch (proPattern)
             {
@@ -628,6 +628,13 @@ public class WindBossAI : MonoBehaviour
                         Instantiate(attackPrefabs[2], returnWaypoint.position + new Vector3(17, -1f, 0 - i * 1.5f), new Quaternion(0, 0, 0, 0));
                         yield return new WaitForSeconds(0.5f);
                     }
+                    break;
+                case 2:
+                    Instantiate(attackPrefabs[6], returnWaypoint.position + new Vector3(-17, -1f, 10), new Quaternion(0, 0, 0, 0));
+                    Instantiate(attackPrefabs[6], returnWaypoint.position + new Vector3(-17, -1f, -10), new Quaternion(0, 0, 0, 0));
+                    Instantiate(attackPrefabs[6], returnWaypoint.position + new Vector3(17, -1f, 10), new Quaternion(0, 0, 0, 0));
+                    Instantiate(attackPrefabs[6], returnWaypoint.position + new Vector3(17, -1f, -10), new Quaternion(0, 0, 0, 0));
+                    yield return new WaitForSeconds(0.5f);
                     break;
             }
             counter++;
@@ -716,7 +723,7 @@ public class WindBossAI : MonoBehaviour
             foreach (PlayerController playerCon in playerController)
             {
                 player = playerCon.gameObject;
-                player.transform.position = transform.position + new Vector3(0, 0, -20);
+                player.transform.position = transform.position + new Vector3(0, 0, -25);
                 yield return new WaitForSeconds(0.1f);
             }
             Debug.Log("Attempt Player Move");
